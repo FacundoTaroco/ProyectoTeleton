@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AppTeleton")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4f6c122d2cf43d0b956e8486e4ddcca06e88a299")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f10965d9d9deb3efa547af9551079e535c1797a2")]
 [assembly: System.Reflection.AssemblyProductAttribute("AppTeleton")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AppTeleton")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

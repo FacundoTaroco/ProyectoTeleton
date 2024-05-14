@@ -24,6 +24,8 @@ namespace LogicaNegocio.Entidades
             NombreUsuario = nombreUsr;
             Contrasenia = contrasenia;
         }
+
+        //constructor vacio
         public Usuario() { }
 
     }
