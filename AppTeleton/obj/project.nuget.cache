@@ -1,13 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Jk/6em4WL5Zs9msuENZfESu7/JNh4swwH1eKioP19j2YIeHWvcfxxlt08ul9l20SdvUCpn/1Nu89q6Pk4aQ8JA==",
+  "dgSpecHash": "FVF6BXElunD8G4CxZDHm0AD/agF4Gw379FK7ylcnyCnxSw5k/LG4Z2YnzwquvdpPKqSu44qqEwY8XH19RAqj4Q==",
   "success": true,
-  "projectFilePath": "D:\\Carpetas\\ORT\\ProyectoIntegrador\\ProyectoTeleton\\AppTeleton\\AppTeleton.csproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\Ftaro\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.30\\microsoft.windowsdesktop.app.ref.6.0.30.nupkg.sha512",
-    "C:\\Users\\Ftaro\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.30\\microsoft.netcore.app.ref.6.0.30.nupkg.sha512",
-    "C:\\Users\\Ftaro\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.30\\microsoft.aspnetcore.app.ref.6.0.30.nupkg.sha512",
-    "C:\\Users\\Ftaro\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.30\\microsoft.netcore.app.host.win-x64.6.0.30.nupkg.sha512"
-  ],
+  "projectFilePath": "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\AppTeleton\\AppTeleton.csproj",
+  "expectedPackageFiles": [],
   "logs": []
 }

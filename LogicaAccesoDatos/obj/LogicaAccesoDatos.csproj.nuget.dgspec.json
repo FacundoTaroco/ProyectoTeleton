@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\AppTeleton\\AppTeleton.csproj": {}
+    "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaAccesoDatos\\LogicaAccesoDatos.csproj": {}
   },
   "projects": {
-    "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\AppTeleton\\AppTeleton.csproj": {
+    "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaAccesoDatos\\LogicaAccesoDatos.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\AppTeleton\\AppTeleton.csproj",
-        "projectName": "AppTeleton",
-        "projectPath": "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\AppTeleton\\AppTeleton.csproj",
+        "projectUniqueName": "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaAccesoDatos\\LogicaAccesoDatos.csproj",
+        "projectName": "LogicaAccesoDatos",
+        "projectPath": "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaAccesoDatos\\LogicaAccesoDatos.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\AppTeleton\\obj\\",
+        "outputPath": "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaAccesoDatos\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -59,9 +59,6 @@
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
-            "Microsoft.AspNetCore.App": {
-              "privateAssets": "none"
-            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
