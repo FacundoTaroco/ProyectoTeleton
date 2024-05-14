@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = LogicaAccesoDatos
-build_property.ProjectDir = D:\admin\Nueva carpeta\Proyecto Teleton\ProyectoTeleton\LogicaAccesoDatos\
+build_property.ProjectDir = D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaAccesoDatos\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
