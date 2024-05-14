@@ -8,11 +8,16 @@
     "net6.0": []
   },
   "packageFolders": {
+<<<<<<< Updated upstream
     "C:\\Users\\Ftaro\\.nuget\\packages\\": {}
+=======
+    "C:\\Users\\Joshua\\.nuget\\packages\\": {}
+>>>>>>> Stashed changes
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< Updated upstream
       "projectUniqueName": "D:\\Carpetas\\ORT\\ProyectoIntegrador\\ProyectoTeleton\\AppTeleton\\AppTeleton.csproj",
       "projectName": "AppTeleton",
       "projectPath": "D:\\Carpetas\\ORT\\ProyectoIntegrador\\ProyectoTeleton\\AppTeleton\\AppTeleton.csproj",
@@ -21,6 +26,16 @@
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Ftaro\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+      "projectUniqueName": "C:\\Users\\Joshua\\Documents\\GitHub\\ProyectoTeleton\\AppTeleton\\AppTeleton.csproj",
+      "projectName": "AppTeleton",
+      "projectPath": "C:\\Users\\Joshua\\Documents\\GitHub\\ProyectoTeleton\\AppTeleton\\AppTeleton.csproj",
+      "packagesPath": "C:\\Users\\Joshua\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Joshua\\Documents\\GitHub\\ProyectoTeleton\\AppTeleton\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\Joshua\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> Stashed changes
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

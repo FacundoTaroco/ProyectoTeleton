@@ -1,5 +1,6 @@
 {
   "version": 2,
+<<<<<<< Updated upstream
   "dgSpecHash": "Jk/6em4WL5Zs9msuENZfESu7/JNh4swwH1eKioP19j2YIeHWvcfxxlt08ul9l20SdvUCpn/1Nu89q6Pk4aQ8JA==",
   "success": true,
   "projectFilePath": "D:\\Carpetas\\ORT\\ProyectoIntegrador\\ProyectoTeleton\\AppTeleton\\AppTeleton.csproj",
@@ -9,5 +10,11 @@
     "C:\\Users\\Ftaro\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.30\\microsoft.aspnetcore.app.ref.6.0.30.nupkg.sha512",
     "C:\\Users\\Ftaro\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.30\\microsoft.netcore.app.host.win-x64.6.0.30.nupkg.sha512"
   ],
+=======
+  "dgSpecHash": "8Nu2tg3qGXrXb3YbKxznSgX0KxPQfQf5JOIZBrqj7CT4txnILn37iCdiaQtwMrUNDR6VUEPtTwCb0ZebrBFWSg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Joshua\\Documents\\GitHub\\ProyectoTeleton\\AppTeleton\\AppTeleton.csproj",
+  "expectedPackageFiles": [],
+>>>>>>> Stashed changes
   "logs": []
 }
