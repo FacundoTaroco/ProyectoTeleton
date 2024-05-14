@@ -4,6 +4,95 @@
     "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaAplicacion\\LogicaAplicacion.csproj": {}
   },
   "projects": {
+    "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaAccesoDatos\\LogicaAccesoDatos.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaAccesoDatos\\LogicaAccesoDatos.csproj",
+        "projectName": "LogicaAccesoDatos",
+        "projectPath": "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaAccesoDatos\\LogicaAccesoDatos.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaAccesoDatos\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaNegocio\\LogicaNegocio.csproj": {
+                "projectPath": "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaNegocio\\LogicaNegocio.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.30, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.30, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[6.0.30, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.30, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
     "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaAplicacion\\LogicaAplicacion.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -12,6 +101,98 @@
         "projectPath": "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaAplicacion\\LogicaAplicacion.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
         "outputPath": "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaAplicacion\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaAccesoDatos\\LogicaAccesoDatos.csproj": {
+                "projectPath": "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaAccesoDatos\\LogicaAccesoDatos.csproj"
+              },
+              "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaNegocio\\LogicaNegocio.csproj": {
+                "projectPath": "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaNegocio\\LogicaNegocio.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.30, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.30, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[6.0.30, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.30, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaNegocio\\LogicaNegocio.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaNegocio\\LogicaNegocio.csproj",
+        "projectName": "LogicaNegocio",
+        "projectPath": "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaNegocio\\LogicaNegocio.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaNegocio\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -47,6 +228,28 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.30, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.30, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[6.0.30, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.30, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

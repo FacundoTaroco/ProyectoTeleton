@@ -7,10 +7,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Entidades\" />
     <Folder Include="Excepciones\" />
     <Folder Include="InterfacesDominio\" />
     <Folder Include="InterfacesRepositorio\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.30" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.30">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.30" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.30">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>
