@@ -15,7 +15,7 @@ namespace LogicaAccesoDatos.EF
         {
             _context = context;
         }
-
+        //comentario de prueba
         public void Add(Recepcionista obj)
         {
 
