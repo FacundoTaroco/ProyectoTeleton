@@ -13,7 +13,7 @@ namespace LogicaAccesoDatos.EF
 
 
         public DbSet<Usuario> Usuarios { get; set; }
-
+        public DbSet<Paciente> Pacientes { get; set; } //Los pacientes son usuarios pero para gestionarlos mejor los subdividimos en otra tabla 
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

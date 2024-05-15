@@ -1,4 +1,6 @@
 using LogicaAccesoDatos.EF;
+using LogicaAplicacion.CasosUso.PacienteCU;
+using LogicaNegocio.InterfacesRepositorio;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,22 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
+
+//scopes de repositorios
+
+builder.Services.AddScoped<IRepositorioPaciente, RepositorioPaciente>();
+
+//Scope de casos de uso
+
+builder.Services.AddScoped<ABMPacientes, ABMPacientes>();
+builder.Services.AddScoped<GetPacientes, GetPacientes>();
+
+
+//scopes de servicios
+
+
+
 
 var app = builder.Build();
 
