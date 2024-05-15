@@ -13,8 +13,9 @@ namespace LogicaAccesoDatos.EF
 
 
         public DbSet<Usuario> Usuarios { get; set; }
-
-
+        public DbSet<Paciente> Pacientes { get; set; } 
+        public DbSet<Recepcionista> Recepcionistas { get; set; }
+        public DbSet<Administrador> Administradores { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
