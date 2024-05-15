@@ -18,6 +18,22 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = D:\admin\Nueva carpeta\Proyecto Teleton\ProyectoTeleton\AppTeleton
 build_property._RazorSourceGeneratorDebug = 
 
+[D:/admin/Nueva carpeta/Proyecto Teleton/ProyectoTeleton/AppTeleton/Views/Administrador/AgregarAdmin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYWRvclxBZ3JlZ2FyQWRtaW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/admin/Nueva carpeta/Proyecto Teleton/ProyectoTeleton/AppTeleton/Views/Administrador/AgregarRecepcionista.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYWRvclxBZ3JlZ2FyUmVjZXBjaW9uaXN0YS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/admin/Nueva carpeta/Proyecto Teleton/ProyectoTeleton/AppTeleton/Views/Administrador/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYWRvclxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/admin/Nueva carpeta/Proyecto Teleton/ProyectoTeleton/AppTeleton/Views/Administrador/ListaUsuarios.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYWRvclxMaXN0YVVzdWFyaW9zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/admin/Nueva carpeta/Proyecto Teleton/ProyectoTeleton/AppTeleton/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

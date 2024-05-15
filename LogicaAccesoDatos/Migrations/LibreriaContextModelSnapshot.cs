@@ -52,6 +52,13 @@ namespace LogicaAccesoDatos.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("Usuario");
                 });
 
+            modelBuilder.Entity("LogicaNegocio.Entidades.Administrador", b =>
+                {
+                    b.HasBaseType("LogicaNegocio.Entidades.Usuario");
+
+                    b.HasDiscriminator().HasValue("Administrador");
+                });
+
             modelBuilder.Entity("LogicaNegocio.Entidades.Paciente", b =>
                 {
                     b.HasBaseType("LogicaNegocio.Entidades.Usuario");
@@ -60,7 +67,18 @@ namespace LogicaAccesoDatos.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Contacto")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasDiscriminator().HasValue("Paciente");
+                });
+
+            modelBuilder.Entity("LogicaNegocio.Entidades.Recepcionista", b =>
+                {
+                    b.HasBaseType("LogicaNegocio.Entidades.Usuario");
+
+                    b.HasDiscriminator().HasValue("Recepcionista");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LogicaNegocio.Entidades;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,6 @@ namespace LogicaNegocio.InterfacesRepositorio
         public void Update(T obj);
         public void Delete(int id);
         public IEnumerable<T> GetAll();
+        public T GetPorId(int id);
     }
 }

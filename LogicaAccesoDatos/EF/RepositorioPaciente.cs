@@ -24,10 +24,11 @@ namespace LogicaAccesoDatos.EF
                 obj.Validar();
                 obj.Id = 0;
                 //Validar paciente unique con los config!!
-                _context.Usuarios.Add(obj);
-                _context.Pacientes.Add(obj); //Los pacientes se guardan en dos tablas una de usuarios generales y otra de pacientes ver mas adelante si dejar una sola
-                 
-            }catch (Exception)
+                _context.Pacientes.Add(obj);
+                _context.SaveChanges();
+
+            }
+            catch (Exception)
             {
                 throw;
             }
@@ -37,9 +38,10 @@ namespace LogicaAccesoDatos.EF
         {
             try { 
             
-                var paciente = GetPacientePorId(id);
+                var paciente = GetPorId(id);
+                if (paciente == null) { throw new Exception("No se encontro Paciente"); }
                 _context.Pacientes.Remove(paciente);
-                _context.Usuarios.Remove(paciente);
+               
                 _context.SaveChanges();
             
             }catch (Exception) { throw; }
@@ -84,7 +86,7 @@ namespace LogicaAccesoDatos.EF
        
         }
 
-        public Paciente GetPacientePorId(int id)
+        public Paciente GetPorId(int id)
         {
             try
             {
@@ -115,7 +117,6 @@ namespace LogicaAccesoDatos.EF
                 obj.Validar();
 
                 _context.Pacientes.Update(obj); 
-                _context.Usuarios.Update(obj); // ver si usar las dos tablas o dejar una
                 _context.SaveChanges();
             }
             catch (Exception)

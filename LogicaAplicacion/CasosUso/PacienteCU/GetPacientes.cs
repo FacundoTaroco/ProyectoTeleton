@@ -48,7 +48,7 @@ namespace LogicaAplicacion.CasosUso.PacienteCU
         {
             try
             {
-                return _repo.GetPacientePorId(id);
+                return _repo.GetPorId(id);
             }
             catch (Exception)
             {

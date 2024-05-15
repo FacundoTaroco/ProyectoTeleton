@@ -11,6 +11,6 @@ namespace LogicaNegocio.InterfacesRepositorio
     {
         public Paciente GetPacientePorCedula(string cedula);
 
-        public Paciente GetPacientePorId(int id);
+       
     }
 }
