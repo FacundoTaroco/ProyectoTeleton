@@ -24,12 +24,9 @@ namespace LogicaNegocio.Entidades
             NombreUsuario = nombreUsr;
             Contrasenia = contrasenia;
         }
-<<<<<<< Updated upstream
-=======
 
         //constructor vacio
         //hola
->>>>>>> Stashed changes
         public Usuario() { }
 
     }
