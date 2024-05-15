@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "/z+k/XZsjP+WzYepa0iqGC2BJX67ojiTiQ2v4vgwmvsaEQ/yE/aMRxbYZG8glFaIYB45tP8UDXNX0Q19NoMD2Q==",
+  "dgSpecHash": "ogcplln/388Ok5dyxiqMNgQsTF+CumVXxcaEdXyJgmOSvmjXCgbB2Bl+08Clq5wPsC932z0VbWJOb3z7F5kQrQ==",
   "success": true,
   "projectFilePath": "D:\\Carpetas\\ORT\\ProyectoIntegrador\\ProyectoTeleton\\LogicaNegocio\\LogicaNegocio.csproj",
   "expectedPackageFiles": [
@@ -46,10 +46,7 @@
     "C:\\Users\\Ftaro\\.nuget\\packages\\system.security.permissions\\4.7.0\\system.security.permissions.4.7.0.nupkg.sha512",
     "C:\\Users\\Ftaro\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512",
     "C:\\Users\\Ftaro\\.nuget\\packages\\system.text.encoding.codepages\\4.7.0\\system.text.encoding.codepages.4.7.0.nupkg.sha512",
-    "C:\\Users\\Ftaro\\.nuget\\packages\\system.windows.extensions\\4.7.0\\system.windows.extensions.4.7.0.nupkg.sha512",
-    "C:\\Users\\Ftaro\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.30\\microsoft.windowsdesktop.app.ref.6.0.30.nupkg.sha512",
-    "C:\\Users\\Ftaro\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.30\\microsoft.netcore.app.ref.6.0.30.nupkg.sha512",
-    "C:\\Users\\Ftaro\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.30\\microsoft.aspnetcore.app.ref.6.0.30.nupkg.sha512"
+    "C:\\Users\\Ftaro\\.nuget\\packages\\system.windows.extensions\\4.7.0\\system.windows.extensions.4.7.0.nupkg.sha512"
   ],
   "logs": []
 }

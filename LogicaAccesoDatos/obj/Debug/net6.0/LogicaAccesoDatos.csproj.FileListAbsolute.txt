@@ -16,3 +16,21 @@ D:\admin\Nueva carpeta\Proyecto Teleton\ProyectoTeleton\LogicaAccesoDatos\obj\De
 D:\admin\Nueva carpeta\Proyecto Teleton\ProyectoTeleton\LogicaAccesoDatos\obj\Debug\net6.0\LogicaAccesoDatos.pdb
 D:\admin\Nueva carpeta\Proyecto Teleton\ProyectoTeleton\LogicaAccesoDatos\obj\Debug\net6.0\LogicaAccesoDatos.genruntimeconfig.cache
 D:\admin\Nueva carpeta\Proyecto Teleton\ProyectoTeleton\LogicaAccesoDatos\obj\Debug\net6.0\ref\LogicaAccesoDatos.dll
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaAccesoDatos\bin\Debug\net6.0\LogicaAccesoDatos.deps.json
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaAccesoDatos\bin\Debug\net6.0\LogicaAccesoDatos.runtimeconfig.json
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaAccesoDatos\bin\Debug\net6.0\LogicaAccesoDatos.dll
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaAccesoDatos\bin\Debug\net6.0\LogicaAccesoDatos.pdb
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaAccesoDatos\bin\Debug\net6.0\LogicaNegocio.dll
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaAccesoDatos\bin\Debug\net6.0\LogicaNegocio.pdb
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaAccesoDatos\obj\Debug\net6.0\LogicaAccesoDatos.csproj.AssemblyReference.cache
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaAccesoDatos\obj\Debug\net6.0\LogicaAccesoDatos.GeneratedMSBuildEditorConfig.editorconfig
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaAccesoDatos\obj\Debug\net6.0\LogicaAccesoDatos.AssemblyInfoInputs.cache
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaAccesoDatos\obj\Debug\net6.0\LogicaAccesoDatos.AssemblyInfo.cs
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaAccesoDatos\obj\Debug\net6.0\LogicaAccesoDatos.csproj.CoreCompileInputs.cache
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaAccesoDatos\obj\Debug\net6.0\LogicaAccesoDatos.sourcelink.json
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaAccesoDatos\obj\Debug\net6.0\LogicaAc.5A0EF2D8.Up2Date
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaAccesoDatos\obj\Debug\net6.0\LogicaAccesoDatos.dll
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaAccesoDatos\obj\Debug\net6.0\refint\LogicaAccesoDatos.dll
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaAccesoDatos\obj\Debug\net6.0\LogicaAccesoDatos.pdb
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaAccesoDatos\obj\Debug\net6.0\LogicaAccesoDatos.genruntimeconfig.cache
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaAccesoDatos\obj\Debug\net6.0\ref\LogicaAccesoDatos.dll

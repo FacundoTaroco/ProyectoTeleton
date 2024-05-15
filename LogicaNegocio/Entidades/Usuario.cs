@@ -12,6 +12,7 @@ namespace LogicaNegocio.Entidades
         public string Nombre { get; set;}
         public string NombreUsuario { get; set;}
         public string Contrasenia { get; set;}
+        public string Rol { get; set; }
 
         public Usuario(string nombreUsr, string contrasenia)
         {
@@ -25,8 +26,7 @@ namespace LogicaNegocio.Entidades
             Contrasenia = contrasenia;
         }
 
-        //constructor vacio
-        //hola
+
         public Usuario() { }
 
     }
