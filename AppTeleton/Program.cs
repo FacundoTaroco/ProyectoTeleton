@@ -27,6 +27,8 @@ builder.Services.AddScoped<IRepositorioPaciente, RepositorioPaciente>();
 builder.Services.AddScoped<IRepositorioRecepcionista, RepositorioRecepcionista>();
 builder.Services.AddScoped<IRepositorioAdministrador, RepositorioAdministrador>();
 builder.Services.AddScoped<IRepositorioTotem, RepositorioTotem>();
+builder.Services.AddScoped<IRepositorioSesionTotem, RepositorioSesionTotem>();
+builder.Services.AddScoped<IRepositorioAccesoTotem, RepositorioAccesoTotem>();
 //Scope de casos de uso
 
 builder.Services.AddScoped<ABMPacientes, ABMPacientes>();

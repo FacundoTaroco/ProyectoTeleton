@@ -13,10 +13,13 @@ namespace LogicaNegocio.Entidades
         private static Totem instance = null;
         private static readonly object padlock = new object();
 
+        public List<SesionTotem> Sesiones { get; set; } = new List<SesionTotem>();
+       
+
         // Constructor privado para patrón singleton
         private Totem()
         {
-            this.Nombre = "Totem Principal";
+            this.Nombre = "Totem Montevideo";
             this.NombreUsuario = "totem";
             this.Contrasenia = "totem123";
         }
@@ -25,7 +28,6 @@ namespace LogicaNegocio.Entidades
         public Totem(bool forEF = false)
         {
         }
-
         public static Totem Instance
         {
             get

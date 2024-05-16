@@ -10,9 +10,26 @@ namespace LogicaNegocio.Entidades
         {
             public int Id { get; set; }
             public DateTime InicioSesion { get; set; }
-            public DateTime? FinSesion { get; set; }
+        //LUCAS: Saque fin de sesion ya que no nos interesa ese dato, agrege SesionAbierta para saber si esa sesion esta abierta
+            public bool SesionAbierta { get; set; }
             public int TotemId { get; set; }
-            public Totem Totem { get; set; }
+            public Totem _Totem { get; set; }
+        //LUCAS: Lista para guardar los accesos que se van haciendo al totem
+            public List<AccesoTotem> Accesos { get; set; } = new List<AccesoTotem>();   
+
+        //constructores para poder hacer las sesiones
+        public SesionTotem() { 
+            _Totem = Totem.Instance;
+            TotemId = _Totem.Id;
+        }
+        public SesionTotem(DateTime inicioSesion) {
+            _Totem = Totem.Instance;
+            TotemId = _Totem.Id;
+            InicioSesion = inicioSesion;
+            SesionAbierta = true;
+        }
+
+        
         }
     }
 

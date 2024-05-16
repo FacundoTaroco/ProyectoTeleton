@@ -1,20 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Carpetas\\ORT\\ProyectoIntegrador\\ProyectoTeleton\\LogicaNegocio\\LogicaNegocio.csproj": {}
+    "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaNegocio\\LogicaNegocio.csproj": {}
   },
   "projects": {
-    "D:\\Carpetas\\ORT\\ProyectoIntegrador\\ProyectoTeleton\\LogicaNegocio\\LogicaNegocio.csproj": {
+    "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaNegocio\\LogicaNegocio.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Carpetas\\ORT\\ProyectoIntegrador\\ProyectoTeleton\\LogicaNegocio\\LogicaNegocio.csproj",
+        "projectUniqueName": "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaNegocio\\LogicaNegocio.csproj",
         "projectName": "LogicaNegocio",
-        "projectPath": "D:\\Carpetas\\ORT\\ProyectoIntegrador\\ProyectoTeleton\\LogicaNegocio\\LogicaNegocio.csproj",
-        "packagesPath": "C:\\Users\\Ftaro\\.nuget\\packages\\",
-        "outputPath": "D:\\Carpetas\\ORT\\ProyectoIntegrador\\ProyectoTeleton\\LogicaNegocio\\obj\\",
+        "projectPath": "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaNegocio\\LogicaNegocio.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaNegocio\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Ftaro\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -82,7 +85,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.205\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
         }
       }
     }

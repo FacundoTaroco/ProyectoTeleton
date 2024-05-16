@@ -18,6 +18,9 @@ namespace AppTeleton.Controllers
             return View();
         }
 
+       
+      
+
         public IActionResult Privacy()
         {
             return View();
