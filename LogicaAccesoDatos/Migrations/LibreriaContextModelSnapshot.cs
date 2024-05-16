@@ -43,9 +43,12 @@ namespace LogicaAccesoDatos.Migrations
 
                     b.Property<string>("NombreUsuario")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("NombreUsuario")
+                        .IsUnique();
 
                     b.ToTable("Usuarios");
 

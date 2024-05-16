@@ -24,7 +24,7 @@ namespace LogicaAccesoDatos.EF
                 if (obj == null) { throw new Exception("No se recibio el usuario"); }//hacer algunas excepciones personalizadas 
                 obj.Validar();
                 obj.Id = 0;
-                //Validar paciente unique con los config!!
+                ValidarUnique(obj);
                 _context.Pacientes.Add(obj);
                 _context.SaveChanges();
 
@@ -34,7 +34,27 @@ namespace LogicaAccesoDatos.EF
                 throw;
             }
         }
+        public void ValidarUnique(Paciente obj)
+        {
+            try
+            {
+                foreach (Paciente a in GetAll())
+                {
 
+                    if (a.NombreUsuario.Equals(obj.NombreUsuario))
+                    {
+
+                        throw new Exception("El paciente ya existe");
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
         public void Delete(int id)
         {
             try { 

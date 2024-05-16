@@ -25,10 +25,29 @@ namespace AppTeleton.Controllers
             _ABMRecepcionistas = abmRecepcionistas;
             _actualizarPacientes = actualizarPacientes;
         }
-        public IActionResult Index()
+        public IActionResult Index(string tipoUsuario)
         {
-            
+            ViewBag.TipoUsuario = tipoUsuario;
             return View(ObtenerModeloUsuarios());
+        }
+
+        [HttpGet]
+        public IActionResult VerTipoUsuario(string opcion) {
+
+            if (opcion == "paciente")
+            {
+                ViewBag.TipoUsuario = "PACIENTE";
+            }
+            else if (opcion == "recepcionista") {
+                ViewBag.TipoUsuario = "RECEPCIONISTA";
+            }
+            else if (opcion == "admin")
+            {
+                ViewBag.TipoUsuario = "ADMIN";
+            }
+
+            return View("Index", ObtenerModeloUsuarios());
+
         }
 
 
@@ -45,6 +64,7 @@ namespace AppTeleton.Controllers
                 _ABMAdministradores.AltaAdmin(admin);
                 ViewBag.TipoMensaje = "EXITO";
                 ViewBag.Mensaje = "Administrador agregado con exito";
+                ViewBag.TipoUsuario = "ADMIN";
                 return View("Index", ObtenerModeloUsuarios());
 
 
@@ -74,6 +94,7 @@ namespace AppTeleton.Controllers
                 _ABMRecepcionistas.AltaRecepcionista(recepcionista);
                 ViewBag.TipoMensaje = "EXITO";
                 ViewBag.Mensaje = "Recepcionista agregado con exito";
+                ViewBag.TipoUsuario = "RECEPCIONISTA";
                 return View("Index", ObtenerModeloUsuarios());
             }
             catch (Exception e)
@@ -94,6 +115,7 @@ namespace AppTeleton.Controllers
                 _actualizarPacientes.Actualizar();
                 ViewBag.TipoMensaje = "EXITO";
                 ViewBag.Mensaje ="Usuarios Actualizados con exito";
+                ViewBag.TipoUsuario = "PACIENTE";
                 return View("Index", ObtenerModeloUsuarios());
             }
             catch (Exception e)
@@ -101,6 +123,7 @@ namespace AppTeleton.Controllers
 
                 ViewBag.TipoMensaje = "ERROR";
                 ViewBag.Mensaje = e.Message;
+                ViewBag.TipoUsuario = "PACIENTE";
                 return View("Index", ObtenerModeloUsuarios());
             }
         
