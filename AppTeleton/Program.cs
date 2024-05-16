@@ -29,6 +29,7 @@ builder.Services.AddScoped<IRepositorioAdministrador, RepositorioAdministrador>(
 
 builder.Services.AddScoped<ABMPacientes, ABMPacientes>();
 builder.Services.AddScoped<GetPacientes, GetPacientes>();
+builder.Services.AddScoped<ActualizarPacientes, ActualizarPacientes>();
 
 builder.Services.AddScoped<ABMRecepcionistas, ABMRecepcionistas>();
 builder.Services.AddScoped<GetRecepcionistas, GetRecepcionistas>();

@@ -1,4 +1,5 @@
-﻿using LogicaNegocio.Entidades;
+﻿using LogicaAccesoDatos.EF.Excepciones;
+using LogicaNegocio.Entidades;
 using LogicaNegocio.InterfacesRepositorio;
 using System;
 using System.Collections.Generic;
@@ -72,7 +73,7 @@ namespace LogicaAccesoDatos.EF
                 var paciente = _context.Pacientes.FirstOrDefault(paciente => paciente.Cedula.Equals(cedula));
                 if (paciente == null) {
 
-                    throw new Exception("No se encontro ningun paciente con esa cedula");
+                    throw new ObjetoNoEncontradoException("No se encontro ningun paciente con esa cedula");
                 }
                 return paciente;
 
@@ -97,7 +98,7 @@ namespace LogicaAccesoDatos.EF
                 var paciente = _context.Pacientes.FirstOrDefault(paciente => paciente.Id == id);
                 if (paciente == null)
                 {
-                    throw new Exception("No se encontro ningun paciente con esa cedula");
+                    throw new ObjetoNoEncontradoException("No se encontro ningun paciente con ese id");
                 }
                 return paciente;
 

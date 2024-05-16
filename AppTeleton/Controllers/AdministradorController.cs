@@ -15,13 +15,15 @@ namespace AppTeleton.Controllers
         public GetPacientes _getPacientes;
         public ABMAdministradores _ABMAdministradores;
         public ABMRecepcionistas _ABMRecepcionistas;
-        public AdministradorController(GetAdministradores listaAdmins, GetRecepcionistas listaRecepcionistas, GetPacientes listaPacientes, ABMAdministradores abmAdministradores, ABMRecepcionistas abmRecepcionistas)
+        public ActualizarPacientes _actualizarPacientes;
+        public AdministradorController(GetAdministradores listaAdmins, GetRecepcionistas listaRecepcionistas, GetPacientes listaPacientes, ABMAdministradores abmAdministradores, ABMRecepcionistas abmRecepcionistas, ActualizarPacientes actualizarPacientes)
         {
             _getAdministradores = listaAdmins;
             _getRecepcionistas = listaRecepcionistas;
             _getPacientes = listaPacientes;
             _ABMAdministradores = abmAdministradores;
             _ABMRecepcionistas = abmRecepcionistas;
+            _actualizarPacientes = actualizarPacientes;
         }
         public IActionResult Index()
         {
@@ -82,6 +84,26 @@ namespace AppTeleton.Controllers
             }
 
            
+        }
+
+        [HttpPost] 
+        public IActionResult ActualizarPacientes() {
+            try
+            {
+
+                _actualizarPacientes.Actualizar();
+                ViewBag.TipoMensaje = "EXITO";
+                ViewBag.Mensaje ="Usuarios Actualizados con exito";
+                return View("Index", ObtenerModeloUsuarios());
+            }
+            catch (Exception e)
+            {
+
+                ViewBag.TipoMensaje = "ERROR";
+                ViewBag.Mensaje = e.Message;
+                return View("Index", ObtenerModeloUsuarios());
+            }
+        
         }
 
         private UsuariosViewModel ObtenerModeloUsuarios() {
