@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LogicaNegocio.Entidades
 {
-    public class Administrador:Usuario,IValidar
+    public class Administrador:Usuario
     {
 
         public Administrador() { }
@@ -18,9 +18,6 @@ namespace LogicaNegocio.Entidades
 
         }
 
-        public void Validar()
-        {
-            //Implementar
-        }
+       
     }
 }

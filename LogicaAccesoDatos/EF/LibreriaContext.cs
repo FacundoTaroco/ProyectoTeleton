@@ -1,4 +1,5 @@
-﻿using LogicaNegocio.Entidades;
+﻿using LogicaAccesoDatos.EF.Config;
+using LogicaNegocio.Entidades;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -29,15 +30,14 @@ namespace LogicaAccesoDatos.EF
 
 
 
-       /* protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new CabaniaConfiguration());
+            modelBuilder.ApplyConfiguration(new UsuarioConfiguration());//aca valido que no se repitan nombres de usuario
 
-
-           
-
+            
+   
             base.OnModelCreating(modelBuilder);
-        }*/
+        }
 
 
     }
