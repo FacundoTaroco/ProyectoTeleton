@@ -1,0 +1,15 @@
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaNegocio\bin\Debug\net6.0\LogicaNegocio.deps.json
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaNegocio\bin\Debug\net6.0\LogicaNegocio.runtimeconfig.json
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaNegocio\bin\Debug\net6.0\LogicaNegocio.dll
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaNegocio\bin\Debug\net6.0\LogicaNegocio.pdb
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaNegocio\obj\Debug\net6.0\LogicaNegocio.csproj.AssemblyReference.cache
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaNegocio\obj\Debug\net6.0\LogicaNegocio.GeneratedMSBuildEditorConfig.editorconfig
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaNegocio\obj\Debug\net6.0\LogicaNegocio.AssemblyInfoInputs.cache
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaNegocio\obj\Debug\net6.0\LogicaNegocio.AssemblyInfo.cs
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaNegocio\obj\Debug\net6.0\LogicaNegocio.csproj.CoreCompileInputs.cache
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaNegocio\obj\Debug\net6.0\LogicaNegocio.sourcelink.json
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaNegocio\obj\Debug\net6.0\LogicaNegocio.dll
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaNegocio\obj\Debug\net6.0\refint\LogicaNegocio.dll
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaNegocio\obj\Debug\net6.0\LogicaNegocio.pdb
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaNegocio\obj\Debug\net6.0\LogicaNegocio.genruntimeconfig.cache
+D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaNegocio\obj\Debug\net6.0\ref\LogicaNegocio.dll

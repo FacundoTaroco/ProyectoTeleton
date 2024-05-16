@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaAccesoDatos\\LogicaAccesoDatos.csproj": {}
+    "D:\\Carpetas\\ORT\\ProyectoIntegrador\\ProyectoTeleton\\LogicaAccesoDatos\\LogicaAccesoDatos.csproj": {}
   },
   "projects": {
-    "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaAccesoDatos\\LogicaAccesoDatos.csproj": {
+    "D:\\Carpetas\\ORT\\ProyectoIntegrador\\ProyectoTeleton\\LogicaAccesoDatos\\LogicaAccesoDatos.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaAccesoDatos\\LogicaAccesoDatos.csproj",
+        "projectUniqueName": "D:\\Carpetas\\ORT\\ProyectoIntegrador\\ProyectoTeleton\\LogicaAccesoDatos\\LogicaAccesoDatos.csproj",
         "projectName": "LogicaAccesoDatos",
-        "projectPath": "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaAccesoDatos\\LogicaAccesoDatos.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaAccesoDatos\\obj\\",
+        "projectPath": "D:\\Carpetas\\ORT\\ProyectoIntegrador\\ProyectoTeleton\\LogicaAccesoDatos\\LogicaAccesoDatos.csproj",
+        "packagesPath": "C:\\Users\\Ftaro\\.nuget\\packages\\",
+        "outputPath": "D:\\Carpetas\\ORT\\ProyectoIntegrador\\ProyectoTeleton\\LogicaAccesoDatos\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Ftaro\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -31,8 +28,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaNegocio\\LogicaNegocio.csproj": {
-                "projectPath": "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaNegocio\\LogicaNegocio.csproj"
+              "D:\\Carpetas\\ORT\\ProyectoIntegrador\\ProyectoTeleton\\LogicaNegocio\\LogicaNegocio.csproj": {
+                "projectPath": "D:\\Carpetas\\ORT\\ProyectoIntegrador\\ProyectoTeleton\\LogicaNegocio\\LogicaNegocio.csproj"
               }
             }
           }
@@ -89,24 +86,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.205\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaNegocio\\LogicaNegocio.csproj": {
+    "D:\\Carpetas\\ORT\\ProyectoIntegrador\\ProyectoTeleton\\LogicaNegocio\\LogicaNegocio.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaNegocio\\LogicaNegocio.csproj",
+        "projectUniqueName": "D:\\Carpetas\\ORT\\ProyectoIntegrador\\ProyectoTeleton\\LogicaNegocio\\LogicaNegocio.csproj",
         "projectName": "LogicaNegocio",
-        "projectPath": "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaNegocio\\LogicaNegocio.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\admin\\Nueva carpeta\\Proyecto Teleton\\ProyectoTeleton\\LogicaNegocio\\obj\\",
+        "projectPath": "D:\\Carpetas\\ORT\\ProyectoIntegrador\\ProyectoTeleton\\LogicaNegocio\\LogicaNegocio.csproj",
+        "packagesPath": "C:\\Users\\Ftaro\\.nuget\\packages\\",
+        "outputPath": "D:\\Carpetas\\ORT\\ProyectoIntegrador\\ProyectoTeleton\\LogicaNegocio\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Ftaro\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -174,7 +168,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.205\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -2,6 +2,7 @@
 using LogicaAplicacion.CasosUso.AdministradorCU;
 using LogicaAplicacion.CasosUso.PacienteCU;
 using LogicaAplicacion.CasosUso.RecepcionistaCU;
+using LogicaAplicacion.CasosUso.TotemCU;
 using LogicaNegocio.Entidades;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +16,8 @@ namespace AppTeleton.Controllers
         public GetPacientes _getPacientes;
         public ABMAdministradores _ABMAdministradores;
         public ABMRecepcionistas _ABMRecepcionistas;
-        public AdministradorController(GetAdministradores listaAdmins, GetRecepcionistas listaRecepcionistas, GetPacientes listaPacientes, ABMAdministradores abmAdministradores, ABMRecepcionistas abmRecepcionistas)
+        public ABMTotem _ABMTotem;
+        public AdministradorController(GetAdministradores listaAdmins, GetRecepcionistas listaRecepcionistas, GetPacientes listaPacientes, ABMAdministradores abmAdministradores, ABMRecepcionistas abmRecepcionistas, ABMTotem abmTotem)
         {
             _getAdministradores = listaAdmins;
             _getRecepcionistas = listaRecepcionistas;

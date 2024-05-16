@@ -26,6 +26,7 @@ namespace LogicaNegocio.Entidades
         }
 
         //constructor vacio
+        //algo
         public Usuario() { }
 
     }

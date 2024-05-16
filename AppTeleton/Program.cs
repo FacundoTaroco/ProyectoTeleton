@@ -4,6 +4,7 @@ using LogicaAplicacion.CasosUso.RecepcionistaCU;
 using LogicaAplicacion.CasosUso.AdministradorCU;
 using LogicaAplicacion.Servicios;
 using LogicaNegocio.InterfacesRepositorio;
+using LogicaAplicacion.CasosUso.TotemCU;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,7 @@ builder.Services.AddSession(options =>
 builder.Services.AddScoped<IRepositorioPaciente, RepositorioPaciente>();
 builder.Services.AddScoped<IRepositorioRecepcionista, RepositorioRecepcionista>();
 builder.Services.AddScoped<IRepositorioAdministrador, RepositorioAdministrador>();
+builder.Services.AddScoped<IRepositorioTotem, RepositorioTotem>();
 //Scope de casos de uso
 
 builder.Services.AddScoped<ABMPacientes, ABMPacientes>();
@@ -35,6 +37,9 @@ builder.Services.AddScoped<GetRecepcionistas, GetRecepcionistas>();
 
 builder.Services.AddScoped<ABMAdministradores, ABMAdministradores>();
 builder.Services.AddScoped<GetAdministradores, GetAdministradores>();
+
+builder.Services.AddScoped<ABMTotem, ABMTotem>();
+builder.Services.AddScoped<GetTotems, GetTotems>();
 
 
 //scopes de servicios
