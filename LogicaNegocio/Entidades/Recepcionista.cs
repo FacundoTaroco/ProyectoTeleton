@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LogicaNegocio.Entidades
 {
-    public class Recepcionista:Usuario,IValidar
+    public class Recepcionista:Usuario
     {
         //aca tendria chats y otras cosas 
 
@@ -17,9 +17,6 @@ namespace LogicaNegocio.Entidades
           
         }
 
-        public void Validar()
-        {
-            //IMPLEMENTAR
-        }
+      
     }
 }
