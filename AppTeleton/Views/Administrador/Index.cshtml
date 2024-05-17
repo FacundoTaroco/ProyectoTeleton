@@ -86,6 +86,9 @@
             <th>
                 Contacto
             </th>
+                <th>
+                    
+                </th>
         </tr>
     </thead>
     <tbody>
@@ -111,7 +114,8 @@
                     @Html.DisplayFor(modelItem => item.Contacto)
                 </td>
                 <td>
-                    <!--ACA VA LA BOTONERA-->
+                        @Html.ActionLink("Delete", "Delete","Paciente", new { id=item.Id})
+                        @Html.ActionLink("Editar", "Editar", new { /* id=item.PrimaryKey */ })
                 </td>
             </tr>
         }

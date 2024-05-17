@@ -4,6 +4,7 @@ using LogicaAplicacion.CasosUso.RecepcionistaCU;
 using LogicaAplicacion.CasosUso.AdministradorCU;
 using LogicaAplicacion.Servicios;
 using LogicaNegocio.InterfacesRepositorio;
+using AppTeleton.Worker;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +42,10 @@ builder.Services.AddScoped<GetAdministradores, GetAdministradores>();
 //scopes de servicios
 
 builder.Services.AddScoped<SolicitarPacientesService, SolicitarPacientesService>();
+
+
+//Worker
+builder.Services.AddHostedService<NativeWorker>();
 
 var app = builder.Build();
 

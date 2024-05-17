@@ -25,9 +25,19 @@ namespace AppTeleton.Controllers
             _ABMRecepcionistas = abmRecepcionistas;
             _actualizarPacientes = actualizarPacientes;
         }
-        public IActionResult Index(string tipoUsuario)
+      
+        [HttpGet]
+        public IActionResult Index(string tipoUsuario,string tipoMensaje, string mensaje)
         {
+            if(!String.IsNullOrEmpty(tipoMensaje) && !String.IsNullOrEmpty(mensaje)) {
+                ViewBag.TipoMensaje = tipoMensaje;
+                ViewBag.Mensaje = mensaje;  
+            
+            }
             ViewBag.TipoUsuario = tipoUsuario;
+            if (String.IsNullOrEmpty(tipoUsuario)) {
+                ViewBag.TipoUsuario = "PACIENTE";
+            }
             return View(ObtenerModeloUsuarios());
         }
 
@@ -108,11 +118,11 @@ namespace AppTeleton.Controllers
         }
 
         [HttpPost] 
-        public IActionResult ActualizarPacientes() {
+        public async Task<IActionResult> ActualizarPacientes() {
             try
             {
 
-                _actualizarPacientes.Actualizar();
+                await _actualizarPacientes.Actualizar();
                 ViewBag.TipoMensaje = "EXITO";
                 ViewBag.Mensaje ="Usuarios Actualizados con exito";
                 ViewBag.TipoUsuario = "PACIENTE";

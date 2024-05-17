@@ -1,4 +1,5 @@
 ﻿using LogicaAccesoDatos.EF.Excepciones;
+using LogicaAplicacion.Excepciones;
 using LogicaAplicacion.Servicios;
 using LogicaNegocio.DTO;
 using LogicaNegocio.Entidades;
@@ -28,19 +29,30 @@ namespace LogicaAplicacion.CasosUso.PacienteCU
 
 
 
+        public void probarBackgroundService() {
 
-        public void Actualizar() {
+            Console.WriteLine("Tarea que se repite");
+        
+        }
+        public async Task<bool> Actualizar() {
             try
             {
-                 IEnumerable<PacienteDTO> pacientesObtenidos = _solicitarPacientesTeleton.solicitarPacientesATeleton();
-                 pacientesObtenidos = limpiezaListaPacientes(pacientesObtenidos);
-                    foreach (PacienteDTO p in pacientesObtenidos) {
-                    if (!existePaciente(p.Cedula)) {
+                IEnumerable<PacienteDTO> pacientesObtenidos = await _solicitarPacientesTeleton.solicitarPacientesATeleton();
+                pacientesObtenidos = limpiezaListaPacientes(pacientesObtenidos);
+                foreach (PacienteDTO p in pacientesObtenidos)
+                {
+                    if (!existePaciente(p.Cedula))
+                    {
                         crearNuevoUsuarioPaciente(p);
                     }
                     //Ver que hacer si se borran pacientes?¿?¿
-                    }
-                    
+                }
+
+                return true;
+
+            }
+            catch (ApiErrorException) {
+                throw;
             }
             catch (Exception)
             {
