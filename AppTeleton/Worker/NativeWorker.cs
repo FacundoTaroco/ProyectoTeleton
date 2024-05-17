@@ -35,7 +35,7 @@ namespace AppTeleton.Worker
                     }
                     
                     //delay en milisegundos entre que se ejecuta una tarea y otra
-                    await Task.Delay(600000, stoppingToken);
+                    await Task.Delay(/*86400000*/15000, stoppingToken);
                 }
 
 

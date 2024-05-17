@@ -119,9 +119,14 @@ namespace LogicaAplicacion.CasosUso.PacienteCU
         private string limpiarContacto(string contactoSucio) {
             string patron = @"\D+";
             string contactoLimpio = Regex.Replace(contactoSucio, patron, "");
+
+            //
+
             return contactoLimpio;
         }
         private string limpiarNombre(string nombreSucio) { 
+
+            //
             return nombreSucio.ToLower();
         }
     }
