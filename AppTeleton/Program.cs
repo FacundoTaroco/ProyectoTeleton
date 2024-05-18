@@ -5,6 +5,9 @@ using LogicaAplicacion.CasosUso.AdministradorCU;
 using LogicaAplicacion.Servicios;
 using LogicaNegocio.InterfacesRepositorio;
 using LogicaAplicacion.CasosUso.TotemCU;
+using NuGet.Protocol.Plugins;
+using LogicaNegocio.InterfacesDominio;
+using LogicaAplicacion.CasosUso.Usuario;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,6 +50,8 @@ builder.Services.AddScoped<GetTotems, GetTotems>();
 //scopes de servicios
 
 builder.Services.AddScoped<SolicitarPacientesService, SolicitarPacientesService>();
+//Usuario
+builder.Services.AddScoped<ILogin, Login>();
 
 var app = builder.Build();
 

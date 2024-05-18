@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace LogicaNegocio.InterfacesRepositorio
 {
-    public interface IRepositorioTotem:IRepositorio<Totem>
+    public interface IRepositorioTotem : IRepositorio<Totem>
     {
+        public bool Login(string nombre, string contrasenia);
     }
 }

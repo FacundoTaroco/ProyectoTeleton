@@ -18,9 +18,9 @@ namespace AppTeleton.Models.Filtros
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            if (string.IsNullOrEmpty(context.HttpContext.Session.GetString("Token")))
+            if (string.IsNullOrEmpty(context.HttpContext.Session.GetString("USR")))
             {
-                context.Result = new RedirectToActionResult("Login", "Usuario", new { error = "No se puede acceder sin estar logueado ;)" });
+                context.Result = new RedirectToActionResult("Login", "Usuario", null);
             }
         }
     }
