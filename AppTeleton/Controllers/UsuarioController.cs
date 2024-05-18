@@ -42,18 +42,22 @@ namespace AppTeleton.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Login(string nombre, string Contrasenia)
+        public IActionResult Login(string nombre, string contrasenia)
         {
             try
             {
-                bool UsrValido = _login.LoginCaso(nombre, Contrasenia);
-
+                string tipoUsuario = _login.LoginCaso(nombre, contrasenia);
 
                 HttpContext.Session.SetString("USR", nombre);
+                HttpContext.Session.SetString("TIPO", tipoUsuario);
                 ViewBag.TipoMensaje = "EXITO";
                 ViewBag.Mensaje = "Sesion iniciada correctamente";
-                return RedirectToAction("Index", "Home");
 
+                if (tipoUsuario == "TOTEM") { 
+                
+                //Va a la vista de totem
+                }
+                return RedirectToAction("Index", "Home");
             }
             catch (UsuarioException e)
             {
@@ -91,6 +95,12 @@ namespace AppTeleton.Controllers
         }
         public IActionResult Logout()
         {
+            HttpContext.Session.GetString("TIPO");
+
+            if (HttpContext.Session.GetString("TIPO") == "TOTEM") { 
+            
+                //redirect al logout de totem
+            }
             HttpContext.Session.Clear();
             ViewBag.TipoMensaje = "ERROR";
             ViewBag.Mensaje = "Se cerro la sesion";

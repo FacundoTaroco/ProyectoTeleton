@@ -35,7 +35,7 @@ namespace LogicaAccesoDatos.EF
             modelBuilder.Entity<Totem>().HasData(new Totem
             {
                 Id = 1,
-                //Nombre = totemInstance.Nombre,
+                Nombre = totemInstance.Nombre,
                 NombreUsuario = totemInstance.NombreUsuario,
                 Contrasenia = totemInstance.Contrasenia
             });

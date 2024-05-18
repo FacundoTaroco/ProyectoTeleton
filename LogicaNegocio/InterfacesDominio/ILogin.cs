@@ -8,7 +8,7 @@ namespace LogicaNegocio.InterfacesDominio
 {
     public interface ILogin
     {
-        public bool LoginCaso(string Mail, string Contrasenia);
+        public string LoginCaso(string usuario, string contrasenia);
 
     }
 }

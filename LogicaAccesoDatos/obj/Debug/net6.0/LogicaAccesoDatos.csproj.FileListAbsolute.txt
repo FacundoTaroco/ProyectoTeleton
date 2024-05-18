@@ -17,7 +17,6 @@ D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaAccesoDatos\obj\Debug\n
 D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaAccesoDatos\obj\Debug\net6.0\LogicaAccesoDatos.genruntimeconfig.cache
 D:\Carpetas\ORT\ProyectoIntegrador\ProyectoTeleton\LogicaAccesoDatos\obj\Debug\net6.0\ref\LogicaAccesoDatos.dll
 D:\admin\Nueva carpeta\Proyecto Teleton\ProyectoTeleton\LogicaAccesoDatos\bin\Debug\net6.0\LogicaAccesoDatos.deps.json
-D:\admin\Nueva carpeta\Proyecto Teleton\ProyectoTeleton\LogicaAccesoDatos\bin\Debug\net6.0\LogicaAccesoDatos.runtimeconfig.json
 D:\admin\Nueva carpeta\Proyecto Teleton\ProyectoTeleton\LogicaAccesoDatos\bin\Debug\net6.0\LogicaAccesoDatos.dll
 D:\admin\Nueva carpeta\Proyecto Teleton\ProyectoTeleton\LogicaAccesoDatos\bin\Debug\net6.0\LogicaAccesoDatos.pdb
 D:\admin\Nueva carpeta\Proyecto Teleton\ProyectoTeleton\LogicaAccesoDatos\bin\Debug\net6.0\LogicaNegocio.dll
@@ -32,5 +31,4 @@ D:\admin\Nueva carpeta\Proyecto Teleton\ProyectoTeleton\LogicaAccesoDatos\obj\De
 D:\admin\Nueva carpeta\Proyecto Teleton\ProyectoTeleton\LogicaAccesoDatos\obj\Debug\net6.0\LogicaAccesoDatos.dll
 D:\admin\Nueva carpeta\Proyecto Teleton\ProyectoTeleton\LogicaAccesoDatos\obj\Debug\net6.0\refint\LogicaAccesoDatos.dll
 D:\admin\Nueva carpeta\Proyecto Teleton\ProyectoTeleton\LogicaAccesoDatos\obj\Debug\net6.0\LogicaAccesoDatos.pdb
-D:\admin\Nueva carpeta\Proyecto Teleton\ProyectoTeleton\LogicaAccesoDatos\obj\Debug\net6.0\LogicaAccesoDatos.genruntimeconfig.cache
 D:\admin\Nueva carpeta\Proyecto Teleton\ProyectoTeleton\LogicaAccesoDatos\obj\Debug\net6.0\ref\LogicaAccesoDatos.dll

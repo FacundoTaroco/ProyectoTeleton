@@ -26,6 +26,8 @@ builder.Services.AddSession(options =>
 
 //scopes de repositorios
 
+builder.Services.AddScoped<IRepositorioUsuario, RepositorioUsuario>();
+
 builder.Services.AddScoped<IRepositorioPaciente, RepositorioPaciente>();
 builder.Services.AddScoped<IRepositorioRecepcionista, RepositorioRecepcionista>();
 builder.Services.AddScoped<IRepositorioAdministrador, RepositorioAdministrador>();
