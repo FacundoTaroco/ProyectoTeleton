@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace LogicaAccesoDatos.EF
 {
-    public class LibreriaContext:DbContext
+    public class LibreriaContext : DbContext
     {
 
 
         public DbSet<Usuario> Usuarios { get; set; }
-        public DbSet<Paciente> Pacientes { get; set; } 
+        public DbSet<Paciente> Pacientes { get; set; }
         public DbSet<Recepcionista> Recepcionistas { get; set; }
         public DbSet<Administrador> Administradores { get; set; }
         public DbSet<Totem> Totems { get; set; }
@@ -34,7 +34,7 @@ namespace LogicaAccesoDatos.EF
             modelBuilder.Entity<Totem>().HasData(new Totem
             {
                 Id = 1,
-                Nombre = totemInstance.Nombre,
+                //Nombre = totemInstance.Nombre,
                 NombreUsuario = totemInstance.NombreUsuario,
                 Contrasenia = totemInstance.Contrasenia
             });
@@ -52,15 +52,15 @@ namespace LogicaAccesoDatos.EF
 
 
 
-       /* protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.ApplyConfiguration(new CabaniaConfiguration());
+        /* protected override void OnModelCreating(ModelBuilder modelBuilder)
+         {
+             modelBuilder.ApplyConfiguration(new CabaniaConfiguration());
 
 
-           
 
-            base.OnModelCreating(modelBuilder);
-        }*/
+
+             base.OnModelCreating(modelBuilder);
+         }*/
 
 
     }

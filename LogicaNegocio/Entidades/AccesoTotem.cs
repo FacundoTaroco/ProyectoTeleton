@@ -12,7 +12,6 @@ namespace LogicaNegocio.Entidades
         public int TotemId { get; set; }
         public DateTime FechaHora { get; set; }
         public string Accion { get; set; }
-
         public virtual Totem Totem { get; set; }
     }
 }

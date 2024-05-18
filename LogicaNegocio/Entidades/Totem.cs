@@ -16,7 +16,7 @@ namespace LogicaNegocio.Entidades
         // Constructor privado para patrón singleton
         private Totem()
         {
-            this.Nombre = "Totem Principal";
+            //this.Nombre = "Totem Principal";
             this.NombreUsuario = "totem";
             this.Contrasenia = "totem123";
         }
