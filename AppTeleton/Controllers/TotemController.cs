@@ -1,9 +1,12 @@
+
 ﻿using AppTeleton.Models;
 using LogicaNegocio.DTO;
 using Microsoft.AspNetCore.Mvc;
 using RestSharp;
 using System.Net;
 using System.Text.Json;
+﻿using Microsoft.AspNetCore.Mvc;
+
 
 namespace AppTeleton.Controllers
 {
@@ -94,6 +97,4 @@ namespace AppTeleton.Controllers
         }
     }
 }
-
-
 

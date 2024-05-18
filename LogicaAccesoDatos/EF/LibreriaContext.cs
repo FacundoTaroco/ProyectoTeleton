@@ -17,17 +17,19 @@ namespace LogicaAccesoDatos.EF
         public DbSet<Recepcionista> Recepcionistas { get; set; }
         public DbSet<Administrador> Administradores { get; set; }
         public DbSet<Totem> Totems { get; set; }
-        public DbSet<AccesoTotem> AccesosTotem { get; set; }
         public DbSet<SesionTotem> SesionesTotem { get; set; }
+        public DbSet<AccesoTotem> AccesosTotem { get; set; }
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<AccesoTotem>()
-                .HasOne(a => a.Totem)
+            base.OnModelCreating(modelBuilder);
+            /*
+            modelBuilder.Entity<AccesoTotem>() LUCAS: a acceso le saque totem como parametro
+                .HasOne(a => a._Totem)
                 .WithMany()
-                .HasForeignKey(a => a.TotemId);
+                .HasForeignKey(a => a.TotemId);*/
 
             // Creación de datos iniciales utilizando constructor para EF
             var totemInstance = Totem.Instance;

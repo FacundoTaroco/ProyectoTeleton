@@ -1,5 +1,6 @@
 ﻿using LogicaNegocio.Entidades;
 using LogicaNegocio.InterfacesRepositorio;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,6 @@ namespace LogicaAccesoDatos.EF
 
                 _context.Totems.Add(obj);
                 _context.SaveChanges();
-
             }
             catch (Exception)
             {
@@ -55,7 +55,7 @@ namespace LogicaAccesoDatos.EF
         {
             try
             {
-                IEnumerable<Totem> totems = _context.Totems.ToList();
+                IEnumerable<Totem> totems = _context.Totems.Include(tot => tot.Sesiones).ThenInclude(sesion => sesion.Accesos).ToList();
                 return totems;
             }
             catch (Exception)
@@ -74,11 +74,12 @@ namespace LogicaAccesoDatos.EF
                 if (id == 0)
                 {
                     throw new Exception("No se recibio id");
-                }
-                var totem = _context.Totems.FirstOrDefault(tot => tot.Id == id);
+                }//retorna el totem con todas sus sesiones y todos sus accesos
+                var totem = _context.Totems.Include(tot => tot.Sesiones).ThenInclude(sesion => sesion.Accesos).FirstOrDefault(tot => tot.Id == id);
+                   
                 if (totem == null)
                 {
-                    throw new Exception("No se encontro ninguna totem con esa cedula");
+                    throw new Exception("No se encontro ninguna totem con ese id");
                 }
                 return totem;
 
