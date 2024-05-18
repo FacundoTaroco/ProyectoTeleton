@@ -11,7 +11,6 @@ namespace LogicaAccesoDatos.EF
     public class LibreriaContext : DbContext
     {
 
-
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Paciente> Pacientes { get; set; }
         public DbSet<Recepcionista> Recepcionistas { get; set; }
