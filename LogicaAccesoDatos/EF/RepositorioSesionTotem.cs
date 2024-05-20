@@ -17,16 +17,20 @@ namespace LogicaAccesoDatos.EF
         {
             _context = context;
         }
-        public void Add(SesionTotem obj)
+        public SesionTotem AgregarSesion(SesionTotem sesion)
         {
             try
             {
-                if (obj == null) { throw new Exception("No se recibio sesion"); }//hacer algunas excepciones personalizadas 
-                obj.Id = 0;
+                if (sesion == null) { throw new Exception("No se recibio sesion"); }//hacer algunas excepciones personalizadas 
+                sesion.Id = 0;
                 //Validar totem unique con los config!!
 
-                _context.SesionesTotem.Add(obj);
+                _context.SesionesTotem.Add(sesion);
                 _context.SaveChanges();
+
+                SesionTotem nuevaSesion = _context.SesionesTotem.OrderByDescending(s => s.Id).FirstOrDefault();
+
+                return nuevaSesion;
             }
             catch (Exception)
             {
@@ -34,39 +38,121 @@ namespace LogicaAccesoDatos.EF
             }
         }
 
-        public void Delete(int id)
+
+        public void CerrarSesion(SesionTotem sesion)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (_context.SesionesTotem.FirstOrDefault(s => s.Id == sesion.Id) == null)
+                {
+                    throw new Exception("No se encontro sesion");
+                }
+                if (sesion.SesionAbierta) {
+                    throw new Exception("No se cerro la sesion correctamente");
+                }
+                _context.SesionesTotem.Update(sesion);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public SesionTotem GetSesionPorId(int id)
+        {
+            try
+            {
+                if (id == 0) { 
+                    throw new Exception("No se recibio id");
+                }
+                if (_context.SesionesTotem.FirstOrDefault(s => s.Id == id) == null) {
+
+                    throw new Exception("No se encontro sesion");
+                }
+
+                return _context.SesionesTotem.FirstOrDefault(s => s.Id == id);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+            public IEnumerable<SesionTotem> GetSesionesDeTotem(int idTotem)
+        {
+            try
+            {
+                if (idTotem == 0)
+                {
+                    throw new Exception("No se recibio totem");
+                }
+                if (_context.Totems.FirstOrDefault(tot => tot.Id == idTotem) == null)
+                {
+                    throw new Exception("No se encontro totem");
+                }
+                IEnumerable<SesionTotem> sesiones = _context.SesionesTotem.Where(s=>s.TotemId == idTotem).Include(s => s.Accesos).ToList();
+                return sesiones;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
 
-        public IEnumerable<SesionTotem> GetAll()
+        public IEnumerable<SesionTotem> GetSesionesAbiertasDeTotem(int idTotem)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (idTotem == 0)
+                {
+                    throw new Exception("No se recibio totem");
+                }
+                if (_context.Totems.FirstOrDefault(tot => tot.Id == idTotem) == null)
+                {
+                    throw new Exception("No se encontro totem");
+                }
+
+                IEnumerable<SesionTotem> sesiones = _context.SesionesTotem.Where(s => s.TotemId == idTotem && s.SesionAbierta).Include(s=>s.Accesos).ToList();
+                return sesiones;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
-        public SesionTotem GetPorId(int id)
+        public IEnumerable<SesionTotem> GetSesionesDeFecha(int idTotem, DateTime fecha)
         {
-            throw new NotImplementedException();
+            try
+            {
+                //VALIDAR FECHA
+                if (idTotem == 0)
+                {
+                    throw new Exception("No se recibio totem");
+                }
+                if (_context.Totems.FirstOrDefault(tot => tot.Id == idTotem) == null)
+                {
+                    throw new Exception("No se encontro totem");
+                }
+
+
+                IEnumerable<SesionTotem> sesiones = _context.SesionesTotem.Where(s => s.TotemId == idTotem && s.InicioSesion.Day == fecha.Day).Include(s => s.Accesos).ToList();
+                return sesiones;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
-        public IEnumerable<SesionTotem> getSesionesAbiertasDeFecha(int idTotem, DateTime fecha)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<SesionTotem> getSesionesAbiertasDeTotem(int idTotem)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<SesionTotem> getSesionesDeTotem(int idTotem)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(SesionTotem obj)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }

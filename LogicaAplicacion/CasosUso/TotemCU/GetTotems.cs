@@ -31,7 +31,7 @@ namespace LogicaAplicacion.CasosUso.TotemCU
 
         }
 
-        public Totem GetAdministradorPorId(int id)
+        public Totem GetTotemPorId(int id)
         {
             try
             {
@@ -43,6 +43,19 @@ namespace LogicaAplicacion.CasosUso.TotemCU
                 throw;
             }
 
+        }
+        public Totem GetTotemPorUsr(string usr) {
+
+            try
+            {
+                return _repo.GetTotemPorUsr(usr);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
     }
 }

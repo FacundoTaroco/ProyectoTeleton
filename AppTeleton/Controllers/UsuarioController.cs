@@ -1,4 +1,6 @@
 ﻿using LogicaAccesoDatos.EF.Excepciones;
+using LogicaAplicacion.CasosUso.SesionTotemCU;
+using LogicaAplicacion.CasosUso.TotemCU;
 using LogicaNegocio.Entidades;
 using LogicaNegocio.Excepciones;
 using LogicaNegocio.InterfacesDominio;
@@ -11,10 +13,14 @@ namespace AppTeleton.Controllers
     {
 
         ILogin _login;
-
-        public UsuarioController(ILogin login)
+        GetTotems _getTotems;
+        ABMSesionTotem _abmSesionTotem;
+    
+        public UsuarioController(ILogin login, ABMSesionTotem sesionTotem, GetTotems getTotems)
         {
             _login = login;
+            _abmSesionTotem = sesionTotem;   
+            _getTotems = getTotems;
 
         }
 
@@ -53,9 +59,14 @@ namespace AppTeleton.Controllers
                 ViewBag.TipoMensaje = "EXITO";
                 ViewBag.Mensaje = "Sesion iniciada correctamente";
 
-                if (tipoUsuario == "TOTEM") { 
-                
-                //Va a la vista de totem
+                if (tipoUsuario == "TOTEM") {
+
+                    Totem totem = _getTotems.GetTotemPorUsr(nombre);
+                    SesionTotem nuevaSesionTotem = new SesionTotem(totem);
+                    SesionTotem sesionTot = _abmSesionTotem.AgregarSesion(nuevaSesionTotem);
+                    HttpContext.Session.SetInt32("SESIONTOTEM", sesionTot.Id);
+                    return RedirectToAction("Index", "Totem");
+
                 }
                 return RedirectToAction("Index", "Home");
             }

@@ -56,22 +56,16 @@ namespace LogicaAccesoDatos.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CedulaPaciente = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FechaHora = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Accion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TotemId = table.Column<int>(type: "int", nullable: false),
-                    SesionTotemId = table.Column<int>(type: "int", nullable: true)
+                    _SesionTotemId = table.Column<int>(type: "int", nullable: false),
+                    IdSesionTotem = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AccesosTotem", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AccesosTotem_SesionesTotem_SesionTotemId",
-                        column: x => x.SesionTotemId,
+                        name: "FK_AccesosTotem_SesionesTotem__SesionTotemId",
+                        column: x => x._SesionTotemId,
                         principalTable: "SesionesTotem",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_AccesosTotem_Usuarios_TotemId",
-                        column: x => x.TotemId,
-                        principalTable: "Usuarios",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -79,17 +73,12 @@ namespace LogicaAccesoDatos.Migrations
             migrationBuilder.InsertData(
                 table: "Usuarios",
                 columns: new[] { "Id", "Contrasenia", "Discriminator", "Nombre", "NombreUsuario" },
-                values: new object[] { 1, "totem123", "Totem", "Totem Montevideo", "totem" });
+                values: new object[] { 1, "totem123", "Totem", "Totem Montevideo", "totemMVD" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AccesosTotem_SesionTotemId",
+                name: "IX_AccesosTotem__SesionTotemId",
                 table: "AccesosTotem",
-                column: "SesionTotemId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AccesosTotem_TotemId",
-                table: "AccesosTotem",
-                column: "TotemId");
+                column: "_SesionTotemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SesionesTotem_TotemId",

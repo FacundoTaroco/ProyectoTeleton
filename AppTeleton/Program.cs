@@ -9,6 +9,8 @@ using NuGet.Protocol.Plugins;
 using LogicaNegocio.InterfacesDominio;
 using LogicaAplicacion.CasosUso.Usuario;
 using AppTeleton.Worker;
+using LogicaAplicacion.CasosUso.AccesoTotemCU;
+using LogicaAplicacion.CasosUso.SesionTotemCU;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -50,6 +52,12 @@ builder.Services.AddScoped<ABMTotem, ABMTotem>();
 builder.Services.AddScoped<GetTotems, GetTotems>();
 
 
+builder.Services.AddScoped<ABMSesionTotem, ABMSesionTotem>();
+builder.Services.AddScoped<GetSesionTotem, GetSesionTotem>();
+
+builder.Services.AddScoped<AccesoCU, AccesoCU>();
+
+
 //scopes de servicios
 
 builder.Services.AddScoped<SolicitarPacientesService, SolicitarPacientesService>();
@@ -79,6 +87,6 @@ app.UseAuthorization();
 app.UseSession();
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Usuario}/{action=Login}/{id?}");
 
 app.Run();

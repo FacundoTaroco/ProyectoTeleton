@@ -23,7 +23,7 @@ namespace LogicaNegocio.Entidades
             //this.Nombre = "Totem Principal";
 
             this.Nombre = "Totem Montevideo";
-            this.NombreUsuario = "totem";
+            this.NombreUsuario = "totemMVD";
             this.Contrasenia = "totem123";
         }
 
