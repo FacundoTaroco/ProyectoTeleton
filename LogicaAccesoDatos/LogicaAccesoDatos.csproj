@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LogicaNegocio\LogicaNegocio.csproj" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.30" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.30">
       <PrivateAssets>all</PrivateAssets>
@@ -18,9 +19,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\LogicaNegocio\LogicaNegocio.csproj" />
+    <Folder Include="EF\Config\" />
   </ItemGroup>
 
 </Project>

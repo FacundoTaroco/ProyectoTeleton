@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["Title"] = "Login";
+    if (ViewBag.Mensaje != null)
+    {
+        if (ViewBag.TipoMensaje == "ERROR")
+        {
+            <div class="alert alert-danger" role="alert">@ViewBag.Mensaje</div>
+        }
+        else if (ViewBag.TipoMensaje == "EXITO")
+        {
+            <div class="alert alert-success" role="alert">@ViewBag.Mensaje</div>
+        }
+
+    }
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+
+</head>
+<body>
+    <form asp-action="Login" asp-controller="Usuario" method="post">
+        <div class="form-group col-lg-6">
+            <label for="nombre" name="Usu">Usuario</label>
+            <input name="nombre" class="form-control" type="text" placeholder="Ingrese usuario de totem" required />
+        </div>
+        <div class="form-group col-lg-6">
+            <label for="contrasenia" name="Contrasenia">Contraseña</label>
+            <input name="contrasenia" class="form-control" type="password" required />
+        </div>
+
+        <input class="btn btn-primary" type="submit" value="Iniciar sesión" />
+
+    </form>
+
+</body>
+</html>

@@ -2,6 +2,7 @@
 using LogicaAplicacion.CasosUso.AdministradorCU;
 using LogicaAplicacion.CasosUso.PacienteCU;
 using LogicaAplicacion.CasosUso.RecepcionistaCU;
+using LogicaAplicacion.CasosUso.TotemCU;
 using LogicaNegocio.Entidades;
 using Microsoft.AspNetCore.Mvc;
 

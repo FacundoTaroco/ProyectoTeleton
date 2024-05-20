@@ -4,7 +4,12 @@ using LogicaAplicacion.CasosUso.RecepcionistaCU;
 using LogicaAplicacion.CasosUso.AdministradorCU;
 using LogicaAplicacion.Servicios;
 using LogicaNegocio.InterfacesRepositorio;
+using LogicaAplicacion.CasosUso.TotemCU;
+using NuGet.Protocol.Plugins;
+using LogicaNegocio.InterfacesDominio;
+using LogicaAplicacion.CasosUso.Usuario;
 using AppTeleton.Worker;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,13 +24,16 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;                      //mantener abierto indefinidamente
     options.Cookie.IsEssential = true;
 });
-
-
 //scopes de repositorios
+
+builder.Services.AddScoped<IRepositorioUsuario, RepositorioUsuario>();
 
 builder.Services.AddScoped<IRepositorioPaciente, RepositorioPaciente>();
 builder.Services.AddScoped<IRepositorioRecepcionista, RepositorioRecepcionista>();
 builder.Services.AddScoped<IRepositorioAdministrador, RepositorioAdministrador>();
+builder.Services.AddScoped<IRepositorioTotem, RepositorioTotem>();
+builder.Services.AddScoped<IRepositorioSesionTotem, RepositorioSesionTotem>();
+builder.Services.AddScoped<IRepositorioAccesoTotem, RepositorioAccesoTotem>();
 //Scope de casos de uso
 
 builder.Services.AddScoped<ABMPacientes, ABMPacientes>();
@@ -38,10 +46,15 @@ builder.Services.AddScoped<GetRecepcionistas, GetRecepcionistas>();
 builder.Services.AddScoped<ABMAdministradores, ABMAdministradores>();
 builder.Services.AddScoped<GetAdministradores, GetAdministradores>();
 
+builder.Services.AddScoped<ABMTotem, ABMTotem>();
+builder.Services.AddScoped<GetTotems, GetTotems>();
+
 
 //scopes de servicios
 
 builder.Services.AddScoped<SolicitarPacientesService, SolicitarPacientesService>();
+//Usuario
+builder.Services.AddScoped<ILogin, Login>();
 
 
 //Worker

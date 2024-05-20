@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 
 namespace LogicaNegocio.Entidades
 {
+
     public class Usuario : IValidar
     {
 
         public int Id { get; set; }
-        public string Nombre { get; set;}
-        public string NombreUsuario { get; set;}
-        public string Contrasenia { get; set;}
+        public string Nombre { get; set; }
+        public string NombreUsuario { get; set; }
+        public string Contrasenia { get; set; }
 
         public Usuario(string nombreUsr, string contrasenia)
         {

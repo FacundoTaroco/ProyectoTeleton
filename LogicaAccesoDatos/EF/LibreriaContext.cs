@@ -9,14 +9,38 @@ using System.Threading.Tasks;
 
 namespace LogicaAccesoDatos.EF
 {
-    public class LibreriaContext:DbContext
+    public class LibreriaContext : DbContext
     {
 
-
         public DbSet<Usuario> Usuarios { get; set; }
-        public DbSet<Paciente> Pacientes { get; set; } 
+        public DbSet<Paciente> Pacientes { get; set; }
         public DbSet<Recepcionista> Recepcionistas { get; set; }
         public DbSet<Administrador> Administradores { get; set; }
+        public DbSet<Totem> Totems { get; set; }
+        public DbSet<SesionTotem> SesionesTotem { get; set; }
+        public DbSet<AccesoTotem> AccesosTotem { get; set; }
+        
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+            base.OnModelCreating(modelBuilder);
+            /*
+            modelBuilder.Entity<AccesoTotem>() LUCAS: a acceso le saque totem como parametro
+                .HasOne(a => a._Totem)
+                .WithMany()
+                .HasForeignKey(a => a.TotemId);*/
+
+            // Creación de datos iniciales utilizando constructor para EF
+            var totemInstance = Totem.Instance;
+            modelBuilder.Entity<Totem>().HasData(new Totem
+            {
+                Id = 1,
+                Nombre = totemInstance.Nombre,
+                NombreUsuario = totemInstance.NombreUsuario,
+                Contrasenia = totemInstance.Contrasenia
+            });
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -26,10 +50,6 @@ namespace LogicaAccesoDatos.EF
             );
         }
 
-
-
-
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UsuarioConfiguration());//aca valido que no se repitan nombres de usuario
@@ -38,6 +58,7 @@ namespace LogicaAccesoDatos.EF
    
             base.OnModelCreating(modelBuilder);
         }
+
 
 
     }
