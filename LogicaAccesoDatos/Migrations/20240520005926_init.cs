@@ -16,7 +16,7 @@ namespace LogicaAccesoDatos.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NombreUsuario = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NombreUsuario = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Contrasenia = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Cedula = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -57,6 +57,7 @@ namespace LogicaAccesoDatos.Migrations
                     CedulaPaciente = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FechaHora = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Accion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TotemId = table.Column<int>(type: "int", nullable: false),
                     SesionTotemId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -67,6 +68,12 @@ namespace LogicaAccesoDatos.Migrations
                         column: x => x.SesionTotemId,
                         principalTable: "SesionesTotem",
                         principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_AccesosTotem_Usuarios_TotemId",
+                        column: x => x.TotemId,
+                        principalTable: "Usuarios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -80,9 +87,20 @@ namespace LogicaAccesoDatos.Migrations
                 column: "SesionTotemId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AccesosTotem_TotemId",
+                table: "AccesosTotem",
+                column: "TotemId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SesionesTotem_TotemId",
                 table: "SesionesTotem",
                 column: "TotemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Usuarios_NombreUsuario",
+                table: "Usuarios",
+                column: "NombreUsuario",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

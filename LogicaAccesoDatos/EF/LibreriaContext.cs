@@ -24,14 +24,8 @@ namespace LogicaAccesoDatos.EF
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-            base.OnModelCreating(modelBuilder);
-            /*
-            modelBuilder.Entity<AccesoTotem>() LUCAS: a acceso le saque totem como parametro
-                .HasOne(a => a._Totem)
-                .WithMany()
-                .HasForeignKey(a => a.TotemId);*/
 
-            // Creación de datos iniciales utilizando constructor para EF
+
             var totemInstance = Totem.Instance;
             modelBuilder.Entity<Totem>().HasData(new Totem
             {
@@ -40,6 +34,10 @@ namespace LogicaAccesoDatos.EF
                 NombreUsuario = totemInstance.NombreUsuario,
                 Contrasenia = totemInstance.Contrasenia
             });
+            modelBuilder.ApplyConfiguration(new UsuarioConfiguration());//aca valido que no se repitan nombres de usuario
+            base.OnModelCreating(modelBuilder);
+           
+         
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -49,16 +47,6 @@ namespace LogicaAccesoDatos.EF
             @"Data Source = (localdb)\MSSQLLocalDB;Initial Catalog=libreriaProyecto; Integrated Security=True;"
             );
         }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.ApplyConfiguration(new UsuarioConfiguration());//aca valido que no se repitan nombres de usuario
-
-            
-   
-            base.OnModelCreating(modelBuilder);
-        }
-
 
 
     }
