@@ -53,9 +53,10 @@ namespace AppTeleton.Controllers
                 ViewBag.TipoMensaje = "EXITO";
                 ViewBag.Mensaje = "Sesion iniciada correctamente";
 
-                if (tipoUsuario == "TOTEM") { 
-                
-                //Va a la vista de totem
+                if (tipoUsuario == "TOTEM") {
+
+                    //Va a la vista de totem
+                    return RedirectToAction("Index", "Totem");
                 }
                 return RedirectToAction("Index", "Home");
             }
@@ -90,20 +91,18 @@ namespace AppTeleton.Controllers
                 return View("Login");
             }
 
-
-
         }
         public IActionResult Logout()
         {
             HttpContext.Session.GetString("TIPO");
 
-            if (HttpContext.Session.GetString("TIPO") == "TOTEM") { 
-            
-                //redirect al logout de totem
+            if (HttpContext.Session.GetString("TIPO") == "TOTEM") {
+
+                return RedirectToAction("CerrarSesion", "Totem");
             }
             HttpContext.Session.Clear();
             ViewBag.TipoMensaje = "ERROR";
-            ViewBag.Mensaje = "Se cerro la sesion";
+            ViewBag.Mensaje = "Se cerró la sesion";
             return View("Login");
         }
 

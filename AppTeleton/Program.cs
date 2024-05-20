@@ -9,6 +9,7 @@ using NuGet.Protocol.Plugins;
 using LogicaNegocio.InterfacesDominio;
 using LogicaAplicacion.CasosUso.Usuario;
 using AppTeleton.Worker;
+using LogicaAplicacion.CasosUso.MedicoCU;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -48,6 +49,9 @@ builder.Services.AddScoped<GetAdministradores, GetAdministradores>();
 
 builder.Services.AddScoped<ABMTotem, ABMTotem>();
 builder.Services.AddScoped<GetTotems, GetTotems>();
+
+builder.Services.AddScoped<ABMMedicos, ABMMedicos>();
+builder.Services.AddScoped<GetMedicos, GetMedicos>();
 
 
 //scopes de servicios
