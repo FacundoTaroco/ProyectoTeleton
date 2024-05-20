@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LogicaNegocio.InterfacesDominio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace LogicaNegocio.Entidades
 {
-    public class Usuario
+
+    public class Usuario : IValidar
     {
 
         public int Id { get; set; }
@@ -29,5 +31,19 @@ namespace LogicaNegocio.Entidades
         //constructor vacio
         public Usuario() { }
 
+        public void Validar()
+        {
+            try
+            {
+                if (String.IsNullOrEmpty(Nombre) || String.IsNullOrEmpty(NombreUsuario) || String.IsNullOrEmpty(Contrasenia)) {
+                    throw new Exception("Ingrese todos los campos");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

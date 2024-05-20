@@ -20,9 +20,51 @@
 
 }
 
-<h1>ListadoUsuarios</h1>
 
-<h3>PACIENTES</h3>
+
+<form method="get" action="@Url.Action("VerTipoUsuario", "Administrador")">
+    <label for="opcion">Seleccione el tipo de usuario</label>
+    <select name="opcion" onchange="this.form.submit()">
+
+        @if (ViewBag.TipoUsuario == "PACIENTE")
+        {
+            <option value="paciente" selected>Pacientes</option>
+        }
+        else
+        {
+            <option value="paciente">Pacientes</option>
+        }
+        @if (ViewBag.TipoUsuario == "RECEPCIONISTA")
+        {
+            <option value="recepcionista" selected>Recepcionistas</option>
+        }
+        else
+        {
+            <option value="recepcionista">Recepcionistas</option>
+        }
+        @if (ViewBag.TipoUsuario == "ADMIN")
+        {
+            <option value="admin" selected>Administradores</option>
+        }
+        else
+        {
+            <option value="admin">Administradores</option>
+        }
+    </select>
+</form>
+
+
+@if (ViewBag.TipoUsuario == "PACIENTE")
+{
+    <h1>Pacientes</h1>
+
+<form asp-action="ActualizarPacientes" method="post">
+
+     <div class="form-group">
+            <input type="submit" value="Actualizar Pacientes" class="btn btn-primary" />
+     </div>
+
+</form>
 <table class="table">
     <thead>
         <tr>
@@ -44,6 +86,9 @@
             <th>
                 Contacto
             </th>
+                <th>
+                    
+                </th>
         </tr>
     </thead>
     <tbody>
@@ -69,19 +114,26 @@
                     @Html.DisplayFor(modelItem => item.Contacto)
                 </td>
                 <td>
-                    <!--ACA VA LA BOTONERA-->
+                        @Html.ActionLink("Delete", "Delete","Paciente", new { id=item.Id})
+                        @Html.ActionLink("Editar", "Editar", new { /* id=item.PrimaryKey */ })
                 </td>
             </tr>
         }
     </tbody>
-</table>
+    </table>
+}
 
+@if(ViewBag.TipoUsuario == "RECEPCIONISTA"){
+    <h1>Recepcionistas</h1>
 
+    <form asp-action="AgregarRecepcionista" method="get">
+        <div class="form-group">
+            <input type="submit" value="Crear Recepcionista" class="btn btn-primary"/>
+        </div>
+    </form>
 
-
-
-<h3>RECEPCIONISTAS</h3>
-<table class="table">
+     
+     <table class="table">
     <thead>
         <tr>
             <th>
@@ -120,47 +172,69 @@
             </tr>
         }
     </tbody>
-</table
+    </table>
+}
 
+@if (ViewBag.TipoUsuario == "ADMIN")
+{
 
-<h3>ADMINS</h3>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Id
-            </th>
-            <th>
-                Nombre
-            </th>
-            <th>
-                Usuario
-            </th>
-            <th>
-                Contraseña
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Administrador)
-        {
+    <h1>Administradores</h1>
+
+    <form asp-action="AgregarAdmin" method="get">
+        <div class="form-group">
+            <input type="submit" value="Crear Administrador" class="btn btn-primary" />
+        </div>
+    </form>
+
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NombreUsuario)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Contrasenia)
-                </td>
-                <td>
-                </td>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Nombre
+                </th>
+                <th>
+                    Usuario
+                </th>
+                <th>
+                    Contraseña
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Administrador)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NombreUsuario)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Contrasenia)
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+
+
+
+
+
+
+
+
+

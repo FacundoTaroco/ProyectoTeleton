@@ -8,6 +8,8 @@ using LogicaAplicacion.CasosUso.TotemCU;
 using NuGet.Protocol.Plugins;
 using LogicaNegocio.InterfacesDominio;
 using LogicaAplicacion.CasosUso.Usuario;
+using AppTeleton.Worker;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,8 +24,6 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;                      //mantener abierto indefinidamente
     options.Cookie.IsEssential = true;
 });
-
-
 //scopes de repositorios
 
 builder.Services.AddScoped<IRepositorioUsuario, RepositorioUsuario>();
@@ -38,6 +38,7 @@ builder.Services.AddScoped<IRepositorioAccesoTotem, RepositorioAccesoTotem>();
 
 builder.Services.AddScoped<ABMPacientes, ABMPacientes>();
 builder.Services.AddScoped<GetPacientes, GetPacientes>();
+builder.Services.AddScoped<ActualizarPacientes, ActualizarPacientes>();
 
 builder.Services.AddScoped<ABMRecepcionistas, ABMRecepcionistas>();
 builder.Services.AddScoped<GetRecepcionistas, GetRecepcionistas>();
@@ -54,6 +55,10 @@ builder.Services.AddScoped<GetTotems, GetTotems>();
 builder.Services.AddScoped<SolicitarPacientesService, SolicitarPacientesService>();
 //Usuario
 builder.Services.AddScoped<ILogin, Login>();
+
+
+//Worker
+builder.Services.AddHostedService<NativeWorker>();
 
 var app = builder.Build();
 

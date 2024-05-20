@@ -24,7 +24,8 @@ namespace LogicaAccesoDatos.EF
                 if (obj == null) { throw new Exception("No se recibio el admin"); }//hacer algunas excepciones personalizadas 
                 obj.Validar();
                 obj.Id = 0;
-                //Validar paciente unique con los config!!
+              
+                ValidarUnique(obj);
                 _context.Administradores.Add(obj);
                 _context.SaveChanges();
             }
@@ -32,6 +33,25 @@ namespace LogicaAccesoDatos.EF
             {
                 throw;
             }
+        }
+
+        public void ValidarUnique(Administrador obj) {
+            try
+            {
+                foreach (Administrador a in GetAll()) {
+
+                    if (a.NombreUsuario.Equals(obj.NombreUsuario)) {
+
+                        throw new Exception("El administrador ya existe, ingrese otro nombre de usuario");
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+       
         }
 
         public void Delete(int id)

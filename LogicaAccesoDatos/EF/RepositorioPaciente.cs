@@ -1,4 +1,5 @@
-﻿using LogicaNegocio.Entidades;
+﻿using LogicaAccesoDatos.EF.Excepciones;
+using LogicaNegocio.Entidades;
 using LogicaNegocio.InterfacesRepositorio;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace LogicaAccesoDatos.EF
                 if (obj == null) { throw new Exception("No se recibio el usuario"); }//hacer algunas excepciones personalizadas 
                 obj.Validar();
                 obj.Id = 0;
-                //Validar paciente unique con los config!!
+                ValidarUnique(obj);
                 _context.Pacientes.Add(obj);
                 _context.SaveChanges();
 
@@ -33,7 +34,27 @@ namespace LogicaAccesoDatos.EF
                 throw;
             }
         }
+        public void ValidarUnique(Paciente obj)
+        {
+            try
+            {
+                foreach (Paciente a in GetAll())
+                {
 
+                    if (a.NombreUsuario.Equals(obj.NombreUsuario))
+                    {
+
+                        throw new Exception("El paciente ya existe");
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
         public void Delete(int id)
         {
             try { 
@@ -72,7 +93,7 @@ namespace LogicaAccesoDatos.EF
                 var paciente = _context.Pacientes.FirstOrDefault(paciente => paciente.Cedula.Equals(cedula));
                 if (paciente == null) {
 
-                    throw new Exception("No se encontro ningun paciente con esa cedula");
+                    throw new ObjetoNoEncontradoException("No se encontro ningun paciente con esa cedula");
                 }
                 return paciente;
 
@@ -97,7 +118,7 @@ namespace LogicaAccesoDatos.EF
                 var paciente = _context.Pacientes.FirstOrDefault(paciente => paciente.Id == id);
                 if (paciente == null)
                 {
-                    throw new Exception("No se encontro ningun paciente con esa cedula");
+                    throw new ObjetoNoEncontradoException("No se encontro ningun paciente con ese id");
                 }
                 return paciente;
 

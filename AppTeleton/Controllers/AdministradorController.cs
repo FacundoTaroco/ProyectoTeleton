@@ -16,19 +16,49 @@ namespace AppTeleton.Controllers
         public GetPacientes _getPacientes;
         public ABMAdministradores _ABMAdministradores;
         public ABMRecepcionistas _ABMRecepcionistas;
-        public ABMTotem _ABMTotem;
-        public AdministradorController(GetAdministradores listaAdmins, GetRecepcionistas listaRecepcionistas, GetPacientes listaPacientes, ABMAdministradores abmAdministradores, ABMRecepcionistas abmRecepcionistas, ABMTotem abmTotem)
+        public ActualizarPacientes _actualizarPacientes;
+        public AdministradorController(GetAdministradores listaAdmins, GetRecepcionistas listaRecepcionistas, GetPacientes listaPacientes, ABMAdministradores abmAdministradores, ABMRecepcionistas abmRecepcionistas, ActualizarPacientes actualizarPacientes)
         {
             _getAdministradores = listaAdmins;
             _getRecepcionistas = listaRecepcionistas;
             _getPacientes = listaPacientes;
             _ABMAdministradores = abmAdministradores;
             _ABMRecepcionistas = abmRecepcionistas;
+            _actualizarPacientes = actualizarPacientes;
         }
-        public IActionResult Index()
+      
+        [HttpGet]
+        public IActionResult Index(string tipoUsuario,string tipoMensaje, string mensaje)
         {
+            if(!String.IsNullOrEmpty(tipoMensaje) && !String.IsNullOrEmpty(mensaje)) {
+                ViewBag.TipoMensaje = tipoMensaje;
+                ViewBag.Mensaje = mensaje;  
             
+            }
+            ViewBag.TipoUsuario = tipoUsuario;
+            if (String.IsNullOrEmpty(tipoUsuario)) {
+                ViewBag.TipoUsuario = "PACIENTE";
+            }
             return View(ObtenerModeloUsuarios());
+        }
+
+        [HttpGet]
+        public IActionResult VerTipoUsuario(string opcion) {
+
+            if (opcion == "paciente")
+            {
+                ViewBag.TipoUsuario = "PACIENTE";
+            }
+            else if (opcion == "recepcionista") {
+                ViewBag.TipoUsuario = "RECEPCIONISTA";
+            }
+            else if (opcion == "admin")
+            {
+                ViewBag.TipoUsuario = "ADMIN";
+            }
+
+            return View("Index", ObtenerModeloUsuarios());
+
         }
 
 
@@ -45,6 +75,7 @@ namespace AppTeleton.Controllers
                 _ABMAdministradores.AltaAdmin(admin);
                 ViewBag.TipoMensaje = "EXITO";
                 ViewBag.Mensaje = "Administrador agregado con exito";
+                ViewBag.TipoUsuario = "ADMIN";
                 return View("Index", ObtenerModeloUsuarios());
 
 
@@ -74,6 +105,7 @@ namespace AppTeleton.Controllers
                 _ABMRecepcionistas.AltaRecepcionista(recepcionista);
                 ViewBag.TipoMensaje = "EXITO";
                 ViewBag.Mensaje = "Recepcionista agregado con exito";
+                ViewBag.TipoUsuario = "RECEPCIONISTA";
                 return View("Index", ObtenerModeloUsuarios());
             }
             catch (Exception e)
@@ -84,6 +116,28 @@ namespace AppTeleton.Controllers
             }
 
            
+        }
+
+        [HttpPost] 
+        public async Task<IActionResult> ActualizarPacientes() {
+            try
+            {
+
+                await _actualizarPacientes.Actualizar();
+                ViewBag.TipoMensaje = "EXITO";
+                ViewBag.Mensaje ="Usuarios Actualizados con exito";
+                ViewBag.TipoUsuario = "PACIENTE";
+                return View("Index", ObtenerModeloUsuarios());
+            }
+            catch (Exception e)
+            {
+
+                ViewBag.TipoMensaje = "ERROR";
+                ViewBag.Mensaje = e.Message;
+                ViewBag.TipoUsuario = "PACIENTE";
+                return View("Index", ObtenerModeloUsuarios());
+            }
+        
         }
 
         private UsuariosViewModel ObtenerModeloUsuarios() {

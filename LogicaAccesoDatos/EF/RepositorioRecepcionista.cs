@@ -15,7 +15,7 @@ namespace LogicaAccesoDatos.EF
         {
             _context = context;
         }
-
+        //comentario de prueba
         public void Add(Recepcionista obj)
         {
 
@@ -24,8 +24,8 @@ namespace LogicaAccesoDatos.EF
                 if (obj == null) { throw new Exception("No se recibio el usuario"); }//hacer algunas excepciones personalizadas 
                 obj.Validar();
                 obj.Id = 0;
-                //Validar paciente unique con los config!!
-
+             
+                ValidarUnique(obj);
                 _context.Recepcionistas.Add(obj);
                 _context.SaveChanges();
 
@@ -50,7 +50,27 @@ namespace LogicaAccesoDatos.EF
             }
             catch (Exception) { throw; }
         }
+        public void ValidarUnique(Recepcionista obj)
+        {
+            try
+            {
+                foreach (Recepcionista a in GetAll())
+                {
 
+                    if (a.NombreUsuario.Equals(obj.NombreUsuario))
+                    {
+
+                        throw new Exception("La recepcionista ya existe, ingrese otro nombre de usuario");
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
         public IEnumerable<Recepcionista> GetAll()
         {
             try
