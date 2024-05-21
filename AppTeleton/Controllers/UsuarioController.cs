@@ -5,6 +5,7 @@ using LogicaNegocio.Entidades;
 using LogicaNegocio.Excepciones;
 using LogicaNegocio.InterfacesDominio;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.IIS.Core;
 using NuGet.Protocol.Plugins;
 
 namespace AppTeleton.Controllers
@@ -59,8 +60,12 @@ namespace AppTeleton.Controllers
                 ViewBag.TipoMensaje = "EXITO";
                 ViewBag.Mensaje = "Sesion iniciada correctamente";
 
+
+
+
                 if (tipoUsuario == "TOTEM") {
                 
+
                     Totem totem = _getTotems.GetTotemPorUsr(nombre);
                     SesionTotem nuevaSesionTotem = new SesionTotem(totem);
                     SesionTotem sesionTot = _abmSesionTotem.AgregarSesion(nuevaSesionTotem);
@@ -70,7 +75,26 @@ namespace AppTeleton.Controllers
 
                 }
 
-                return RedirectToAction("Index", "Home");
+                else if (tipoUsuario == "PACIENTE")
+                {
+
+                    return RedirectToAction("Index", "Paciente");
+
+                }
+                else if (tipoUsuario == "RECEPCIONISTA")
+                {
+                    return RedirectToAction("Index", "Recepcionista");
+
+                }
+                else if (tipoUsuario == "ADMIN")
+                {
+                    return RedirectToAction("Index", "Administrador");
+
+                }
+                else {
+                    throw new Exception("No se recibio el tipo de usuario");
+                }
+
             }
             catch (UsuarioException e)
             {
