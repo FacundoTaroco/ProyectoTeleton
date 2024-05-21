@@ -21,9 +21,5 @@ namespace LogicaNegocio.Entidades
             Contacto = contacto;
         }
 
-        public void Validar()
-        {
-           //Implementar validacion
-        }
     }
 }

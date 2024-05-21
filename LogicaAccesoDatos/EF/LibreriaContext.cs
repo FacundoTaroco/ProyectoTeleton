@@ -19,7 +19,10 @@ namespace LogicaAccesoDatos.EF
         public DbSet<Totem> Totems { get; set; }
         public DbSet<SesionTotem> SesionesTotem { get; set; }
         public DbSet<AccesoTotem> AccesosTotem { get; set; }
-        
+        public DbSet<Medico> Medicos{ get; set; }
+        public DbSet<SesionMedico> SesionesMedico { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

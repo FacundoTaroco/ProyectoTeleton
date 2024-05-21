@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LogicaAplicacion.CasosUso.Usuario
+namespace LogicaAplicacion.CasosUso.UsuarioCU
 {
     public class Login : ILogin
     {

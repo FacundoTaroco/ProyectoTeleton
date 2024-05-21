@@ -1,5 +1,6 @@
 ﻿using AppTeleton.Models;
 using LogicaAplicacion.CasosUso.AdministradorCU;
+using LogicaAplicacion.CasosUso.MedicoCU;
 using LogicaAplicacion.CasosUso.PacienteCU;
 using LogicaAplicacion.CasosUso.RecepcionistaCU;
 using LogicaAplicacion.CasosUso.TotemCU;
@@ -14,14 +15,17 @@ namespace AppTeleton.Controllers
         public GetAdministradores _getAdministradores;
         public GetRecepcionistas _getRecepcionistas;
         public GetPacientes _getPacientes;
+        public GetMedicos _getMedicos;
         public ABMAdministradores _ABMAdministradores;
         public ABMRecepcionistas _ABMRecepcionistas;
         public ActualizarPacientes _actualizarPacientes;
-        public AdministradorController(GetAdministradores listaAdmins, GetRecepcionistas listaRecepcionistas, GetPacientes listaPacientes, ABMAdministradores abmAdministradores, ABMRecepcionistas abmRecepcionistas, ActualizarPacientes actualizarPacientes)
+        
+        public AdministradorController(GetAdministradores listaAdmins, GetRecepcionistas listaRecepcionistas, GetPacientes listaPacientes, GetMedicos listaMedicos, ABMAdministradores abmAdministradores, ABMRecepcionistas abmRecepcionistas, ActualizarPacientes actualizarPacientes)
         {
             _getAdministradores = listaAdmins;
             _getRecepcionistas = listaRecepcionistas;
             _getPacientes = listaPacientes;
+            _getMedicos = listaMedicos;
             _ABMAdministradores = abmAdministradores;
             _ABMRecepcionistas = abmRecepcionistas;
             _actualizarPacientes = actualizarPacientes;
@@ -144,7 +148,10 @@ namespace AppTeleton.Controllers
             IEnumerable<Paciente> pacientes = _getPacientes.GetAll();
             IEnumerable<Recepcionista> recepcionistas = _getRecepcionistas.GetAll();
             IEnumerable<Administrador> admins = _getAdministradores.GetAll();
-            UsuariosViewModel modeloIndex = new UsuariosViewModel(pacientes, admins, recepcionistas);
+            IEnumerable<Medico> medicos= _getMedicos.GetAll();
+
+
+            UsuariosViewModel modeloIndex = new UsuariosViewModel(pacientes, admins, recepcionistas, medicos);
             return modeloIndex;
         }
 

@@ -60,8 +60,11 @@ namespace AppTeleton.Controllers
                 ViewBag.TipoMensaje = "EXITO";
                 ViewBag.Mensaje = "Sesion iniciada correctamente";
 
-                if (tipoUsuario == "TOTEM")
-                {
+
+
+
+                if (tipoUsuario == "TOTEM") {
+                
 
                     Totem totem = _getTotems.GetTotemPorUsr(nombre);
                     SesionTotem nuevaSesionTotem = new SesionTotem(totem);
@@ -69,7 +72,9 @@ namespace AppTeleton.Controllers
                     HttpContext.Session.SetInt32("SESIONTOTEM", sesionTot.Id);
                     return RedirectToAction("Index", "Totem");
 
+
                 }
+
                 else if (tipoUsuario == "PACIENTE")
                 {
 
@@ -89,6 +94,7 @@ namespace AppTeleton.Controllers
                 else {
                     throw new Exception("No se recibio el tipo de usuario");
                 }
+
             }
             catch (UsuarioException e)
             {
@@ -122,21 +128,14 @@ namespace AppTeleton.Controllers
             }
 
 
-
         }
         public IActionResult Logout()
         {
-            HttpContext.Session.GetString("TIPO");
 
-            if (HttpContext.Session.GetString("TIPO") == "TOTEM") { 
-            
-                //redirect al logout de totem
-            }
             HttpContext.Session.Clear();
             ViewBag.TipoMensaje = "ERROR";
-            ViewBag.Mensaje = "Se cerro la sesion";
+            ViewBag.Mensaje = "Se cerró la sesion";
             return View("Login");
         }
-
     }
 }

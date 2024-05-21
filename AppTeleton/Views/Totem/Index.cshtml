@@ -4,7 +4,21 @@
 @{
 }
 
+@{
+    ViewData["Title"] = "Login";
+    if (ViewBag.Mensaje != null)
+    {
+        if (ViewBag.TipoMensaje == "ERROR")
+        {
+            <div class="alert alert-danger" role="alert">@ViewBag.Mensaje</div>
+        }
+        else if (ViewBag.TipoMensaje == "EXITO")
+        {
+            <div class="alert alert-success" role="alert">@ViewBag.Mensaje</div>
+        }
 
+    }
+}
 
 
 
