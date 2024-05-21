@@ -10,9 +10,9 @@ namespace LogicaAplicacion.CasosUso.MedicoCU
 {
     public class ABMMedicos
     {
-        private IRespositorioMedico _repo;
+        private IRepositorioMedico _repo;
 
-        public ABMMedicos(IRespositorioMedico repo)
+        public ABMMedicos(IRepositorioMedico repo)
         {
             _repo = repo;
         }

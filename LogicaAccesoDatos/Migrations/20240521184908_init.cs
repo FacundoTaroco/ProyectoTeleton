@@ -28,6 +28,27 @@ namespace LogicaAccesoDatos.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SesionesMedico",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    InicioSesion = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SesionAbierta = table.Column<bool>(type: "bit", nullable: false),
+                    MedicoId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SesionesMedico", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SesionesMedico_Usuarios_MedicoId",
+                        column: x => x.MedicoId,
+                        principalTable: "Usuarios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SesionesTotem",
                 columns: table => new
                 {
@@ -92,6 +113,11 @@ namespace LogicaAccesoDatos.Migrations
                 column: "TotemId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SesionesMedico_MedicoId",
+                table: "SesionesMedico",
+                column: "MedicoId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SesionesTotem_TotemId",
                 table: "SesionesTotem",
                 column: "TotemId");
@@ -107,6 +133,9 @@ namespace LogicaAccesoDatos.Migrations
         {
             migrationBuilder.DropTable(
                 name: "AccesosTotem");
+
+            migrationBuilder.DropTable(
+                name: "SesionesMedico");
 
             migrationBuilder.DropTable(
                 name: "SesionesTotem");

@@ -30,6 +30,7 @@ builder.Services.AddSession(options =>
 builder.Services.AddScoped<IRepositorioUsuario, RepositorioUsuario>();
 
 builder.Services.AddScoped<IRepositorioPaciente, RepositorioPaciente>();
+builder.Services.AddScoped<IRepositorioMedico, RepositorioMedico>();
 builder.Services.AddScoped<IRepositorioRecepcionista, RepositorioRecepcionista>();
 builder.Services.AddScoped<IRepositorioAdministrador, RepositorioAdministrador>();
 builder.Services.AddScoped<IRepositorioTotem, RepositorioTotem>();

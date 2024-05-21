@@ -10,15 +10,15 @@ namespace AppTeleton.Models
         public IEnumerable<Administrador> Administrador;
         public IEnumerable<Recepcionista> Recepcionistas;
         public IEnumerable<Medico> Medicos;
-        public IEnumerable<Cita> Citas;
+        //public IEnumerable<Cita> Citas;
 
         public UsuariosViewModel() { }
-        public UsuariosViewModel(IEnumerable<Paciente> pacientes, IEnumerable<Administrador> administradores, IEnumerable<Recepcionista> recepcionistas, IEnumerable<Medico> medicos, IEnumerable<Cita> citas) { 
+        public UsuariosViewModel(IEnumerable<Paciente> pacientes, IEnumerable<Administrador> administradores, IEnumerable<Recepcionista> recepcionistas, IEnumerable<Medico> medicos/*, IEnumerable<Cita> citas*/) { 
             Pacientes = pacientes;
             Administrador = administradores;
             Recepcionistas = recepcionistas;
             Medicos = medicos;
-            Citas = citas;
+            //Citas = citas;
         }
     }
 }

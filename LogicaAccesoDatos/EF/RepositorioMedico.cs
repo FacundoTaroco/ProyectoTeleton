@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LogicaAccesoDatos.EF
 {
-    public class RepositorioMedico : IRespositorioMedico
+    public class RepositorioMedico : IRepositorioMedico
     {
 
         private LibreriaContext _context;

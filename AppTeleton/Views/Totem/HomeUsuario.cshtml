@@ -1,0 +1,228 @@
+﻿@{
+    ViewData["Title"] = "HomeUsuario";
+}
+@{
+    if (ViewBag.Mensaje != null)
+    {
+        if (ViewBag.TipoMensaje == "ERROR")
+        {
+    <div class="alert alert-danger" role="alert">@ViewBag.Mensaje</div>
+        }
+        else if (ViewBag.TipoMensaje == "EXITO")
+        {
+    <div class="alert alert-success" role="alert">@ViewBag.Mensaje</div>
+        }
+
+    }
+}
+
+@{
+    ViewData["Title"] = "HomeUsuario";
+    Layout = null; // Si tienes un layout general, cambia esto por el nombre del layout
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - My ASP.NET Application</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <style>
+        .full-height {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar {
+            background-color: #e83844;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+            .sidebar ul {
+                list-style-type: none;
+                padding: 0;
+            }
+
+                .sidebar ul li {
+                    margin: 10px 0;
+                }
+
+                    .sidebar ul li a {
+                        color: white;
+                        text-decoration: none;
+                        padding: 10px;
+                        display: flex;
+                        align-items: center;
+                        border: 2px solid transparent;
+                        transition: all 0.3s ease;
+                    }
+
+                        .sidebar ul li a:hover {
+                            background-color: #ff6666;
+                            border-color: #ff6666;
+                            color: white;
+                            text-decoration: none;
+                        }
+
+                        .sidebar ul li a i {
+                            margin-right: 10px;
+                        }
+
+        .content {
+            padding: 20px;
+        }
+
+            .content h3 {
+                text-align: center;
+            }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        @if (ViewBag.Mensaje != null)
+        {
+            if (ViewBag.TipoMensaje == "ERROR")
+            {
+        <div class="alert alert-danger" role="alert">@ViewBag.Mensaje</div>
+            }
+            else if (ViewBag.TipoMensaje == "EXITO")
+            {
+        <div class="alert alert-success" role="alert">@ViewBag.Mensaje</div>
+            }
+        }
+
+        <div class="row">
+            <div class="col-md-2 text-white full-height sidebar">
+                <div>
+                    <h3>Menú</h3>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white"><i class="fas fa-calendar-alt"></i> Tratamientos para hoy</a></li>
+                        <li><a href="#" class="text-white"><i class="fas fa-question-circle"></i> Preguntas frecuentes</a></li>
+                        <li><a href="#" class="text-white"><i class="fas fa-map-marker-alt"></i> Mapa del centro</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <ul class="list-unstyled">
+                        <li><a href="@Url.Action("CerrarSesion", "Totem")" class="text-white"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-10 content">
+                <h3>Tratamientos para hoy</h3>
+                <form asp-action="ActualizarCitas" method="post">
+                    <input type="submit" value="Actualizar Citas" class="btn btn-primary" />
+                </form>
+
+                <table class="table table-bordered mt-3">
+                    <thead>
+                        <tr>
+                            <th>Nombre Tratamiento</th>
+                            <th>Hora</th>
+                            <th>Nombre Medico</th>
+                            <th>Cuarto</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Aquí irán las filas de datos -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+<!--<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title> ["Title"] - My ASP.NET Application</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;
+        }
+        .sidebar {
+            width: 20%;
+            background-color: #ff0000;
+            padding: 20px;
+            color: white;
+        }
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            margin: 10px 0;
+        }
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        .sidebar ul li a:hover {
+            text-decoration: underline;
+        }
+        .content {
+            width: 80%;
+            padding: 20px;
+        }
+        .content table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .content table, .content th, .content td {
+            border: 1px solid black;
+        }
+        .content th, .content td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h3>Menú</h3>
+            <ul>
+                <li><a href="#">Tratamientos para hoy</a></li>
+                <li><a href="#">Preguntas frecuentes</a></li>
+                <li><a href="#">Mapa del centro</a></li>
+                <li style="margin-top: auto;"><a href="">Cerrar sesión</a></li>
+            </ul>
+        </div>
+        <div class="content">
+            <h3>Tratamientos para hoy</h3>
+            <form asp-action="ActualizarCitas" method="post">
+                <input type="submit" value="Actualizar Citas" class="btn btn-primary" />
+            </form>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre Tratamiento</th>
+                        <th>Hora</th>
+                        <th>Nombre Medico</th>
+                        <th>Cuarto</th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
+-->

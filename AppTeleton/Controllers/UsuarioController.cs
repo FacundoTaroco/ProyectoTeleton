@@ -94,17 +94,10 @@ namespace AppTeleton.Controllers
         }
         public IActionResult Logout()
         {
-            HttpContext.Session.GetString("TIPO");
-
-            if (HttpContext.Session.GetString("TIPO") == "TOTEM") {
-
-                return RedirectToAction("CerrarSesion", "Totem");
-            }
             HttpContext.Session.Clear();
             ViewBag.TipoMensaje = "ERROR";
             ViewBag.Mensaje = "Se cerró la sesion";
             return View("Login");
         }
-
     }
 }

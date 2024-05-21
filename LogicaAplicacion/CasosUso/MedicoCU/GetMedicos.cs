@@ -10,8 +10,8 @@ namespace LogicaAplicacion.CasosUso.MedicoCU
 {
     public class GetMedicos
     {
-        private IRespositorioMedico _repo;
-        public GetMedicos(IRespositorioMedico repo)
+        private IRepositorioMedico _repo;
+        public GetMedicos(IRepositorioMedico repo)
         {
             _repo = repo;
         }

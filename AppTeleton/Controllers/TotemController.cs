@@ -23,6 +23,10 @@ namespace AppTeleton.Controllers
         {
             return View();
         }
+        public IActionResult HomeUsuario()
+        {
+            return View();
+        }
 
         [HttpPost]
         public IActionResult CerrarSesion(string NombreUsuario, string Contrasenia)
@@ -35,7 +39,7 @@ namespace AppTeleton.Controllers
                 // Si la validación es correcta y el usuario es un totem, redirige al Logout de UsuarioController
                 if (tipoUsuario == "TOTEM")
                 {
-                    return RedirectToAction("Logout", "Usuario", new { isTotem = true });
+                    return RedirectToAction("Logout", "Usuario");
                 }
 
                 // Si no es un usuario totem, mostrar mensaje de error
