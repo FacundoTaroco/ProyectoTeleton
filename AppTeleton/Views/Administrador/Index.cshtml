@@ -42,6 +42,14 @@
         {
             <option value="recepcionista">Recepcionistas</option>
         }
+        @if (ViewBag.TipoUsuario == "MEDICO")
+        {
+            <option value="medico" selected>Medicos</option>
+        }
+        else
+        {
+            <option value="medico">Medicos</option>
+        }
         @if (ViewBag.TipoUsuario == "ADMIN")
         {
             <option value="admin" selected>Administradores</option>
@@ -172,6 +180,59 @@
             </tr>
         }
     </tbody>
+    </table>
+}
+
+@if (ViewBag.TipoUsuario == "MEDICO")
+{
+    <h1>Medicos</h1>
+
+    <form asp-action="AgregarMedico" method="get">
+        <div class="form-group">
+            <input type="submit" value="Crear Medico" class="btn btn-primary" />
+        </div>
+    </form>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Nombre
+                </th>
+                <th>
+                    Usuario
+                </th>
+                <th>
+                    Contraseña
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Medicos)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NombreUsuario)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Contrasenia)
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            }
+        </tbody>
     </table>
 }
 

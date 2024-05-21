@@ -4,6 +4,7 @@ using LogicaAccesoDatos.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LogicaAccesoDatos.Migrations
 {
     [DbContext(typeof(LibreriaContext))]
-    partial class LibreriaContextModelSnapshot : ModelSnapshot
+    [Migration("20240521184908_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,6 +32,10 @@ namespace LogicaAccesoDatos.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("Accion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CedulaPaciente")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -37,15 +43,17 @@ namespace LogicaAccesoDatos.Migrations
                     b.Property<DateTime>("FechaHora")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("IdSesionTotem")
+                    b.Property<int?>("SesionTotemId")
                         .HasColumnType("int");
 
-                    b.Property<int>("_SesionTotemId")
+                    b.Property<int>("TotemId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("_SesionTotemId");
+                    b.HasIndex("SesionTotemId");
+
+                    b.HasIndex("TotemId");
 
                     b.ToTable("AccesosTotem");
                 });
@@ -180,19 +188,23 @@ namespace LogicaAccesoDatos.Migrations
                             Id = 1,
                             Contrasenia = "totem123",
                             Nombre = "Totem Montevideo",
-                            NombreUsuario = "totemMVD"
+                            NombreUsuario = "totem"
                         });
                 });
 
             modelBuilder.Entity("LogicaNegocio.Entidades.AccesoTotem", b =>
                 {
-                    b.HasOne("LogicaNegocio.Entidades.SesionTotem", "_SesionTotem")
+                    b.HasOne("LogicaNegocio.Entidades.SesionTotem", null)
                         .WithMany("Accesos")
-                        .HasForeignKey("_SesionTotemId")
+                        .HasForeignKey("SesionTotemId");
+
+                    b.HasOne("LogicaNegocio.Entidades.Totem", "Totem")
+                        .WithMany()
+                        .HasForeignKey("TotemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("_SesionTotem");
+                    b.Navigation("Totem");
                 });
 
             modelBuilder.Entity("LogicaNegocio.Entidades.SesionMedico", b =>

@@ -1,5 +1,4 @@
 ﻿using LogicaNegocio.InterfacesDominio;
-using LogicaNegocio.Entidades;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,30 +7,26 @@ using System.Threading.Tasks;
 
 namespace LogicaNegocio.Entidades
 {
-    public class Totem: Usuario, IValidar
+    public class Medico : Usuario, IValidar
     {
-        private static Totem instance = null;
+
+        private static Medico instance = null;
         private static readonly object padlock = new object();
 
-        public List<SesionTotem> Sesiones { get; set; } = new List<SesionTotem>();
-       
+        public List<SesionMedico> Sesiones { get; set; } = new List<SesionMedico>();
 
-        // Constructor privado para patrón singleton
-        private Totem()
+        private Medico()
         {
-
-            //this.Nombre = "Totem Principal";
-
-            this.Nombre = "Totem Montevideo";
-            this.NombreUsuario = "totemMVD";
-            this.Contrasenia = "totem123";
+            this.Nombre = "Medico 1";
+            this.NombreUsuario = "medico";
+            this.Contrasenia = "medico123";
         }
 
         // Constructor público requerido por Entity Framework
-        public Totem(bool forEF = false)
+        public Medico(bool forEF = false)
         {
         }
-        public static Totem Instance
+        public static Medico Instance
         {
             get
             {
@@ -39,11 +34,13 @@ namespace LogicaNegocio.Entidades
                 {
                     if (instance == null)
                     {
-                        instance = new Totem();
+                        instance = new Medico();
                     }
                     return instance;
                 }
             }
         }
+
+
     }
 }

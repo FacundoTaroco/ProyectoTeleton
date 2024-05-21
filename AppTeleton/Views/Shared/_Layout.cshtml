@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/AppTeleton.styles.css" asp-append-version="true" />
 </head>
+
 <body>@if (Context.Session.GetString("TIPO") != "TOTEM")
     {
         <header>  
@@ -31,7 +32,10 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Administrador" asp-action="Index" asp-route-tipoUsuario="PACIENTE">Usuarios</a>
                             </li>
 
-                            
+                            <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Totem" asp-action="HomeUsuario">Totem</a>
+                          </li>
+                          
                         </ul>
                     </div>
 

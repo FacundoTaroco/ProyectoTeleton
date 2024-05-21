@@ -9,9 +9,12 @@ using NuGet.Protocol.Plugins;
 using LogicaNegocio.InterfacesDominio;
 using LogicaAplicacion.CasosUso.UsuarioCU;
 using AppTeleton.Worker;
+
+using LogicaAplicacion.CasosUso.MedicoCU;
 using LogicaAplicacion.CasosUso.AccesoTotemCU;
 using LogicaAplicacion.CasosUso.SesionTotemCU;
 using LogicaAplicacion.CasosUso.CitaCU;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,6 +35,7 @@ builder.Services.AddSession(options =>
 builder.Services.AddScoped<IRepositorioUsuario, RepositorioUsuario>();
 
 builder.Services.AddScoped<IRepositorioPaciente, RepositorioPaciente>();
+builder.Services.AddScoped<IRepositorioMedico, RepositorioMedico>();
 builder.Services.AddScoped<IRepositorioRecepcionista, RepositorioRecepcionista>();
 builder.Services.AddScoped<IRepositorioAdministrador, RepositorioAdministrador>();
 builder.Services.AddScoped<IRepositorioTotem, RepositorioTotem>();
@@ -60,6 +64,9 @@ builder.Services.AddScoped<GetSesionTotem, GetSesionTotem>();
 builder.Services.AddScoped<AccesoCU, AccesoCU>();
 
 builder.Services.AddScoped<GetCitas, GetCitas>();
+
+builder.Services.AddScoped<ABMMedicos, ABMMedicos>();
+builder.Services.AddScoped<GetMedicos, GetMedicos>();
 
 
 //scopes de servicios
