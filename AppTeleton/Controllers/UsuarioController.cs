@@ -68,6 +68,7 @@ namespace AppTeleton.Controllers
                     return RedirectToAction("Index", "Totem");
 
                 }
+
                 return RedirectToAction("Index", "Home");
             }
             catch (UsuarioException e)
@@ -102,7 +103,6 @@ namespace AppTeleton.Controllers
             }
 
 
-
         }
         public IActionResult Logout()
         {
@@ -112,6 +112,7 @@ namespace AppTeleton.Controllers
             
                 //redirect al logout de totem
             }
+
             HttpContext.Session.Clear();
             ViewBag.TipoMensaje = "ERROR";
             ViewBag.Mensaje = "Se cerro la sesion";

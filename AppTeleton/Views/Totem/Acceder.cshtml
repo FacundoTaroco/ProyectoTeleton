@@ -1,51 +1,86 @@
-﻿@model LogicaNegocio.Entidades.Paciente
+﻿@model AccesoTotemViewModel
 
 @{
-    ViewData["Title"] = "Acceso";
+    ViewData["Title"] = "Acceder";
+}
+@{
+    ViewData["Title"] = "Login";
+    if (ViewBag.Mensaje != null)
+    {
+        if (ViewBag.TipoMensaje == "ERROR")
+        {
+            <div class="alert alert-danger" role="alert">@ViewBag.Mensaje</div>
+        }
+        else if (ViewBag.TipoMensaje == "EXITO")
+        {
+            <div class="alert alert-success" role="alert">@ViewBag.Mensaje</div>
+        }
+
+    }
 }
 
-<h1>Acceso</h1>
+<h1>Acceder</h1>
 
-<div>
-    <h4>Paciente</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cedula)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cedula)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Contacto)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Contacto)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NombreUsuario)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NombreUsuario)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Contrasenia)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Contrasenia)
-        </dd>
-    </dl>
-</div>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+@if (Model.Citas != null){
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Tipo cita
+                </th>
+                <th>
+                    Materiales
+                </th>
+                <th>
+                    Personal
+                </th>
+                <th>
+                    Sala
+                </th>
+                <th>
+                    Fecha
+                </th>
+                <th>
+                    Cedula Paciente
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
 
+
+            @foreach (var item in Model.Citas)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TipoCita)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Materiales)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Personal)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sala)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fecha)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CedulaPaciente)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    </td>
+                </tr>
+            }
+           
+        </tbody>
+    </table>
+ }
