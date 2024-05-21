@@ -29,11 +29,7 @@ namespace LogicaAplicacion.CasosUso.PacienteCU
 
 
 
-        public void probarBackgroundService() {
-
-            Console.WriteLine("Tarea que se repite");
-        
-        }
+       
         public async Task<bool> Actualizar() {
             try
             {

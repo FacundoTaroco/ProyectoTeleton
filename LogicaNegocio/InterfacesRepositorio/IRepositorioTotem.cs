@@ -10,5 +10,6 @@ namespace LogicaNegocio.InterfacesRepositorio
     public interface IRepositorioTotem : IRepositorio<Totem>
     {
 
+        public Totem GetTotemPorUsr(string usr);
     }
 }

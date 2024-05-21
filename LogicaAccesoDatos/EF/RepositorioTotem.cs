@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Collections.Specialized.BitVector32;
 
 namespace LogicaAccesoDatos.EF
 {
@@ -49,6 +50,24 @@ namespace LogicaAccesoDatos.EF
 
             }
             catch (Exception) { throw; }
+        }
+
+        public Totem GetTotemPorUsr(string usr) {
+            try
+            {
+                if (String.IsNullOrEmpty(usr)) {
+
+                    throw new Exception("No se recibio nombre de usuario");
+                }
+                Totem totem = _context.Totems.FirstOrDefault(tot => tot.NombreUsuario == usr);
+                return totem;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public IEnumerable<Totem> GetAll()
@@ -106,5 +125,40 @@ namespace LogicaAccesoDatos.EF
                 throw;
             }
         }
+        
+
+        public void AgregarAcceso(AccesoTotem acceso, int idTotem)
+        {
+            try
+            {
+                if (acceso == null)
+                {
+                    throw new Exception("No se recibio el acceso");
+                }
+
+                if (_context.Totems.FirstOrDefault(tot => tot.Id == idTotem) == null) {
+                    throw new Exception("No se encontro totem");
+                }
+                if (_context.Totems.FirstOrDefault(tot => tot.Id == idTotem)
+                    .Sesiones.FirstOrDefault(sesion => sesion.Id == acceso.IdSesionTotem) == null)
+                {
+                    throw new Exception("No se encontro sesion");
+                }
+
+                _context.Totems.FirstOrDefault(tot => tot.Id == idTotem)
+                    .Sesiones.FirstOrDefault(sesion => sesion.Id == acceso.IdSesionTotem).Accesos.Add(acceso);  
+
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        
+
+      
     }
 }
