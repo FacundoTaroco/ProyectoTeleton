@@ -26,9 +26,6 @@ namespace LogicaAccesoDatos.EF
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
-
-
             var totemInstance = Totem.Instance;
             modelBuilder.Entity<Totem>().HasData(new Totem
             {
@@ -37,6 +34,10 @@ namespace LogicaAccesoDatos.EF
                 NombreUsuario = totemInstance.NombreUsuario,
                 Contrasenia = totemInstance.Contrasenia
             });
+
+     
+
+
             modelBuilder.ApplyConfiguration(new UsuarioConfiguration());//aca valido que no se repitan nombres de usuario
             base.OnModelCreating(modelBuilder);
            

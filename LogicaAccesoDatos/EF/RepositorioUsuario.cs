@@ -35,9 +35,9 @@ namespace LogicaAccesoDatos.EF
                         {
                             if (u is Totem) {
                                 tipoUsuario = "TOTEM";
-                                Vcontra = true;
-                            }
-
+                              
+                            }//if u is Paciente... 
+                        Vcontra = true;
                         }
 
                     }

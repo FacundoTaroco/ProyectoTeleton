@@ -7,10 +7,15 @@ using System.Threading.Tasks;
 
 namespace LogicaNegocio.InterfacesRepositorio
 {
-    public interface IRepositorioSesionTotem : IRepositorio<SesionTotem>
+    public interface IRepositorioSesionTotem
     {
-        public IEnumerable<SesionTotem> getSesionesDeTotem(int idTotem);
-        public IEnumerable<SesionTotem> getSesionesAbiertasDeTotem(int idTotem);
-        public IEnumerable<SesionTotem> getSesionesAbiertasDeFecha(int idTotem, DateTime fecha);
+        public SesionTotem AgregarSesion(SesionTotem sesion);
+        public void CerrarSesion(SesionTotem sesion);
+
+
+        public SesionTotem GetSesionPorId(int id);
+        public IEnumerable<SesionTotem> GetSesionesDeTotem(int idTotem);
+        public IEnumerable<SesionTotem> GetSesionesAbiertasDeTotem(int idTotem);
+        public IEnumerable<SesionTotem> GetSesionesDeFecha(int idTotem, DateTime fecha);
     }
 }
