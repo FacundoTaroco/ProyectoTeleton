@@ -131,7 +131,7 @@ namespace LogicaAccesoDatos.EF
         {
             try
             {
-                //VALIDAR FECHA
+                //VALIDAR  FECHA
                 if (idTotem == 0)
                 {
                     throw new Exception("No se recibio totem");
