@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LogicaAccesoDatos.Migrations
 {
     [DbContext(typeof(LibreriaContext))]
-    [Migration("20240520200555_init")]
+    [Migration("20240521184258_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
