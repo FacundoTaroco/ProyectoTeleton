@@ -81,6 +81,25 @@
             .content h3 {
                 text-align: center;
             }
+
+        /* Estilos para el botón Actualizar Citas */
+        .btn-actualizar {
+            background-color: #e83844; /* Rojo */
+            color: white;
+            border: 2px solid #e83844; /* Rojo */
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+            .btn-actualizar:hover {
+                background-color: white; /* Fondo blanco */
+                color: #e83844; /* Texto rojo */
+                border-color: #e83844; /* Borde rojo */
+            }
+
+        .btn-inner {
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
     </style>
 </head>
 <body>
@@ -89,11 +108,11 @@
         {
             if (ViewBag.TipoMensaje == "ERROR")
             {
-        <div class="alert alert-danger" role="alert">@ViewBag.Mensaje</div>
+                <div class="alert alert-danger" role="alert">@ViewBag.Mensaje</div>
             }
             else if (ViewBag.TipoMensaje == "EXITO")
             {
-        <div class="alert alert-success" role="alert">@ViewBag.Mensaje</div>
+                <div class="alert alert-success" role="alert">@ViewBag.Mensaje</div>
             }
         }
 
@@ -116,7 +135,7 @@
             <div class="col-md-10 content">
                 <h3>Tratamientos para hoy</h3>
                 <form asp-action="ActualizarCitas" method="post">
-                    <input type="submit" value="Actualizar Citas" class="btn btn-primary" />
+                    <input type="submit" value="Actualizar Citas" class="btn btn-actualizar" />
                 </form>
 
                 <table class="table table-bordered mt-3">
@@ -142,87 +161,4 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-<!--<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title> ["Title"] - My ASP.NET Application</title>
-    <link rel="stylesheet" href="~/css/site.css" />
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            display: flex;
-        }
-        .sidebar {
-            width: 20%;
-            background-color: #ff0000;
-            padding: 20px;
-            color: white;
-        }
-        .sidebar ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        .sidebar ul li {
-            margin: 10px 0;
-        }
-        .sidebar ul li a {
-            color: white;
-            text-decoration: none;
-        }
-        .sidebar ul li a:hover {
-            text-decoration: underline;
-        }
-        .content {
-            width: 80%;
-            padding: 20px;
-        }
-        .content table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .content table, .content th, .content td {
-            border: 1px solid black;
-        }
-        .content th, .content td {
-            padding: 10px;
-            text-align: left;
-        }
-    </style>
 
-</head>
-<body>
-    <div class="container">
-        <div class="sidebar">
-            <h3>Menú</h3>
-            <ul>
-                <li><a href="#">Tratamientos para hoy</a></li>
-                <li><a href="#">Preguntas frecuentes</a></li>
-                <li><a href="#">Mapa del centro</a></li>
-                <li style="margin-top: auto;"><a href="">Cerrar sesión</a></li>
-            </ul>
-        </div>
-        <div class="content">
-            <h3>Tratamientos para hoy</h3>
-            <form asp-action="ActualizarCitas" method="post">
-                <input type="submit" value="Actualizar Citas" class="btn btn-primary" />
-            </form>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nombre Tratamiento</th>
-                        <th>Hora</th>
-                        <th>Nombre Medico</th>
-                        <th>Cuarto</th>
-                        <th></th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-    </div>
-</body>
-</html>
--->

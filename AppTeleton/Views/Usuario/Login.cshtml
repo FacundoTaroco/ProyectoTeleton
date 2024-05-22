@@ -14,7 +14,132 @@
     }
 }
 
-    <form asp-action="Login" asp-controller="Usuario" method="post">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            background-color: #fff;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            width: 100%;
+            background-color: #f8f9fa;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            max-width: 400px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+            .login-container img {
+                width: 100px;
+                margin-bottom: 20px;
+            }
+
+            .login-container h1 {
+                margin-bottom: 20px;
+                color: #dc3545;
+            }
+
+        .form-control {
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+            .form-control i {
+                position: absolute;
+                right: 10px;
+                top: calc(50% - 0.5em);
+                cursor: pointer;
+            }
+
+        /* Estilos para el botón Entrar */
+        .btn-entrar {
+            background-color: #dc3545; /* Rojo */
+            color: white;
+            border: 2px solid #dc3545; /* Rojo */
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+            .btn-entrar:hover {
+                background-color: white; /* Fondo blanco */
+                color: #dc3545; /* Texto rojo */
+                border-color: #dc3545; /* Borde rojo */
+            }
+
+    </style>
+</head>
+<body>
+    <div class="main-content">
+        <div class="login-container">
+            <img src="path/to/your/logo.png" alt="Logo">
+            <h1>Teletón</h1>
+            <h2>Iniciar Sesión</h2>
+            <form asp-action="Login" asp-controller="Usuario" method="post">
+                <div class="form-group">
+                    <label for="nombre">Usuario</label>
+                    <div class="input-group">
+                        <input id="nombre" name="nombre" class="form-control" type="text" placeholder="Ingrese su usuario" required>
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="contrasenia">Contraseña</label>
+                    <div class="input-group">
+                        <input id="contrasenia" name="contrasenia" class="form-control" type="password" placeholder="Ingrese su contraseña" required>
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-entrar btn-block" type="submit">Entrar</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        function togglePassword() {
+            var passwordInput = document.getElementById('contrasenia');
+            var toggleEye = document.getElementById('toggleEye');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleEye.classList.remove('fa-eye');
+                toggleEye.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleEye.classList.remove('fa-eye-slash');
+                toggleEye.classList.add('fa-eye');
+            }
+        }
+    </script>
+</body>
+</html>
+
+    <!--<form asp-action="Login" asp-controller="Usuario" method="post">
         <div class="form-group col-lg-6">
             <label for="nombre" name="Usu">Usuario</label>
             <input name="nombre" class="form-control" type="text" placeholder="Ingrese usuario" required />
@@ -28,4 +153,5 @@
         <input class="btn btn-primary" type="submit" value="Cerrar sesión" />
 
     </form>
+    -->
 
