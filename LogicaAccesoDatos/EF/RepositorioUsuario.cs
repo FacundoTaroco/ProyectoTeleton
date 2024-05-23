@@ -1,5 +1,6 @@
 ﻿using LogicaAccesoDatos.EF.Excepciones;
 using LogicaNegocio.Entidades;
+using LogicaNegocio.Enums;
 using LogicaNegocio.Excepciones;
 using LogicaNegocio.InterfacesRepositorio;
 using System;
@@ -18,11 +19,11 @@ namespace LogicaAccesoDatos.EF
         {
             _context = context;
         }
-        public string Login(string usuario, string contrasenia)
+        public TipoUsuario Login(string usuario, string contrasenia)
         {
             try
             {
-                string tipoUsuario = "";
+                TipoUsuario tipoUsuario = TipoUsuario.NoLogueado;
                 bool Vmail = false;
                 bool Vcontra = false;   
                 IEnumerable<Usuario> usuarios = _context.Usuarios.ToList();
@@ -34,13 +35,17 @@ namespace LogicaAccesoDatos.EF
                         if (u.Contrasenia == contrasenia)
                         {
                             if (u is Totem) {
-                                tipoUsuario = "TOTEM";
+                                tipoUsuario = TipoUsuario.Totem;
                             } else if (u is Paciente) {
-                                tipoUsuario = "PACIENTE";
+                                tipoUsuario = TipoUsuario.Paciente;
                             } else if (u is Recepcionista) {
-                                tipoUsuario = "RECEPCIONISTA";
+                                tipoUsuario = TipoUsuario.Recepcionista;
                             } else if (u is Administrador) {
-                                tipoUsuario = "ADMIN";
+                                tipoUsuario = TipoUsuario.Admin;
+                            } else if(u is Medico)
+                            {
+                                tipoUsuario = TipoUsuario.Medico;
+
                             }
                         Vcontra = true;
                         }

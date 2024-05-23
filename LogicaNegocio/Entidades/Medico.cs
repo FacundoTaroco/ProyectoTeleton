@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LogicaNegocio.Entidades
 {
-    public class Medico : Usuario, IValidar
+    public class Medico : Usuario
     {
 
         private static Medico instance = null;
@@ -17,15 +17,16 @@ namespace LogicaNegocio.Entidades
 
         private Medico()
         {
-            this.Nombre = "Medico 1";
-            this.NombreUsuario = "medico";
+            this.Nombre = "Medico Montevideo";
+            this.NombreUsuario = "medicoMVD";
             this.Contrasenia = "medico123";
         }
 
-        // Constructor público requerido por Entity Framework
         public Medico(bool forEF = false)
         {
         }
+
+        // Constructor público requerido por Entity Framework
         public static Medico Instance
         {
             get

@@ -1,9 +1,11 @@
-﻿using LogicaAplicacion.CasosUso.PacienteCU;
+﻿using AppTeleton.Models.Filtros;
+using LogicaAplicacion.CasosUso.PacienteCU;
 using LogicaNegocio.Entidades;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AppTeleton.Controllers
 {
+    
     public class PacienteController : Controller
     {
 
@@ -16,11 +18,12 @@ namespace AppTeleton.Controllers
             _getPacientes = getPacientes;
         
         }
+        [PacienteLogueado]
         public IActionResult Index()
         {
             return View();
         }
-  
+        [AdminLogueado]
         public IActionResult Delete(int id) {
             try
             {

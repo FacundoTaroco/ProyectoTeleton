@@ -144,6 +144,15 @@ namespace LogicaAccesoDatos.Migrations
                     b.HasBaseType("LogicaNegocio.Entidades.Usuario");
 
                     b.HasDiscriminator().HasValue("Medico");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 2,
+                            Contrasenia = "medico123",
+                            Nombre = "Medico Montevideo",
+                            NombreUsuario = "medicoMVD"
+                        });
                 });
 
             modelBuilder.Entity("LogicaNegocio.Entidades.Paciente", b =>

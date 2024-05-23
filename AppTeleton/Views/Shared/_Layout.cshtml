@@ -1,4 +1,16 @@
-﻿<!DOCTYPE html>
+﻿@{
+    string tipoUsuario = "";
+    string usuario = "";
+    if (!String.IsNullOrEmpty(Context.Session.GetString("TIPO"))){
+     tipoUsuario = Context.Session.GetString("TIPO");
+    }
+    if (!String.IsNullOrEmpty(Context.Session.GetString("USR")))
+    {
+     usuario = Context.Session.GetString("USR");
+    }
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -9,10 +21,10 @@
     <link rel="stylesheet" href="~/AppTeleton.styles.css" asp-append-version="true" />
 </head>
 
-<body>@if (Context.Session.GetString("TIPO") != "TOTEM")
+<body>
+    @if (tipoUsuario != "TOTEM")
     {
         <header>  
-
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
                 <div class="container-fluid">
                     <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AppTeleton</a>
@@ -28,20 +40,54 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
 
+                            @if(tipoUsuario == "ADMIN"){
+
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Administrador" asp-action="Index" asp-route-tipoUsuario="PACIENTE">Usuarios</a>
                             </li>
-                            @if (!String.IsNullOrEmpty(Context.Session.GetString("USR")))
+                            }
+                            @if (tipoUsuario == "RECEPCIONISTA")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Recepcionista" asp-action="Index">Pacientes</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Recepcionista" asp-action="Chats">Chats</a>
+                                </li>
+                            }
+                            @if(tipoUsuario == "RECEPCIONISTA" ||tipoUsuario == "ADMIN")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Recepcionista" asp-action="Agenda">Agenda</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Recepcionista" asp-action="Index">Enviar Notificaciones</a>
+                                </li>
+                            }
+                            @if (tipoUsuario == "PACIENTE")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Paciente" asp-action="Index">Agenda</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Paciente" asp-action="Asistencia">Asistencia</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Paciente" asp-action="Notificacion">Notificaciones</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Paciente" asp-action="Mapa">Mapa Teleton</a>
+                                </li>
+                            }
+
+                            @if (!String.IsNullOrEmpty(usuario))
                             {
                                 <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Logout">Cerrar Sesión</a>
-                            </li> 
-                            }
+                                </li> 
 
-                            <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Totem" asp-action="HomeUsuario">Totem</a>
-                          </li>
-                          
+                               <li>Bienvenido @usuario</li>
+                            }
                         </ul>
                     </div>
 
@@ -49,7 +95,7 @@
             </nav>
         </header>
     }
-    else
+    else //cosas del totem
     {
         
      <header>  
@@ -77,6 +123,7 @@
             &copy; 2024 - AppTeleton - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

@@ -34,8 +34,16 @@ namespace LogicaAccesoDatos.EF
                 NombreUsuario = totemInstance.NombreUsuario,
                 Contrasenia = totemInstance.Contrasenia
             });
+            var medicoInstance = Medico.Instance;
+            modelBuilder.Entity<Medico>().HasData(new Medico
+            {
+                Id = 2,
+                Nombre = medicoInstance.Nombre,
+                NombreUsuario = medicoInstance.NombreUsuario,
+                Contrasenia = medicoInstance.Contrasenia
+            });
 
-     
+
 
 
             modelBuilder.ApplyConfiguration(new UsuarioConfiguration());//aca valido que no se repitan nombres de usuario

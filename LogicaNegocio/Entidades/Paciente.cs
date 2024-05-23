@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LogicaNegocio.Entidades
 {
-    public class Paciente:Usuario, IValidar
+    public class Paciente:Usuario
     {
         //aca iria todo el tema de la agenda por ahora el paciente tiene solo los datos generales de Usuario
 

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LogicaAccesoDatos.Migrations
 {
     [DbContext(typeof(LibreriaContext))]
-    [Migration("20240521220216_init")]
+    [Migration("20240522223041_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -146,6 +146,15 @@ namespace LogicaAccesoDatos.Migrations
                     b.HasBaseType("LogicaNegocio.Entidades.Usuario");
 
                     b.HasDiscriminator().HasValue("Medico");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 2,
+                            Contrasenia = "medico123",
+                            Nombre = "Medico Montevideo",
+                            NombreUsuario = "medicoMVD"
+                        });
                 });
 
             modelBuilder.Entity("LogicaNegocio.Entidades.Paciente", b =>

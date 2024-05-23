@@ -2,6 +2,7 @@
 using LogicaAplicacion.CasosUso.SesionTotemCU;
 using LogicaAplicacion.CasosUso.TotemCU;
 using LogicaNegocio.Entidades;
+using LogicaNegocio.Enums;
 using LogicaNegocio.Excepciones;
 using LogicaNegocio.InterfacesDominio;
 using Microsoft.AspNetCore.Mvc;
@@ -25,17 +26,6 @@ namespace AppTeleton.Controllers
 
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Create(Usuario Usr)
-        {
-            return View();
-
-        }
 
         public IActionResult Login()
         {
@@ -53,48 +43,44 @@ namespace AppTeleton.Controllers
         {
             try
             {
-                string tipoUsuario = _login.LoginCaso(nombre, contrasenia);
-
+                TipoUsuario tipoUsuario = _login.LoginCaso(nombre, contrasenia);
+                
                 HttpContext.Session.SetString("USR", nombre);
-                HttpContext.Session.SetString("TIPO", tipoUsuario);
                 ViewBag.TipoMensaje = "EXITO";
                 ViewBag.Mensaje = "Sesion iniciada correctamente";
-
-
-
-
-                if (tipoUsuario == "TOTEM") {
-                
-
+                if (tipoUsuario == TipoUsuario.Totem)
+                {
+                    HttpContext.Session.SetString("TIPO", "TOTEM");
                     Totem totem = _getTotems.GetTotemPorUsr(nombre);
                     SesionTotem nuevaSesionTotem = new SesionTotem(totem);
                     SesionTotem sesionTot = _abmSesionTotem.AgregarSesion(nuevaSesionTotem);
                     HttpContext.Session.SetInt32("SESIONTOTEM", sesionTot.Id);
                     return RedirectToAction("Index", "Totem");
-
-
                 }
-
-                else if (tipoUsuario == "PACIENTE")
+                else if (tipoUsuario == TipoUsuario.Recepcionista)
                 {
-
-                    return RedirectToAction("Index", "Paciente");
-
-                }
-                else if (tipoUsuario == "RECEPCIONISTA")
-                {
+                    HttpContext.Session.SetString("TIPO", "RECEPCIONISTA");
                     return RedirectToAction("Index", "Recepcionista");
-
                 }
-                else if (tipoUsuario == "ADMIN")
+                else if (tipoUsuario == TipoUsuario.Admin)
                 {
+                    HttpContext.Session.SetString("TIPO", "ADMIN");
                     return RedirectToAction("Index", "Administrador");
 
+                }
+                else if (tipoUsuario == TipoUsuario.Paciente)
+                {
+                    HttpContext.Session.SetString("TIPO", "PACIENTE");
+                    return RedirectToAction("Index", "Paciente");
+                }
+                else if (tipoUsuario == TipoUsuario.Medico)
+                {
+                    HttpContext.Session.SetString("TIPO", "MEDICO");
+                    return RedirectToAction("Index", "Medico");
                 }
                 else {
                     throw new Exception("No se recibio el tipo de usuario");
                 }
-
             }
             catch (UsuarioException e)
             {

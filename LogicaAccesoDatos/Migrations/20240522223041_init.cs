@@ -94,6 +94,11 @@ namespace LogicaAccesoDatos.Migrations
             migrationBuilder.InsertData(
                 table: "Usuarios",
                 columns: new[] { "Id", "Contrasenia", "Discriminator", "Nombre", "NombreUsuario" },
+                values: new object[] { 2, "medico123", "Medico", "Medico Montevideo", "medicoMVD" });
+
+            migrationBuilder.InsertData(
+                table: "Usuarios",
+                columns: new[] { "Id", "Contrasenia", "Discriminator", "Nombre", "NombreUsuario" },
                 values: new object[] { 1, "totem123", "Totem", "Totem Montevideo", "totemMVD" });
 
             migrationBuilder.CreateIndex(
