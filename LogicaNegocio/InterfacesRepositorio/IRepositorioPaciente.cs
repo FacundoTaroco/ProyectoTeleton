@@ -10,7 +10,9 @@ namespace LogicaNegocio.InterfacesRepositorio
     public interface IRepositorioPaciente:IRepositorio<Paciente>
     {
         public Paciente GetPacientePorCedula(string cedula);
+        public Paciente GetPacientePorUsuario(string usuario);
 
-       
+
+
     }
 }

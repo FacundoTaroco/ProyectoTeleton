@@ -61,9 +61,12 @@ namespace LogicaAplicacion.CasosUso.PacienteCU
         }
 
         public void crearNuevoUsuarioPaciente(PacienteDTO paciente) {  //AGREGARLE EL ULTIMO DIGITO DE LA CEDULA AL NOMBRE DE USUARIO
-
+     
+        
             Paciente nuevoUsuarioPaciente = new Paciente(crearNombreUsuario(paciente.NombreCompleto,paciente.Cedula), paciente.Cedula, paciente.NombreCompleto, paciente.Cedula, paciente.Contacto);
             _abmPacientes.AltaPaciente(nuevoUsuarioPaciente);
+            
+
             
             //VALIDAR QUE PASA SI NOS LLEGAN PACIENTES VACIOS
         }
@@ -82,8 +85,23 @@ namespace LogicaAplicacion.CasosUso.PacienteCU
                  apellido = partesNombre[1].Replace(" ", "");
             }
             string digitoFinalCedula = cedula.Substring(cedula.Length-1);
+            string dosDigitosFinalCedula = cedula.Substring(cedula.Length - 2);
             string nombreUsuario = inicialNombre + apellido + digitoFinalCedula;
-            return nombreUsuario;
+
+            try
+            {
+                _getPacientesCU.GetPacientePorUsuario(nombreUsuario);
+                //si llega aca es porque si existe el usuario entonces tenemos que agregarle otro digito de la cedula
+                nombreUsuario = inicialNombre + apellido + dosDigitosFinalCedula;
+                return nombreUsuario;
+
+            }
+            catch (NotFoundException)
+            {
+                //si llego aca es porque no existe otro paciente con ese nombre de usuario
+                return nombreUsuario;
+            }
+
         }
 
 
@@ -93,7 +111,7 @@ namespace LogicaAplicacion.CasosUso.PacienteCU
               _getPacientesCU.GetPacientePorCedula(cedula);
                return true;
             }
-            catch (ObjetoNoEncontradoException)
+            catch (NotFoundException)
             {
                 return false;
             }

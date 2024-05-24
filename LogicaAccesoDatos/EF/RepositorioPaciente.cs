@@ -1,5 +1,6 @@
 ﻿using LogicaAccesoDatos.EF.Excepciones;
 using LogicaNegocio.Entidades;
+using LogicaNegocio.Excepciones;
 using LogicaNegocio.InterfacesRepositorio;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace LogicaAccesoDatos.EF
         {
            
             try {
-                if (obj == null) { throw new Exception("No se recibio el usuario"); }//hacer algunas excepciones personalizadas 
+                if (obj == null) { throw new NullOrEmptyException("No se recibio el usuario"); }
                 obj.Validar();
                 obj.Id = 0;
                 ValidarUnique(obj);
@@ -29,24 +30,40 @@ namespace LogicaAccesoDatos.EF
                 _context.SaveChanges();
 
             }
-            catch (Exception)
+            catch (NullOrEmptyException)
             {
                 throw;
+            }
+            catch (UsuarioException)
+            {
+                throw;
+            }
+            catch (UniqueException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw new ServerErrorException("error del servidor al agregar un nuevo paciente");
             }
         }
         public void ValidarUnique(Paciente obj)
         {
             try
             {
-                foreach (Paciente a in GetAll())
+                foreach (Usuario a in _context.Usuarios.ToList())
                 {
 
                     if (a.NombreUsuario.Equals(obj.NombreUsuario))
                     {
-
-                        throw new Exception("El paciente ya existe");
+                        throw new UniqueException("El usuario ya existe, ingrese otro nombre de usuario");
                     }
                 }
+            }
+            catch (UniqueException)
+            {
+
+                throw;
             }
             catch (Exception)
             {
@@ -60,7 +77,8 @@ namespace LogicaAccesoDatos.EF
             try { 
             
                 var paciente = GetPorId(id);
-                if (paciente == null) { throw new Exception("No se encontro Paciente"); }
+              
+
                 _context.Pacientes.Remove(paciente);
                
                 _context.SaveChanges();
@@ -72,7 +90,8 @@ namespace LogicaAccesoDatos.EF
         {
             try
             {
-                IEnumerable<Paciente> pacientes = _context.Pacientes.ToList();
+                IEnumerable<Paciente> pacientes = new List<Paciente>();
+                pacientes = _context.Pacientes.ToList();
                 return pacientes;
             }
             catch (Exception)
@@ -88,23 +107,66 @@ namespace LogicaAccesoDatos.EF
             try
             {
             if (String.IsNullOrEmpty(cedula)) {
-                throw new Exception("No se recibio cedula");
+                throw new NullOrEmptyException("No se recibio cedula");
             }
                 var paciente = _context.Pacientes.FirstOrDefault(paciente => paciente.Cedula.Equals(cedula));
                 if (paciente == null) {
 
-                    throw new ObjetoNoEncontradoException("No se encontro ningun paciente con esa cedula");
+                    throw new NotFoundException("No se encontro ningun paciente con esa cedula");
                 }
                 return paciente;
 
             }
-            catch (Exception) // Excepciones personalizadaaas
+            catch (NullOrEmptyException)
+            {
+
+                throw;
+            }
+            catch (NotFoundException)
+            {
+
+                throw;
+            }
+            catch (Exception) 
             {
 
                 throw;
             }
            
        
+        }
+        public Paciente GetPacientePorUsuario(string usuario)
+        {
+            try
+            {
+                if (String.IsNullOrEmpty(usuario))
+                {
+                    throw new NullOrEmptyException("No se recibio cedula");
+                }
+                var paciente = _context.Pacientes.FirstOrDefault(paciente => paciente.NombreUsuario.Equals(usuario));
+                if (paciente == null)
+                {
+                    throw new NotFoundException("La cedula ingresada no existe");
+                }
+                return paciente;
+
+            }
+            catch (NullOrEmptyException)
+            {
+
+                throw;
+            }
+            catch (NotFoundException)
+            {
+
+                throw;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
 
         public Paciente GetPorId(int id)
@@ -113,17 +175,27 @@ namespace LogicaAccesoDatos.EF
             {
                 if (id == 0)
                 {
-                    throw new Exception("No se recibio id");
+                    throw new NullOrEmptyException("No se recibio id");
                 }
                 var paciente = _context.Pacientes.FirstOrDefault(paciente => paciente.Id == id);
                 if (paciente == null)
                 {
-                    throw new ObjetoNoEncontradoException("No se encontro ningun paciente con ese id");
+                    throw new NotFoundException("No se encontro ningun paciente con ese id");
                 }
                 return paciente;
 
             }
-            catch (Exception) // Excepciones personalizadaaas
+            catch (NullOrEmptyException)
+            {
+
+                throw;
+            }
+            catch (NotFoundException)
+            {
+
+                throw;
+            }
+            catch (Exception)
             {
 
                 throw;
@@ -134,15 +206,23 @@ namespace LogicaAccesoDatos.EF
         {
             try
             {
-                if (obj == null) { throw new Exception("No se recibio paciente para editar"); }
+                if (obj == null) { throw new NullOrEmptyException("No se recibio paciente para editar"); }
                 obj.Validar();
 
                 _context.Pacientes.Update(obj); 
                 _context.SaveChanges();
             }
-            catch (Exception)
+            catch (NullOrEmptyException)
             {
                 throw;
+            }
+            catch (UsuarioException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw new ServerErrorException("Error del servidor al actualizar el paciente");
             }
         }
         

@@ -13,8 +13,7 @@ namespace LogicaNegocio.Entidades
         private static Medico instance = null;
         private static readonly object padlock = new object();
 
-        public List<SesionMedico> Sesiones { get; set; } = new List<SesionMedico>();
-
+     
         private Medico()
         {
             this.Nombre = "Medico Montevideo";

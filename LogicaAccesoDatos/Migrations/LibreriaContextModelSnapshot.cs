@@ -50,30 +50,6 @@ namespace LogicaAccesoDatos.Migrations
                     b.ToTable("AccesosTotem");
                 });
 
-            modelBuilder.Entity("LogicaNegocio.Entidades.SesionMedico", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("InicioSesion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("MedicoId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("SesionAbierta")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MedicoId");
-
-                    b.ToTable("SesionesMedico");
-                });
-
             modelBuilder.Entity("LogicaNegocio.Entidades.SesionTotem", b =>
                 {
                     b.Property<int>("Id")
@@ -137,6 +113,15 @@ namespace LogicaAccesoDatos.Migrations
                     b.HasBaseType("LogicaNegocio.Entidades.Usuario");
 
                     b.HasDiscriminator().HasValue("Administrador");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 3,
+                            Contrasenia = "Admin123",
+                            Nombre = "Octavio",
+                            NombreUsuario = "Admin1"
+                        });
                 });
 
             modelBuilder.Entity("LogicaNegocio.Entidades.Medico", b =>
@@ -204,17 +189,6 @@ namespace LogicaAccesoDatos.Migrations
                     b.Navigation("_SesionTotem");
                 });
 
-            modelBuilder.Entity("LogicaNegocio.Entidades.SesionMedico", b =>
-                {
-                    b.HasOne("LogicaNegocio.Entidades.Medico", "_Medico")
-                        .WithMany("Sesiones")
-                        .HasForeignKey("MedicoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("_Medico");
-                });
-
             modelBuilder.Entity("LogicaNegocio.Entidades.SesionTotem", b =>
                 {
                     b.HasOne("LogicaNegocio.Entidades.Totem", "_Totem")
@@ -229,11 +203,6 @@ namespace LogicaAccesoDatos.Migrations
             modelBuilder.Entity("LogicaNegocio.Entidades.SesionTotem", b =>
                 {
                     b.Navigation("Accesos");
-                });
-
-            modelBuilder.Entity("LogicaNegocio.Entidades.Medico", b =>
-                {
-                    b.Navigation("Sesiones");
                 });
 
             modelBuilder.Entity("LogicaNegocio.Entidades.Totem", b =>

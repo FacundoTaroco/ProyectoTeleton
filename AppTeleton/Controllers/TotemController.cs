@@ -63,6 +63,14 @@ namespace AppTeleton.Controllers
         {
             try
             {
+                if(String.IsNullOrEmpty(NombreUsuario) || String.IsNullOrEmpty(Contrasenia))
+                {
+                    throw new Exception("Ingrese todos los campos");
+                }
+                if (!NombreUsuario.Equals(GetTotemLogueado().NombreUsuario))
+                {
+                    throw new Exception("Ingrese las credenciales del totem");
+                }
                 // Validar las credenciales del usuario
                 TipoUsuario tipoUsuario = _login.LoginCaso(NombreUsuario, Contrasenia);
 
@@ -79,7 +87,7 @@ namespace AppTeleton.Controllers
                 }
                 // Si no es un usuario totem, mostrar mensaje de error
                 ViewBag.TipoMensaje = "ERROR";
-                ViewBag.Mensaje = "Usuario o contraseña incorrectos para cerrar sesión del totem.";
+                ViewBag.Mensaje = "Usuario o contraseña incorrectos para cerrar sesión del totem";
                 return View();
                  }
             catch (Exception e)

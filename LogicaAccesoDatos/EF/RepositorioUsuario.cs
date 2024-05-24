@@ -58,7 +58,7 @@ namespace LogicaAccesoDatos.EF
                 }
                 else if (Vmail == false)
                 {
-                    throw new NotFoundException("Mail o usuario Incorrecto");
+                    throw new NotFoundException("Usuario Incorrecto");
                 }
                 return tipoUsuario;
             }
@@ -66,7 +66,7 @@ namespace LogicaAccesoDatos.EF
             {
                 throw;
             }
-            catch (DomainException)
+            catch (UsuarioException)
             {
                 throw;
             }

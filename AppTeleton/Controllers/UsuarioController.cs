@@ -43,6 +43,11 @@ namespace AppTeleton.Controllers
         {
             try
             {
+                if(String.IsNullOrEmpty(nombre) ||String.IsNullOrEmpty(contrasenia))
+                {
+                    throw new Exception("Ingrese todos los campos");
+                }
+
                 TipoUsuario tipoUsuario = _login.LoginCaso(nombre, contrasenia);
                 
                 HttpContext.Session.SetString("USR", nombre);
@@ -88,16 +93,10 @@ namespace AppTeleton.Controllers
                 ViewBag.Mensaje = e.Message;
                 return View("Login");
             }
-            catch (DomainException e)
-            {
-                ViewBag.TipoMensaje = "ERROR";
-                ViewBag.Mensaje = "Contraseña incorrecta";
-                return View("Login");
-            }
             catch (NotFoundException)
             {
                 ViewBag.TipoMensaje = "ERROR";
-                ViewBag.Mensaje = "No se encontro al usuario";
+                ViewBag.Mensaje = "El usuario ingresado no existe";
                 return View("Login");
             }
             catch (ServerErrorException)
