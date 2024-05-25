@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LogicaNegocio.Excepciones;
+using LogicaNegocio.InterfacesDominio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LogicaNegocio.Entidades
 {
-    public class SesionTotem
+    public class SesionTotem:IValidar
     {
         public int Id { get; set; }
         public DateTime InicioSesion { get; set; }
@@ -25,6 +27,14 @@ namespace LogicaNegocio.Entidades
             SesionAbierta = true;
             _Totem = totem;
             TotemId = totem.Id;
+        }
+
+        public void Validar()
+        {
+            if(TotemId == 0)
+            {
+                throw new SesionTotemException("La sesion tiene que estar asociada a un totem");
+            }
         }
     }
 }

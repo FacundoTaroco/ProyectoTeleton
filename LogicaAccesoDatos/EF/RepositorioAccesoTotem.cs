@@ -1,11 +1,13 @@
 ﻿using LogicaNegocio.Entidades;
 using LogicaNegocio.InterfacesRepositorio;
+using LogicaAccesoDatos.EF.Excepciones;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Collections.Specialized.BitVector32;
+using LogicaNegocio.Excepciones;
 
 namespace LogicaAccesoDatos.EF
 {
@@ -23,20 +25,29 @@ namespace LogicaAccesoDatos.EF
         {
             try
             {
-                if (acceso == null) { throw new Exception("No se recibio acceso"); }//hacer algunas excepciones personalizadas 
+                if (acceso == null) { throw new NullOrEmptyException("No se recibio acceso"); }
+                acceso.Validar();
                 acceso.Id = 0;
-                //Validar totem unique con los config!!
-
+                
                 _context.AccesosTotem.Add(acceso);
                 _context.SaveChanges();
 
+                
                 AccesoTotem nuevoAcceso = _context.AccesosTotem.OrderByDescending(s => s.Id).FirstOrDefault();
-
                 return nuevoAcceso;
+            }
+
+            catch (AccesoTotemException)
+            {
+                throw;
+            }
+            catch (NullOrEmptyException)
+            {
+                throw;
             }
             catch (Exception)
             {
-                throw;
+                throw new ServerErrorException("Error del servidor al agregar el acceso");
             }
         }
 
@@ -45,20 +56,30 @@ namespace LogicaAccesoDatos.EF
             try
             {
                 if (idTotem == 0) {
-                    throw new Exception("No se recibio totem");
+                    throw new NullOrEmptyException("No se recibio totem");
                 }
                 if (_context.Totems.FirstOrDefault(tot => tot.Id == idTotem) == null) {
-                    throw new Exception("No se encontro totem");
+                    throw new NotFoundException("No se encontro totem");
                 }
 
-
-                IEnumerable<AccesoTotem> accesos = _context.AccesosTotem.Where(a => a._SesionTotem.TotemId == idTotem).ToList();
+                IEnumerable<AccesoTotem> accesos = new List<AccesoTotem>();
+                accesos = _context.AccesosTotem.Where(a => a._SesionTotem.TotemId == idTotem).ToList();
                 return accesos;
+            }
+            catch (NullOrEmptyException)
+            {
+
+                throw;
+            }
+            catch (NotFoundException)
+            {
+
+                throw;
             }
             catch (Exception)
             {
 
-                throw;
+                throw new ServerErrorException("Error del servidor al obtener los accesos");
             }
         }
 
@@ -66,24 +87,35 @@ namespace LogicaAccesoDatos.EF
         {
             try
             {
-                //VALIDAR FECHA
+                if(fecha == DateTime.MinValue) {
+                    throw new NullOrEmptyException("Ingrese una fecha valida");
+                }
                 if (idTotem == 0)
                 {
-                    throw new Exception("No se recibio totem");
+                    throw new NullOrEmptyException("No se recibio totem");
                 }
                 if (_context.Totems.FirstOrDefault(tot => tot.Id == idTotem) == null)
                 {
-                    throw new Exception("No se encontro totem");
+                    throw new NotFoundException("No se encontro totem");
                 }
 
 
                 IEnumerable<AccesoTotem> accesos = _context.AccesosTotem.Where(a => a._SesionTotem.TotemId == idTotem && a.FechaHora.Day == fecha.Day).ToList();
                 return accesos;
             }
-            catch (Exception)
+            catch (NullOrEmptyException)
             {
 
                 throw;
+            }
+            catch (NotFoundException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+
+                throw new ServerErrorException("Error del servidor al filtrar los accesos por dia");
             }
         }
 
@@ -94,27 +126,37 @@ namespace LogicaAccesoDatos.EF
             
                 if (idTotem == 0)
                 {
-                    throw new Exception("No se recibio totem");
+                    throw new NullOrEmptyException("No se recibio totem");
                 }
                 if (idSesion == 0) {
-                    throw new Exception("No se recibio sesion");
+                    throw new NullOrEmptyException("No se recibio sesion");
                 }
                 if (_context.Totems.FirstOrDefault(tot => tot.Id == idTotem) == null)
                 {
-                    throw new Exception("No se encontro totem");
+                    throw new NotFoundException("No se encontro totem");
                 }
                 if (_context.SesionesTotem.FirstOrDefault(ses => ses.Id == idSesion) == null)
                 {
-                    throw new Exception("No se encontro sesion");
+                    throw new NotFoundException("No se encontro sesion");
                 }
-
-                IEnumerable<AccesoTotem> accesos = _context.AccesosTotem.Where(a => a.IdSesionTotem == idSesion &&  a._SesionTotem.TotemId == idTotem).ToList();
+                IEnumerable<AccesoTotem> accesos = new List<AccesoTotem>(); 
+                accesos = _context.AccesosTotem.Where(a => a.IdSesionTotem == idSesion &&  a._SesionTotem.TotemId == idTotem).ToList();
                 return accesos;
+            }
+            catch (NullOrEmptyException)
+            {
+
+                throw;
+            }
+            catch (NotFoundException)
+            {
+
+                throw;
             }
             catch (Exception)
             {
 
-                throw;
+                throw new ServerErrorException("Error del servidor al obtener los accesos por sesion");
             }
         }
     }
