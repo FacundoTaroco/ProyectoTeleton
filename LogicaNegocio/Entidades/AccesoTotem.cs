@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LogicaNegocio.Excepciones;
+using LogicaNegocio.InterfacesDominio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LogicaNegocio.Entidades
 {
-    public class AccesoTotem
+    public class AccesoTotem : IValidar
     {
         public int Id { get; set; }
        
@@ -28,5 +30,18 @@ namespace LogicaNegocio.Entidades
         
         }
 
+        public void Validar()
+        {
+            if(IdSesionTotem != 0)
+            {
+                throw new AccesoTotemException("No se encontro la sesion del totem");
+            }
+            if(String.IsNullOrEmpty(CedulaPaciente)) { throw new AccesoTotemException("No se recibio cedula para el acceso al totem"); }
+
+            if(FechaHora == DateTime.MinValue)
+            {
+                throw new AccesoTotemException("No se inicializo correctamente la fecha del acceso");
+            }
+        }
     }
 }

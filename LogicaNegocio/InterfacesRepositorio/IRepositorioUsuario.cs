@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LogicaNegocio.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace LogicaNegocio.InterfacesRepositorio
 {
     public interface IRepositorioUsuario
     {
-        public string Login(string usuario, string contra);
+        public TipoUsuario Login(string usuario, string contra);
 
     }
 }

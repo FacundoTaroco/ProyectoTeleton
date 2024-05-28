@@ -20,7 +20,6 @@ namespace LogicaAccesoDatos.EF
         public DbSet<SesionTotem> SesionesTotem { get; set; }
         public DbSet<AccesoTotem> AccesosTotem { get; set; }
         public DbSet<Medico> Medicos{ get; set; }
-        public DbSet<SesionMedico> SesionesMedico { get; set; }
 
 
 
@@ -34,8 +33,23 @@ namespace LogicaAccesoDatos.EF
                 NombreUsuario = totemInstance.NombreUsuario,
                 Contrasenia = totemInstance.Contrasenia
             });
+            var medicoInstance = Medico.Instance;
+            modelBuilder.Entity<Medico>().HasData(new Medico
+            {
+                Id = 2,
+                Nombre = medicoInstance.Nombre,
+                NombreUsuario = medicoInstance.NombreUsuario,
+                Contrasenia = medicoInstance.Contrasenia
+            });
+            modelBuilder.Entity<Administrador>().HasData(new Administrador
+            {
+                Id = 3,
+                Nombre = "Octavio",
+                NombreUsuario = "Admin1",
+                Contrasenia = "Admin123"
+            });
 
-     
+
 
 
             modelBuilder.ApplyConfiguration(new UsuarioConfiguration());//aca valido que no se repitan nombres de usuario

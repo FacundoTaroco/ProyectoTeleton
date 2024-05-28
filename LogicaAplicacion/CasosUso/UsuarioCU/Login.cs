@@ -1,4 +1,5 @@
-﻿using LogicaNegocio.InterfacesDominio;
+﻿using LogicaNegocio.Enums;
+using LogicaNegocio.InterfacesDominio;
 using LogicaNegocio.InterfacesRepositorio;
 using System;
 using System.Collections.Generic;
@@ -16,10 +17,10 @@ namespace LogicaAplicacion.CasosUso.UsuarioCU
             _repo = repo;
         }
 
-        public string LoginCaso(string usuario, string contrasenia)
+        public TipoUsuario LoginCaso(string usuario, string contrasenia)
         {
           
-            string retorno = _repo.Login(usuario, contrasenia);
+            TipoUsuario retorno = _repo.Login(usuario, contrasenia);
             return retorno;
            
            
