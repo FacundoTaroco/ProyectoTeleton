@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LogicaNegocio.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace LogicaNegocio.InterfacesDominio
 {
     public interface ILogin
     {
-        public string LoginCaso(string usuario, string contrasenia);
+        public TipoUsuario LoginCaso(string usuario, string contrasenia);
 
     }
 }

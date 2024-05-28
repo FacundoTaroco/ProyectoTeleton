@@ -1,7 +1,10 @@
-﻿using LogicaNegocio.Entidades;
+﻿using LogicaAccesoDatos.EF.Excepciones;
+using LogicaNegocio.Entidades;
+using LogicaNegocio.Excepciones;
 using LogicaNegocio.InterfacesRepositorio;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,24 +18,35 @@ namespace LogicaAccesoDatos.EF
         {
             _context = context;
         }
-        //comentario de prueba
+     
         public void Add(Recepcionista obj)
         {
 
             try
             {
-                if (obj == null) { throw new Exception("No se recibio el usuario"); }//hacer algunas excepciones personalizadas 
+                if (obj == null) { throw new NullOrEmptyException("No se recibio el usuario"); }
                 obj.Validar();
                 obj.Id = 0;
-             
                 ValidarUnique(obj);
                 _context.Recepcionistas.Add(obj);
                 _context.SaveChanges();
 
             }
-            catch (Exception)
+            catch (NullOrEmptyException)
             {
                 throw;
+            }
+            catch (UsuarioException)
+            {
+                throw;
+            }
+            catch (UniqueException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw new ServerErrorException("Error del servidor, algo fallo al agregar el usuario recepcionista");
             }
         }
 
@@ -42,31 +56,37 @@ namespace LogicaAccesoDatos.EF
             {
 
                 var recepcionista = GetPorId(id);
-                if (recepcionista == null) { throw new Exception("No se encontro recepcionista"); }
                 _context.Recepcionistas.Remove(recepcionista);
-
                 _context.SaveChanges();
 
             }
-            catch (Exception) { throw; }
+            catch (NullOrEmptyException) { throw; }
+            catch (NotFoundException) { throw; }
+            catch (Exception)
+            {
+                throw new ServerErrorException("Error del servidor al eliminar la recepcionista");
+            }
         }
         public void ValidarUnique(Recepcionista obj)
         {
             try
             {
-                foreach (Recepcionista a in GetAll())
+                foreach (Usuario a in _context.Usuarios.ToList())
                 {
 
                     if (a.NombreUsuario.Equals(obj.NombreUsuario))
                     {
-
-                        throw new Exception("La recepcionista ya existe, ingrese otro nombre de usuario");
+                        throw new UniqueException("El usuario ya existe, ingrese otro nombre de usuario");
                     }
                 }
             }
-            catch (Exception)
+            catch (UniqueException)
             {
 
+                throw;
+            }
+            catch (Exception)
+            {
                 throw;
             }
 
@@ -75,13 +95,13 @@ namespace LogicaAccesoDatos.EF
         {
             try
             {
-                IEnumerable<Recepcionista> recepcionistas = _context.Recepcionistas.ToList();
+                IEnumerable<Recepcionista> recepcionistas = new List<Recepcionista>();
+                recepcionistas = _context.Recepcionistas.ToList();
                 return recepcionistas;
             }
             catch (Exception)
             {
-
-                throw;
+                throw new ServerErrorException("Fallo el servidor al obtener las recepcionistas");
             }
         }
 
@@ -93,19 +113,26 @@ namespace LogicaAccesoDatos.EF
             {
                 if (id == 0)
                 {
-                    throw new Exception("No se recibio id");
+                    throw new NullOrEmptyException("No se recibio id");
                 }
                 var recepcionista = _context.Recepcionistas.FirstOrDefault(recep => recep.Id == id);
                 if (recepcionista == null)
                 {
-                    throw new Exception("No se encontro ninguna recepcionista con esa cedula");
+                    throw new NotFoundException("No se encontro ninguna recepcionista con el id ingresado");
                 }
                 return recepcionista;
 
             }
-            catch (Exception) // Excepciones personalizadaaas
+            catch (NullOrEmptyException)
             {
-
+                throw;
+            }
+            catch (NotFoundException)
+            {
+                throw;
+            }
+            catch (Exception) 
+            {
                 throw;
             }
         }
@@ -117,8 +144,25 @@ namespace LogicaAccesoDatos.EF
                 if (obj == null) { throw new Exception("No se recibio recepcionista para editar"); }
                 obj.Validar();
 
+                if (_context.Recepcionistas.FirstOrDefault(r => r.Id == obj.Id) == null)
+                {
+                    throw new NotFoundException("No se encontro recepcionista a editar");
+                }
+                if (_context.Recepcionistas.FirstOrDefault(r => r.Id == obj.Id).NombreUsuario != obj.NombreUsuario)
+                {
+                    throw new UsuarioException("El nombre de usuario no se puede editar");
+                }
+
                 _context.Recepcionistas.Update(obj);
                 _context.SaveChanges();
+            }
+            catch (NotFoundException)
+            {
+                throw;
+            }
+            catch (UsuarioException)
+            {
+                throw;
             }
             catch (Exception)
             {

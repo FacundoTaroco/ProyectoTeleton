@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LogicaNegocio.Entidades
 {
-    public class Totem: Usuario, IValidar
+    public class Totem: Usuario
     {
         private static Totem instance = null;
         private static readonly object padlock = new object();

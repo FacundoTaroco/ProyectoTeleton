@@ -1,4 +1,5 @@
-﻿@{
+@model AccesoTotemViewModel;
+@{
     ViewData["Title"] = "HomeUsuario";
 }
 @{
@@ -12,10 +13,8 @@
         {
     <div class="alert alert-success" role="alert">@ViewBag.Mensaje</div>
         }
-
     }
 }
-
 @{
     ViewData["Title"] = "HomeUsuario";
     Layout = null; // Si tienes un layout general, cambia esto por el nombre del layout a
@@ -101,6 +100,8 @@
         }
 
     </style>
+
+
 </head>
 <body>
     <div class="container-fluid">
@@ -137,21 +138,57 @@
                 <form asp-action="ActualizarCitas" method="post">
                     <input type="submit" value="Actualizar Citas" class="btn btn-actualizar" />
                 </form>
-
+                @if (Model.Citas != null){
                 <table class="table table-bordered mt-3">
                     <thead>
                         <tr>
-                            <th>Nombre Tratamiento</th>
-                            <th>Hora</th>
-                            <th>Nombre Medico</th>
-                            <th>Cuarto</th>
-                            <th></th>
+                            <th>
+                                Tipo cita
+                            </th>
+                            <th>
+                                Materiales
+                            </th>
+                            <th>
+                                Personal
+                            </th>
+                            <th>
+                                Sala
+                            </th>
+                            <th>
+                                Fecha
+                            </th>
+                            <th>
+                                Cedula Paciente
+                            </th>   
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Aquí irán las filas de datos -->
+                        @foreach (var item in Model.Citas)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TipoCita)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Materiales)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Personal)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Sala)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Fecha)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CedulaPaciente)
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
+                }
             </div>
         </div>
     </div>
@@ -161,4 +198,5 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+
 

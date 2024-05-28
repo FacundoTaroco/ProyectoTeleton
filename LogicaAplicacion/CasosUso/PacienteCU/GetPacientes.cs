@@ -43,6 +43,18 @@ namespace LogicaAplicacion.CasosUso.PacienteCU
             }
        
         }
+        public Paciente GetPacientePorUsuario(string usuario)
+        {
+            try
+            {
+                return _repo.GetPacientePorUsuario(usuario);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
 
         public Paciente GetPacientePorId(int id)
         {

@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AppTeleton.Controllers
 {
-    [RecepcionistaLogueado]
-    public class RecepcionistaController : Controller
+    [MedicoLogueado]
+    public class MedicoController : Controller
     {
         public IActionResult Index()
         {

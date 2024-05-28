@@ -1,4 +1,5 @@
-﻿@model AppTeleton.Models.UsuariosViewModel;
+﻿@using LogicaNegocio.Enums
+@model AppTeleton.Models.UsuariosViewModel;
 
 
 @{
@@ -20,49 +21,48 @@
 
 }
 
-
-
 <form method="get" action="@Url.Action("VerTipoUsuario", "Administrador")">
     <label for="opcion">Seleccione el tipo de usuario</label>
     <select name="opcion" onchange="this.form.submit()">
 
-        @if (ViewBag.TipoUsuario == "PACIENTE")
+        @if (ViewBag.TipoUsuario == TipoUsuario.Paciente)
         {
-            <option value="paciente" selected>Pacientes</option>
+            <option value="@TipoUsuario.Paciente" selected>Pacientes</option>
         }
         else
         {
-            <option value="paciente">Pacientes</option>
+            <option value="@TipoUsuario.Paciente">Pacientes</option>
         }
-        @if (ViewBag.TipoUsuario == "RECEPCIONISTA")
+        @if (ViewBag.TipoUsuario == TipoUsuario.Recepcionista)
         {
-            <option value="recepcionista" selected>Recepcionistas</option>
+            <option value="@TipoUsuario.Recepcionista" selected>Recepcionistas</option>
         }
         else
         {
-            <option value="recepcionista">Recepcionistas</option>
+            <option value="@TipoUsuario.Recepcionista">Recepcionistas</option>
         }
-        @if (ViewBag.TipoUsuario == "MEDICO")
+        @if (ViewBag.TipoUsuario == TipoUsuario.Medico)
         {
-            <option value="medico" selected>Medicos</option>
+            <option value="@TipoUsuario.Medico" selected>Medicos</option>
         }
         else
         {
-            <option value="medico">Medicos</option>
+            <option value="@TipoUsuario.Medico">Medicos</option>
         }
-        @if (ViewBag.TipoUsuario == "ADMIN")
+        @if (ViewBag.TipoUsuario == TipoUsuario.Admin)
         {
-            <option value="admin" selected>Administradores</option>
+            <option value="@TipoUsuario.Admin" selected>Administradores</option>
         }
         else
         {
-            <option value="admin">Administradores</option>
+            <option value="@TipoUsuario.Admin">Administradores</option>
         }
+
     </select>
 </form>
 
 
-@if (ViewBag.TipoUsuario == "PACIENTE")
+@if (ViewBag.TipoUsuario == TipoUsuario.Paciente)
 {
     <h1>Pacientes</h1>
 
@@ -131,7 +131,8 @@
     </table>
 }
 
-@if(ViewBag.TipoUsuario == "RECEPCIONISTA"){
+@if (ViewBag.TipoUsuario == TipoUsuario.Recepcionista)
+{
     <h1>Recepcionistas</h1>
 
     <form asp-action="AgregarRecepcionista" method="get">
@@ -183,16 +184,9 @@
     </table>
 }
 
-@if (ViewBag.TipoUsuario == "MEDICO")
+@if (ViewBag.TipoUsuario == TipoUsuario.Medico)
 {
-    <h1>Medicos</h1>
-
-    <form asp-action="AgregarMedico" method="get">
-        <div class="form-group">
-            <input type="submit" value="Crear Medico" class="btn btn-primary" />
-        </div>
-    </form>
-
+    <h1>Medico</h1>
 
     <table class="table">
         <thead>
@@ -236,7 +230,7 @@
     </table>
 }
 
-@if (ViewBag.TipoUsuario == "ADMIN")
+@if (ViewBag.TipoUsuario == TipoUsuario.Admin)
 {
 
     <h1>Administradores</h1>

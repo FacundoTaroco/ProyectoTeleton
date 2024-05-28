@@ -1,4 +1,6 @@
-﻿using LogicaNegocio.Entidades;
+﻿using LogicaAccesoDatos.EF.Excepciones;
+using LogicaNegocio.Entidades;
+using LogicaNegocio.Excepciones;
 using LogicaNegocio.InterfacesRepositorio;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -23,17 +25,25 @@ namespace LogicaAccesoDatos.EF
 
             try
             {
-                if (obj == null) { throw new Exception("No se recibio el usuario"); }//hacer algunas excepciones personalizadas 
+                if (obj == null) { throw new NullOrEmptyException("No se recibio el usuario"); }//hacer algunas excepciones personalizadas 
                 obj.Validar();
                 obj.Id = 0;
-                //Validar totem unique con los config!!
-
+               
                 _context.Totems.Add(obj);
                 _context.SaveChanges();
             }
-            catch (Exception)
+            catch (UsuarioException)
             {
                 throw;
+
+            }
+            catch (NullOrEmptyException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw new ServerErrorException("Error del servidor al agregar un nuevo totem");
             }
         }
 
@@ -57,16 +67,31 @@ namespace LogicaAccesoDatos.EF
             {
                 if (String.IsNullOrEmpty(usr)) {
 
-                    throw new Exception("No se recibio nombre de usuario");
+                    throw new NullOrEmptyException("No se recibio nombre de usuario");
                 }
+
+
                 Totem totem = _context.Totems.FirstOrDefault(tot => tot.NombreUsuario == usr);
+
+                if(totem == null) { throw new NotFoundException(); }    
+
                 return totem;
 
+            }
+            catch (NullOrEmptyException)
+            {
+
+                throw;
+            }
+            catch (NotFoundException)
+            {
+
+                throw;
             }
             catch (Exception)
             {
 
-                throw;
+                throw new ServerErrorException("Error del servidor al obtener el totem por usuario");
             }
         }
 
@@ -74,7 +99,8 @@ namespace LogicaAccesoDatos.EF
         {
             try
             {
-                IEnumerable<Totem> totems = _context.Totems.Include(tot => tot.Sesiones).ThenInclude(sesion => sesion.Accesos).ToList();
+                IEnumerable<Totem> totems = new List<Totem>();  
+                totems = _context.Totems.Include(tot => tot.Sesiones).ThenInclude(sesion => sesion.Accesos).ToList();
                 return totems;
             }
             catch (Exception)
@@ -92,21 +118,31 @@ namespace LogicaAccesoDatos.EF
             {
                 if (id == 0)
                 {
-                    throw new Exception("No se recibio id");
+                    throw new NullOrEmptyException("No se recibio id");
                 }//retorna el totem con todas sus sesiones y todos sus accesos
                 var totem = _context.Totems.Include(tot => tot.Sesiones).ThenInclude(sesion => sesion.Accesos).FirstOrDefault(tot => tot.Id == id);
                    
                 if (totem == null)
                 {
-                    throw new Exception("No se encontro ninguna totem con ese id");
+                    throw new NotFoundException("No se encontro ninguna totem con ese id");
                 }
                 return totem;
 
             }
-            catch (Exception) // Excepciones personalizadas
+            catch (NullOrEmptyException)
             {
 
                 throw;
+            }
+            catch (NotFoundException)
+            {
+
+                throw;
+            }
+            catch (Exception) 
+            {
+
+                throw new ServerErrorException("Error del servidor al obtener el totem por id");
             }
         }
 
@@ -114,48 +150,28 @@ namespace LogicaAccesoDatos.EF
         {
             try
             {
-                if (obj == null) { throw new Exception("No se recibio totem para editar"); }
+                if (obj == null) { throw new NullOrEmptyException("No se recibio totem para editar"); }
                 obj.Validar();
 
                 _context.Totems.Update(obj);
                 _context.SaveChanges();
             }
-            catch (Exception)
+            catch (UsuarioException)
             {
                 throw;
+            }
+            catch (NullOrEmptyException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw new ServerErrorException("Error del servidor al actualizar los datos del totem");
             }
         }
         
 
-        public void AgregarAcceso(AccesoTotem acceso, int idTotem)
-        {
-            try
-            {
-                if (acceso == null)
-                {
-                    throw new Exception("No se recibio el acceso");
-                }
-
-                if (_context.Totems.FirstOrDefault(tot => tot.Id == idTotem) == null) {
-                    throw new Exception("No se encontro totem");
-                }
-                if (_context.Totems.FirstOrDefault(tot => tot.Id == idTotem)
-                    .Sesiones.FirstOrDefault(sesion => sesion.Id == acceso.IdSesionTotem) == null)
-                {
-                    throw new Exception("No se encontro sesion");
-                }
-
-                _context.Totems.FirstOrDefault(tot => tot.Id == idTotem)
-                    .Sesiones.FirstOrDefault(sesion => sesion.Id == acceso.IdSesionTotem).Accesos.Add(acceso);  
-
-                _context.SaveChanges();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
+        
 
         
 

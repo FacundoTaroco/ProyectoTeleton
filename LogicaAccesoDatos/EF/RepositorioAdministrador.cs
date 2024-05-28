@@ -1,4 +1,6 @@
-﻿using LogicaNegocio.Entidades;
+﻿using LogicaAccesoDatos.EF.Excepciones;
+using LogicaNegocio.Entidades;
+using LogicaNegocio.Excepciones;
 using LogicaNegocio.InterfacesRepositorio;
 using System;
 using System.Collections.Generic;
@@ -18,10 +20,9 @@ namespace LogicaAccesoDatos.EF
 
         public void Add(Administrador obj)
         {
-
             try
             {
-                if (obj == null) { throw new Exception("No se recibio el admin"); }//hacer algunas excepciones personalizadas 
+                if (obj == null) { throw new NullOrEmptyException("No se recibio el admin"); }//hacer algunas excepciones personalizadas 
                 obj.Validar();
                 obj.Id = 0;
               
@@ -29,26 +30,42 @@ namespace LogicaAccesoDatos.EF
                 _context.Administradores.Add(obj);
                 _context.SaveChanges();
             }
-            catch (Exception)
+            catch (NullOrEmptyException)
             {
                 throw;
             }
-        }
-
-        public void ValidarUnique(Administrador obj) {
-            try
+            catch (UsuarioException)
             {
-                foreach (Administrador a in GetAll()) {
-
-                    if (a.NombreUsuario.Equals(obj.NombreUsuario)) {
-
-                        throw new Exception("El administrador ya existe, ingrese otro nombre de usuario");
-                    }
-                }
+                throw;
+            }
+            catch (UniqueException)
+            {
+                throw;
             }
             catch (Exception)
             {
+                throw new ServerErrorException("Error del servidor, algo fallo al agregar el usuario recepcionista");
+            }
+        }
+        public void ValidarUnique(Administrador obj) {
+            try
+            {
+                foreach (Usuario a in _context.Usuarios.ToList())
+                {
 
+                    if (a.NombreUsuario.Equals(obj.NombreUsuario))
+                    {
+                        throw new UniqueException("El usuario ya existe, ingrese otro nombre de usuario");
+                    }
+                }
+            }
+            catch (UniqueException)
+            {
+
+                throw;
+            }
+            catch(Exception)
+            {
                 throw;
             }
        
@@ -60,7 +77,7 @@ namespace LogicaAccesoDatos.EF
             {
 
                 var admin = GetPorId(id);
-                if (admin == null) { throw new Exception("No se encontro admin"); }
+              
                 _context.Administradores.Remove(admin);
 
                 _context.SaveChanges();
@@ -73,13 +90,13 @@ namespace LogicaAccesoDatos.EF
         {
             try
             {
-                IEnumerable<Administrador> admins = _context.Administradores.ToList();
+                IEnumerable<Administrador> admins = new List<Administrador>();
+                admins = _context.Administradores.ToList();
                 return admins;
             }
             catch (Exception)
             {
-
-                throw;
+                throw new ServerErrorException("Error del servidor al obtener los administradores");
             }
         }
 
@@ -91,17 +108,27 @@ namespace LogicaAccesoDatos.EF
             {
                 if (id == 0)
                 {
-                    throw new Exception("No se recibio id");
+                    throw new NullOrEmptyException("No se recibio id");
                 }
                 var admin = _context.Administradores.FirstOrDefault(adm => adm.Id == id);
                 if (admin == null)
                 {
-                    throw new Exception("No se encontro ningun admin con esa cedula");
+                    throw new NotFoundException("No se encontro ningun admin con esa cedula");
                 }
                 return admin;
 
             }
-            catch (Exception) // Excepciones personalizadaaas
+            catch(NullOrEmptyException) 
+            {
+
+                throw;
+            }
+            catch (NotFoundException) 
+            {
+
+                throw;
+            }
+            catch (Exception) 
             {
 
                 throw;
@@ -112,15 +139,31 @@ namespace LogicaAccesoDatos.EF
         {
             try
             {
-                if (obj == null) { throw new Exception("No se recibio recepcionista para editar"); }
+                if (obj == null) { throw new NullOrEmptyException("No se recibio administrador para editar"); }
                 obj.Validar();
+                if (_context.Administradores.FirstOrDefault(r => r.Id == obj.Id) == null)
+                {
+                    throw new NotFoundException("No se encontro recepcionista a editar");
+                }
+                if (_context.Administradores.FirstOrDefault(r => r.Id == obj.Id).NombreUsuario != obj.NombreUsuario)
+                {
+                    throw new UsuarioException("El nombre de usuario no se puede editar");
+                }
 
                 _context.Administradores.Update(obj);
                 _context.SaveChanges();
             }
-            catch (Exception)
+            catch (UsuarioException)
             {
                 throw;
+            }
+            catch (NotFoundException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw new ServerErrorException("Error del servidor al actualizar el administrador");
             }
         }
 

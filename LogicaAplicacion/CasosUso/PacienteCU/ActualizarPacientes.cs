@@ -60,20 +60,48 @@ namespace LogicaAplicacion.CasosUso.PacienteCU
         
         }
 
-
-        public void crearNuevoUsuarioPaciente(PacienteDTO paciente) {
-
-            Paciente nuevoUsuarioPaciente = new Paciente(crearNombreUsuario(paciente.NombreCompleto), paciente.Cedula, paciente.NombreCompleto, paciente.Cedula, paciente.Contacto);
+        public void crearNuevoUsuarioPaciente(PacienteDTO paciente) {  //AGREGARLE EL ULTIMO DIGITO DE LA CEDULA AL NOMBRE DE USUARIO
+     
+        
+            Paciente nuevoUsuarioPaciente = new Paciente(crearNombreUsuario(paciente.NombreCompleto,paciente.Cedula), paciente.Cedula, paciente.NombreCompleto, paciente.Cedula, paciente.Contacto);
             _abmPacientes.AltaPaciente(nuevoUsuarioPaciente);
             
+
+            
+            //VALIDAR QUE PASA SI NOS LLEGAN PACIENTES VACIOS
         }
 
-        public string crearNombreUsuario(string nombreCompleto) {
+
+
+        public string crearNombreUsuario(string nombreCompleto,string cedula) {
             string[] partesNombre = nombreCompleto.Split(' ');
             string inicialNombre = partesNombre[0].Substring(0, 1);
-            string apellido = partesNombre[1].Replace(" ", "");
-            string nombreUsuario = inicialNombre + apellido;
-            return nombreUsuario;
+            string apellido = "";
+            if(partesNombre.Length > 2) {
+                 apellido = partesNombre[partesNombre.Length-1].Replace(" ", "");
+            }
+            else
+            {
+                 apellido = partesNombre[1].Replace(" ", "");
+            }
+            string digitoFinalCedula = cedula.Substring(cedula.Length-1);
+            string dosDigitosFinalCedula = cedula.Substring(cedula.Length - 2);
+            string nombreUsuario = inicialNombre + apellido + digitoFinalCedula;
+
+            try
+            {
+                _getPacientesCU.GetPacientePorUsuario(nombreUsuario);
+                //si llega aca es porque si existe el usuario entonces tenemos que agregarle otro digito de la cedula
+                nombreUsuario = inicialNombre + apellido + dosDigitosFinalCedula;
+                return nombreUsuario;
+
+            }
+            catch (NotFoundException)
+            {
+                //si llego aca es porque no existe otro paciente con ese nombre de usuario
+                return nombreUsuario;
+            }
+
         }
 
 
@@ -83,7 +111,7 @@ namespace LogicaAplicacion.CasosUso.PacienteCU
               _getPacientesCU.GetPacientePorCedula(cedula);
                return true;
             }
-            catch (ObjetoNoEncontradoException)
+            catch (NotFoundException)
             {
                 return false;
             }
@@ -94,7 +122,6 @@ namespace LogicaAplicacion.CasosUso.PacienteCU
             //VER QUE HACER SI NOS LLEGAN DATOS VACIOS!!!!!!!
             //En este metodo se hace una limpieza de los datos recibidos del servidor central de la teleton(sacarle el guion y punto a las cedulas, etc)
             List<PacienteDTO> listaPacienteLimpia = new List<PacienteDTO>();
-
             foreach (PacienteDTO p in pacientesALimpiar) { 
                 PacienteDTO pacienteLimpio = new PacienteDTO();
                 pacienteLimpio.Contacto = limpiarContacto(p.Contacto);
@@ -106,6 +133,7 @@ namespace LogicaAplicacion.CasosUso.PacienteCU
             
             return listaPacienteLimpia;
         }
+
         //Estos metodos se tienen que mejorar segun como vengan los datos del servidor de la teleton
         private string limpiarCedula(string cedulaSucia) { 
             string patron = @"\D+";
