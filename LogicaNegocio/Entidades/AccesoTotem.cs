@@ -32,7 +32,7 @@ namespace LogicaNegocio.Entidades
 
         public void Validar()
         {
-            if(IdSesionTotem != 0)
+            if(IdSesionTotem == 0)
             {
                 throw new AccesoTotemException("No se encontro la sesion del totem");
             }
