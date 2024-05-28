@@ -1,4 +1,4 @@
-﻿@model AccesoTotemViewModel;
+@model AccesoTotemViewModel;
 @{
     ViewData["Title"] = "HomeUsuario";
 }
@@ -15,7 +15,6 @@
         }
     }
 }
-
 @{
     ViewData["Title"] = "HomeUsuario";
     Layout = null; // Si tienes un layout general, cambia esto por el nombre del layout a
@@ -81,12 +80,43 @@
             .content h3 {
                 text-align: center;
             }
+
+        /* Estilos para el botón Actualizar Citas */
+        .btn-actualizar {
+            background-color: #e83844; /* Rojo */
+            color: white;
+            border: 2px solid #e83844; /* Rojo */
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+            .btn-actualizar:hover {
+                background-color: white; /* Fondo blanco */
+                color: #e83844; /* Texto rojo */
+                border-color: #e83844; /* Borde rojo */
+            }
+
+        .btn-inner {
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
     </style>
 
 
 </head>
 <body>
     <div class="container-fluid">
+        @if (ViewBag.Mensaje != null)
+        {
+            if (ViewBag.TipoMensaje == "ERROR")
+            {
+                <div class="alert alert-danger" role="alert">@ViewBag.Mensaje</div>
+            }
+            else if (ViewBag.TipoMensaje == "EXITO")
+            {
+                <div class="alert alert-success" role="alert">@ViewBag.Mensaje</div>
+            }
+        }
+
         <div class="row">
             <div class="col-md-2 text-white full-height sidebar">
                 <div>
@@ -106,7 +136,7 @@
             <div class="col-md-10 content">
                 <h3>Tratamientos para hoy</h3>
                 <form asp-action="ActualizarCitas" method="post">
-                    <input type="submit" value="Actualizar Citas" class="btn btn-primary" />
+                    <input type="submit" value="Actualizar Citas" class="btn btn-actualizar" />
                 </form>
                 @if (Model.Citas != null){
                 <table class="table table-bordered mt-3">
@@ -168,3 +198,5 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+
+
