@@ -41,19 +41,6 @@ namespace LogicaAplicacion.CasosUso.AccesoTotemCU
                 throw;
             } 
         }
-        public IEnumerable<AccesoTotem> GetAccesosPorSesion(int idTotem, int idSesion) {
-
-            try
-            {
-                return _repo.GetAccesosPorSesion(idTotem, idSesion);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        
-        }
         public IEnumerable<AccesoTotem> GetAccesosPorDia(int idTotem, DateTime fecha) {
             try
             {

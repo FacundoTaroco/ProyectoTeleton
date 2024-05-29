@@ -1,8 +1,10 @@
+
 @model AccesoTotemViewModel;
 
 @{
     ViewData["Title"] = "HomeUsuario";
     Layout = null; // Si tienes un layout general, cambia esto por el nombre del layout a
+
 }
 
 <!DOCTYPE html>
@@ -84,6 +86,10 @@
             transition: background-color 0.3s, color 0.3s, border-color 0.3s;
         }
 
+        #formCerrarSesionAutomaticamente{
+            display:none;
+        }
+
     </style>
 
 
@@ -114,7 +120,8 @@
                 </div>
                 <div>
                     <ul class="list-unstyled">
-                        <li><a href="@Url.Action("CerrarSesion", "Totem")" class="text-white"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
+                        <li>Se cerrara la sesion en <span id="time"></span> segundos</li>
+                        <li><a href="@Url.Action("CerrarAcceso", "Totem")" class="text-white"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
                     </ul>
                 </div>
             </div>
@@ -178,9 +185,14 @@
         </div>
     </div>
 
+    
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="~/js/timerAcceso.js"></script>
+
+    <form asp-action="Index" id="formCerrarSesionAutomaticamente"></form>
 </body>
 </html>
 

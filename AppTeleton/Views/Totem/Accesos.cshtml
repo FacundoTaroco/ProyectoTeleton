@@ -22,7 +22,7 @@
                 @Html.DisplayNameFor(model => model.FechaHora)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdSesionTotem)
+                @Html.DisplayNameFor(model => model._Totem.NombreUsuario)
             </th>
             <th></th>
         </tr>
@@ -40,7 +40,7 @@
                 @Html.DisplayFor(modelItem => item.FechaHora)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdSesionTotem)
+                    @Html.DisplayFor(modelItem => item._Totem.NombreUsuario)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |

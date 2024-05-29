@@ -11,9 +11,7 @@ namespace LogicaNegocio.InterfacesRepositorio
     {
 
         public IEnumerable<AccesoTotem> GetAccesos(int idTotem);
-        public IEnumerable<AccesoTotem> GetAccesosPorSesion(int idTotem, int idSesion);
         public IEnumerable<AccesoTotem> GetAccesosPorDia(int idTotem, DateTime fecha);
-
         public AccesoTotem AgregarAcceso(AccesoTotem acceso);
     }
 }

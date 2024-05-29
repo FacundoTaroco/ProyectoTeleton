@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LogicaAccesoDatos.Migrations
 {
     [DbContext(typeof(LibreriaContext))]
-    [Migration("20240524145519_init")]
+    [Migration("20240528220636_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,41 +39,17 @@ namespace LogicaAccesoDatos.Migrations
                     b.Property<DateTime>("FechaHora")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("IdSesionTotem")
+                    b.Property<int>("IdTotem")
                         .HasColumnType("int");
 
-                    b.Property<int>("_SesionTotemId")
+                    b.Property<int>("_TotemId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("_SesionTotemId");
+                    b.HasIndex("_TotemId");
 
                     b.ToTable("AccesosTotem");
-                });
-
-            modelBuilder.Entity("LogicaNegocio.Entidades.SesionTotem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("InicioSesion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("SesionAbierta")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("TotemId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TotemId");
-
-                    b.ToTable("SesionesTotem");
                 });
 
             modelBuilder.Entity("LogicaNegocio.Entidades.Usuario", b =>
@@ -182,34 +158,18 @@ namespace LogicaAccesoDatos.Migrations
 
             modelBuilder.Entity("LogicaNegocio.Entidades.AccesoTotem", b =>
                 {
-                    b.HasOne("LogicaNegocio.Entidades.SesionTotem", "_SesionTotem")
-                        .WithMany("Accesos")
-                        .HasForeignKey("_SesionTotemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("_SesionTotem");
-                });
-
-            modelBuilder.Entity("LogicaNegocio.Entidades.SesionTotem", b =>
-                {
                     b.HasOne("LogicaNegocio.Entidades.Totem", "_Totem")
-                        .WithMany("Sesiones")
-                        .HasForeignKey("TotemId")
+                        .WithMany("Accesos")
+                        .HasForeignKey("_TotemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("_Totem");
                 });
 
-            modelBuilder.Entity("LogicaNegocio.Entidades.SesionTotem", b =>
-                {
-                    b.Navigation("Accesos");
-                });
-
             modelBuilder.Entity("LogicaNegocio.Entidades.Totem", b =>
                 {
-                    b.Navigation("Sesiones");
+                    b.Navigation("Accesos");
                 });
 #pragma warning restore 612, 618
         }

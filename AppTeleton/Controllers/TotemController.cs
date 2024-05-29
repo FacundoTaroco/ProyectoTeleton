@@ -4,7 +4,6 @@ using LogicaNegocio.InterfacesDominio;
 using LogicaAplicacion.CasosUso.AccesoTotemCU;
 using LogicaAplicacion.CasosUso.CitaCU;
 using LogicaAplicacion.CasosUso.PacienteCU;
-using LogicaAplicacion.CasosUso.SesionTotemCU;
 using LogicaAplicacion.CasosUso.TotemCU;
 using LogicaAplicacion.Excepciones;
 using LogicaNegocio.DTO;
@@ -14,6 +13,7 @@ using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using LogicaNegocio.Enums;
 using AppTeleton.Models.Filtros;
+using Microsoft.JSInterop;
 
 
 namespace AppTeleton.Controllers
@@ -26,21 +26,17 @@ namespace AppTeleton.Controllers
         private GetPacientes _getPacientes;
         private GetTotems _getTotems;
         private AccesoCU _acceso;
-        private GetSesionTotem _sesionTotem;
-        private ABMSesionTotem _ABMSesionTotem;
         private GenerarAvisoLlegada _generarAvisoLlegada;
         private GetCitas _getCitas;
         private ILogin _login;
-        public TotemController(GetPacientes getPacientes, AccesoCU acceso, GetTotems getTotems, GetSesionTotem sesionTotem, GenerarAvisoLlegada generarAvisoLLegada,GetCitas getCitas,ILogin login, ABMSesionTotem abmSesionTotem)
+        public TotemController(GetPacientes getPacientes, AccesoCU acceso, GetTotems getTotems, GenerarAvisoLlegada generarAvisoLLegada,GetCitas getCitas,ILogin login)
         {
             _getPacientes = getPacientes;
             _acceso = acceso;
             _getTotems = getTotems;
-            _sesionTotem =sesionTotem;
             _generarAvisoLlegada = generarAvisoLLegada;
             _getCitas = getCitas;
              _login = login;
-            _ABMSesionTotem = abmSesionTotem;
         }
 
         public IActionResult Index()
@@ -77,12 +73,6 @@ namespace AppTeleton.Controllers
                 // Si la validación es correcta y el usuario es un totem, redirige al Logout de UsuarioController
                 if (tipoUsuario == TipoUsuario.Totem)
                 {
-                    int idSesionActiva = (int)HttpContext.Session.GetInt32("SESIONTOTEM");
-                    //VALIDAT NULL
-                    SesionTotem sesionACerrar = _sesionTotem.GetSesionPorId(idSesionActiva);
-                    sesionACerrar.SesionAbierta = false;
-                    _ABMSesionTotem.CerrarSesion(sesionACerrar);
-
                     return RedirectToAction("Logout", "Usuario");
                 }
                 // Si no es un usuario totem, mostrar mensaje de error
@@ -104,21 +94,19 @@ namespace AppTeleton.Controllers
         public async Task<IActionResult> Acceder(string cedula) {
             try
             {
-                int idSesionActiva = (int)HttpContext.Session.GetInt32("SESIONTOTEM");
-                //VALIDAT NULL
-                SesionTotem sesionActiva = _sesionTotem.GetSesionPorId(idSesionActiva);
-
+               
+                //ACA FALTA VALIDAR QUE SI LA PERSONA YA ACCEDIO ESE DIA NO VUELVA A GENERAR UN NUEVO ACCESSSOOOO
+                
+                Totem totem = GetTotemLogueado();
                 Paciente paciente = _getPacientes.GetPacientePorCedula(cedula);
-                AccesoTotem nuevoAcceso = new AccesoTotem(cedula, sesionActiva);
+                AccesoTotem nuevoAcceso = new AccesoTotem(cedula, totem);
                 _acceso.AgregarAcceso(nuevoAcceso); 
                 AvisoMedicoDTO avisoMedico = new AvisoMedicoDTO(cedula,"Recepcionado",nuevoAcceso.FechaHora);
                 _generarAvisoLlegada.GenerarAvisoLLamada(avisoMedico);
                 IEnumerable<CitaMedicaDTO> citas = await _getCitas.ObtenerCitasPorCedula(cedula);
 
-
-
-
                 AccesoTotemViewModel accesoTotemViewModel = new AccesoTotemViewModel(citas, paciente);
+               
                 return View("HomeUsuario", accesoTotemViewModel);
             }
             catch (ApiErrorException)
@@ -128,7 +116,7 @@ namespace AppTeleton.Controllers
                 Paciente paciente = _getPacientes.GetPacientePorCedula(cedula);
                 AccesoTotemViewModel accesoTotemViewModel = new AccesoTotemViewModel(paciente);
                 return View("HomeUsuario",accesoTotemViewModel);
-              }
+            }
             catch (Exception e)
             {
             ViewBag.TipoMensaje = "ERROR";
@@ -137,12 +125,13 @@ namespace AppTeleton.Controllers
             }
             }
 
-        public IActionResult Sesiones() {
-            Totem _Totem = GetTotemLogueado();
-            IEnumerable<SesionTotem> sesiones = _sesionTotem.GetSesiones(_Totem.Id);
-            return View(sesiones);
+       
+        public IActionResult CerrarAcceso() { 
+            
+            return View("Index");
+        
         }
-
+    
         public IActionResult Accesos()
         {
             

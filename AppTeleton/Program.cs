@@ -12,7 +12,6 @@ using AppTeleton.Worker;
 
 using LogicaAplicacion.CasosUso.MedicoCU;
 using LogicaAplicacion.CasosUso.AccesoTotemCU;
-using LogicaAplicacion.CasosUso.SesionTotemCU;
 using LogicaAplicacion.CasosUso.CitaCU;
 
 
@@ -39,7 +38,6 @@ builder.Services.AddScoped<IRepositorioMedico, RepositorioMedico>();
 builder.Services.AddScoped<IRepositorioRecepcionista, RepositorioRecepcionista>();
 builder.Services.AddScoped<IRepositorioAdministrador, RepositorioAdministrador>();
 builder.Services.AddScoped<IRepositorioTotem, RepositorioTotem>();
-builder.Services.AddScoped<IRepositorioSesionTotem, RepositorioSesionTotem>();
 builder.Services.AddScoped<IRepositorioAccesoTotem, RepositorioAccesoTotem>();
 //Scope de casos de uso
 
@@ -57,9 +55,6 @@ builder.Services.AddScoped<ABMTotem, ABMTotem>();
 builder.Services.AddScoped<GetTotems, GetTotems>();
 builder.Services.AddScoped<GenerarAvisoLlegada, GenerarAvisoLlegada>();
 
-
-builder.Services.AddScoped<ABMSesionTotem, ABMSesionTotem>();
-builder.Services.AddScoped<GetSesionTotem, GetSesionTotem>();
 
 builder.Services.AddScoped<AccesoCU, AccesoCU>();
 

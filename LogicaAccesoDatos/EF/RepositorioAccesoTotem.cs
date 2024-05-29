@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Collections.Specialized.BitVector32;
 using LogicaNegocio.Excepciones;
+using Microsoft.EntityFrameworkCore;
 
 namespace LogicaAccesoDatos.EF
 {
@@ -33,7 +34,7 @@ namespace LogicaAccesoDatos.EF
                 _context.SaveChanges();
 
                 
-                AccesoTotem nuevoAcceso = _context.AccesosTotem.OrderByDescending(s => s.Id).FirstOrDefault();
+                AccesoTotem nuevoAcceso = _context.AccesosTotem.OrderByDescending(s => s.Id).Include(a => a._Totem).ToList().FirstOrDefault();
                 return nuevoAcceso;
             }
 
@@ -63,7 +64,7 @@ namespace LogicaAccesoDatos.EF
                 }
 
                 IEnumerable<AccesoTotem> accesos = new List<AccesoTotem>();
-                accesos = _context.AccesosTotem.Where(a => a._SesionTotem.TotemId == idTotem).ToList();
+                accesos = _context.AccesosTotem.Where(a => a.IdTotem == idTotem).Include(a => a._Totem).ToList();
                 return accesos;
             }
             catch (NullOrEmptyException)
@@ -99,8 +100,8 @@ namespace LogicaAccesoDatos.EF
                     throw new NotFoundException("No se encontro totem");
                 }
 
-
-                IEnumerable<AccesoTotem> accesos = _context.AccesosTotem.Where(a => a._SesionTotem.TotemId == idTotem && a.FechaHora.Day == fecha.Day).ToList();
+                //ESTO CUANDO HACE.DAY no VALIDA QUE SEA EL MISMO DIA 25 de octubre y 25 de febrero devuelven el mismo DAY(25)
+                IEnumerable<AccesoTotem> accesos = _context.AccesosTotem.Where(a => a.IdTotem == idTotem && a.FechaHora.Day == fecha.Day).Include(a => a._Totem).ToList();
                 return accesos;
             }
             catch (NullOrEmptyException)
@@ -119,45 +120,6 @@ namespace LogicaAccesoDatos.EF
             }
         }
 
-        public IEnumerable<AccesoTotem> GetAccesosPorSesion(int idTotem, int idSesion)
-        {
-            try
-            {
-            
-                if (idTotem == 0)
-                {
-                    throw new NullOrEmptyException("No se recibio totem");
-                }
-                if (idSesion == 0) {
-                    throw new NullOrEmptyException("No se recibio sesion");
-                }
-                if (_context.Totems.FirstOrDefault(tot => tot.Id == idTotem) == null)
-                {
-                    throw new NotFoundException("No se encontro totem");
-                }
-                if (_context.SesionesTotem.FirstOrDefault(ses => ses.Id == idSesion) == null)
-                {
-                    throw new NotFoundException("No se encontro sesion");
-                }
-                IEnumerable<AccesoTotem> accesos = new List<AccesoTotem>(); 
-                accesos = _context.AccesosTotem.Where(a => a.IdSesionTotem == idSesion &&  a._SesionTotem.TotemId == idTotem).ToList();
-                return accesos;
-            }
-            catch (NullOrEmptyException)
-            {
-
-                throw;
-            }
-            catch (NotFoundException)
-            {
-
-                throw;
-            }
-            catch (Exception)
-            {
-
-                throw new ServerErrorException("Error del servidor al obtener los accesos por sesion");
-            }
-        }
+       
     }
 }
