@@ -13,7 +13,6 @@ using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using LogicaNegocio.Enums;
 using AppTeleton.Models.Filtros;
-using Microsoft.JSInterop;
 
 
 namespace AppTeleton.Controllers
@@ -98,7 +97,9 @@ namespace AppTeleton.Controllers
                 //ACA FALTA VALIDAR QUE SI LA PERSONA YA ACCEDIO ESE DIA NO VUELVA A GENERAR UN NUEVO ACCESSSOOOO
                 
                 Totem totem = GetTotemLogueado();
+
                 Paciente paciente = _getPacientes.GetPacientePorCedula(cedula);
+
                 AccesoTotem nuevoAcceso = new AccesoTotem(cedula, totem);
                 _acceso.AgregarAcceso(nuevoAcceso); 
                 AvisoMedicoDTO avisoMedico = new AvisoMedicoDTO(cedula,"Recepcionado",nuevoAcceso.FechaHora);
@@ -109,7 +110,7 @@ namespace AppTeleton.Controllers
                
                 return View("HomeUsuario", accesoTotemViewModel);
             }
-            catch (ApiErrorException)
+            catch (TeletonServerException)
             {
                 ViewBag.TipoMensaje = "ERROR";
                 ViewBag.Mensaje = "No se pudieron cargar sus citas, consulte en recepcion";

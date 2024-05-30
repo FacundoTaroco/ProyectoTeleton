@@ -91,9 +91,7 @@
             <th>
                 Cedula
             </th>
-            <th>
-                Contacto
-            </th>
+         
                 <th>
                     
                 </th>
@@ -118,9 +116,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Cedula)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Contacto)
-                </td>
+             
                 <td>
                         @Html.ActionLink("Delete", "Delete","Paciente", new { id=item.Id})
                         @Html.ActionLink("Editar", "Editar", new { /* id=item.PrimaryKey */ })

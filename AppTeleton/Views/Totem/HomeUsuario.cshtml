@@ -135,22 +135,19 @@
                     <thead>
                         <tr>
                             <th>
-                                Tipo cita
+                                Nombre
                             </th>
                             <th>
-                                Materiales
+                                Servicio
                             </th>
                             <th>
-                                Personal
+                               Tratamiento
                             </th>
                             <th>
-                                Sala
+                               Fecha
                             </th>
                             <th>
-                                Fecha
-                            </th>
-                            <th>
-                                Cedula Paciente
+                               Hora
                             </th>   
                         </tr>
                     </thead>
@@ -159,22 +156,19 @@
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.TipoCita)
+                                    @Html.DisplayFor(modelItem => item.NombreCompleto)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Materiales)
+                                    @Html.DisplayFor(modelItem => item.Servicio)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Personal)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Sala)
+                                    @Html.DisplayFor(modelItem => item.Tratamiento)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Fecha)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.CedulaPaciente)
+                                    @Html.DisplayFor(modelItem => item.HoraInicio)
                                 </td>
                             </tr>
                         }

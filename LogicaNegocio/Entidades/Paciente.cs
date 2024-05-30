@@ -12,13 +12,13 @@ namespace LogicaNegocio.Entidades
         //aca iria todo el tema de la agenda por ahora el paciente tiene solo los datos generales de Usuario
 
         public string Cedula { get; set; }
-        public string Contacto { get; set; }
+
 
         public Paciente() { }
-        public Paciente(string nombreUsr, string contrasenia, string nombre, string cedula,string contacto) : base(nombreUsr, contrasenia, nombre) { 
+        public Paciente(string nombreUsr, string contrasenia, string nombre, string cedula) : base(nombreUsr, contrasenia, nombre) { 
            
             Cedula = cedula;
-            Contacto = contacto;
+            
         }
 
     }

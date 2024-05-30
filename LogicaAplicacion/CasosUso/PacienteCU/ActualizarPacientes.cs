@@ -47,7 +47,7 @@ namespace LogicaAplicacion.CasosUso.PacienteCU
                 return true;
 
             }
-            catch (ApiErrorException) {
+            catch (TeletonServerException) {
                 throw;
             }
             catch (Exception)
@@ -60,10 +60,10 @@ namespace LogicaAplicacion.CasosUso.PacienteCU
         
         }
 
-        public void crearNuevoUsuarioPaciente(PacienteDTO paciente) {  //AGREGARLE EL ULTIMO DIGITO DE LA CEDULA AL NOMBRE DE USUARIO
+        public void crearNuevoUsuarioPaciente(PacienteDTO paciente) { 
      
         
-            Paciente nuevoUsuarioPaciente = new Paciente(crearNombreUsuario(paciente.NombreCompleto,paciente.Cedula), paciente.Cedula, paciente.NombreCompleto, paciente.Cedula, paciente.Contacto);
+            Paciente nuevoUsuarioPaciente = new Paciente(crearNombreUsuario(paciente.NombreCompleto,paciente.Cedula), paciente.Cedula, paciente.NombreCompleto, paciente.Cedula);
             _abmPacientes.AltaPaciente(nuevoUsuarioPaciente);
             
 
@@ -124,7 +124,7 @@ namespace LogicaAplicacion.CasosUso.PacienteCU
             List<PacienteDTO> listaPacienteLimpia = new List<PacienteDTO>();
             foreach (PacienteDTO p in pacientesALimpiar) { 
                 PacienteDTO pacienteLimpio = new PacienteDTO();
-                pacienteLimpio.Contacto = limpiarContacto(p.Contacto);
+  
                 pacienteLimpio.NombreCompleto = limpiarNombre(p.NombreCompleto);
                 pacienteLimpio.Cedula = limpiarCedula(p.Cedula);
 
@@ -140,14 +140,7 @@ namespace LogicaAplicacion.CasosUso.PacienteCU
             string cedulaLimpia = Regex.Replace(cedulaSucia, patron, "");
             return cedulaLimpia;
         }
-        private string limpiarContacto(string contactoSucio) {
-            string patron = @"\D+";
-            string contactoLimpio = Regex.Replace(contactoSucio, patron, "");
-
-            //
-
-            return contactoLimpio;
-        }
+       
         private string limpiarNombre(string nombreSucio) { 
 
             //

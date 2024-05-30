@@ -19,8 +19,7 @@ namespace LogicaAccesoDatos.Migrations
                     NombreUsuario = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Contrasenia = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Cedula = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Contacto = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Cedula = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
