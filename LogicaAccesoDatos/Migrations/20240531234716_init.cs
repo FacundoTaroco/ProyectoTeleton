@@ -54,8 +54,8 @@ namespace LogicaAccesoDatos.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PacienteId = table.Column<int>(type: "int", nullable: false),
-                    IdPaciente = table.Column<int>(type: "int", nullable: false),
+                    UsuarioId = table.Column<int>(type: "int", nullable: false),
+                    IdUsuario = table.Column<int>(type: "int", nullable: false),
                     Endpoint = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     P256dh = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Auth = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -64,8 +64,8 @@ namespace LogicaAccesoDatos.Migrations
                 {
                     table.PrimaryKey("PK_Dispositivos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Dispositivos_Usuarios_PacienteId",
-                        column: x => x.PacienteId,
+                        name: "FK_Dispositivos_Usuarios_UsuarioId",
+                        column: x => x.UsuarioId,
                         principalTable: "Usuarios",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -92,9 +92,9 @@ namespace LogicaAccesoDatos.Migrations
                 column: "_TotemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Dispositivos_PacienteId",
+                name: "IX_Dispositivos_UsuarioId",
                 table: "Dispositivos",
-                column: "PacienteId");
+                column: "UsuarioId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Usuarios_NombreUsuario",

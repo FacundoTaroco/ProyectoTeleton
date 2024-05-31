@@ -105,7 +105,39 @@ namespace LogicaAccesoDatos.EF
             }
         }
 
-       
+        public Recepcionista GetRecepcionistaPorUsuario(string usuario)
+        {
+            try
+            {
+                if (String.IsNullOrEmpty(usuario))
+                {
+                    throw new NullOrEmptyException("No se recibio cedula");
+                }
+                var recepcionista = _context.Recepcionistas.FirstOrDefault(rec => rec.NombreUsuario.Equals(usuario));
+                if (recepcionista == null)
+                {
+                    throw new NotFoundException("La cedula ingresada no existe");
+                }
+                return recepcionista;
+
+            }
+            catch (NullOrEmptyException)
+            {
+
+                throw;
+            }
+            catch (NotFoundException)
+            {
+
+                throw;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
 
         public Recepcionista GetPorId(int id)
         {

@@ -66,19 +66,19 @@ namespace LogicaAccesoDatos.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IdPaciente")
+                    b.Property<int>("IdUsuario")
                         .HasColumnType("int");
 
                     b.Property<string>("P256dh")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PacienteId")
+                    b.Property<int>("UsuarioId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PacienteId");
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Dispositivos");
                 });
@@ -196,13 +196,13 @@ namespace LogicaAccesoDatos.Migrations
 
             modelBuilder.Entity("LogicaNegocio.Entidades.DispositivoNotificacion", b =>
                 {
-                    b.HasOne("LogicaNegocio.Entidades.Paciente", "Paciente")
+                    b.HasOne("LogicaNegocio.Entidades.Usuario", "Usuario")
                         .WithMany()
-                        .HasForeignKey("PacienteId")
+                        .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Paciente");
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("LogicaNegocio.Entidades.Totem", b =>

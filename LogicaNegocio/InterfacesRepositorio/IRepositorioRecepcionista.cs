@@ -10,6 +10,6 @@ namespace LogicaNegocio.InterfacesRepositorio
     public interface IRepositorioRecepcionista:IRepositorio<Recepcionista>
     {
 
-
+        public Recepcionista GetRecepcionistaPorUsuario(string usuario);
     }
 }

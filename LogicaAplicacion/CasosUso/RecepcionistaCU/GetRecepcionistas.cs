@@ -31,11 +31,24 @@ namespace LogicaAplicacion.CasosUso.RecepcionistaCU
 
         }
 
-        public Recepcionista GetAdministradorPorId(int id)
+        public Recepcionista GetRecepcionistaPorId(int id)
         {
             try
             {
                 return _repo.GetPorId(id);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+        public Recepcionista GetRecepcionistaPorUsuario(string usuario)
+        {
+            try
+            {
+                return _repo.GetRecepcionistaPorUsuario(usuario);
             }
             catch (Exception)
             {

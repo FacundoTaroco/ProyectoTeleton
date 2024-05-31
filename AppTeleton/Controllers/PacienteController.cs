@@ -53,8 +53,8 @@ namespace AppTeleton.Controllers
                 dispositivo.Auth = pushAuth;
                 dispositivo.P256dh = pushP256DH;    
                 dispositivo.Endpoint = pushEndpoint;
-                dispositivo.Paciente = pacienteLogueado;
-                dispositivo.IdPaciente = pacienteLogueado.Id;
+                dispositivo.Usuario = pacienteLogueado;
+                dispositivo.IdUsuario = pacienteLogueado.Id;
                 _guardarDispositivo.GuardarDispositivo(dispositivo);
 
 

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LogicaAccesoDatos.Migrations
 {
     [DbContext(typeof(LibreriaContext))]
-    [Migration("20240531231052_init")]
+    [Migration("20240531234716_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -68,19 +68,19 @@ namespace LogicaAccesoDatos.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IdPaciente")
+                    b.Property<int>("IdUsuario")
                         .HasColumnType("int");
 
                     b.Property<string>("P256dh")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PacienteId")
+                    b.Property<int>("UsuarioId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PacienteId");
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Dispositivos");
                 });
@@ -198,13 +198,13 @@ namespace LogicaAccesoDatos.Migrations
 
             modelBuilder.Entity("LogicaNegocio.Entidades.DispositivoNotificacion", b =>
                 {
-                    b.HasOne("LogicaNegocio.Entidades.Paciente", "Paciente")
+                    b.HasOne("LogicaNegocio.Entidades.Usuario", "Usuario")
                         .WithMany()
-                        .HasForeignKey("PacienteId")
+                        .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Paciente");
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("LogicaNegocio.Entidades.Totem", b =>

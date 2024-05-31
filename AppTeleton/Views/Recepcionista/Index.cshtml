@@ -19,6 +19,20 @@
 }
 
 <h1>Index</h1>
+
+<div id="notificationBlock" class="alert alert-info" role="alert">
+    Active las notificaciones para recibir avisos y recordatorios importantes
+    <button class="btn btn-primary" onclick="suscribirse()">Aceptar</button>
+    <button class="btn btn-secondary" onclick="hideNotificationBlock()">No ahora</button>
+</div>
+
+
+<form id="subscriptionForm" asp-controller="Recepcionista" asp-action="GuardarDispositivoNotificacion" method="post" style="display: none;">
+    <input type="text" id="endpoint" name="pushEndpoint">
+    <input type="text" id="p256dh" name="pushP256DH">
+    <input type="text" id="auth" name="pushAuth">
+</form>
+
 <h1>VISTA Recepcionista</h1>
 
 
