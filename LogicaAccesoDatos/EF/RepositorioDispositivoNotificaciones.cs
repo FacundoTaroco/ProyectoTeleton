@@ -23,12 +23,15 @@ namespace LogicaAccesoDatos.EF
         {
             try
             {
+
+
                 if (obj == null) { throw new NullOrEmptyException("No se recibio el dispositivo"); }
                 obj.Validar();
                 obj.Id = 0;
-
                 _context.Dispositivos.Add(obj);
                 _context.SaveChanges();
+
+
             }
             catch (NullOrEmptyException)
             {
