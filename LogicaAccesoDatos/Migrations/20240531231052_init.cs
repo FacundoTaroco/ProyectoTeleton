@@ -48,6 +48,29 @@ namespace LogicaAccesoDatos.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Dispositivos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PacienteId = table.Column<int>(type: "int", nullable: false),
+                    IdPaciente = table.Column<int>(type: "int", nullable: false),
+                    Endpoint = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    P256dh = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Auth = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Dispositivos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Dispositivos_Usuarios_PacienteId",
+                        column: x => x.PacienteId,
+                        principalTable: "Usuarios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Usuarios",
                 columns: new[] { "Id", "Contrasenia", "Discriminator", "Nombre", "NombreUsuario" },
@@ -69,6 +92,11 @@ namespace LogicaAccesoDatos.Migrations
                 column: "_TotemId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Dispositivos_PacienteId",
+                table: "Dispositivos",
+                column: "PacienteId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Usuarios_NombreUsuario",
                 table: "Usuarios",
                 column: "NombreUsuario",
@@ -79,6 +107,9 @@ namespace LogicaAccesoDatos.Migrations
         {
             migrationBuilder.DropTable(
                 name: "AccesosTotem");
+
+            migrationBuilder.DropTable(
+                name: "Dispositivos");
 
             migrationBuilder.DropTable(
                 name: "Usuarios");

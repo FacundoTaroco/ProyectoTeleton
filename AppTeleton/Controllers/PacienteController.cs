@@ -11,11 +11,13 @@ namespace AppTeleton.Controllers
 
         ABMPacientes _abmPacientes { get; set; }
         GetPacientes _getPacientes { get; set; }
+        GuardarDispositivoNotificacion _guardarDispositivo {  get; set; }
 
-        public PacienteController(ABMPacientes abmPacientes, GetPacientes getPacientes) { 
+        public PacienteController(ABMPacientes abmPacientes, GetPacientes getPacientes, GuardarDispositivoNotificacion guardarDispositivo) { 
         
             _abmPacientes = abmPacientes;   
             _getPacientes = getPacientes;
+            _guardarDispositivo = guardarDispositivo;   
         
         }
         [PacienteLogueado]
@@ -37,5 +39,37 @@ namespace AppTeleton.Controllers
             }
 
         }
+
+        [PacienteLogueado]
+        [HttpPost]
+        public IActionResult GuardarDispositivoNotificacion(string pushEndpoint, string pushP256DH, string pushAuth) {
+
+            try
+            {
+                string usuario = HttpContext.Session.GetString("USR");
+                Paciente pacienteLogueado = _getPacientes.GetPacientePorUsuario(usuario);
+
+                DispositivoNotificacion dispositivo = new DispositivoNotificacion();
+                dispositivo.Auth = pushAuth;
+                dispositivo.P256dh = pushP256DH;    
+                dispositivo.Endpoint = pushEndpoint;
+                dispositivo.Paciente = pacienteLogueado;
+                dispositivo.IdPaciente = pacienteLogueado.Id;
+                _guardarDispositivo.GuardarDispositivo(dispositivo);
+
+
+                return View("Index");
+
+            }
+            catch (Exception)
+            {
+                ViewBag.TipoMensaje = "ERROR";
+                ViewBag.Mensaje = "Algo salio mal al activar las notificaciones";
+              return View("Index");
+            }
+       
+        
+        }
+
     }
 }

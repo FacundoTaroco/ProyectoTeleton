@@ -39,11 +39,14 @@ builder.Services.AddScoped<IRepositorioRecepcionista, RepositorioRecepcionista>(
 builder.Services.AddScoped<IRepositorioAdministrador, RepositorioAdministrador>();
 builder.Services.AddScoped<IRepositorioTotem, RepositorioTotem>();
 builder.Services.AddScoped<IRepositorioAccesoTotem, RepositorioAccesoTotem>();
+builder.Services.AddScoped<IRepositorioDispositivoNotificaciones, RepositorioDispositivoNotificaciones>();
+
 //Scope de casos de uso
 
 builder.Services.AddScoped<ABMPacientes, ABMPacientes>();
 builder.Services.AddScoped<GetPacientes, GetPacientes>();
 builder.Services.AddScoped<ActualizarPacientes, ActualizarPacientes>();
+builder.Services.AddScoped<GuardarDispositivoNotificacion, GuardarDispositivoNotificacion>();
 
 builder.Services.AddScoped<ABMRecepcionistas, ABMRecepcionistas>();
 builder.Services.AddScoped<GetRecepcionistas, GetRecepcionistas>();

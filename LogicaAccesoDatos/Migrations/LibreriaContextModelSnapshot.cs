@@ -50,6 +50,39 @@ namespace LogicaAccesoDatos.Migrations
                     b.ToTable("AccesosTotem");
                 });
 
+            modelBuilder.Entity("LogicaNegocio.Entidades.DispositivoNotificacion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Auth")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Endpoint")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IdPaciente")
+                        .HasColumnType("int");
+
+                    b.Property<string>("P256dh")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PacienteId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PacienteId");
+
+                    b.ToTable("Dispositivos");
+                });
+
             modelBuilder.Entity("LogicaNegocio.Entidades.Usuario", b =>
                 {
                     b.Property<int>("Id")
@@ -159,6 +192,17 @@ namespace LogicaAccesoDatos.Migrations
                         .IsRequired();
 
                     b.Navigation("_Totem");
+                });
+
+            modelBuilder.Entity("LogicaNegocio.Entidades.DispositivoNotificacion", b =>
+                {
+                    b.HasOne("LogicaNegocio.Entidades.Paciente", "Paciente")
+                        .WithMany()
+                        .HasForeignKey("PacienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Paciente");
                 });
 
             modelBuilder.Entity("LogicaNegocio.Entidades.Totem", b =>
