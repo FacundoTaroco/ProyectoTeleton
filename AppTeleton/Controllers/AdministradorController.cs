@@ -153,6 +153,17 @@ namespace AppTeleton.Controllers
         
         }
 
+        public IActionResult EnviarNotificacionUsuario(int idUsuario, string mensaje) {
+
+            if (!String.IsNullOrEmpty(mensaje)) {
+                ViewBag.Mensaje = mensaje;
+            }
+
+            ViewBag.idUsuario = idUsuario;
+        return View("MandarNotificacionUsuario");
+        
+        }
+
         private UsuariosViewModel ObtenerModeloUsuarios() {
             IEnumerable<Paciente> pacientes = _getPacientes.GetAll();
             IEnumerable<Recepcionista> recepcionistas = _getRecepcionistas.GetAll();

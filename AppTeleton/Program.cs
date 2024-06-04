@@ -13,6 +13,8 @@ using AppTeleton.Worker;
 using LogicaAplicacion.CasosUso.MedicoCU;
 using LogicaAplicacion.CasosUso.AccesoTotemCU;
 using LogicaAplicacion.CasosUso.CitaCU;
+using LogicaAplicacion.CasosUso.DispositivoUsuarioCU;
+using LogicaAplicacion.CasosUso.NotificacionCU;
 
 
 
@@ -40,13 +42,16 @@ builder.Services.AddScoped<IRepositorioAdministrador, RepositorioAdministrador>(
 builder.Services.AddScoped<IRepositorioTotem, RepositorioTotem>();
 builder.Services.AddScoped<IRepositorioAccesoTotem, RepositorioAccesoTotem>();
 builder.Services.AddScoped<IRepositorioDispositivoNotificaciones, RepositorioDispositivoNotificaciones>();
-
+builder.Services.AddScoped<IRepositorioNotificacion, RepositorioNotificacion>();
 //Scope de casos de uso
 
 builder.Services.AddScoped<ABMPacientes, ABMPacientes>();
 builder.Services.AddScoped<GetPacientes, GetPacientes>();
 builder.Services.AddScoped<ActualizarPacientes, ActualizarPacientes>();
+
+
 builder.Services.AddScoped<GuardarDispositivoNotificacion, GuardarDispositivoNotificacion>();
+builder.Services.AddScoped<GetDispositivos, GetDispositivos>();
 
 builder.Services.AddScoped<ABMRecepcionistas, ABMRecepcionistas>();
 builder.Services.AddScoped<GetRecepcionistas, GetRecepcionistas>();
@@ -66,6 +71,8 @@ builder.Services.AddScoped<GetCitas, GetCitas>();
 builder.Services.AddScoped<ABMMedicos, ABMMedicos>();
 builder.Services.AddScoped<GetMedicos, GetMedicos>();
 
+builder.Services.AddScoped<GetNotificacion, GetNotificacion>();
+builder.Services.AddScoped<ABNotificacion, ABNotificacion>();
 
 //scopes de servicios
 

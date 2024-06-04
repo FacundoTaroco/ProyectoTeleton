@@ -13,6 +13,7 @@ namespace LogicaNegocio.Entidades
 
         public string Cedula { get; set; }
 
+        public List<Notificacion> Notificaciones { get; set; }  = new List<Notificacion>();
 
         public Paciente() { }
         public Paciente(string nombreUsr, string contrasenia, string nombre, string cedula) : base(nombreUsr, contrasenia, nombre) { 

@@ -11,6 +11,6 @@ namespace LogicaNegocio.InterfacesRepositorio
     {
 
         public IEnumerable<DispositivoNotificacion> GetDispositivosDePaciente(int idPaciente);
-        public IEnumerable<DispositivoNotificacion> GetDispositivosDePacienteCedula(string cedula);
+        public IEnumerable<DispositivoNotificacion> GetDispositivosDeRecepcionista(int id);
     }
 }

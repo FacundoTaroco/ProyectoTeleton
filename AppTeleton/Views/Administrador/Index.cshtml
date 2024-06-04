@@ -120,6 +120,7 @@
                 <td>
                         @Html.ActionLink("Delete", "Delete","Paciente", new { id=item.Id})
                         @Html.ActionLink("Editar", "Editar", new { /* id=item.PrimaryKey */ })
+                        @Html.ActionLink("Mandar Notificacion", "EnviarNotificacionUsuario", new { idUsuario=item.Id })
                 </td>
             </tr>
         }

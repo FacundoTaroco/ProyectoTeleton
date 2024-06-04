@@ -31,7 +31,7 @@
 <h1>Hello, world!</h1>
 <h2>The time on the server is @DateTime.Now</h2>
 
-<form id="subscriptionForm" asp-controller="Paciente" asp-action="GuardarDispositivoNotificacion" method="post" style="display: none;">
+<form id="subscriptionForm" asp-controller="Notificacion" asp-action="GuardarDispositivoNotificacion" method="post" style="display: none;">
     <input type="text" id="endpoint" name="pushEndpoint">
     <input type="text" id="p256dh" name="pushP256DH">
     <input type="text" id="auth" name="pushAuth">

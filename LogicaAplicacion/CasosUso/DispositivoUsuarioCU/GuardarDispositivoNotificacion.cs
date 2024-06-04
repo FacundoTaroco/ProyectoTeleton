@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LogicaAplicacion.CasosUso.PacienteCU
+namespace LogicaAplicacion.CasosUso.DispositivoUsuarioCU
 {
     public class GuardarDispositivoNotificacion
     {
@@ -17,7 +17,8 @@ namespace LogicaAplicacion.CasosUso.PacienteCU
         }
 
 
-        public void GuardarDispositivo(DispositivoNotificacion dispositivo) {
+        public void GuardarDispositivo(DispositivoNotificacion dispositivo)
+        {
 
             try
             {
@@ -28,8 +29,8 @@ namespace LogicaAplicacion.CasosUso.PacienteCU
 
                 throw;
             }
-        
-        
+
+
         }
     }
 }

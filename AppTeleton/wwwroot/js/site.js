@@ -29,17 +29,15 @@ const suscribirse = async () => {
     await requestNotificationPermission()
     let reg = await registerSW()
 
-    reg.pushManager.getSubscription()
+    if (reg.active.state == "activated") {
+        reg.pushManager.getSubscription()
         .then(function (subscription) {
-            if (subscription === null) {
-
+            if (subscription == null) {
                 subscribeUser(reg);
             }
         })
 
-
-
-    
+    }
 }
 function subscribeUser(swReg) {
     const applicationServerKey = urlBase64ToUint8Array("BKbHbSWuzzAuiXHQ9iS1yVSI0uly-gzp-EKLr-qQOaYFsMlMfP4_TybiwMxNc7oeln31U9MXdIQlMCQ68-51sT0");

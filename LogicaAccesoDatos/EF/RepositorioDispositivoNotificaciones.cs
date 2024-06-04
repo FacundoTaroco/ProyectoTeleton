@@ -58,22 +58,70 @@ namespace LogicaAccesoDatos.EF
 
         public IEnumerable<DispositivoNotificacion> GetAll()
         {
-            throw new NotImplementedException();
+            try
+            {
+             IEnumerable<DispositivoNotificacion> dispositivos = new List<DispositivoNotificacion>();
+            dispositivos = _context.Dispositivos.Include(disp=>disp.Usuario).ToList();
+            return dispositivos;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+         
         }
 
         public IEnumerable<DispositivoNotificacion> GetDispositivosDePaciente(int idPaciente)
         {
-            throw new NotImplementedException();
+            try
+            {
+                IEnumerable<DispositivoNotificacion> dispositivosPaciente = new List<DispositivoNotificacion>();
+                dispositivosPaciente = _context.Dispositivos.Where(disp => disp.IdUsuario == idPaciente).ToList();
+                return dispositivosPaciente;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
-        public IEnumerable<DispositivoNotificacion> GetDispositivosDePacienteCedula(string cedula)
-        {
-            throw new NotImplementedException();
-        }
+      
 
+        public IEnumerable<DispositivoNotificacion> GetDispositivosDeRecepcionista(int idRecepcionista) {
+
+
+            try
+            {
+                IEnumerable<DispositivoNotificacion> dispositivosPaciente = new List<DispositivoNotificacion>();
+                dispositivosPaciente = _context.Dispositivos.Where(disp => disp.IdUsuario == idRecepcionista).ToList();
+                return dispositivosPaciente;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
         public DispositivoNotificacion GetPorId(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+            DispositivoNotificacion dispositivo = new DispositivoNotificacion();
+             dispositivo = _context.Dispositivos.FirstOrDefault(disp=>disp.Id==id);
+                if (dispositivo == null) {
+                    throw new Exception("No se encontro dispositivo");
+                }
+             return dispositivo;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
         public void Update(DispositivoNotificacion obj)
