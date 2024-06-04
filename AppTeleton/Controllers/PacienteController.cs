@@ -1,22 +1,27 @@
 ﻿using AppTeleton.Models.Filtros;
+using LogicaAplicacion.CasosUso.DispositivoUsuarioCU;
+using LogicaAplicacion.CasosUso.NotificacionCU;
 using LogicaAplicacion.CasosUso.PacienteCU;
 using LogicaNegocio.Entidades;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AppTeleton.Controllers
 {
-    
+
     public class PacienteController : Controller
     {
 
-        ABMPacientes _abmPacientes { get; set; }
-        GetPacientes _getPacientes { get; set; }
+        ABMPacientes _abmPacientes { get;}
+        GetPacientes _getPacientes { get;  }
+        GetNotificacion _getNotificaciones { get; }
 
-        public PacienteController(ABMPacientes abmPacientes, GetPacientes getPacientes) { 
+        public PacienteController(ABMPacientes abmPacientes, GetPacientes getPacientes,GetNotificacion getNotificacion) { 
         
             _abmPacientes = abmPacientes;   
             _getPacientes = getPacientes;
-        
+            _getNotificaciones = getNotificacion;
+
+
         }
         [PacienteLogueado]
         public IActionResult Index()
@@ -37,5 +42,16 @@ namespace AppTeleton.Controllers
             }
 
         }
+        [PacienteLogueado]
+        [HttpGet]
+        public IActionResult NotificacionesPaciente() {
+            string usuarioPaciente = HttpContext.Session.GetString("USR");
+            Paciente pacienteLogueado = _getPacientes.GetPacientePorUsuario(usuarioPaciente);
+            IEnumerable<Notificacion> notificaciones = _getNotificaciones.GetPorUsuario(pacienteLogueado.Id);
+            return View(notificaciones);
+        }
+
+      
+
     }
 }

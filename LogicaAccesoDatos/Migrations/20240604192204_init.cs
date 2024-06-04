@@ -19,33 +19,11 @@ namespace LogicaAccesoDatos.Migrations
                     NombreUsuario = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Contrasenia = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Cedula = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Contacto = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Cedula = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Usuarios", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "SesionesTotem",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    InicioSesion = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    SesionAbierta = table.Column<bool>(type: "bit", nullable: false),
-                    TotemId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SesionesTotem", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_SesionesTotem_Usuarios_TotemId",
-                        column: x => x.TotemId,
-                        principalTable: "Usuarios",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -56,16 +34,67 @@ namespace LogicaAccesoDatos.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CedulaPaciente = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FechaHora = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    _SesionTotemId = table.Column<int>(type: "int", nullable: false),
-                    IdSesionTotem = table.Column<int>(type: "int", nullable: false)
+                    _TotemId = table.Column<int>(type: "int", nullable: false),
+                    IdTotem = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AccesosTotem", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AccesosTotem_SesionesTotem__SesionTotemId",
-                        column: x => x._SesionTotemId,
-                        principalTable: "SesionesTotem",
+                        name: "FK_AccesosTotem_Usuarios__TotemId",
+                        column: x => x._TotemId,
+                        principalTable: "Usuarios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Dispositivos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UsuarioId = table.Column<int>(type: "int", nullable: false),
+                    IdUsuario = table.Column<int>(type: "int", nullable: false),
+                    Endpoint = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    P256dh = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Auth = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Dispositivos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Dispositivos_Usuarios_UsuarioId",
+                        column: x => x.UsuarioId,
+                        principalTable: "Usuarios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Notificaciones",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Titulo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Mensaje = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UsuarioId = table.Column<int>(type: "int", nullable: false),
+                    IdUsuario = table.Column<int>(type: "int", nullable: false),
+                    PacienteId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notificaciones", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Notificaciones_Usuarios_PacienteId",
+                        column: x => x.PacienteId,
+                        principalTable: "Usuarios",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Notificaciones_Usuarios_UsuarioId",
+                        column: x => x.UsuarioId,
+                        principalTable: "Usuarios",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -86,14 +115,24 @@ namespace LogicaAccesoDatos.Migrations
                 values: new object[] { 1, "totem123", "Totem", "Totem Montevideo", "totemMVD" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AccesosTotem__SesionTotemId",
+                name: "IX_AccesosTotem__TotemId",
                 table: "AccesosTotem",
-                column: "_SesionTotemId");
+                column: "_TotemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SesionesTotem_TotemId",
-                table: "SesionesTotem",
-                column: "TotemId");
+                name: "IX_Dispositivos_UsuarioId",
+                table: "Dispositivos",
+                column: "UsuarioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notificaciones_PacienteId",
+                table: "Notificaciones",
+                column: "PacienteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notificaciones_UsuarioId",
+                table: "Notificaciones",
+                column: "UsuarioId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Usuarios_NombreUsuario",
@@ -108,7 +147,10 @@ namespace LogicaAccesoDatos.Migrations
                 name: "AccesosTotem");
 
             migrationBuilder.DropTable(
-                name: "SesionesTotem");
+                name: "Dispositivos");
+
+            migrationBuilder.DropTable(
+                name: "Notificaciones");
 
             migrationBuilder.DropTable(
                 name: "Usuarios");

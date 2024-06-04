@@ -25,7 +25,7 @@ namespace LogicaAccesoDatos.EF
 
             try
             {
-                if (obj == null) { throw new NullOrEmptyException("No se recibio el usuario"); }//hacer algunas excepciones personalizadas 
+                if (obj == null) { throw new NullOrEmptyException("No se recibio el usuario"); }
                 obj.Validar();
                 obj.Id = 0;
                
@@ -100,7 +100,7 @@ namespace LogicaAccesoDatos.EF
             try
             {
                 IEnumerable<Totem> totems = new List<Totem>();  
-                totems = _context.Totems.Include(tot => tot.Sesiones).ThenInclude(sesion => sesion.Accesos).ToList();
+                totems = _context.Totems.Include(tot => tot.Accesos).ToList();
                 return totems;
             }
             catch (Exception)
@@ -120,7 +120,7 @@ namespace LogicaAccesoDatos.EF
                 {
                     throw new NullOrEmptyException("No se recibio id");
                 }//retorna el totem con todas sus sesiones y todos sus accesos
-                var totem = _context.Totems.Include(tot => tot.Sesiones).ThenInclude(sesion => sesion.Accesos).FirstOrDefault(tot => tot.Id == id);
+                var totem = _context.Totems.Include(tot => tot.Accesos).FirstOrDefault(tot => tot.Id == id);
                    
                 if (totem == null)
                 {

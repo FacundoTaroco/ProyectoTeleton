@@ -17,9 +17,10 @@ namespace LogicaAccesoDatos.EF
         public DbSet<Recepcionista> Recepcionistas { get; set; }
         public DbSet<Administrador> Administradores { get; set; }
         public DbSet<Totem> Totems { get; set; }
-        public DbSet<SesionTotem> SesionesTotem { get; set; }
         public DbSet<AccesoTotem> AccesosTotem { get; set; }
         public DbSet<Medico> Medicos{ get; set; }
+        public DbSet<DispositivoNotificacion> Dispositivos { get; set; }
+        public DbSet<Notificacion> Notificaciones { get; set; }
 
 
 

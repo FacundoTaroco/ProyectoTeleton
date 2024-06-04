@@ -1,10 +1,10 @@
-﻿@model IEnumerable<LogicaNegocio.Entidades.SesionTotem>
+﻿@model IEnumerable<LogicaNegocio.Entidades.Notificacion>
 
 @{
-    ViewData["Title"] = "Sesiones";
+    ViewData["Title"] = "NotificacionesPaciente";
 }
 
-<h1>Sesiones</h1>
+<h1>View</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -16,13 +16,10 @@
                 @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InicioSesion)
+                @Html.DisplayNameFor(model => model.Titulo)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SesionAbierta)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TotemId)
+                @Html.DisplayNameFor(model => model.Mensaje)
             </th>
             <th></th>
         </tr>
@@ -34,13 +31,10 @@
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.InicioSesion)
+                @Html.DisplayFor(modelItem => item.Titulo)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SesionAbierta)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotemId)
+                @Html.DisplayFor(modelItem => item.Mensaje)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |

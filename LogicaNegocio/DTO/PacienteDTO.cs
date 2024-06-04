@@ -10,13 +10,12 @@ namespace LogicaNegocio.DTO
     {
         public string NombreCompleto { get; set; }
         public string Cedula { get; set; }
-        public string Contacto { get; set; }
+
         public PacienteDTO() { }
-        public PacienteDTO(string nombreCompleto, string cedula, string contacto)
+        public PacienteDTO(string nombreCompleto, string cedula)
         {
             NombreCompleto = nombreCompleto;
             Cedula = cedula;
-            Contacto = contacto;
         }
     }
 }

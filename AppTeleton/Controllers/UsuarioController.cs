@@ -1,5 +1,4 @@
 ﻿using LogicaAccesoDatos.EF.Excepciones;
-using LogicaAplicacion.CasosUso.SesionTotemCU;
 using LogicaAplicacion.CasosUso.TotemCU;
 using LogicaNegocio.Entidades;
 using LogicaNegocio.Enums;
@@ -16,12 +15,11 @@ namespace AppTeleton.Controllers
 
         ILogin _login;
         GetTotems _getTotems;
-        ABMSesionTotem _abmSesionTotem;
+
     
-        public UsuarioController(ILogin login, ABMSesionTotem sesionTotem, GetTotems getTotems)
+        public UsuarioController(ILogin login, GetTotems getTotems)
         {
             _login = login;
-            _abmSesionTotem = sesionTotem;   
             _getTotems = getTotems;
 
         }
@@ -57,9 +55,6 @@ namespace AppTeleton.Controllers
                 {
                     HttpContext.Session.SetString("TIPO", "TOTEM");
                     Totem totem = _getTotems.GetTotemPorUsr(nombre);
-                    SesionTotem nuevaSesionTotem = new SesionTotem(totem);
-                    SesionTotem sesionTot = _abmSesionTotem.AgregarSesion(nuevaSesionTotem);
-                    HttpContext.Session.SetInt32("SESIONTOTEM", sesionTot.Id);
                     return RedirectToAction("Index", "Totem");
                 }
                 else if (tipoUsuario == TipoUsuario.Recepcionista)

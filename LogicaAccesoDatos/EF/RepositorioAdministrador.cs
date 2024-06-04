@@ -44,7 +44,7 @@ namespace LogicaAccesoDatos.EF
             }
             catch (Exception)
             {
-                throw new ServerErrorException("Error del servidor, algo fallo al agregar el usuario recepcionista");
+                throw new ServerErrorException("Error del servidor, algo fallo al agregar el usuario admin");
             }
         }
         public void ValidarUnique(Administrador obj) {

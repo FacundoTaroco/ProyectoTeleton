@@ -1,8 +1,10 @@
+
 @model AccesoTotemViewModel;
 
 @{
     ViewData["Title"] = "HomeUsuario";
     Layout = null; // Si tienes un layout general, cambia esto por el nombre del layout a
+
 }
 
 <!DOCTYPE html>
@@ -84,6 +86,10 @@
             transition: background-color 0.3s, color 0.3s, border-color 0.3s;
         }
 
+        #formCerrarSesionAutomaticamente{
+            display:none;
+        }
+
     </style>
 
 
@@ -114,7 +120,8 @@
                 </div>
                 <div>
                     <ul class="list-unstyled">
-                        <li><a href="@Url.Action("CerrarSesion", "Totem")" class="text-white"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
+                        <li>Se cerrara la sesion en <span id="time"></span> segundos</li>
+                        <li><a href="@Url.Action("CerrarAcceso", "Totem")" class="text-white"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
                     </ul>
                 </div>
             </div>
@@ -128,22 +135,19 @@
                     <thead>
                         <tr>
                             <th>
-                                Tipo cita
+                                Nombre
                             </th>
                             <th>
-                                Materiales
+                                Servicio
                             </th>
                             <th>
-                                Personal
+                               Tratamiento
                             </th>
                             <th>
-                                Sala
+                               Fecha
                             </th>
                             <th>
-                                Fecha
-                            </th>
-                            <th>
-                                Cedula Paciente
+                               Hora
                             </th>   
                         </tr>
                     </thead>
@@ -152,22 +156,19 @@
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.TipoCita)
+                                    @Html.DisplayFor(modelItem => item.NombreCompleto)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Materiales)
+                                    @Html.DisplayFor(modelItem => item.Servicio)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Personal)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Sala)
+                                    @Html.DisplayFor(modelItem => item.Tratamiento)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Fecha)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.CedulaPaciente)
+                                    @Html.DisplayFor(modelItem => item.HoraInicio)
                                 </td>
                             </tr>
                         }
@@ -178,9 +179,14 @@
         </div>
     </div>
 
+    
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="~/js/timerAcceso.js"></script>
+
+    <form asp-action="Index" id="formCerrarSesionAutomaticamente"></form>
 </body>
 </html>
 

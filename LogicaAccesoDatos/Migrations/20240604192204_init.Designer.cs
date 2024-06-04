@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LogicaAccesoDatos.Migrations
 {
     [DbContext(typeof(LibreriaContext))]
-    [Migration("20240524145519_init")]
+    [Migration("20240604192204_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,20 +39,20 @@ namespace LogicaAccesoDatos.Migrations
                     b.Property<DateTime>("FechaHora")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("IdSesionTotem")
+                    b.Property<int>("IdTotem")
                         .HasColumnType("int");
 
-                    b.Property<int>("_SesionTotemId")
+                    b.Property<int>("_TotemId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("_SesionTotemId");
+                    b.HasIndex("_TotemId");
 
                     b.ToTable("AccesosTotem");
                 });
 
-            modelBuilder.Entity("LogicaNegocio.Entidades.SesionTotem", b =>
+            modelBuilder.Entity("LogicaNegocio.Entidades.DispositivoNotificacion", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -60,20 +60,63 @@ namespace LogicaAccesoDatos.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("InicioSesion")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Auth")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("SesionAbierta")
-                        .HasColumnType("bit");
+                    b.Property<string>("Endpoint")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TotemId")
+                    b.Property<int>("IdUsuario")
+                        .HasColumnType("int");
+
+                    b.Property<string>("P256dh")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UsuarioId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TotemId");
+                    b.HasIndex("UsuarioId");
 
-                    b.ToTable("SesionesTotem");
+                    b.ToTable("Dispositivos");
+                });
+
+            modelBuilder.Entity("LogicaNegocio.Entidades.Notificacion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("IdUsuario")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Mensaje")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("PacienteId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Titulo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PacienteId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("Notificaciones");
                 });
 
             modelBuilder.Entity("LogicaNegocio.Entidades.Usuario", b =>
@@ -150,10 +193,6 @@ namespace LogicaAccesoDatos.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Contacto")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasDiscriminator().HasValue("Paciente");
                 });
 
@@ -182,34 +221,49 @@ namespace LogicaAccesoDatos.Migrations
 
             modelBuilder.Entity("LogicaNegocio.Entidades.AccesoTotem", b =>
                 {
-                    b.HasOne("LogicaNegocio.Entidades.SesionTotem", "_SesionTotem")
-                        .WithMany("Accesos")
-                        .HasForeignKey("_SesionTotemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("_SesionTotem");
-                });
-
-            modelBuilder.Entity("LogicaNegocio.Entidades.SesionTotem", b =>
-                {
                     b.HasOne("LogicaNegocio.Entidades.Totem", "_Totem")
-                        .WithMany("Sesiones")
-                        .HasForeignKey("TotemId")
+                        .WithMany("Accesos")
+                        .HasForeignKey("_TotemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("_Totem");
                 });
 
-            modelBuilder.Entity("LogicaNegocio.Entidades.SesionTotem", b =>
+            modelBuilder.Entity("LogicaNegocio.Entidades.DispositivoNotificacion", b =>
                 {
-                    b.Navigation("Accesos");
+                    b.HasOne("LogicaNegocio.Entidades.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("LogicaNegocio.Entidades.Notificacion", b =>
+                {
+                    b.HasOne("LogicaNegocio.Entidades.Paciente", null)
+                        .WithMany("Notificaciones")
+                        .HasForeignKey("PacienteId");
+
+                    b.HasOne("LogicaNegocio.Entidades.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("LogicaNegocio.Entidades.Paciente", b =>
+                {
+                    b.Navigation("Notificaciones");
                 });
 
             modelBuilder.Entity("LogicaNegocio.Entidades.Totem", b =>
                 {
-                    b.Navigation("Sesiones");
+                    b.Navigation("Accesos");
                 });
 #pragma warning restore 612, 618
         }

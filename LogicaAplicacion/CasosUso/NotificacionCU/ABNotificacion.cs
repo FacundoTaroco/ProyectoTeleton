@@ -6,21 +6,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LogicaAplicacion.CasosUso.SesionTotemCU
+namespace LogicaAplicacion.CasosUso.NotificacionCU
 {
-    public class ABMSesionTotem
+    public class ABNotificacion
     {
+        private IRepositorioNotificacion _repo;
 
-        private IRepositorioSesionTotem _repo;
-        public ABMSesionTotem(IRepositorioSesionTotem repo)
+        public ABNotificacion(IRepositorioNotificacion repo)
         {
             _repo = repo;
         }
-        public SesionTotem AgregarSesion(SesionTotem sesion)
-        {
+
+        public void Add(Notificacion notificacion) {
             try
             {
-                return _repo.AgregarSesion(sesion);
+                _repo.Add(notificacion);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public void Delete(int idNotificacion) {
+            try
+            {
+                _repo.Delete(idNotificacion);
             }
             catch (Exception)
             {
@@ -29,19 +40,5 @@ namespace LogicaAplicacion.CasosUso.SesionTotemCU
             }
         }
 
-        public void CerrarSesion(SesionTotem sesion)
-        {
-
-            try
-            {
-                _repo.CerrarSesion(sesion);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-        }
     }
 }

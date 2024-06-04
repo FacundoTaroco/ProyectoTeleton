@@ -6,19 +6,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LogicaAplicacion.CasosUso.RecepcionistaCU
+namespace LogicaAplicacion.CasosUso.DispositivoUsuarioCU
 {
-    public class GetRecepcionistas
+    public class GetDispositivos
     {
-        private IRepositorioRecepcionista _repo;
-        public GetRecepcionistas(IRepositorioRecepcionista repo)
+        private IRepositorioDispositivoNotificaciones _repo;
+        public GetDispositivos(IRepositorioDispositivoNotificaciones repo)
         {
             _repo = repo;
         }
 
-
-        public IEnumerable<Recepcionista> GetAll()
-        {
+        public IEnumerable<DispositivoNotificacion> getAllDispositivos() {
             try
             {
                 return _repo.GetAll();
@@ -28,34 +26,33 @@ namespace LogicaAplicacion.CasosUso.RecepcionistaCU
 
                 throw;
             }
-
         }
-
-        public Recepcionista GetRecepcionistaPorId(int id)
+        public IEnumerable<DispositivoNotificacion> getDispositivosPacientePorId(int id)
         {
             try
             {
-                return _repo.GetPorId(id);
+                return _repo.GetDispositivosDePaciente(id);
             }
             catch (Exception)
             {
 
                 throw;
             }
-
         }
-        public Recepcionista GetRecepcionistaPorUsuario(string usuario)
+       
+
+        public IEnumerable<DispositivoNotificacion> getDispositivosRecepcionistaPorId(int id)
         {
             try
             {
-                return _repo.GetRecepcionistaPorUsuario(usuario);
+                return _repo.GetDispositivosDeRecepcionista(id);
             }
             catch (Exception)
             {
 
                 throw;
             }
-
         }
+
     }
 }

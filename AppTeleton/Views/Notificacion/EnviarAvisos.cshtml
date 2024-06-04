@@ -1,0 +1,92 @@
+﻿@model IEnumerable<LogicaNegocio.Entidades.Paciente>
+
+@{
+    ViewData["Title"] = "EnviarAvisos";
+}@{
+
+    if (ViewBag.Mensaje != null)
+    {
+        if (ViewBag.TipoMensaje == "ERROR")
+        {
+                <div class="alert alert-danger" role="alert">@ViewBag.Mensaje</div>
+        }
+        else if (ViewBag.TipoMensaje == "EXITO")
+        {
+                <div class="alert alert-success" role="alert">@ViewBag.Mensaje</div>
+        }
+
+    }
+}
+<script>
+
+    function enviarAUnUsuario(idUsuario) {
+        let form = document.querySelector("#formularioNotificacionUnSoloPaciente")
+        document.querySelector("#idUsuarioAEnviar").value = idUsuario
+        document.querySelector("#tituloAEnviar").value = document.querySelector("#tituloNotificacion").value
+        document.querySelector("#mensajeAEnviar").value = document.querySelector("#mensajeNotificacion").value
+        form.submit();
+    }
+
+
+</script>
+<h1>Enviar Avisos</h1>
+
+<div>
+    <p>Cargue los datos de la notificacion/aviso a enviar</p>
+
+    <form id="formularioNotificacionUnSoloPaciente" asp-action="SendUnUsuario" asp-controller="Notificacion" method="post">
+        <input id="idUsuarioAEnviar" name="idUsuario" class="form-control" type="hidden">
+        <input id="tituloAEnviar" class name="titulo" class="form-control" type="hidden">
+        <input id="mensajeAEnviar" name="mensaje" class="form-control" type="hidden">
+    </form>
+
+    <form id="formularioNotificacion" asp-action="SendTodosLosPacientes" asp-controller="Notificacion" method="post">
+        <label for="nombre">Titulo</label>
+        <input id="tituloNotificacion" name="titulo" class="form-control" type="text" placeholder="Ingrese titulo de la notificacion" required>
+        <label for="nombre">Mensaje</label>
+        <input id="mensajeNotificacion" name="mensaje" class="form-control" type="text" placeholder="Ingrese mensaje de la notificacion" required>
+        <button class="btn btn-primary btn-block" type="submit">Enviar notificacion a todos los pacientes</button>
+    </form>
+
+
+</div>
+
+
+<table class="table">
+    <p>Enviar Notificacion a pacientes especificos</p>
+    <p>aca va la barra con filtros xd</p>
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Cedula)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreUsuario)
+            </th>
+  
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cedula)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreUsuario)
+            </td>
+
+            <td>
+                    <input class="btn btn-primary btn-block" type="button" onclick="enviarAUnUsuario(@item.Id)" value="Enviar">
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
