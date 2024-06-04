@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "Enviar Notificaciones";
+}
+
+<h2>Enviar Notificaciones</h2>
+
+<div class="col-md-4">
+    <div class="well" style="width: 500px;">
+        <h4>Payload Generation Helper</h4>
+        <span style="font-size: 12px;">Escribe tu título y mensajes.</span>
+        <hr />
+        <div class="form-group">
+            <label class="control-label" for="Title">Title</label>
+            <input class="form-control" type="text" id="Title" name="Title" value="">
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="Message">Message</label>
+            <input class="form-control" type="text" id="Message" name="Message" value="">
+        </div>
+    </div>
+
+    <form asp-action="SendPushNotification" method="post">
+        <label class="control-label" for="Id">Id</label>
+        <input type="number" name="Id" />
+        <div class="form-group">
+            <label class="control-label" for="Titulo">Titulo</label>
+            <input type="text" id="Titulo" name="Titulo">
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="Payload">Payload</label>
+            <textarea id="Payload" name="Payload" style="width: 500px; height: 200px;"></textarea>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Send Push" class="btn btn-primary" />
+        </div>
+        <p>@ViewBag.Mensaje</p>
+    </form>
+</div>
