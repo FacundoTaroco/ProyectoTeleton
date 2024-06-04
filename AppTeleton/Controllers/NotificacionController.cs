@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using WebPush;
 using LogicaAplicacion.CasosUso.DispositivoUsuarioCU;
 using LogicaNegocio.DTO;
+using LogicaAplicacion.CasosUso.NotificacionCU;
 
 namespace AppTeleton.Controllers
 {
@@ -17,15 +18,17 @@ namespace AppTeleton.Controllers
         private GetPacientes _getPacientes;
         private GuardarDispositivoNotificacion _guardarDispositivoNotificacion;
         private GetDispositivos _getDispositivos;
+        private ABNotificacion _ABNotificacion;
    
         private IConfiguration _config;
-        public NotificacionController(IConfiguration configuration,GetRecepcionistas getRecepcionistas, GetPacientes getPacientes, GuardarDispositivoNotificacion guardarDisp, GetDispositivos getDispositivos) { 
+        public NotificacionController(ABNotificacion aBNotificacion,IConfiguration configuration,GetRecepcionistas getRecepcionistas, GetPacientes getPacientes, GuardarDispositivoNotificacion guardarDisp, GetDispositivos getDispositivos) { 
             
             _getRecepcionistas = getRecepcionistas;
             _getPacientes = getPacientes;
             _guardarDispositivoNotificacion = guardarDisp;
             _getDispositivos = getDispositivos;
             _config=  configuration;
+            _ABNotificacion= aBNotificacion;
         }
         public IActionResult Index()
         {
@@ -101,10 +104,17 @@ namespace AppTeleton.Controllers
                     NotificacionDTO payload = new NotificacionDTO(titulo, mensaje);
                     string vapidPublicKey = _config["ClavesNotificaciones:PublicKey"];
                     string vapidPrivateKey = _config["ClavesNotificaciones:PrivateKey"];
-                    //NO LE LLEGA EL CUERPO Y TITULO
+                    List<Usuario> usuarioACargarNotificacion = new List<Usuario>();
+                  
+                    //SI LA SUSCRIPCION NO EXISTE TIRA EXCEPTION Y ROMPE TODO !!!!! VER DE BORRAR CORRECTAMENTE SUSCRIPCIONES O MANEJAR LA EXCEPTION
                     foreach (DispositivoNotificacion dispositivo in dispositivos)
                     {
-                        if(dispositivo.Usuario is Paciente) { 
+                        //EVENTUALMENTE HACER TAMBIEN PARA RECEPCIONISTA
+                        if(dispositivo.Usuario is Paciente) {
+
+
+                        if (!usuarioACargarNotificacion.Contains(dispositivo.Usuario)) { usuarioACargarNotificacion.Add(dispositivo.Usuario); }
+
                         PushSubscription pushSubscription = new PushSubscription(dispositivo.Endpoint, dispositivo.P256dh, dispositivo.Auth);
                         VapidDetails vapidDetails = new VapidDetails("mailto:lucasahre05@gmail.com", vapidPublicKey, vapidPrivateKey);
                         WebPushClient webPushClient = new WebPushClient();
@@ -116,6 +126,10 @@ namespace AppTeleton.Controllers
                         });
                         webPushClient.SendNotification(pushSubscription, payloadToken);
                         }
+                    }
+                    foreach (Usuario u in usuarioACargarNotificacion) { 
+                          Notificacion notificacion = new Notificacion(titulo,mensaje,u);
+                        _ABNotificacion.Add(notificacion);
                     }
 
                     ViewBag.Mensaje = "notificacion enviada con exito a todos los pacientes con dispositivos registrados";
@@ -156,7 +170,13 @@ namespace AppTeleton.Controllers
                     string vapidPublicKey = _config["ClavesNotificaciones:PublicKey"];
                     string vapidPrivateKey = _config["ClavesNotificaciones:PrivateKey"];
 
-                    //NO LE LLEGA EL CUERPO Y TITULO
+                    Notificacion notificacionAGuardar = new Notificacion();
+                    notificacionAGuardar.Titulo = titulo;
+                    notificacionAGuardar.Mensaje = mensaje;
+                    notificacionAGuardar.Usuario = dispositivos.First().Usuario;
+                    notificacionAGuardar.IdUsuario = dispositivos.First().Usuario.Id;
+                    _ABNotificacion.Add(notificacionAGuardar);
+
                     foreach (DispositivoNotificacion dispositivo in dispositivos)
                     {
 
@@ -172,6 +192,8 @@ namespace AppTeleton.Controllers
                         webPushClient.SendNotification(pushSubscription, payloadToken);
                        
                     }
+
+
 
                     ViewBag.Mensaje = "notificacion enviada con exito";
                     ViewBag.TipoMensaje = "EXITO";

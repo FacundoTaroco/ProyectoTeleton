@@ -77,7 +77,7 @@ namespace LogicaAccesoDatos.EF
             try
             {
                 IEnumerable<DispositivoNotificacion> dispositivosPaciente = new List<DispositivoNotificacion>();
-                dispositivosPaciente = _context.Dispositivos.Where(disp => disp.IdUsuario == idPaciente).ToList();
+                dispositivosPaciente = _context.Dispositivos.Include(disp => disp.Usuario).Where(disp => disp.IdUsuario == idPaciente).ToList();
                 return dispositivosPaciente;
             }
             catch (Exception)
