@@ -32,13 +32,14 @@ namespace LogicaAplicacion.Servicios
 
         public async Task<IEnumerable<PacienteDTO>> solicitarPacientesATeleton() {
 
+            var connectionString = _config["ConnectionStrings:SimuladorServidorCentral"];
+            var commandText = "SELECT * FROM GetPacientes()";
+            SqlConnection con = new(connectionString);
             try
             {
-                var connectionString = _config["ConnectionStrings:TeletonSimuladorDatabase"];
-                var commandText = "SELECT * FROM GetPacientes()";
                 // Establece la conexión
                 List<PacienteDTO> pacientesBaseDeDatos = new List<PacienteDTO>();
-                using (SqlConnection con = new(connectionString))
+                using (con)
                 {
 
                     using (SqlCommand cmd = new SqlCommand(commandText, con))
@@ -58,6 +59,7 @@ namespace LogicaAplicacion.Servicios
 
 
                         }
+                        reader.Close();
                         con.Close();
                     }
                 }
@@ -65,10 +67,10 @@ namespace LogicaAplicacion.Servicios
 
                 return pacientesBaseDeDatos;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                throw new TeletonServerException("Error de conexion con el servidor central");
+                con.Close();
+                throw new TeletonServerException("Error de conexion con el servidor central, "+ e.Message);
             }
 
            

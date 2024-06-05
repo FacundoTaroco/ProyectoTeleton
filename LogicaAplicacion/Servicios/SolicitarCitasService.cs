@@ -99,15 +99,16 @@ namespace LogicaAplicacion.Servicios
         }
         public async Task<IEnumerable<CitaMedicaDTO>> ObtenerCitasPorCedula(string cedula)
         {
-
-
+            
+            
+            var connectionString = _config["ConnectionStrings:SimuladorServidorCentral"];
+            var commandText = $"SELECT * FROM GetAgendasDePaciente({cedula})";
+            SqlConnection con = new(connectionString);
             try
             {
-                var connectionString = _config["ConnectionStrings:TeletonSimuladorDatabase"];
-                var commandText = $"SELECT * FROM GetAgendasDePaciente({cedula})";
                 // Establece la conexión
                 List<CitaMedicaDTO> citasMedicas = new List<CitaMedicaDTO>();
-                using (SqlConnection con = new(connectionString))
+                using (con)
                 {
                     using (SqlCommand cmd = new SqlCommand(commandText, con))
                     {
@@ -125,15 +126,18 @@ namespace LogicaAplicacion.Servicios
                             CitaMedicaDTO cita = new CitaMedicaDTO(pkAgenda, ci, nombre, servicio, fecha, horaInicio, tratamiento);
                             citasMedicas.Add(cita);
                         }
+                        reader.Close();
                         con.Close();
                     }
                 }
                 return citasMedicas;
             }
-            catch (Exception)
-            {
 
-                throw new TeletonServerException("Error de conexion con el servidor central");
+
+            catch (Exception e)
+            {
+                con.Close();
+                throw new TeletonServerException("Error de conexion con el servidor central, " + e.Message);
             }
             /*try
             {
