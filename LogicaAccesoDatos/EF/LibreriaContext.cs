@@ -58,7 +58,7 @@ namespace LogicaAccesoDatos.EF
            
          
         }
-
+        //a
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
