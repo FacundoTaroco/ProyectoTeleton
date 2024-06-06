@@ -21,6 +21,7 @@ namespace LogicaAccesoDatos.EF
         public DbSet<Medico> Medicos{ get; set; }
         public DbSet<DispositivoNotificacion> Dispositivos { get; set; }
         public DbSet<Notificacion> Notificaciones { get; set; }
+        public DbSet<PreguntaFrec> PreguntasFrec { get; set; }
 
 
 

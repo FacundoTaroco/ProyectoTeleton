@@ -1,0 +1,72 @@
+﻿@model AppTeleton.Models.PreguntasFrecViewModel
+
+@{
+    ViewData["Title"] = "Preguntas Frecuentes";
+    var preguntasFrecuentes = Model.PreguntasFrec ?? new List<LogicaNegocio.Entidades.PreguntaFrec>();
+    var isAdminOrRecepcionista = ViewBag.IsAdminOrRecepcionista;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Preguntas Frecuentes</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200px;
+            height: 100%; 
+            background-color: #DC143C; 
+            z-index: 1;
+        }
+
+        .main-content {
+            margin-left: 200px;
+            padding: 20px;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #f8f9fa;
+            text-align: center;
+            padding: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <h2>Opciones</h2>
+    </nav>
+    <main role="main" class="main-content">
+        <h1>Preguntas Frecuentes</h1>
+        <p><a href="@Url.Action("Create")" class="btn btn-primary">Agregar</a></p>
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Pregunta</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.PreguntasFrec)
+                {
+                    <tr>
+                        <td>@item.Pregunta</td>
+                        <td>
+                            <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-warning btn-sm">Editar</a>
+                            <a href="@Url.Action("Delete", new { id = item.Id })" class="btn btn-danger btn-sm">Eliminar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </main>
+    <footer class="footer">
+        <span class="text-muted">© 2024 - AppTeleton - <a href="#">Privacy</a></span>
+    </footer>
+</body>
+</html>

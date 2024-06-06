@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "Eliminar Pregunta Frecuente";
+    var preguntaActual = "Pregunta de ejemplo";
+}
+
+<h2>Eliminar Pregunta Frecuente</h2>
+
+<p>¿Estás seguro que deseas eliminar esta pregunta?</p>
+<p>@preguntaActual</p>
+
+<form method="post" action="/PreguntasFrecuentes/Delete">
+    <input type="hidden" name="id" value="1" />
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a href="/PreguntasFrecuentes/Index" class="btn btn-secondary">Cancelar</a>
+</form>
