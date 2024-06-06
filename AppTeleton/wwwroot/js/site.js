@@ -24,22 +24,27 @@ function base64Encode(arrayBuffer) {
 }
 
 
-const suscribirse = async () => {
+async function suscribirse(){
     checkPermission()
     await requestNotificationPermission()
     let reg = await registerSW()
 
-    if (reg.active.state == "activated") {
-        reg.pushManager.getSubscription()
-        .then(function (subscription) {
-            if (subscription == null) {
-                subscribeUser(reg);
-            }
-        })
-
+    if (reg.installing) {
+        console.log('Service worker installing');
+    } else if (reg.waiting) {
+        console.log('Service worker installed');
+    } else if (reg.active) {
+        console.log('Service worker active');
     }
+
+        reg.pushManager.getSubscription()
+            .then(function (subscription) {
+                if (subscription == null) {
+                    subscribeUser(reg);
+                }
+            })
 }
-function subscribeUser(swReg) {
+async function subscribeUser(swReg) {
     const applicationServerKey = urlBase64ToUint8Array("BKbHbSWuzzAuiXHQ9iS1yVSI0uly-gzp-EKLr-qQOaYFsMlMfP4_TybiwMxNc7oeln31U9MXdIQlMCQ68-51sT0");
     swReg.pushManager.subscribe({
         userVisibleOnly: true,

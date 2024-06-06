@@ -19,6 +19,33 @@ namespace LogicaAccesoDatos.EF
         {
             _context = context;
         }
+
+        public Usuario GetUsuario(int idUsuario)
+        {
+            try
+            {
+                if (idUsuario == 0) { throw new NullOrEmptyException(); }
+                Usuario usuario = _context.Usuarios.FirstOrDefault(u => u.Id == idUsuario);
+                if (usuario == null) { throw new NotFoundException(); }
+                return usuario; 
+            }
+            catch (NullOrEmptyException)
+            {
+
+                throw;
+            }
+            catch (NotFoundException)
+            {
+
+                throw;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public TipoUsuario Login(string usuario, string contrasenia)
         {
             try
