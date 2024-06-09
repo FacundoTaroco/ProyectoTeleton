@@ -1,16 +1,19 @@
 ﻿@model LogicaNegocio.Entidades.PreguntaFrec
 
 @{
-    ViewData["Title"] = "Modificar Pregunta Frecuente";
+    ViewData["Title"] = "Editar Pregunta Frecuente";
 }
 
-<h2>Modificar Pregunta Frecuente</h2>
+<h2>Editar Pregunta Frecuente</h2>
 
-<form method="post" asp-action="Edit">
-    <input type="hidden" asp-for="Id" />
-    <div class="form-group">
-        <label asp-for="Pregunta"></label>
-        <input asp-for="Pregunta" class="form-control" />
-    </div>
-    <button type="submit" class="btn btn-primary">Modificar</button>
+<form method="post" action="/PreguntasFrecuentes/Edit">
+    <input type="hidden" name="Id" value="@Model.Id" />
+
+    <label for="pregunta" class="form-label">Pregunta</label>
+    <input type="text" class="form-control mb-3" id="pregunta" name="pregunta" value="@Model.Pregunta" required>
+
+    <label for="respuesta" class="form-label">Respuesta</label>
+    <textarea class="form-control mb-3" id="respuesta" name="respuesta" rows="5" required>@Model.Respuesta</textarea>
+
+    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
 </form>

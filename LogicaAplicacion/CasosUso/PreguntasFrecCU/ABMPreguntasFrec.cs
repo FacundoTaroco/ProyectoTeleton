@@ -22,6 +22,7 @@ namespace LogicaAplicacion.CasosUso.PreguntasFrecCU
         {
             try
             {
+                preguntaFrec.Validar();
                 _repo.Add(preguntaFrec);
             }
             catch (Exception)

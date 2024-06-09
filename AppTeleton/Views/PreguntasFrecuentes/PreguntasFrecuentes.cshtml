@@ -17,8 +17,8 @@
             top: 0;
             left: 0;
             width: 200px;
-            height: 100%; 
-            background-color: #DC143C; 
+            height: 100%;
+            background-color: #DC143C;
             z-index: 1;
         }
 
@@ -55,7 +55,7 @@
                 @foreach (var item in Model.PreguntasFrec)
                 {
                     <tr>
-                        <td>@item.Pregunta</td>
+                        <td><a href="@Url.Action("Detalle", new { id = item.Id })">@item.Pregunta</a></td>
                         <td>
                             <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-warning btn-sm">Editar</a>
                             <a href="@Url.Action("Delete", new { id = item.Id })" class="btn btn-danger btn-sm">Eliminar</a>

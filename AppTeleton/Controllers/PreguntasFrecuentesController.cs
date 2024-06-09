@@ -95,6 +95,16 @@ namespace AppTeleton.Controllers
             }
         }
 
+        public IActionResult Detalle(int id)
+        {
+            var preguntaFrec = _getPreguntasFrec.GetPreguntaFrecPorId(id);
+            if (preguntaFrec == null)
+            {
+                return NotFound();
+            }
+            return View(preguntaFrec);
+        }
+
         private PreguntasFrecViewModel ObtenerModeloPreguntasFrec()
         {
             IEnumerable<PreguntaFrec> preguntasFrec = _getPreguntasFrec.GetAll();
