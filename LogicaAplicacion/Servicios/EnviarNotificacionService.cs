@@ -22,16 +22,15 @@ namespace LogicaAplicacion.Servicios
         private GetUsuarios _getUsuario;
         private GetRecepcionistas _getRecepcionistas;
         private GetPacientes _getPacientes;
-        private GuardarDispositivoNotificacion _guardarDispositivoNotificacion;
         private GetDispositivos _getDispositivos;
         private ABNotificacion _ABNotificacion;
         private BorrarDispositivoNotificacion _borrarDispositivo;
         private IConfiguration _config;
-        public EnviarNotificacionService(GetUsuarios getUsuarios, BorrarDispositivoNotificacion borrarDispositivo, ABNotificacion aBNotificacion, IConfiguration configuration, GetRecepcionistas getRecepcionistas, GetPacientes getPacientes, GuardarDispositivoNotificacion guardarDisp, GetDispositivos getDispositivos)
+        public EnviarNotificacionService(GetUsuarios getUsuarios, BorrarDispositivoNotificacion borrarDispositivo, ABNotificacion aBNotificacion, IConfiguration configuration, GetRecepcionistas getRecepcionistas, GetPacientes getPacientes, GetDispositivos getDispositivos)
         {
             _getRecepcionistas = getRecepcionistas;
             _getPacientes = getPacientes;
-            _guardarDispositivoNotificacion = guardarDisp;
+           
             _getDispositivos = getDispositivos;
             _config = configuration;
             _ABNotificacion = aBNotificacion;

@@ -88,7 +88,7 @@ builder.Services.AddScoped<ILogin, Login>();
 
 //Worker
 builder.Services.AddHostedService<CargarPacientesWorker>();
-builder.Services.AddHostedService<NotificacionesAutomaticasWorker>();
+//builder.Services.AddHostedService<NotificacionesAutomaticasWorker>();
 
 var app = builder.Build();
 

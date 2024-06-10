@@ -21,7 +21,7 @@ namespace LogicaAplicacion.CasosUso.NotificacionCU
             _getPacientes = getPacientes;
         }
 
-        public async void EnviarRecordatorioCitaMasTemprana() {
+        public async Task<bool> EnviarRecordatorioCitaMasTemprana() {
 
             try
             {
@@ -30,18 +30,22 @@ namespace LogicaAplicacion.CasosUso.NotificacionCU
 
                 IEnumerable<CitaMedicaDTO> citasDePaciente = await _solicitarCitas.ObtenerCitasPorCedula(p.Cedula);
                 if (citasDePaciente.Count() > 0) {
-                 citasDePaciente.OrderBy(p => p.Fecha);
+                citasDePaciente= citasDePaciente.OrderBy(p => p.Fecha);
+                citasDePaciente= citasDePaciente.OrderBy(p => p.HoraInicio);
+
                  CitaMedicaDTO citaMasReciente = citasDePaciente.First();
                     string tituloNotificacion = "RECORDATORIO: Su proxima cita medica es el " + citaMasReciente.Fecha.ToShortDateString() + " a las " + citaMasReciente.HoraInicio + " hs";
                     string mensajeNotificacion = "Tiene agendado para " + citaMasReciente.Servicio;
 
                     _enviarNotificaciones.Enviar(tituloNotificacion, mensajeNotificacion, p.Id);
+                        
                 }
             }
+                return true;
             }
             catch (Exception)
             {
-
+               
                 throw;
             }
             

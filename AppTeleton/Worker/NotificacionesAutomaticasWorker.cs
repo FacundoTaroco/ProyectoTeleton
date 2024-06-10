@@ -27,7 +27,7 @@ namespace AppTeleton.Worker
 
                     try
                     {
-                        _notificacionesAutomaticas.EnviarRecordatorioCitaMasTemprana();
+                        await _notificacionesAutomaticas.EnviarRecordatorioCitaMasTemprana();
                         Console.WriteLine("Notificacion automatica enviada con exito");
                     }
                     catch (Exception)
