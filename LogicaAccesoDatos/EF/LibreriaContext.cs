@@ -69,7 +69,7 @@ namespace LogicaAccesoDatos.EF
 
             base.OnConfiguring(optionsBuilder);
             optionsBuilder.UseSqlServer(
-            _config["ConnectionStrings:LocalBD"]
+            _config["ConnectionStrings:TeletonSimuladorDatabase"]
             );
         }
 
