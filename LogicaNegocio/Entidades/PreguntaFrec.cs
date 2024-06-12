@@ -1,4 +1,5 @@
 ﻿using LogicaNegocio.Excepciones;
+using LogicaNegocio.InterfacesDominio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LogicaNegocio.Entidades
 {
-    public class PreguntaFrec
+    public class PreguntaFrec:IValidar
     {
         public int Id { get; set; }
         public string Pregunta { get; set; }
