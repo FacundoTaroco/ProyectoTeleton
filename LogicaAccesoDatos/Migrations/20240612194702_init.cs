@@ -94,17 +94,11 @@ namespace LogicaAccesoDatos.Migrations
                     Titulo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Mensaje = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UsuarioId = table.Column<int>(type: "int", nullable: false),
-                    IdUsuario = table.Column<int>(type: "int", nullable: false),
-                    PacienteId = table.Column<int>(type: "int", nullable: true)
+                    IdUsuario = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Notificaciones", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Notificaciones_Usuarios_PacienteId",
-                        column: x => x.PacienteId,
-                        principalTable: "Usuarios",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Notificaciones_Usuarios_UsuarioId",
                         column: x => x.UsuarioId,
@@ -137,11 +131,6 @@ namespace LogicaAccesoDatos.Migrations
                 name: "IX_Dispositivos_UsuarioId",
                 table: "Dispositivos",
                 column: "UsuarioId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Notificaciones_PacienteId",
-                table: "Notificaciones",
-                column: "PacienteId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Notificaciones_UsuarioId",

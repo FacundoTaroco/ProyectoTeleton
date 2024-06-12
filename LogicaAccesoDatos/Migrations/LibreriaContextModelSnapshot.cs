@@ -98,9 +98,6 @@ namespace LogicaAccesoDatos.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PacienteId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Titulo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -109,8 +106,6 @@ namespace LogicaAccesoDatos.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PacienteId");
 
                     b.HasIndex("UsuarioId");
 
@@ -262,10 +257,6 @@ namespace LogicaAccesoDatos.Migrations
 
             modelBuilder.Entity("LogicaNegocio.Entidades.Notificacion", b =>
                 {
-                    b.HasOne("LogicaNegocio.Entidades.Paciente", null)
-                        .WithMany("Notificaciones")
-                        .HasForeignKey("PacienteId");
-
                     b.HasOne("LogicaNegocio.Entidades.Usuario", "Usuario")
                         .WithMany()
                         .HasForeignKey("UsuarioId")
@@ -273,11 +264,6 @@ namespace LogicaAccesoDatos.Migrations
                         .IsRequired();
 
                     b.Navigation("Usuario");
-                });
-
-            modelBuilder.Entity("LogicaNegocio.Entidades.Paciente", b =>
-                {
-                    b.Navigation("Notificaciones");
                 });
 
             modelBuilder.Entity("LogicaNegocio.Entidades.Totem", b =>
