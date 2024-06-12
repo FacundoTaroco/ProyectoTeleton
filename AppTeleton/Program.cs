@@ -15,6 +15,7 @@ using LogicaAplicacion.CasosUso.AccesoTotemCU;
 using LogicaAplicacion.CasosUso.CitaCU;
 using LogicaAplicacion.CasosUso.DispositivoUsuarioCU;
 using LogicaAplicacion.CasosUso.NotificacionCU;
+using LogicaAplicacion.CasosUso.PreguntasFrecCU;
 
 
 
@@ -43,6 +44,7 @@ builder.Services.AddScoped<IRepositorioTotem, RepositorioTotem>();
 builder.Services.AddScoped<IRepositorioAccesoTotem, RepositorioAccesoTotem>();
 builder.Services.AddScoped<IRepositorioDispositivoNotificaciones, RepositorioDispositivoNotificaciones>();
 builder.Services.AddScoped<IRepositorioNotificacion, RepositorioNotificacion>();
+builder.Services.AddScoped<IRepositorioPreguntaFrec, RepositorioPreguntaFrec>();
 //Scope de casos de uso
 
 builder.Services.AddScoped<GetUsuarios, GetUsuarios>();
@@ -76,6 +78,9 @@ builder.Services.AddScoped<GetMedicos, GetMedicos>();
 builder.Services.AddScoped<GetNotificacion, GetNotificacion>();
 builder.Services.AddScoped<ABNotificacion, ABNotificacion>();
 builder.Services.AddScoped<NotificacionesAutomaticas, NotificacionesAutomaticas>();
+
+builder.Services.AddScoped<ABMPreguntasFrec, ABMPreguntasFrec>();
+builder.Services.AddScoped<GetPreguntasFrec, GetPreguntasFrec>();
 
 //scopes de servicios
 builder.Services.AddScoped<EnviarNotificacionService, EnviarNotificacionService>();

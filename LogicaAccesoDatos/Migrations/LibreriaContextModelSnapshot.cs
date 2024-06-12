@@ -117,6 +117,27 @@ namespace LogicaAccesoDatos.Migrations
                     b.ToTable("Notificaciones");
                 });
 
+            modelBuilder.Entity("LogicaNegocio.Entidades.PreguntaFrec", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Pregunta")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Respuesta")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PreguntasFrec");
+                });
+
             modelBuilder.Entity("LogicaNegocio.Entidades.Usuario", b =>
                 {
                     b.Property<int>("Id")

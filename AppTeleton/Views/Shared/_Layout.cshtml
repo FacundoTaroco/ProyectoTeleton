@@ -1,12 +1,13 @@
 ﻿@{
     string tipoUsuario = "";
     string usuario = "";
-    if (!String.IsNullOrEmpty(Context.Session.GetString("TIPO"))){
-     tipoUsuario = Context.Session.GetString("TIPO");
+    if (!String.IsNullOrEmpty(Context.Session.GetString("TIPO")))
+    {
+        tipoUsuario = Context.Session.GetString("TIPO");
     }
     if (!String.IsNullOrEmpty(Context.Session.GetString("USR")))
     {
-     usuario = Context.Session.GetString("USR");
+        usuario = Context.Session.GetString("USR");
     }
 }
 
@@ -24,12 +25,12 @@
 <body>
     @if (tipoUsuario != "TOTEM")
     {
-        <header>  
+        <header>
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
                 <div class="container-fluid">
                     <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AppTeleton</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
+                            aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
 
@@ -39,12 +40,13 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
-                           
-                            @if(tipoUsuario == "ADMIN"){
 
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Administrador" asp-action="Index" asp-route-tipoUsuario="PACIENTE">Usuarios</a>
-                            </li>
+                            @if (tipoUsuario == "ADMIN")
+                            {
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Administrador" asp-action="Index" asp-route-tipoUsuario="PACIENTE">Usuarios</a>
+                                </li>
                             }
                             @if (tipoUsuario == "RECEPCIONISTA")
                             {
@@ -55,15 +57,16 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Recepcionista" asp-action="Chats">Chats</a>
                                 </li>
                             }
-                            @if(tipoUsuario == "RECEPCIONISTA" ||tipoUsuario == "ADMIN")
+                            @if (tipoUsuario == "RECEPCIONISTA" || tipoUsuario == "ADMIN")
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Recepcionista" asp-action="Agenda">Agenda</a>
                                 </li>
                                 <li class="nav-item">
-
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Notificacion" asp-action="EnviarAvisos">Enviar Notificaciones</a>
-
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="PreguntasFrecuentes" asp-action="PreguntasFrecuentes">Preguntas Frecuentes</a>
                                 </li>
                             }
                             @if (tipoUsuario == "PACIENTE")
@@ -80,15 +83,18 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Paciente" asp-action="Mapa">Mapa Teleton</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="PreguntasFrecuentes" asp-action="PreguntasFrecuentes">Preguntas Frecuentes</a>
+                                </li>
                             }
 
                             @if (!String.IsNullOrEmpty(usuario))
                             {
                                 <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Logout">Cerrar Sesión</a>
-                                </li> 
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Logout">Cerrar Sesión</a>
+                                </li>
 
-                               <li>Bienvenido @usuario</li>
+                                <li>Bienvenido @usuario</li>
                             }
                         </ul>
                     </div>
@@ -99,8 +105,8 @@
     }
     else //cosas del totem
     {
-        
-     <header>  
+
+        <header>
 
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
                 <li class="nav-item">
@@ -112,7 +118,7 @@
                 </li>
             </nav>
         </header>
-    
+
     }
     <div class="container">
         <main role="main" class="pb-3">
@@ -120,11 +126,11 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <!--<footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2024 - AppTeleton - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
-    </footer>
+    </footer>-->
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

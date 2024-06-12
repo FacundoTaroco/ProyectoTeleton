@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "Agregar Pregunta Frecuente";
+}
+
+<h2>Agregar Pregunta Frecuente</h2>
+
+<form method="post" action="/PreguntasFrecuentes/Create">
+    <label for="pregunta" class="form-label">Pregunta</label>
+    <input type="text" class="form-control mb-3" id="pregunta" name="pregunta" required>
+
+    <label for="respuesta" class="form-label">Respuesta</label>
+    <textarea class="form-control mb-3" id="respuesta" name="respuesta" rows="5" required></textarea>
+
+    <button type="submit" class="btn btn-primary">Agregar</button>
+</form>
