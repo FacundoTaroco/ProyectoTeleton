@@ -45,11 +45,13 @@ builder.Services.AddScoped<IRepositorioDispositivoNotificaciones, RepositorioDis
 builder.Services.AddScoped<IRepositorioNotificacion, RepositorioNotificacion>();
 //Scope de casos de uso
 
+builder.Services.AddScoped<GetUsuarios, GetUsuarios>();
+
 builder.Services.AddScoped<ABMPacientes, ABMPacientes>();
 builder.Services.AddScoped<GetPacientes, GetPacientes>();
 builder.Services.AddScoped<ActualizarPacientes, ActualizarPacientes>();
 
-
+builder.Services.AddScoped<BorrarDispositivoNotificacion, BorrarDispositivoNotificacion>();
 builder.Services.AddScoped<GuardarDispositivoNotificacion, GuardarDispositivoNotificacion>();
 builder.Services.AddScoped<GetDispositivos, GetDispositivos>();
 
@@ -73,9 +75,10 @@ builder.Services.AddScoped<GetMedicos, GetMedicos>();
 
 builder.Services.AddScoped<GetNotificacion, GetNotificacion>();
 builder.Services.AddScoped<ABNotificacion, ABNotificacion>();
+builder.Services.AddScoped<NotificacionesAutomaticas, NotificacionesAutomaticas>();
 
 //scopes de servicios
-
+builder.Services.AddScoped<EnviarNotificacionService, EnviarNotificacionService>();
 builder.Services.AddScoped<SolicitarPacientesService, SolicitarPacientesService>();
 builder.Services.AddScoped<SolicitarCitasService, SolicitarCitasService>();
 builder.Services.AddScoped<GenerarAvisoMedicoService, GenerarAvisoMedicoService>();
@@ -84,7 +87,8 @@ builder.Services.AddScoped<ILogin, Login>();
 
 
 //Worker
-builder.Services.AddHostedService<NativeWorker>();
+builder.Services.AddHostedService<CargarPacientesWorker>();
+//builder.Services.AddHostedService<NotificacionesAutomaticasWorker>();
 
 var app = builder.Build();
 

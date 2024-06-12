@@ -9,6 +9,7 @@ using WebPush;
 using LogicaAplicacion.CasosUso.DispositivoUsuarioCU;
 using LogicaNegocio.DTO;
 using LogicaAplicacion.CasosUso.NotificacionCU;
+using LogicaAplicacion.Servicios;
 
 namespace AppTeleton.Controllers
 {
@@ -19,9 +20,11 @@ namespace AppTeleton.Controllers
         private GuardarDispositivoNotificacion _guardarDispositivoNotificacion;
         private GetDispositivos _getDispositivos;
         private ABNotificacion _ABNotificacion;
+        private BorrarDispositivoNotificacion _borrarDispositivo;
+        private EnviarNotificacionService _enviarNotificacionService;
    
         private IConfiguration _config;
-        public NotificacionController(ABNotificacion aBNotificacion,IConfiguration configuration,GetRecepcionistas getRecepcionistas, GetPacientes getPacientes, GuardarDispositivoNotificacion guardarDisp, GetDispositivos getDispositivos) { 
+        public NotificacionController(EnviarNotificacionService enviarNotificacion, BorrarDispositivoNotificacion borrarDispositivo,ABNotificacion aBNotificacion,IConfiguration configuration,GetRecepcionistas getRecepcionistas, GetPacientes getPacientes, GuardarDispositivoNotificacion guardarDisp, GetDispositivos getDispositivos) { 
             
             _getRecepcionistas = getRecepcionistas;
             _getPacientes = getPacientes;
@@ -29,6 +32,8 @@ namespace AppTeleton.Controllers
             _getDispositivos = getDispositivos;
             _config=  configuration;
             _ABNotificacion= aBNotificacion;
+            _borrarDispositivo = borrarDispositivo;
+            _enviarNotificacionService = enviarNotificacion;
         }
         public IActionResult Index()
         {
@@ -79,7 +84,12 @@ namespace AppTeleton.Controllers
             {
                 ViewBag.TipoMensaje = "ERROR";
                 ViewBag.Mensaje = "Algo salio mal al activar las notificaciones";
-                return View("Index");
+                string tipoUsuario = HttpContext.Session.GetString("TIPO");
+                if (tipoUsuario == "PACIENTE")
+                {
+                    return RedirectToAction("Index", "Paciente");
+                }
+                return RedirectToAction("Index", "Recepcionista");
             }
 
 
@@ -92,55 +102,21 @@ namespace AppTeleton.Controllers
 
         }
 
+        //EVENTUALMENTE HACER ESTO MAS DINAMICO(RECIBE UNA LISTA DE PACIENTES O LISTA DE IDS EN VEZ DE SER TODOS LOS PACIENTES PUEDE TRABAJAR CON GRUPOS DE PACIENTES)
         [RecepcionistaAdminLogueado]
         [HttpPost]
         public async Task<IActionResult> SendTodosLosPacientes(string titulo, string mensaje)
         {
+
             try
             {
-                IEnumerable<DispositivoNotificacion> dispositivos = _getDispositivos.getAllDispositivos();
-                if (dispositivos.Count() > 0)
-                {
-                    NotificacionDTO payload = new NotificacionDTO(titulo, mensaje);
-                    string vapidPublicKey = _config["ClavesNotificaciones:PublicKey"];
-                    string vapidPrivateKey = _config["ClavesNotificaciones:PrivateKey"];
-                    List<Usuario> usuarioACargarNotificacion = new List<Usuario>();
-                  
-                    //SI LA SUSCRIPCION NO EXISTE TIRA EXCEPTION Y ROMPE TODO !!!!! VER DE BORRAR CORRECTAMENTE SUSCRIPCIONES O MANEJAR LA EXCEPTION
-                    foreach (DispositivoNotificacion dispositivo in dispositivos)
-                    {
-                        //EVENTUALMENTE HACER TAMBIEN PARA RECEPCIONISTA
-                        if(dispositivo.Usuario is Paciente) {
+                if (String.IsNullOrEmpty(titulo)) throw new Exception("Ingrese un titulo para la notificacion");
+                if (String.IsNullOrEmpty(mensaje)) throw new Exception("Ingrese un mensaje para la notificacion");
 
-
-                        if (!usuarioACargarNotificacion.Contains(dispositivo.Usuario)) { usuarioACargarNotificacion.Add(dispositivo.Usuario); }
-
-                        PushSubscription pushSubscription = new PushSubscription(dispositivo.Endpoint, dispositivo.P256dh, dispositivo.Auth);
-                        VapidDetails vapidDetails = new VapidDetails("mailto:lucasahre05@gmail.com", vapidPublicKey, vapidPrivateKey);
-                        WebPushClient webPushClient = new WebPushClient();
-                        webPushClient.SetVapidDetails(vapidDetails);
-                        string payloadToken = JsonConvert.SerializeObject(payload, new JsonSerializerSettings()
-                        {
-                            DateTimeZoneHandling = DateTimeZoneHandling.Utc,
-                            ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                        });
-                        webPushClient.SendNotification(pushSubscription, payloadToken);
-                        }
-                    }
-                    foreach (Usuario u in usuarioACargarNotificacion) { 
-                          Notificacion notificacion = new Notificacion(titulo,mensaje,u);
-                        _ABNotificacion.Add(notificacion);
-                    }
-
+                _enviarNotificacionService.EnviarATodos(titulo, mensaje);
                     ViewBag.Mensaje = "notificacion enviada con exito a todos los pacientes con dispositivos registrados";
                     ViewBag.TipoMensaje = "EXITO";
                     return View("EnviarAvisos", _getPacientes.GetAll());
-                 
-                }
-                else
-                {
-                    throw new Exception("El paciente no tiene dispositivos registrados");
-                }
             }
 
             catch (Exception e)
@@ -160,49 +136,14 @@ namespace AppTeleton.Controllers
         {
             try
             {
-                IEnumerable<DispositivoNotificacion> dispositivos = _getDispositivos.getDispositivosPacientePorId(idUsuario);
-                if (dispositivos.Count() > 0)
-                {
+                if (idUsuario == 0) throw new Exception("No se recibio usuario");
+                if(String.IsNullOrEmpty(titulo)) throw new Exception("Ingrese un titulo para la notificacion");
+                if (String.IsNullOrEmpty(mensaje)) throw new Exception("Ingrese un mensaje para la notificacion");
 
-                    NotificacionDTO payload = new NotificacionDTO(titulo, mensaje);
-
-
-                    string vapidPublicKey = _config["ClavesNotificaciones:PublicKey"];
-                    string vapidPrivateKey = _config["ClavesNotificaciones:PrivateKey"];
-
-                    Notificacion notificacionAGuardar = new Notificacion();
-                    notificacionAGuardar.Titulo = titulo;
-                    notificacionAGuardar.Mensaje = mensaje;
-                    notificacionAGuardar.Usuario = dispositivos.First().Usuario;
-                    notificacionAGuardar.IdUsuario = dispositivos.First().Usuario.Id;
-                    _ABNotificacion.Add(notificacionAGuardar);
-
-                    foreach (DispositivoNotificacion dispositivo in dispositivos)
-                    {
-
-                        PushSubscription pushSubscription = new PushSubscription(dispositivo.Endpoint, dispositivo.P256dh, dispositivo.Auth);
-                        VapidDetails vapidDetails = new VapidDetails("mailto:lucasahre05@gmail.com", vapidPublicKey, vapidPrivateKey);
-                        WebPushClient webPushClient = new WebPushClient();
-                        webPushClient.SetVapidDetails(vapidDetails);
-                        string payloadToken = JsonConvert.SerializeObject(payload, new JsonSerializerSettings()
-                        {
-                            DateTimeZoneHandling = DateTimeZoneHandling.Utc,
-                            ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                        });
-                        webPushClient.SendNotification(pushSubscription, payloadToken);
-                       
-                    }
-
-
-
+                _enviarNotificacionService.Enviar(titulo, mensaje,idUsuario);
                     ViewBag.Mensaje = "notificacion enviada con exito";
                     ViewBag.TipoMensaje = "EXITO";
                     return View("EnviarAvisos",_getPacientes.GetAll());
-                }
-                else
-                {
-                    throw new Exception("El paciente no tiene dispositivos registrados");
-                }
             }
 
             catch (Exception e)

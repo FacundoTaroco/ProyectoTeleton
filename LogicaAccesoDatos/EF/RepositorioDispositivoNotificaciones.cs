@@ -51,9 +51,19 @@ namespace LogicaAccesoDatos.EF
             }
         }
 
-        public void Delete(int id)
+        public void Delete(int idDisp)
         {
-            throw new NotImplementedException();
+            try
+            {
+                DispositivoNotificacion disp = _context.Dispositivos.FirstOrDefault(d => d.Id == idDisp);
+                _context.Dispositivos.Remove(disp);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public IEnumerable<DispositivoNotificacion> GetAll()

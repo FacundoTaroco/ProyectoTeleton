@@ -8,26 +8,26 @@ namespace LogicaNegocio.Entidades
 {
     public class CitaMedica
     {
-        public int Id { get; set; } 
-        public string TipoCita { get; set; }
-        public string Materiales { get; set; }
-        public string Personal { get; set; }
-        public string Sala { get; set; }
+        public int Id { get; set; }
+        public int PkAgenda { get; set; }
+        public string Cedula { get; set; }
+        public string NombreCompleto { get; set; }
+        public string Servicio { get; set; }
         public DateTime Fecha { get; set; }
-        public string CedulaPaciente { get; set; }
-
-
+        public int HoraInicio { get; set; }
+        public string Tratamiento { get; set; }
         public CitaMedica() { }
 
-        public CitaMedica(string tipoCita, string materiales, string personal, string sala, DateTime fecha, string cedula)
+        public CitaMedica(int pkAgenda, string cedula, string nombreCompleto, string servicio, DateTime fecha, int horaInicio, string tratamiento)
         {
-            TipoCita = tipoCita;
-            Materiales = materiales;
-            Personal = personal;
-            Sala = sala;
+            PkAgenda = pkAgenda;
+            Cedula = cedula;
+            NombreCompleto = nombreCompleto;
+            Servicio = servicio;
             Fecha = fecha;
-            CedulaPaciente = cedula;
-        }   
+            HoraInicio = horaInicio;
+            Tratamiento = tratamiento;
+        }
 
     }
 }

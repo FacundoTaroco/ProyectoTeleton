@@ -99,13 +99,18 @@ namespace AppTeleton.Controllers
                 Totem totem = GetTotemLogueado();
 
                 Paciente paciente = _getPacientes.GetPacientePorCedula(cedula);
-
                 AccesoTotem nuevoAcceso = new AccesoTotem(cedula, totem);
-                _acceso.AgregarAcceso(nuevoAcceso); 
+                //VER QUE HACER CON AVISO MEDICO AHORA QUE NO TENEMOS MAS API
                 AvisoMedicoDTO avisoMedico = new AvisoMedicoDTO(cedula,"Recepcionado",nuevoAcceso.FechaHora);
-                _generarAvisoLlegada.GenerarAvisoLLamada(avisoMedico);
+                if (!_acceso.PacienteYaAccedioEnFecha(totem.Id, DateTime.Now, cedula))
+                {
+                _acceso.AgregarAcceso(nuevoAcceso); 
+                    
+                    _generarAvisoLlegada.GenerarAvisoLLamada(avisoMedico);
+                }
+               
+                //OBTENER CITAS DE HOY ACA
                 IEnumerable<CitaMedicaDTO> citas = await _getCitas.ObtenerCitasPorCedula(cedula);
-
                 AccesoTotemViewModel accesoTotemViewModel = new AccesoTotemViewModel(citas, paciente);
                
                 return View("HomeUsuario", accesoTotemViewModel);

@@ -53,5 +53,11 @@ namespace LogicaAplicacion.CasosUso.AccesoTotemCU
             }
         }
 
+        public bool PacienteYaAccedioEnFecha(int idTotem, DateTime fecha, string cedulaPaciente) { 
+            
+            return _repo.PacienteYaAccedioEnFecha(idTotem,fecha,cedulaPaciente);
+            
+        }
+
     }
 }

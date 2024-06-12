@@ -2,13 +2,13 @@
 
 namespace AppTeleton.Worker
 {
-    public class NativeWorker:BackgroundService
+    public class CargarPacientesWorker:BackgroundService
     {
-        //Este es un programa que queda corriendo en segundo plano y permite actualizar los pacientes una vez cada el tiempo que queramoos
+        //Este es un programa que queda corriendo en segundo plano y permite actualizar los pacientes una vez cada el tiempo que queramos
 
-        private readonly ILogger<NativeWorker> _logger;
+        private readonly ILogger<CargarPacientesWorker> _logger;
         private readonly IServiceProvider _serviceProvider;
-        public NativeWorker(ILogger<NativeWorker> logger, IServiceProvider serviceProvider /*notificaciones automaticas*/)
+        public CargarPacientesWorker(ILogger<CargarPacientesWorker> logger, IServiceProvider serviceProvider)
         {
             _logger = logger;
             _serviceProvider = serviceProvider;
@@ -35,12 +35,8 @@ namespace AppTeleton.Worker
                     }
                     
                     //delay en milisegundos entre que se ejecuta una tarea y otra
-                    await Task.Delay(/*86400000*/15000, stoppingToken);
+                    await Task.Delay(/*86400000*/400000, stoppingToken);
                 }
-
-
-
-                /* _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);*/
 
 
                 

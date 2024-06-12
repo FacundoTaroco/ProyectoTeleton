@@ -84,6 +84,22 @@ namespace LogicaAccesoDatos.EF
             }
         }
 
+        public bool PacienteYaAccedioEnFecha(int idTotem, DateTime fecha, string cedulaPaciente) {
+
+            AccesoTotem accesoTotem = _context.AccesosTotem.FirstOrDefault(a => a.IdTotem == idTotem &&
+            (a.FechaHora.Day == fecha.Day && a.FechaHora.Month == fecha.Month && a.FechaHora.Year == fecha.Year)
+            && a.CedulaPaciente.Equals(cedulaPaciente));
+
+            if (accesoTotem == null)
+            {
+                return false;
+            }
+            else { 
+                return true;
+            }
+        
+        }
+
         public IEnumerable<AccesoTotem> GetAccesosPorDia(int idTotem, DateTime fecha)
         {
             try
@@ -100,8 +116,9 @@ namespace LogicaAccesoDatos.EF
                     throw new NotFoundException("No se encontro totem");
                 }
 
-                //ESTO CUANDO HACE.DAY no VALIDA QUE SEA EL MISMO DIA 25 de octubre y 25 de febrero devuelven el mismo DAY(25)
-                IEnumerable<AccesoTotem> accesos = _context.AccesosTotem.Where(a => a.IdTotem == idTotem && a.FechaHora.Day == fecha.Day).Include(a => a._Totem).ToList();
+              
+                IEnumerable<AccesoTotem> accesos = _context.AccesosTotem.Where(a => a.IdTotem == idTotem &&
+                (a.FechaHora.Day == fecha.Day && a.FechaHora.Month == fecha.Month && a.FechaHora.Year == fecha.Year)).Include(a => a._Totem).ToList();
                 return accesos;
             }
             catch (NullOrEmptyException)
