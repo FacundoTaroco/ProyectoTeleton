@@ -1,0 +1,55 @@
+﻿@*
+    
+*@
+@{
+}
+<style>
+  
+
+
+</style>
+
+
+    <div class="container py-5">
+
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-8 col-lg-6 col-xl-4">
+
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center p-3"
+                     style="border-top: 4px solid #ff8080;">
+                        <h5 class="mb-0">Chat</h5>
+                        <div class="d-flex flex-row align-items-center">
+                            <i class="fas fa-minus me-3 text-muted fa-xs"></i>
+                            <i class="fas fa-comments me-3 text-muted fa-xs"></i>
+                            <i class="fas fa-times text-muted fa-xs"></i>
+                        </div>
+                    </div>
+                <scroll-container class="card-body" id="chatbox" style=" display:block; height: 60vh; overflow-y: scroll;  scroll-behavior: smooth;">
+
+
+
+
+                    
+
+
+                </scroll-container>
+                    <div class="card-footer text-muted d-flex justify-content-start align-items-center p-3">
+                        <div class="input-group mb-0">
+                            <input type="hidden" name="name" id="txtUsuario" value="@ViewBag.Usuario" />
+                            <input type="text" id="txtMensaje" class="form-control" placeholder="Escriba su consulta de forma breve"
+                               aria-label="Recipient's username" aria-describedby="btnEnviar" />
+                        <button data-mdb-button-init data-mdb-ripple-init class="btn" type="button" id="btnEnviar" style="padding-top: .55rem;background-color: #ff8080;">
+                                Enviar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/clientHub.js"></script>

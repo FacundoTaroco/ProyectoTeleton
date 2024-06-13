@@ -16,13 +16,14 @@ using LogicaAplicacion.CasosUso.CitaCU;
 using LogicaAplicacion.CasosUso.DispositivoUsuarioCU;
 using LogicaAplicacion.CasosUso.NotificacionCU;
 using LogicaAplicacion.CasosUso.PreguntasFrecCU;
-
+using AppTeleton.Hubs;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSignalR();
 
 builder.Services.AddDbContext<LibreriaContext>();
 
@@ -115,5 +116,7 @@ app.UseSession();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Usuario}/{action=Login}/{id?}");
+
+app.MapHub<HubConectado>("/ConnectedHub"); 
 
 app.Run();
