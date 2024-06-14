@@ -83,7 +83,7 @@ namespace LogicaAccesoDatos.EF
                 {
                     throw new NotFoundException("No se encontró pregunta frecuente a editar");
                 }
-                _context.Entry(existingPregunta).CurrentValues.SetValues(obj);
+                _context.PreguntasFrec.Update(existingPregunta);
                 _context.SaveChanges();
             }
             catch (NotFoundException)

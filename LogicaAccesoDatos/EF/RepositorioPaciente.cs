@@ -135,6 +135,18 @@ namespace LogicaAccesoDatos.EF
            
        
         }
+
+        public bool ExistePaciente(string usuario) {
+
+            var paciente = _context.Pacientes.FirstOrDefault(paciente => paciente.NombreUsuario.Equals(usuario));
+
+            if (paciente == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public Paciente GetPacientePorUsuario(string usuario)
         {
             try

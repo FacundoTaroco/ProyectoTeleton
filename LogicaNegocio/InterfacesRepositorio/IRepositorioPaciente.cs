@@ -12,6 +12,7 @@ namespace LogicaNegocio.InterfacesRepositorio
         public Paciente GetPacientePorCedula(string cedula);
         public Paciente GetPacientePorUsuario(string usuario);
 
+        public bool ExistePaciente(string usuario);
 
 
     }

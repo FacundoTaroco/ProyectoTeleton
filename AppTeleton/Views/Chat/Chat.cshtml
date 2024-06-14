@@ -1,15 +1,29 @@
-﻿@*
-    
+﻿@using System.Text.Json
+@using System.Text.Json.Serialization
+@*
+   
 *@
 @{
+    string tipoUsuario = Context.Session.GetString("TIPO");
+    var chatJson = "";
+
+
+    if (ViewBag.ChatCargar != null)
+    {
+        var options = new JsonSerializerOptions
+        {
+          ReferenceHandler = ReferenceHandler.Preserve
+         };
+        var chat = ViewBag.ChatCargar;
+        chatJson = System.Text.Json.JsonSerializer.Serialize(chat,options);
+        
+    }
+    <button id="cargarChats"></button>
 }
-<style>
-  
 
 
-</style>
-
-
+    <button onclick="cambiarARecepcionista()">Recepcionista</button>
+    <button onclick="cambiarABot()">Bot</button>
     <div class="container py-5">
 
         <div class="row d-flex justify-content-center">
@@ -36,7 +50,14 @@
                 </scroll-container>
                     <div class="card-footer text-muted d-flex justify-content-start align-items-center p-3">
                         <div class="input-group mb-0">
-                            <input type="hidden" name="name" id="txtUsuario" value="@ViewBag.Usuario" />
+                            <input type="hidden" name="name" id="txtUsuarioManda" value="@ViewBag.Usuario" />
+
+                        @if (tipoUsuario == "PACIENTE") {
+                            <input type="hidden" name="name" id="txtUsuarioRecibe" value="CHATBOT" /> <!--ACA CAMBIAR CON VIEWBAG O ALGO A RECEPCIONISTA-->
+                        }
+                        else{
+                                 <input type="hidden" name="name" id="txtUsuarioRecibe" value="" />
+                        }
                             <input type="text" id="txtMensaje" class="form-control" placeholder="Escriba su consulta de forma breve"
                                aria-label="Recipient's username" aria-describedby="btnEnviar" />
                         <button data-mdb-button-init data-mdb-ripple-init class="btn" type="button" id="btnEnviar" style="padding-top: .55rem;background-color: #ff8080;">
@@ -53,3 +74,18 @@
 
 <script src="~/js/signalr/dist/browser/signalr.js"></script>
 <script src="~/js/clientHub.js"></script>
+
+<script>
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var chatRaw = @Html.Raw(chatJson);
+        var tipoUsuario = "@tipoUsuario"
+        document.getElementById("cargarChats").onclick = function () {
+                cargarChat(chatRaw, tipoUsuario);
+        };
+        document.querySelector("#cargarChats").click()
+    });
+
+
+</script>

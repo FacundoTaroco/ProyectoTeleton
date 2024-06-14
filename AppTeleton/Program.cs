@@ -17,12 +17,17 @@ using LogicaAplicacion.CasosUso.DispositivoUsuarioCU;
 using LogicaAplicacion.CasosUso.NotificacionCU;
 using LogicaAplicacion.CasosUso.PreguntasFrecCU;
 using AppTeleton.Hubs;
+using LogicaAplicacion.CasosUso.ChatCU;
+using System.Text.Json.Serialization;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddJsonOptions(
+    option =>
+    option.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles
+    ); ;
 builder.Services.AddSignalR();
 
 builder.Services.AddDbContext<LibreriaContext>();
@@ -46,6 +51,8 @@ builder.Services.AddScoped<IRepositorioAccesoTotem, RepositorioAccesoTotem>();
 builder.Services.AddScoped<IRepositorioDispositivoNotificaciones, RepositorioDispositivoNotificaciones>();
 builder.Services.AddScoped<IRepositorioNotificacion, RepositorioNotificacion>();
 builder.Services.AddScoped<IRepositorioPreguntaFrec, RepositorioPreguntaFrec>();
+
+builder.Services.AddScoped<IRepositorioChat, RepositorioChat>();
 //Scope de casos de uso
 
 builder.Services.AddScoped<GetUsuarios, GetUsuarios>();
@@ -83,11 +90,15 @@ builder.Services.AddScoped<NotificacionesAutomaticas, NotificacionesAutomaticas>
 builder.Services.AddScoped<ABMPreguntasFrec, ABMPreguntasFrec>();
 builder.Services.AddScoped<GetPreguntasFrec, GetPreguntasFrec>();
 
+builder.Services.AddScoped<ABMChat, ABMChat>();
+builder.Services.AddScoped<GetChats, GetChats>();
+
 //scopes de servicios
 builder.Services.AddScoped<EnviarNotificacionService, EnviarNotificacionService>();
 builder.Services.AddScoped<SolicitarPacientesService, SolicitarPacientesService>();
 builder.Services.AddScoped<SolicitarCitasService, SolicitarCitasService>();
 builder.Services.AddScoped<GenerarAvisoMedicoService, GenerarAvisoMedicoService>();
+builder.Services.AddScoped<ChatBotService, ChatBotService>();
 //Usuario
 builder.Services.AddScoped<ILogin, Login>();
 

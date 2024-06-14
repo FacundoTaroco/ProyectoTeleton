@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LogicaAccesoDatos.Migrations
 {
     [DbContext(typeof(LibreriaContext))]
-    [Migration("20240612194702_init")]
-    partial class init
+    [Migration("20240614192626_ini")]
+    partial class ini
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -52,6 +52,35 @@ namespace LogicaAccesoDatos.Migrations
                     b.ToTable("AccesosTotem");
                 });
 
+            modelBuilder.Entity("LogicaNegocio.Entidades.Chat", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("Abierto")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("AsistenciaAutomatica")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("_PacienteId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("_RecepcionistaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("_PacienteId");
+
+                    b.HasIndex("_RecepcionistaId");
+
+                    b.ToTable("Chats");
+                });
+
             modelBuilder.Entity("LogicaNegocio.Entidades.DispositivoNotificacion", b =>
                 {
                     b.Property<int>("Id")
@@ -83,6 +112,41 @@ namespace LogicaAccesoDatos.Migrations
                     b.HasIndex("UsuarioId");
 
                     b.ToTable("Dispositivos");
+                });
+
+            modelBuilder.Entity("LogicaNegocio.Entidades.Mensaje", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("EsDePaciente")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("IdChat")
+                        .HasColumnType("int");
+
+                    b.Property<int>("_ChatId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("contenido")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("fecha")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("nombreUsuario")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("_ChatId");
+
+                    b.ToTable("Mensaje");
                 });
 
             modelBuilder.Entity("LogicaNegocio.Entidades.Notificacion", b =>
@@ -246,6 +310,23 @@ namespace LogicaAccesoDatos.Migrations
                     b.Navigation("_Totem");
                 });
 
+            modelBuilder.Entity("LogicaNegocio.Entidades.Chat", b =>
+                {
+                    b.HasOne("LogicaNegocio.Entidades.Paciente", "_Paciente")
+                        .WithMany()
+                        .HasForeignKey("_PacienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LogicaNegocio.Entidades.Recepcionista", "_Recepcionista")
+                        .WithMany()
+                        .HasForeignKey("_RecepcionistaId");
+
+                    b.Navigation("_Paciente");
+
+                    b.Navigation("_Recepcionista");
+                });
+
             modelBuilder.Entity("LogicaNegocio.Entidades.DispositivoNotificacion", b =>
                 {
                     b.HasOne("LogicaNegocio.Entidades.Usuario", "Usuario")
@@ -257,6 +338,17 @@ namespace LogicaAccesoDatos.Migrations
                     b.Navigation("Usuario");
                 });
 
+            modelBuilder.Entity("LogicaNegocio.Entidades.Mensaje", b =>
+                {
+                    b.HasOne("LogicaNegocio.Entidades.Chat", "_Chat")
+                        .WithMany("Mensajes")
+                        .HasForeignKey("_ChatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("_Chat");
+                });
+
             modelBuilder.Entity("LogicaNegocio.Entidades.Notificacion", b =>
                 {
                     b.HasOne("LogicaNegocio.Entidades.Usuario", "Usuario")
@@ -266,6 +358,11 @@ namespace LogicaAccesoDatos.Migrations
                         .IsRequired();
 
                     b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("LogicaNegocio.Entidades.Chat", b =>
+                {
+                    b.Navigation("Mensajes");
                 });
 
             modelBuilder.Entity("LogicaNegocio.Entidades.Totem", b =>

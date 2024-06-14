@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LogicaAccesoDatos.Migrations
 {
-    public partial class init : Migration
+    public partial class ini : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -63,6 +63,33 @@ namespace LogicaAccesoDatos.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Chats",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    _PacienteId = table.Column<int>(type: "int", nullable: false),
+                    AsistenciaAutomatica = table.Column<bool>(type: "bit", nullable: false),
+                    Abierto = table.Column<bool>(type: "bit", nullable: false),
+                    _RecepcionistaId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Chats", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Chats_Usuarios__PacienteId",
+                        column: x => x._PacienteId,
+                        principalTable: "Usuarios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Chats_Usuarios__RecepcionistaId",
+                        column: x => x._RecepcionistaId,
+                        principalTable: "Usuarios",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Dispositivos",
                 columns: table => new
                 {
@@ -107,6 +134,30 @@ namespace LogicaAccesoDatos.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Mensaje",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EsDePaciente = table.Column<bool>(type: "bit", nullable: false),
+                    contenido = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    nombreUsuario = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    _ChatId = table.Column<int>(type: "int", nullable: false),
+                    IdChat = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Mensaje", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Mensaje_Chats__ChatId",
+                        column: x => x._ChatId,
+                        principalTable: "Chats",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Usuarios",
                 columns: new[] { "Id", "Contrasenia", "Discriminator", "Nombre", "NombreUsuario" },
@@ -128,9 +179,24 @@ namespace LogicaAccesoDatos.Migrations
                 column: "_TotemId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Chats__PacienteId",
+                table: "Chats",
+                column: "_PacienteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Chats__RecepcionistaId",
+                table: "Chats",
+                column: "_RecepcionistaId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Dispositivos_UsuarioId",
                 table: "Dispositivos",
                 column: "UsuarioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Mensaje__ChatId",
+                table: "Mensaje",
+                column: "_ChatId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Notificaciones_UsuarioId",
@@ -153,10 +219,16 @@ namespace LogicaAccesoDatos.Migrations
                 name: "Dispositivos");
 
             migrationBuilder.DropTable(
+                name: "Mensaje");
+
+            migrationBuilder.DropTable(
                 name: "Notificaciones");
 
             migrationBuilder.DropTable(
                 name: "PreguntasFrec");
+
+            migrationBuilder.DropTable(
+                name: "Chats");
 
             migrationBuilder.DropTable(
                 name: "Usuarios");

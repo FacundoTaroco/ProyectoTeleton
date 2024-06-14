@@ -135,7 +135,7 @@ namespace AppTeleton.Controllers
         public async Task<IActionResult> ActualizarPacientes() {
             try
             {
-
+            
                 await _actualizarPacientes.Actualizar();
                 ViewBag.TipoMensaje = "EXITO";
                 ViewBag.Mensaje ="Usuarios Actualizados con exito";
