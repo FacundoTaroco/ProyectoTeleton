@@ -26,17 +26,33 @@
         document.querySelector("#mensajeAEnviar").value = document.querySelector("#mensajeNotificacion").value
         form.submit();
     }
-
-
 </script>
+
+<div class="alert alert-info" role="alert">
+
+
+    @if (!ViewBag.RecordatoriosEncendidos)
+    {
+        <p>  Los recordatorios automaticos a los pacientes NO estan encendidos </p>
+    }
+    else
+    {
+        <p>  Los recordatorios automaticos a los pacientes estan encendidos y se envian con @ViewBag.RecordatorioAntelacion dias de antelación a la cita agendada</p>
+    }
+   
+     <form  asp-action="ConfigurarRecordatorios" asp-controller="Notificacion" method="get">
+        <input type="submit" value="Configurar Recordatorios" class="btn btn-primary">
+    </form>
+
+</div>
+
 <h1>Enviar Avisos</h1>
 
 <div>
     <p>Cargue los datos de la notificacion/aviso a enviar</p>
-
     <form id="formularioNotificacionUnSoloPaciente" asp-action="SendUnUsuario" asp-controller="Notificacion" method="post">
         <input id="idUsuarioAEnviar" name="idUsuario" class="form-control" type="hidden">
-        <input id="tituloAEnviar" class name="titulo" class="form-control" type="hidden">
+        <input id="tituloAEnviar"  name="titulo" class="form-control" type="hidden">
         <input id="mensajeAEnviar" name="mensaje" class="form-control" type="hidden">
     </form>
 
@@ -47,8 +63,6 @@
         <input id="mensajeNotificacion" name="mensaje" class="form-control" type="text" placeholder="Ingrese mensaje de la notificacion" required>
         <button class="btn btn-primary btn-block" type="submit">Enviar notificacion a todos los pacientes</button>
     </form>
-
-
 </div>
 
 

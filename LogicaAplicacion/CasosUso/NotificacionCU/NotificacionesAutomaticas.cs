@@ -15,10 +15,12 @@ namespace LogicaAplicacion.CasosUso.NotificacionCU
         private SolicitarCitasService _solicitarCitas;
         private EnviarNotificacionService _enviarNotificaciones;
         private GetPacientes _getPacientes;
-        public NotificacionesAutomaticas(SolicitarCitasService solicitarCitas, EnviarNotificacionService enviarNotificaciones, GetPacientes getPacientes ) { 
+        private GetNotificacion _getNotificacion;
+        public NotificacionesAutomaticas(GetNotificacion getNotificacion, SolicitarCitasService solicitarCitas, EnviarNotificacionService enviarNotificaciones, GetPacientes getPacientes ) { 
             _solicitarCitas = solicitarCitas;
             _enviarNotificaciones = enviarNotificaciones;
             _getPacientes = getPacientes;
+            _getNotificacion = getNotificacion;
         }
 
         public async Task<bool> EnviarRecordatorioCitaMasTemprana() {
@@ -30,15 +32,19 @@ namespace LogicaAplicacion.CasosUso.NotificacionCU
 
                 IEnumerable<CitaMedicaDTO> citasDePaciente = await _solicitarCitas.ObtenerCitasPorCedula(p.Cedula);
                 if (citasDePaciente.Count() > 0) {
-                citasDePaciente= citasDePaciente.OrderBy(p => p.Fecha);
-                citasDePaciente= citasDePaciente.OrderBy(p => p.HoraInicio);
+                citasDePaciente= citasDePaciente.OrderBy(p => p.Fecha).ThenBy(p => p.HoraInicio);
+               
 
                  CitaMedicaDTO citaMasReciente = citasDePaciente.First();
-                    string tituloNotificacion = "RECORDATORIO: Su proxima cita medica es el " + citaMasReciente.Fecha.ToShortDateString() + " a las " + citaMasReciente.HoraInicio + " hs";
-                    string mensajeNotificacion = "Tiene agendado para " + citaMasReciente.Servicio;
+                        int diasQueFaltan = (citaMasReciente.Fecha - DateTime.Now).Days;
 
-                    _enviarNotificaciones.Enviar(tituloNotificacion, mensajeNotificacion, p.Id);
+                        if (diasQueFaltan < _getNotificacion.GetParametrosRecordatorios().CadaCuantoEnviarRecordatorio) { 
                         
+                        string tituloNotificacion = "RECORDATORIO: Su proxima cita medica es el " + citaMasReciente.Fecha.ToShortDateString() + " a las " + citaMasReciente.HoraInicio + " hs";
+                        string mensajeNotificacion = "Tiene agendado para " + citaMasReciente.Servicio;
+                        _enviarNotificaciones.Enviar(tituloNotificacion, mensajeNotificacion, p.Id);
+
+                        }                        
                 }
             }
                 return true;

@@ -176,6 +176,33 @@ namespace LogicaAccesoDatos.Migrations
                     b.ToTable("Notificaciones");
                 });
 
+            modelBuilder.Entity("LogicaNegocio.Entidades.ParametrosNotificaciones", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CadaCuantoEnviarRecordatorio")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("RecordatoriosEncendidos")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ParametrosRecordatorios");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CadaCuantoEnviarRecordatorio = 2,
+                            RecordatoriosEncendidos = true
+                        });
+                });
+
             modelBuilder.Entity("LogicaNegocio.Entidades.PreguntaFrec", b =>
                 {
                     b.Property<int>("Id")

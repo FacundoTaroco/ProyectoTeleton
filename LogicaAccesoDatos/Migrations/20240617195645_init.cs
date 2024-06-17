@@ -5,10 +5,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LogicaAccesoDatos.Migrations
 {
-    public partial class ini : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "ParametrosRecordatorios",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CadaCuantoEnviarRecordatorio = table.Column<int>(type: "int", nullable: false),
+                    RecordatoriosEncendidos = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ParametrosRecordatorios", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "PreguntasFrec",
                 columns: table => new
@@ -159,19 +173,19 @@ namespace LogicaAccesoDatos.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Usuarios",
-                columns: new[] { "Id", "Contrasenia", "Discriminator", "Nombre", "NombreUsuario" },
-                values: new object[] { 3, "Admin123", "Administrador", "Octavio", "Admin1" });
+                table: "ParametrosRecordatorios",
+                columns: new[] { "Id", "CadaCuantoEnviarRecordatorio", "RecordatoriosEncendidos" },
+                values: new object[] { 1, 2, true });
 
             migrationBuilder.InsertData(
                 table: "Usuarios",
                 columns: new[] { "Id", "Contrasenia", "Discriminator", "Nombre", "NombreUsuario" },
-                values: new object[] { 2, "medico123", "Medico", "Medico Montevideo", "medicoMVD" });
-
-            migrationBuilder.InsertData(
-                table: "Usuarios",
-                columns: new[] { "Id", "Contrasenia", "Discriminator", "Nombre", "NombreUsuario" },
-                values: new object[] { 1, "totem123", "Totem", "Totem Montevideo", "totemMVD" });
+                values: new object[,]
+                {
+                    { 3, "Admin123", "Administrador", "Octavio", "Admin1" },
+                    { 2, "medico123", "Medico", "Medico Montevideo", "medicoMVD" },
+                    { 1, "totem123", "Totem", "Totem Montevideo", "totemMVD" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AccesosTotem__TotemId",
@@ -223,6 +237,9 @@ namespace LogicaAccesoDatos.Migrations
 
             migrationBuilder.DropTable(
                 name: "Notificaciones");
+
+            migrationBuilder.DropTable(
+                name: "ParametrosRecordatorios");
 
             migrationBuilder.DropTable(
                 name: "PreguntasFrec");

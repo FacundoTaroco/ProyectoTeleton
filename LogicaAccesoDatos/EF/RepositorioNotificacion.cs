@@ -89,5 +89,42 @@ namespace LogicaAccesoDatos.EF
                 throw;
             }
         }
+
+        public ParametrosNotificaciones GetParametrosRecordatorios() {
+
+            try
+            {
+                ParametrosNotificaciones parametros = _context.ParametrosRecordatorios.FirstOrDefault(p => p.Id == 1);
+                if (parametros == null) {
+                    throw new NotFoundException("Algo salio mal con los recordatorios");
+                }
+                return parametros;
+            }
+            catch (NotFoundException)
+            {
+
+                throw;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public void ActualizarParametrosRecordatorios(ParametrosNotificaciones nuevosParametros) {
+            try
+            {
+                _context.Update(nuevosParametros);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+                
+        
+        }
     }
 }

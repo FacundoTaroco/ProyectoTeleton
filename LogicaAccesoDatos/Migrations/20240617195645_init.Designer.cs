@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LogicaAccesoDatos.Migrations
 {
     [DbContext(typeof(LibreriaContext))]
-    [Migration("20240614192626_ini")]
-    partial class ini
+    [Migration("20240617195645_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -176,6 +176,33 @@ namespace LogicaAccesoDatos.Migrations
                     b.HasIndex("UsuarioId");
 
                     b.ToTable("Notificaciones");
+                });
+
+            modelBuilder.Entity("LogicaNegocio.Entidades.ParametrosNotificaciones", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CadaCuantoEnviarRecordatorio")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("RecordatoriosEncendidos")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ParametrosRecordatorios");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CadaCuantoEnviarRecordatorio = 2,
+                            RecordatoriosEncendidos = true
+                        });
                 });
 
             modelBuilder.Entity("LogicaNegocio.Entidades.PreguntaFrec", b =>

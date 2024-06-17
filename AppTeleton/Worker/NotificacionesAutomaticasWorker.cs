@@ -1,6 +1,7 @@
 ﻿
 using LogicaAplicacion.CasosUso.NotificacionCU;
 using LogicaAplicacion.CasosUso.PacienteCU;
+using LogicaNegocio.Entidades;
 
 namespace AppTeleton.Worker
 {
@@ -16,6 +17,8 @@ namespace AppTeleton.Worker
         }
 
 
+        
+
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)
@@ -24,11 +27,15 @@ namespace AppTeleton.Worker
                 using (IServiceScope scope = _serviceProvider.CreateScope())
                 {
                     NotificacionesAutomaticas _notificacionesAutomaticas = scope.ServiceProvider.GetRequiredService<NotificacionesAutomaticas>();
+                    GetNotificacion _getNotificacion = scope.ServiceProvider.GetRequiredService<GetNotificacion>();
+                    ParametrosNotificaciones parametros = _getNotificacion.GetParametrosRecordatorios();
 
                     try
                     {
-                        await _notificacionesAutomaticas.EnviarRecordatorioCitaMasTemprana();
-                        Console.WriteLine("Notificacion automatica enviada con exito");
+                        if (parametros.RecordatoriosEncendidos) { 
+                            await _notificacionesAutomaticas.EnviarRecordatorioCitaMasTemprana();
+                            Console.WriteLine("Notificacion automatica enviada con exito");
+                        }
                     }
                     catch (Exception)
                     {
@@ -36,8 +43,11 @@ namespace AppTeleton.Worker
                         Console.WriteLine("Algo fallo al enviar notificaciones automaticas");
                     }
 
+                    int diasEnMilisegundos = parametros.CadaCuantoEnviarRecordatorio * 86400000;
+                    int segundosParaTesting = parametros.CadaCuantoEnviarRecordatorio * 1000; 
+                    //ACA SIEMPRE ES UNA VEZ POR DIA
                     //delay en milisegundos entre que se ejecuta una tarea y otra
-                    await Task.Delay(/*86400000*/30000, stoppingToken);
+                    await Task.Delay(10000, stoppingToken);
                 }
 
 

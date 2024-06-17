@@ -28,6 +28,7 @@ namespace LogicaAccesoDatos.EF
         public DbSet<Notificacion> Notificaciones { get; set; }
         public DbSet<PreguntaFrec> PreguntasFrec { get; set; }
         public DbSet<Chat> Chats { get; set; }
+        public DbSet<ParametrosNotificaciones> ParametrosRecordatorios { get; set; }
 
 
 
@@ -57,6 +58,13 @@ namespace LogicaAccesoDatos.EF
                 Contrasenia = "Admin123"
             });
 
+            var parametrosInstance = ParametrosNotificaciones.GetInstancia();
+            modelBuilder.Entity<ParametrosNotificaciones>().HasData(new ParametrosNotificaciones
+            {
+                Id = 1,
+                RecordatoriosEncendidos = parametrosInstance.RecordatoriosEncendidos,
+                CadaCuantoEnviarRecordatorio = parametrosInstance.CadaCuantoEnviarRecordatorio
+            });
 
 
 

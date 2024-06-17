@@ -20,11 +20,12 @@ namespace AppTeleton.Controllers
         private GuardarDispositivoNotificacion _guardarDispositivoNotificacion;
         private GetDispositivos _getDispositivos;
         private ABNotificacion _ABNotificacion;
+        private GetNotificacion _getNotificacion;
         private BorrarDispositivoNotificacion _borrarDispositivo;
         private EnviarNotificacionService _enviarNotificacionService;
    
         private IConfiguration _config;
-        public NotificacionController(EnviarNotificacionService enviarNotificacion, BorrarDispositivoNotificacion borrarDispositivo,ABNotificacion aBNotificacion,IConfiguration configuration,GetRecepcionistas getRecepcionistas, GetPacientes getPacientes, GuardarDispositivoNotificacion guardarDisp, GetDispositivos getDispositivos) { 
+        public NotificacionController(GetNotificacion getNotificacion, EnviarNotificacionService enviarNotificacion, BorrarDispositivoNotificacion borrarDispositivo,ABNotificacion aBNotificacion,IConfiguration configuration,GetRecepcionistas getRecepcionistas, GetPacientes getPacientes, GuardarDispositivoNotificacion guardarDisp, GetDispositivos getDispositivos) { 
             
             _getRecepcionistas = getRecepcionistas;
             _getPacientes = getPacientes;
@@ -34,6 +35,7 @@ namespace AppTeleton.Controllers
             _ABNotificacion= aBNotificacion;
             _borrarDispositivo = borrarDispositivo;
             _enviarNotificacionService = enviarNotificacion;
+            _getNotificacion = getNotificacion;
         }
         public IActionResult Index()
         {
@@ -98,9 +100,45 @@ namespace AppTeleton.Controllers
 
         public IActionResult EnviarAvisos() {
 
-            return View( _getPacientes.GetAll());
+            try
+            {
+            ParametrosNotificaciones parametros =  _getNotificacion.GetParametrosRecordatorios();
+            ViewBag.RecordatoriosEncendidos = parametros.RecordatoriosEncendidos;
+            ViewBag.RecordatorioAntelacion = parametros.CadaCuantoEnviarRecordatorio;
+            return View(_getPacientes.GetAll());
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+          
 
         }
+
+        [HttpGet]
+        public IActionResult ConfigurarRecordatorios() {
+            ParametrosNotificaciones parametros = _getNotificacion.GetParametrosRecordatorios();
+            return View(parametros);
+        }
+        [HttpPost]
+        public IActionResult ConfigurarRecordatorios(ParametrosNotificaciones nuevosParametros)
+        {
+            try
+            {
+                _ABNotificacion.ActualizarParametros(nuevosParametros);
+                return RedirectToAction("EnviarAvisos");
+            }
+            catch (Exception e)
+            {
+                ParametrosNotificaciones parametros = _getNotificacion.GetParametrosRecordatorios();
+                ViewBag.TipoMensaje = "ERROR";
+                ViewBag.Mensaje = e.Message;
+                return View(parametros);
+            }
+            
+        }
+
 
         //EVENTUALMENTE HACER ESTO MAS DINAMICO(RECIBE UNA LISTA DE PACIENTES O LISTA DE IDS EN VEZ DE SER TODOS LOS PACIENTES PUEDE TRABAJAR CON GRUPOS DE PACIENTES)
         [RecepcionistaAdminLogueado]
@@ -114,9 +152,12 @@ namespace AppTeleton.Controllers
                 if (String.IsNullOrEmpty(mensaje)) throw new Exception("Ingrese un mensaje para la notificacion");
 
                 _enviarNotificacionService.EnviarATodos(titulo, mensaje);
-                    ViewBag.Mensaje = "notificacion enviada con exito a todos los pacientes con dispositivos registrados";
+                    ViewBag.Mensaje = "notificacion enviada con exito";
                     ViewBag.TipoMensaje = "EXITO";
-                    return View("EnviarAvisos", _getPacientes.GetAll());
+                ParametrosNotificaciones parametros = _getNotificacion.GetParametrosRecordatorios();
+                ViewBag.RecordatoriosEncendidos = parametros.RecordatoriosEncendidos;
+                ViewBag.RecordatorioAntelacion = parametros.CadaCuantoEnviarRecordatorio;
+                return View("EnviarAvisos", _getPacientes.GetAll());
             }
 
             catch (Exception e)
@@ -124,6 +165,9 @@ namespace AppTeleton.Controllers
 
                 ViewBag.Mensaje = e.Message;
                 ViewBag.TipoMensaje = "ERROR";
+                ParametrosNotificaciones parametros = _getNotificacion.GetParametrosRecordatorios();
+                ViewBag.RecordatoriosEncendidos = parametros.RecordatoriosEncendidos;
+                ViewBag.RecordatorioAntelacion = parametros.CadaCuantoEnviarRecordatorio;
                 return View("EnviarAvisos", _getPacientes.GetAll());
             }
         }
@@ -143,23 +187,25 @@ namespace AppTeleton.Controllers
                 _enviarNotificacionService.Enviar(titulo, mensaje,idUsuario);
                     ViewBag.Mensaje = "notificacion enviada con exito";
                     ViewBag.TipoMensaje = "EXITO";
-                    return View("EnviarAvisos",_getPacientes.GetAll());
+                ParametrosNotificaciones parametros = _getNotificacion.GetParametrosRecordatorios();
+                ViewBag.RecordatoriosEncendidos = parametros.RecordatoriosEncendidos;
+                ViewBag.RecordatorioAntelacion = parametros.CadaCuantoEnviarRecordatorio;
+                return View("EnviarAvisos",_getPacientes.GetAll());
             }
 
             catch (Exception e)
             {
                 ViewBag.Mensaje = e.Message;
                 ViewBag.TipoMensaje = "ERROR";
+                ParametrosNotificaciones parametros = _getNotificacion.GetParametrosRecordatorios();
+                ViewBag.RecordatoriosEncendidos = parametros.RecordatoriosEncendidos;
+                ViewBag.RecordatorioAntelacion = parametros.CadaCuantoEnviarRecordatorio;
                 return View("EnviarAvisos",_getPacientes.GetAll());
             }
         }
 
 
-        public static string Base64Encode(string plainText)
-        {
-            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
-            return System.Convert.ToBase64String(plainTextBytes);
-        }
+   
 
     }
 }

@@ -42,5 +42,9 @@ namespace LogicaAplicacion.CasosUso.NotificacionCU
             }
         
         }
+
+        public ParametrosNotificaciones GetParametrosRecordatorios() { 
+            return _repo.GetParametrosRecordatorios();
+        }
     }
 }
