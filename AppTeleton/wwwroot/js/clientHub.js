@@ -49,22 +49,22 @@ function cargarChat(chat, tipoUsuario) {
         chat.Mensajes.$values.forEach(function (mensaje) {
             if (tipoUsuario == "PACIENTE") {
                 if (mensaje.EsDePaciente) {
-                    insertarMensajeMandado(mensaje.fecha, chat._Paciente.NombreUsuario,mensaje.contenido)
+                    insertarMensajeMandado(mensaje.fecha, mensaje.nombreUsuario,mensaje.contenido)
 
                 } else {
 
-                    insertarMensajeRecibido(mensaje.fecha, chat._Paciente.NombreUsuario, mensaje.contenido)
+                    insertarMensajeRecibido(mensaje.fecha, mensaje.nombreUsuario, mensaje.contenido)
                 }
 
 
             } else {
 
                 if (mensaje.EsDePaciente) {
-                    insertarMensajeRecibido(mensaje.fecha, chat._Paciente.NombreUsuario, mensaje.contenido)
+                    insertarMensajeRecibido(mensaje.fecha, mensaje.nombreUsuario, mensaje.contenido)
 
                 } else {
 
-                    insertarMensajeEnviado(mensaje.fecha, chat._Paciente.NombreUsuario, mensaje.contenido)
+                    insertarMensajeEnviado(mensaje.fecha, mensaje.nombreUsuario, mensaje.contenido)
                 }
             }
            
@@ -92,9 +92,9 @@ function insertarMensajeRecibido(fechaRecibida, user, mensaje) {
                             <p class="small mb-1">${user}</p>
                             <p class="small mb-1 text-muted">${fechaString}</p>
                         </div>
-                        <div class="d-flex flex-row justify-content-start">
-                        <div>
-                                <p class="small p-2 ms-3 mb-3 rounded-3" style="background-color: #f5f6f7;">
+                        <div class="d-flex flex-row">
+                        <div class="chat-header-recibido">
+                                <p class="small p-2 rounded-3 chat-message" style="background-color: #f5f6f7;">
                                    ${mensaje}
                                 </p>
                             </div>
@@ -132,9 +132,9 @@ function insertarMensajeMandado(fechaRecibida, userManda, mensaje) {
                             <p class="small mb-1">${userManda}</p>
                             <p class="small mb-1 text-muted">${fechaString}</p>
                         </div>
-                        <div class="d-flex flex-row justify-content-end mb-4 pt-1">
-                        <div  class="chat-header">
-                                <p class="small p-2 ms-3 mb-3 rounded-3 chat-message" style="background-color: #ff8080;">
+                        <div class="d-flex flex-row">
+                        <div  class="chat-header-enviado" >
+                                <p class="small p-2 rounded-3 chat-message" style="background-color: #ff8080;">
                                    ${mensaje}
                                 </p>
                             </div>

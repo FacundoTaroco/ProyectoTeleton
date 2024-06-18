@@ -21,9 +21,15 @@
     <button id="cargarChats"></button>
 }
 <style>
-    .chat-header {
+    .chat-header-enviado {
         display: flex;
-        justify-content: space-between;
+        justify-content:end;
+        width: 100%;
+    }
+
+    .chat-header-recibido {
+        display: flex;
+        justify-content: start;
         width: 100%;
     }
 
@@ -31,7 +37,6 @@
         background-color: #ff8080;
         border-radius: 8px;
         padding: 10px;
-        margin-bottom: 10px;
         max-width: 100%;
         word-wrap: break-word; 
         overflow-wrap: break-word; 
