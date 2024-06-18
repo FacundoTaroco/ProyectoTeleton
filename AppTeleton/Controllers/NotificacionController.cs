@@ -37,6 +37,9 @@ namespace AppTeleton.Controllers
             _enviarNotificacionService = enviarNotificacion;
             _getNotificacion = getNotificacion;
         }
+
+
+
         public IActionResult Index()
         {
             return View();

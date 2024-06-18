@@ -20,7 +20,24 @@
     }
     <button id="cargarChats"></button>
 }
+<style>
+    .chat-header {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
 
+    .chat-message {
+        background-color: #ff8080;
+        border-radius: 8px;
+        padding: 10px;
+        margin-bottom: 10px;
+        max-width: 100%;
+        word-wrap: break-word; 
+        overflow-wrap: break-word; 
+        white-space: normal; 
+    }
+</style>
 
     <button onclick="cambiarARecepcionista()">Recepcionista</button>
     <button onclick="cambiarABot()">Bot</button>

@@ -133,8 +133,8 @@ function insertarMensajeMandado(fechaRecibida, userManda, mensaje) {
                             <p class="small mb-1 text-muted">${fechaString}</p>
                         </div>
                         <div class="d-flex flex-row justify-content-end mb-4 pt-1">
-                        <div>
-                                <p class="small p-2 ms-3 mb-3 rounded-3" style="background-color: #ff8080;">
+                        <div  class="chat-header">
+                                <p class="small p-2 ms-3 mb-3 rounded-3 chat-message" style="background-color: #ff8080;">
                                    ${mensaje}
                                 </p>
                             </div>

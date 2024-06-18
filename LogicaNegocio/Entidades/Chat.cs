@@ -46,7 +46,7 @@ namespace LogicaNegocio.Entidades
             Mensajes.Add(mensaje);   
 
         }
-        public void AgregarBotRecepcion(Mensaje mensaje)
+        public void AgregarMensajeBotRecepcion(Mensaje mensaje)
         {
             mensaje.EsDePaciente = false;
             Mensajes.Add(mensaje);
