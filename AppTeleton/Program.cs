@@ -45,6 +45,7 @@ builder.Services.AddScoped<IRepositorioAccesoTotem, RepositorioAccesoTotem>();
 builder.Services.AddScoped<IRepositorioDispositivoNotificaciones, RepositorioDispositivoNotificaciones>();
 builder.Services.AddScoped<IRepositorioNotificacion, RepositorioNotificacion>();
 builder.Services.AddScoped<IRepositorioPreguntaFrec, RepositorioPreguntaFrec>();
+builder.Services.AddScoped<IRepositorioCitaMedica, RepositorioCitaMedica>();
 //Scope de casos de uso
 
 builder.Services.AddScoped<GetUsuarios, GetUsuarios>();

@@ -16,9 +16,10 @@ namespace LogicaNegocio.Entidades
         public DateTime Fecha { get; set; }
         public int HoraInicio { get; set; }
         public string Tratamiento { get; set; }
+        public string Estado { get; set; }
         public CitaMedica() { }
 
-        public CitaMedica(int pkAgenda, string cedula, string nombreCompleto, string servicio, DateTime fecha, int horaInicio, string tratamiento)
+        public CitaMedica(int pkAgenda, string cedula, string nombreCompleto, string servicio, DateTime fecha, int horaInicio, string tratamiento, string estado)
         {
             PkAgenda = pkAgenda;
             Cedula = cedula;
@@ -27,6 +28,7 @@ namespace LogicaNegocio.Entidades
             Fecha = fecha;
             HoraInicio = horaInicio;
             Tratamiento = tratamiento;
+            Estado = estado;
         }
 
     }

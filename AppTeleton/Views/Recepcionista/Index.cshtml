@@ -1,4 +1,4 @@
-﻿
+﻿@model AppTeleton.Models.UsuariosViewModel
 @{
     ViewData["Title"] = "Index";
 }
@@ -34,5 +34,42 @@
 </form>
 
 <h1>VISTA Recepcionista</h1>
+
+<h1>Lista de Citas Médicas del Día</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre del Paciente</th>
+            <th>Cédula</th>
+            <th>Tratamiento</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Estado de Llegada</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cita in Model.CitasMedicas)
+        {
+            <tr>
+                <td>@cita.NombreCompleto</td>
+                <td>@cita.Cedula</td>
+                <td>@cita.Tratamiento</td>
+                <td>@cita.Fecha.ToShortDateString()</td>
+                <td>@cita.HoraInicio</td>
+                <td>
+                    @if (cita.Estado == "LLegó")
+                    {
+                        <span class="badge badge-success">Llegó</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">No llegó</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 

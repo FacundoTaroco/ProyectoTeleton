@@ -1,4 +1,5 @@
-﻿using LogicaNegocio.Entidades;
+﻿using LogicaNegocio.DTO;
+using LogicaNegocio.Entidades;
 
 namespace AppTeleton.Models
 {//clase para poder mostrar todos los tipos de pacientes en una sola vista
@@ -11,7 +12,7 @@ namespace AppTeleton.Models
         public IEnumerable<Recepcionista> Recepcionistas;
         public IEnumerable<Medico> Medicos;
         public IEnumerable<Totem> Totems;
-        //public IEnumerable<Cita> Citas;
+        public IEnumerable<CitaMedicaDTO> CitasMedicas { get; set; }
 
         public UsuariosViewModel() { }
         public UsuariosViewModel(IEnumerable<Paciente> pacientes, IEnumerable<Administrador> administradores, IEnumerable<Recepcionista> recepcionistas, IEnumerable<Medico> medicos, IEnumerable<Totem> totems) { 

@@ -23,6 +23,54 @@ namespace LogicaAplicacion.Servicios
             _config = config;
             /*linkAPI = "https://localhost:7201/";*/
         }
+
+        public async Task<IEnumerable<CitaMedicaDTO>> ObtenerCitasDelDiaAsync()
+        {
+            try
+            {
+                var connectionString = _config["ConnectionStrings:TeletonSimuladorDatabase"];
+                var commandText = "SELECT * FROM GetAgendasDelDia()"; // Suponiendo que tienes un procedimiento almacenado para obtener las citas del día
+                List<CitaMedicaDTO> citasMedicas = new List<CitaMedicaDTO>();
+
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(commandText, con))
+                    {
+                        await con.OpenAsync();
+
+                        SqlDataReader reader = await cmd.ExecuteReaderAsync();
+
+                        while (await reader.ReadAsync())
+                        {
+                            int pkAgenda = reader.GetInt32(0);
+                            string cedula = reader.GetString(1);
+                            string nombre = reader.GetString(2);
+                            string tratamiento = reader.GetString(6); // Ajusta según la estructura de tu base de datos
+                            DateTime fecha = reader.GetDateTime(4);
+                            int horaInicio = reader.GetInt32(5);
+
+                            // Simular estado aleatorio (cambiar según la lógica real)
+                            Random random = new Random();
+                            string estado = random.Next(0, 2) == 1 ? "Llegó" : "No llegó";
+
+                            // Añadir la cita médica a la lista
+                            CitaMedicaDTO cita = new CitaMedicaDTO(pkAgenda, cedula, nombre, "", fecha, horaInicio, tratamiento, estado); // Aquí "" en servicio, para citas del día no debe mostrar el servicio.
+                            citasMedicas.Add(cita);
+                        }
+
+                        reader.Close();
+                    }
+                }
+
+                return citasMedicas;
+            }
+            catch (Exception ex)
+            {
+                // Manejar excepciones según tu lógica de aplicación
+                throw new Exception("Error al obtener citas médicas del día", ex);
+            }
+        }
+
         public async Task<IEnumerable<CitaMedicaDTO>> ObtenerCitas() {
 
             try
@@ -46,7 +94,11 @@ namespace LogicaAplicacion.Servicios
                             DateTime fecha = reader.GetDateTime(4);
                             int horaInicio = reader.GetInt32(5);
                             string tratamiento = reader.GetString(6);
-                            CitaMedicaDTO cita = new CitaMedicaDTO(pkAgenda,cedula,nombre,servicio,fecha,horaInicio,tratamiento);
+
+                            Random random = new Random();
+                            string estado = random.Next(0, 2) == 1 ? "Llegó" : "No llegó";
+
+                            CitaMedicaDTO cita = new CitaMedicaDTO(pkAgenda,cedula,nombre,servicio,fecha,horaInicio,tratamiento, estado);
                             citasMedicas.Add(cita);
                         }
                         con.Close();
@@ -123,7 +175,10 @@ namespace LogicaAplicacion.Servicios
                             DateTime fecha = reader.GetDateTime(4);
                             int horaInicio = reader.GetInt32(5);
                             string tratamiento = reader.GetString(6);
-                            CitaMedicaDTO cita = new CitaMedicaDTO(pkAgenda, ci, nombre, servicio, fecha, horaInicio, tratamiento);
+
+                            Random random = new Random();
+                            string estado = random.Next(0, 2) == 1 ? "Llegó" : "No llegó";
+                            CitaMedicaDTO cita = new CitaMedicaDTO(pkAgenda, ci, nombre, servicio, fecha, horaInicio, tratamiento, estado);
                             citasMedicas.Add(cita);
                         }
                         reader.Close();
