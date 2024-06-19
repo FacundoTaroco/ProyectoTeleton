@@ -1,4 +1,4 @@
-﻿@model AppTeleton.Models.UsuariosViewModel
+﻿@model AppTeleton.Models.RecepsionistaViewModel
 @{
     ViewData["Title"] = "Index";
 }
@@ -60,11 +60,11 @@
                 <td>
                     @if (cita.Estado == "LLegó")
                     {
-                        <span class="badge badge-success">Llegó</span>
+                        <span class="badge badge-success" style="color:green;">Llegó</span>
                     }
                     else
                     {
-                        <span class="badge badge-danger">No llegó</span>
+                        <span class="badge badge-danger" style="color:red;">No llegó</span>
                     }
                 </td>
             </tr>

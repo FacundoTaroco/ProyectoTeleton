@@ -8,6 +8,7 @@ using LogicaNegocio.DTO;
 using LogicaNegocio.Entidades;
 using LogicaNegocio.InterfacesRepositorio;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace AppTeleton.Controllers
 {
@@ -38,12 +39,22 @@ namespace AppTeleton.Controllers
         {
             try
             {
-                // Obtener lista de citas médicas del día actual
-                IEnumerable<CitaMedicaDTO> citasDelDia = await _solicitarCitasService.ObtenerCitasDelDiaAsync();
+                // Obtener lista de todas las citas médicas
+                IEnumerable<CitaMedicaDTO> todasLasCitas = await _solicitarCitasService.ObtenerCitas();
+
+                // Filtrar las citas para obtener solo las del día actual
+                DateTime _fecha = new DateTime(2024, 11, 4);
+                TimeZoneInfo zonaHoraria = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
+                DateTime fechaGMT = TimeZoneInfo.ConvertTimeFromUtc(_fecha, zonaHoraria);
+
+                IEnumerable<CitaMedicaDTO> citasDelDia = todasLasCitas.Where(c => c.Fecha.Date == fechaGMT.Date);
 
                 // Crear el modelo para la vista
-                UsuariosViewModel model = new UsuariosViewModel
+                //que a RecepsionistaViewModel le el dto
+                RecepsionistaViewModel model = new RecepsionistaViewModel
                 {
+                    CitasMedicas = citasDelDia
+                };/*{
                     CitasMedicas = (IEnumerable<CitaMedicaDTO>)citasDelDia.Select(c => new CitaMedica(
                         pkAgenda: c.PkAgenda,
                         cedula: c.Cedula,
@@ -52,9 +63,9 @@ namespace AppTeleton.Controllers
                         fecha: c.Fecha,
                         horaInicio: c.HoraInicio,
                         tratamiento: c.Tratamiento,
-                        estado: "No llegó"
-                    ))
-                };
+                        estado: c.Estado
+                    )).ToList()
+                };*/
 
                 // Renderizar la vista con las citas médicas del día actual
                 return View(model);

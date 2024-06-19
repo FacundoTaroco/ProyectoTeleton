@@ -24,40 +24,52 @@ namespace LogicaAplicacion.Servicios
             /*linkAPI = "https://localhost:7201/";*/
         }
 
-        public async Task<IEnumerable<CitaMedicaDTO>> ObtenerCitasDelDiaAsync()
+        /*public async Task<IEnumerable<CitaMedicaDTO>> ObtenerCitasDelDiaAsync()
         {
             try
             {
-                var connectionString = _config["ConnectionStrings:TeletonSimuladorDatabase"];
+                var connectionString = _config["ConnectionStrings:LocalBD"];
                 var commandText = "SELECT * FROM GetAgendasDelDia()"; // Suponiendo que tienes un procedimiento almacenado para obtener las citas del día
                 List<CitaMedicaDTO> citasMedicas = new List<CitaMedicaDTO>();
 
                 using (SqlConnection con = new SqlConnection(connectionString))
                 {
+                    await con.OpenAsync();
+                    Console.WriteLine("Conexión abierta con éxito.");
+
                     using (SqlCommand cmd = new SqlCommand(commandText, con))
                     {
-                        await con.OpenAsync();
-
                         SqlDataReader reader = await cmd.ExecuteReaderAsync();
 
-                        while (await reader.ReadAsync())
+                        if (reader != null)
                         {
-                            int pkAgenda = reader.GetInt32(0);
-                            string cedula = reader.GetString(1);
-                            string nombre = reader.GetString(2);
-                            string tratamiento = reader.GetString(6); // Ajusta según la estructura de tu base de datos
-                            DateTime fecha = reader.GetDateTime(4);
-                            int horaInicio = reader.GetInt32(5);
+                            if (reader.HasRows)
+                            {
+                                while (await reader.ReadAsync())
+                                {
+                                    int pkAgenda = reader.GetInt32(0);
+                                    string cedula = reader.GetString(1);
+                                    string nombre = reader.GetString(2);
+                                    string tratamiento = reader.GetString(6); // Ajusta según la estructura de tu base de datos
+                                    DateTime fecha = reader.GetDateTime(4);
+                                    int horaInicio = reader.GetInt32(5);
 
-                            // Simular estado aleatorio (cambiar según la lógica real)
-                            Random random = new Random();
-                            string estado = random.Next(0, 2) == 1 ? "Llegó" : "No llegó";
-
-                            // Añadir la cita médica a la lista
-                            CitaMedicaDTO cita = new CitaMedicaDTO(pkAgenda, cedula, nombre, "", fecha, horaInicio, tratamiento, estado); // Aquí "" en servicio, para citas del día no debe mostrar el servicio.
-                            citasMedicas.Add(cita);
+                                    Random random = new Random();
+                                    string estado = random.Next(0, 2) == 1 ? "Llegó" : "No llegó";
+                                    // Añadir la cita médica a la lista
+                                    CitaMedicaDTO cita = new CitaMedicaDTO(pkAgenda, cedula, nombre, "", fecha, horaInicio, tratamiento, estado); // Aquí "" en servicio, para citas del día no debe mostrar el servicio.
+                                    citasMedicas.Add(cita);
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("No se encontraron filas.");
+                            }
                         }
-
+                        else
+                        {
+                            Console.WriteLine("El lector es null.");
+                        }
                         reader.Close();
                     }
                 }
@@ -67,16 +79,18 @@ namespace LogicaAplicacion.Servicios
             catch (Exception ex)
             {
                 // Manejar excepciones según tu lógica de aplicación
+                Console.WriteLine($"Error: {ex.Message}");
                 throw new Exception("Error al obtener citas médicas del día", ex);
             }
-        }
+        }*/
 
-        public async Task<IEnumerable<CitaMedicaDTO>> ObtenerCitas() {
+        public async Task<IEnumerable<CitaMedicaDTO>> ObtenerCitas()
+        {
 
             try
             {
-                var connectionString = _config["ConnectionStrings:TeletonSimuladorDatabase"];
-                var commandText = "SELECT * FROM GetAgendas()";
+                var connectionString = _config["ConnectionStrings:SimuladorServidorCentral"];
+                var commandText = "SELECT * from GetAgendas()";
                 // Establece la conexión
                 List<CitaMedicaDTO> citasMedicas = new List<CitaMedicaDTO>();
                 using (SqlConnection con = new(connectionString))
@@ -95,10 +109,9 @@ namespace LogicaAplicacion.Servicios
                             int horaInicio = reader.GetInt32(5);
                             string tratamiento = reader.GetString(6);
 
-                            Random random = new Random();
-                            string estado = random.Next(0, 2) == 1 ? "Llegó" : "No llegó";
+                            string estado = "No llegó";
 
-                            CitaMedicaDTO cita = new CitaMedicaDTO(pkAgenda,cedula,nombre,servicio,fecha,horaInicio,tratamiento, estado);
+                            CitaMedicaDTO cita = new CitaMedicaDTO(pkAgenda, cedula, nombre, servicio, fecha, horaInicio, tratamiento, estado);
                             citasMedicas.Add(cita);
                         }
                         con.Close();
@@ -151,8 +164,8 @@ namespace LogicaAplicacion.Servicios
         }
         public async Task<IEnumerable<CitaMedicaDTO>> ObtenerCitasPorCedula(string cedula)
         {
-            
-            
+
+
             var connectionString = _config["ConnectionStrings:SimuladorServidorCentral"];
             var commandText = $"SELECT * FROM GetAgendasDePaciente({cedula})";
             SqlConnection con = new(connectionString);

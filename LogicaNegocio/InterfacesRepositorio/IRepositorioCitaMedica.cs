@@ -9,7 +9,8 @@ namespace LogicaNegocio.InterfacesRepositorio
 {
     public interface IRepositorioCitaMedica
     {
-        Task<IEnumerable<CitaMedicaDTO>> ObtenerCitasMedicasDelDiaAsync(DateTime fecha);
+        //Task<IEnumerable<CitaMedicaDTO>> ObtenerCitasMedicasDelDiaAsync(DateTime fecha);
+        Task<IEnumerable<CitaMedicaDTO>> ObtenerCitas();
         Task ActualizarEstadoLlegadaAsync(int idCita, string llego);
     }
 }

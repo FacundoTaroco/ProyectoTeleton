@@ -12,7 +12,7 @@ namespace AppTeleton.Models
         public IEnumerable<Recepcionista> Recepcionistas;
         public IEnumerable<Medico> Medicos;
         public IEnumerable<Totem> Totems;
-        public IEnumerable<CitaMedicaDTO> CitasMedicas { get; set; }
+        //public IEnumerable<CitaMedicaDTO> CitasMedicas { get; set; } mer creo otro view model de recep con esa lista
 
         public UsuariosViewModel() { }
         public UsuariosViewModel(IEnumerable<Paciente> pacientes, IEnumerable<Administrador> administradores, IEnumerable<Recepcionista> recepcionistas, IEnumerable<Medico> medicos, IEnumerable<Totem> totems) { 

@@ -12,17 +12,16 @@ namespace LogicaAccesoDatos.EF
 {
     public class RepositorioCitaMedica : IRepositorioCitaMedica
     {
-        private readonly LibreriaContext _context;
+        private LibreriaContext _context;
 
         public RepositorioCitaMedica(LibreriaContext context)
         {
             _context = context;
         }
 
-        public async Task<IEnumerable<CitaMedicaDTO>> ObtenerCitasMedicasDelDiaAsync(DateTime fecha)
+        public async Task<IEnumerable<CitaMedicaDTO>> ObtenerCitas()
         {
             return await _context.CitasMedicas
-                .Where(c => c.Fecha.Date == fecha.Date)
                 .Select(c => new CitaMedicaDTO
                 {
                     PkAgenda = c.PkAgenda,
