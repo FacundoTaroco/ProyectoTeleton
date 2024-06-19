@@ -78,7 +78,7 @@ namespace AppTeleton.Hubs
                 {
                     //SI el paciente tiene un chat abierto lo actualiza
                     Chat chat = _getChats.GetChatAbiertoDePaciente(paciente.Id);
-                    Mensaje mensaje = new Mensaje(message, DateTime.Now, userManda);
+                    Mensaje mensaje = new Mensaje(message,userManda);
                     chat.AgregarMensajePaciente(mensaje);
                     _abChat.Actualizar(chat);
                 }
@@ -86,7 +86,7 @@ namespace AppTeleton.Hubs
                 {
                     //si el paciente NO tiene un chat abierto lo crea
                     Chat chat = new Chat(paciente);
-                    Mensaje mensaje = new Mensaje(message, DateTime.Now, userManda);
+                    Mensaje mensaje = new Mensaje(message,userManda);
                     chat.AgregarMensajePaciente(mensaje);
                     _abChat.Crear(chat);
                 }
@@ -99,7 +99,7 @@ namespace AppTeleton.Hubs
                 {
                     //SI el paciente tiene un chat abierto lo actualiza
                     Chat chat = _getChats.GetChatAbiertoDePaciente(paciente.Id);
-                    Mensaje mensaje = new Mensaje(message, DateTime.Now, userManda);
+                    Mensaje mensaje = new Mensaje(message, userManda);
                     chat.AgregarMensajeBotRecepcion(mensaje);
                     _abChat.Actualizar(chat);
                 }
@@ -107,7 +107,7 @@ namespace AppTeleton.Hubs
                 {
                     //si el paciente NO tiene un chat abierto lo crea
                     Chat chat = new Chat(paciente);
-                    Mensaje mensaje = new Mensaje(message, DateTime.Now, userManda);
+                    Mensaje mensaje = new Mensaje(message, userManda);
                     chat.AgregarMensajeBotRecepcion(mensaje);
                     _abChat.Crear(chat);
                 }

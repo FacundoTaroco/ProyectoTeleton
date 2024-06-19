@@ -16,5 +16,6 @@ namespace LogicaNegocio.InterfacesRepositorio
         public ParametrosNotificaciones GetParametrosRecordatorios();
         public void ActualizarParametrosRecordatorios(ParametrosNotificaciones nuevosParametros);
 
+        public Notificacion GetNotificacionMasRecienteDeUsuario(int idUsuario);
     }
 }

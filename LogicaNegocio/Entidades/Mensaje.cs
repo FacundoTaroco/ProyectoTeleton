@@ -21,10 +21,12 @@ namespace LogicaNegocio.Entidades
 
         public Mensaje() { }    
 
-        public Mensaje(string contenido, DateTime fecha, string nombreUsuario)
+        public Mensaje(string contenido,string nombreUsuario)
         {
             this.contenido = contenido;
-            this.fecha = fecha;
+            DateTime _fecha = DateTime.UtcNow;
+            TimeZoneInfo zonaHoraria = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
+            fecha = TimeZoneInfo.ConvertTimeFromUtc(_fecha, zonaHoraria);
             this.nombreUsuario = nombreUsuario;
          
         }

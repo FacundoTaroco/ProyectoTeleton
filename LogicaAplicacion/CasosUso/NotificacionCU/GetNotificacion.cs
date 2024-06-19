@@ -42,6 +42,10 @@ namespace LogicaAplicacion.CasosUso.NotificacionCU
             }
         
         }
+        public Notificacion GetMasRecientePorUsuario(int idUsuario) { 
+            return _repo.GetNotificacionMasRecienteDeUsuario(idUsuario);
+        
+        }
 
         public ParametrosNotificaciones GetParametrosRecordatorios() { 
             return _repo.GetParametrosRecordatorios();

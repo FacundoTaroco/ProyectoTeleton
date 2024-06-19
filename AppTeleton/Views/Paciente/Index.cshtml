@@ -1,4 +1,4 @@
-﻿
+﻿@model AppTeleton.Models.PacienteIndexViewModel;
 @{
     ViewData["Title"] = "Index";
 }
@@ -7,20 +7,40 @@
     {
         if (ViewBag.TipoMensaje == "ERROR")
         {
-                                <div class="alert alert-danger" role="alert">@ViewBag.Mensaje</div>
+                                    <div class="alert alert-danger" role="alert">@ViewBag.Mensaje</div>
         }
         else if (ViewBag.TipoMensaje == "EXITO")
         {
-                                <div class="alert alert-success" role="alert">@ViewBag.Mensaje</div>
+                                    <div class="alert alert-success" role="alert">@ViewBag.Mensaje</div>
         }
 
     }
 }
 
+<form id="formularioAbrirNotificaciones" asp-controller="Paciente" asp-action="NotificacionesPaciente" style="display:none;" method="get">
 
+
+</form>
 
 
 <h1>Index</h1>
+
+@if(Model.Notificacion != null){
+    <p>Notificacion mas reciente</p>
+    <div id="divNotificacionMasReciente" class="container alert alert-dark" role="alert">
+        <div class="row">
+            <p class="col-8">@Model.Notificacion.Titulo</p>
+            <p class="col-4">@Model.Notificacion.fecha</p>
+            <p class="col-12">@Model.Notificacion.Mensaje</p>
+        </div>
+    </div>
+}
+else
+{
+
+    <div id="divNotificacionMasReciente" style="display:none;">
+    </div>
+}
 <div id="notificationBlock" class="alert alert-info" role="alert">
     Active las notificaciones para recibir avisos y recordatorios importantes
     <button class="btn btn-primary" onclick="suscribirse()">Aceptar</button>
@@ -39,8 +59,13 @@
 
 
 <script>
-
-    document.addEventListener("DOMContentLoaded", function () { verSiEsconderMensajeNotificacion() });
-
+    
+     document.addEventListener("DOMContentLoaded", function () { verSiEsconderMensajeNotificacion() });
+ 
+    document.querySelector("#divNotificacionMasReciente").addEventListener("click", function (e) {
+      
+        let form = document.querySelector("#formularioAbrirNotificaciones")
+        form.submit();
+    })
 </script>
 

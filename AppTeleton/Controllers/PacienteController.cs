@@ -1,4 +1,5 @@
-﻿using AppTeleton.Models.Filtros;
+﻿using AppTeleton.Models;
+using AppTeleton.Models.Filtros;
 using LogicaAplicacion.CasosUso.DispositivoUsuarioCU;
 using LogicaAplicacion.CasosUso.NotificacionCU;
 using LogicaAplicacion.CasosUso.PacienteCU;
@@ -26,7 +27,10 @@ namespace AppTeleton.Controllers
         [PacienteLogueado]
         public IActionResult Index()
         {
-            return View();
+            Paciente paciente = _getPacientes.GetPacientePorUsuario(HttpContext.Session.GetString("USR"));
+            Notificacion notificacionMasReciente = _getNotificaciones.GetMasRecientePorUsuario(paciente.Id);
+            PacienteIndexViewModel modelo = new PacienteIndexViewModel(notificacionMasReciente);
+            return View(modelo);
         }
         [AdminLogueado]
         public IActionResult Delete(int id) {
