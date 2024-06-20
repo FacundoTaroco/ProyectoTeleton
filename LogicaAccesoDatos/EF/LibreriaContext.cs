@@ -1,5 +1,6 @@
 ﻿using LogicaAccesoDatos.EF.Config;
 using LogicaNegocio.Entidades;
+using LogicaNegocio.EntidadesWit.Entrenamiento;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -29,6 +30,8 @@ namespace LogicaAccesoDatos.EF
         public DbSet<PreguntaFrec> PreguntasFrec { get; set; }
         public DbSet<Chat> Chats { get; set; }
         public DbSet<ParametrosNotificaciones> ParametrosRecordatorios { get; set; }
+
+        public DbSet<RespuestaEquivocada> RespuestasEquivocadas { get; set; }
 
 
 

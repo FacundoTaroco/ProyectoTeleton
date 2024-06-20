@@ -94,7 +94,7 @@ namespace AppTeleton.Controllers
             try
             {
                
-                //ACA FALTA VALIDAR QUE SI LA PERSONA YA ACCEDIO ESE DIA NO VUELVA A GENERAR UN NUEVO ACCESSSOOOO
+                
                 
                 Totem totem = GetTotemLogueado();
 

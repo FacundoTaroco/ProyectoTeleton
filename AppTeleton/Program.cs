@@ -53,6 +53,7 @@ builder.Services.AddScoped<IRepositorioNotificacion, RepositorioNotificacion>();
 builder.Services.AddScoped<IRepositorioPreguntaFrec, RepositorioPreguntaFrec>();
 
 builder.Services.AddScoped<IRepositorioChat, RepositorioChat>();
+builder.Services.AddScoped<IRepositorioRespuestasEquivocadas, RepositorioRespuestaEquivocada>();
 //Scope de casos de uso
 
 builder.Services.AddScoped<GetUsuarios, GetUsuarios>();
@@ -92,6 +93,10 @@ builder.Services.AddScoped<GetPreguntasFrec, GetPreguntasFrec>();
 
 builder.Services.AddScoped<ABMChat, ABMChat>();
 builder.Services.AddScoped<GetChats, GetChats>();
+
+builder.Services.AddScoped<ABRespuestasEquivocadas, ABRespuestasEquivocadas>();
+builder.Services.AddScoped<GetRespuestasEquivocadas, GetRespuestasEquivocadas>();
+
 
 //scopes de servicios
 builder.Services.AddScoped<EnviarNotificacionService, EnviarNotificacionService>();

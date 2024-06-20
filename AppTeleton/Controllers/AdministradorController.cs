@@ -164,6 +164,9 @@ namespace AppTeleton.Controllers
         
         }
 
+      
+
+
         private UsuariosViewModel ObtenerModeloUsuarios() {
             IEnumerable<Paciente> pacientes = _getPacientes.GetAll();
             IEnumerable<Recepcionista> recepcionistas = _getRecepcionistas.GetAll();

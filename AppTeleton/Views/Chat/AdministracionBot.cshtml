@@ -1,0 +1,84 @@
+﻿@model AppTeleton.Models.AdministracionBotViewModel
+
+@{
+    ViewData["Title"] = "AdministracionBot";
+}
+
+<style>
+    .card-item {
+        background-color: #f8f9fa; /* Light gray color */
+        border: 1px solid #e2e3e5;
+        border-radius: 0.25rem;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+        .card-item label {
+            font-weight: bold;
+        }
+
+        .card-item p {
+            margin-bottom: 0.5rem;
+        }
+
+        .card-item select, .card-item input[type="submit"] {
+            margin-top: 0.5rem;
+        }
+
+</style>
+
+<h1>AdministracionBot</h1>
+
+<div>
+    <h4>AdministracionBotViewModel</h4>
+    <hr />
+    
+   
+
+
+        @foreach (var r in Model.respuestas)
+        {
+        <div class="container mt-5">
+            <div class="card-item">
+        <form asp-action="AgregarUtterance" method="post">
+                    <div class="mb-3">
+            <label>Mensaje ingresado:</label>
+                <input type="hidden" name="idRespuesta" value="@r.Id" />
+                 <input type="text" name="input" value="@r.Input" readonly class="form-control">
+                <label>Intencion Equivocada(o vacia)</label>
+                
+                @if (r.IntentAsignado != null)
+                {
+                    <p>@r.IntentAsignado.name</p>
+                }
+                else
+                {
+                    <p>No se asigno intencion</p>
+                }
+            
+            <label>Seleccione la intencion que le parezca correcta para el mensaje enviado</label>
+                        <select name="intentname" class="form-select">
+                @foreach (var i in Model.intents)
+                {
+                    <option value="@i.name">@i.name</option>
+                }
+            </select>
+
+                        <input type="submit" value="Corregir" class="btn btn-primary" />
+            </div>
+        </form>
+            </div>
+        </div>
+    }
+
+
+       
+
+
+
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

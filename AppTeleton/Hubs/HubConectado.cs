@@ -5,6 +5,7 @@ using LogicaAplicacion.Servicios;
 using LogicaNegocio.DTO;
 using LogicaNegocio.Entidades;
 using LogicaNegocio.EntidadesWit;
+using LogicaNegocio.EntidadesWit.Entrenamiento;
 using Microsoft.AspNetCore.SignalR;
 
 namespace AppTeleton.Hubs
@@ -16,13 +17,15 @@ namespace AppTeleton.Hubs
         private GetChats _getChats;
         private GetPacientes _getPacientes;
         private GetRecepcionistas _getRecepcionistas;
+        private ABRespuestasEquivocadas _ABrespuestasEquivocadas;
 
-        public HubConectado(ChatBotService chatbot, ABMChat abChat, GetChats getChats, GetPacientes getPacientes, GetRecepcionistas getRecepcionistas) { 
+        public HubConectado(ABRespuestasEquivocadas respuestasMal, ChatBotService chatbot, ABMChat abChat, GetChats getChats, GetPacientes getPacientes, GetRecepcionistas getRecepcionistas) { 
         _chatBot = chatbot;
         _abChat = abChat;
         _getChats = getChats;
         _getPacientes = getPacientes;
         _getRecepcionistas = getRecepcionistas;
+        _ABrespuestasEquivocadas = respuestasMal;
         }
 
         public override Task OnConnectedAsync()
@@ -57,6 +60,17 @@ namespace AppTeleton.Hubs
                     MensajeBotDTO mensaje = new MensajeBotDTO("message", message);
                     Evento evento = _chatBot.PostEvent(mensaje);
                     string respuesta = evento.response.text;
+                    //Aca por ahora con esto detectamos que el bot no reconocio la pregunta, faltaria hacerlo de forma generica(sin esperar un determinado texto)
+                    //y ademas detectar cuando se equivoco segun el feedback de la persona(para mas adelante)
+                    if (respuesta == "Reescriba la pregunta, por favor.")
+                    {
+
+                        RespuestaEquivocada respuestaEquivocada = new RespuestaEquivocada();
+                        respuestaEquivocada.IntentAsignado = null;
+                        respuestaEquivocada.Input = message;
+                        _ABrespuestasEquivocadas.Agregar(respuestaEquivocada);
+                    
+                    }
                     ActualizarChats(userRecibe, userManda, respuesta);
                     await Clients.Client(idConexion).SendAsync("MensajeRecibido", "Asistente virtual", respuesta);
 

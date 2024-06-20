@@ -13,7 +13,7 @@ namespace LogicaNegocio.EntidadesWit
         public string? name { get; set; }
         public ArrayList roles { get; set; }
         public ArrayList lookups { get; set; }
-        public List<String> keywords { get; set; }
+        public List<string> keywords { get; set; }
 
         public Entitie(string id, string name, ArrayList roles, ArrayList lookups, List<String> keywords)
         {
