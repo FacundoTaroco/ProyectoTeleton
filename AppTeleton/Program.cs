@@ -9,6 +9,7 @@ using NuGet.Protocol.Plugins;
 using LogicaNegocio.InterfacesDominio;
 using LogicaAplicacion.CasosUso.UsuarioCU;
 using AppTeleton.Worker;
+using Microsoft.AspNetCore.SignalR;
 
 using LogicaAplicacion.CasosUso.MedicoCU;
 using LogicaAplicacion.CasosUso.AccesoTotemCU;
@@ -23,6 +24,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddSignalR();
 
 builder.Services.AddDbContext<LibreriaContext>();
 

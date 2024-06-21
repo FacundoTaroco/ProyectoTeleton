@@ -19,8 +19,9 @@ namespace LogicaNegocio.Entidades
         public string Estado { get; set; }
         public CitaMedica() { }
 
-        public CitaMedica(int pkAgenda, string cedula, string nombreCompleto, string servicio, DateTime fecha, int horaInicio, string tratamiento, string estado)
+        public CitaMedica(int id,int pkAgenda, string cedula, string nombreCompleto, string servicio, DateTime fecha, int horaInicio, string tratamiento, string estado)
         {
+            Id = id;
             PkAgenda = pkAgenda;
             Cedula = cedula;
             NombreCompleto = nombreCompleto;

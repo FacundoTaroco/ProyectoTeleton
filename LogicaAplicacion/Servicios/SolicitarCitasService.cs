@@ -189,8 +189,7 @@ namespace LogicaAplicacion.Servicios
                             int horaInicio = reader.GetInt32(5);
                             string tratamiento = reader.GetString(6);
 
-                            Random random = new Random();
-                            string estado = random.Next(0, 2) == 1 ? "Llegó" : "No llegó";
+                            string estado = "No llegó";
                             CitaMedicaDTO cita = new CitaMedicaDTO(pkAgenda, ci, nombre, servicio, fecha, horaInicio, tratamiento, estado);
                             citasMedicas.Add(cita);
                         }

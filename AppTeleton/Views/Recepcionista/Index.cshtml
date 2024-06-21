@@ -8,32 +8,28 @@
     {
         if (ViewBag.TipoMensaje == "ERROR")
         {
-            <div class="alert alert-danger" role="alert">@ViewBag.Mensaje</div>
+            <p class="alert alert-danger" role="alert">@ViewBag.Mensaje</p>
         }
         else if (ViewBag.TipoMensaje == "EXITO")
         {
-            <div class="alert alert-success" role="alert">@ViewBag.Mensaje</div>
+            <p class="alert alert-success" role="alert">@ViewBag.Mensaje</p>
         }
-
     }
 }
 
 <h1>Index</h1>
 
-<div id="notificationBlock" class="alert alert-info" role="alert">
+<p id="notificationBlock" class="alert alert-info" role="alert">
     Active las notificaciones para recibir avisos y recordatorios importantes
     <button class="btn btn-primary" onclick="suscribirse()">Aceptar</button>
     <button class="btn btn-secondary" onclick="hideNotificationBlock()">No ahora</button>
-</div>
-
+</p>
 
 <form id="subscriptionForm" asp-controller="Notificacion" asp-action="GuardarDispositivoNotificacion" method="post" style="display: none;">
     <input type="text" id="endpoint" name="pushEndpoint">
     <input type="text" id="p256dh" name="pushP256DH">
     <input type="text" id="auth" name="pushAuth">
 </form>
-
-<h1>VISTA Recepcionista</h1>
 
 <h1>Lista de Citas Médicas del Día</h1>
 
@@ -58,18 +54,16 @@
                 <td>@cita.Fecha.ToShortDateString()</td>
                 <td>@cita.HoraInicio</td>
                 <td>
-                    @if (cita.Estado == "LLegó")
+                    @if (cita.Estado == "Llegó")
                     {
                         <span class="badge badge-success" style="color:green;">Llegó</span>
                     }
                     else
                     {
-                        <span class="badge badge-danger" style="color:red;">No llegó</span>
+                        <span class="badge badge-danger" style="color:red;">No Llegó</span>
                     }
                 </td>
             </tr>
         }
     </tbody>
 </table>
-
-

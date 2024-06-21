@@ -12,6 +12,8 @@ using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using LogicaNegocio.Enums;
 using AppTeleton.Models.Filtros;
+using LogicaAplicacion.Servicios;
+using LogicaNegocio.InterfacesRepositorio;
 
 
 namespace AppTeleton.Controllers
@@ -23,10 +25,22 @@ namespace AppTeleton.Controllers
         private GetTotems _getTotems;
         private AccesoCU _acceso;
         private GenerarAvisoLlegada _generarAvisoLlegada;
+        private SolicitarCitasService _solicitarCitasService;
+        private IRepositorioCitaMedica _repositorioCitaMedica;
         private GetCitas _getCitas;
         private ILogin _login;
-        public TotemController(GetPacientes getPacientes, AccesoCU acceso, GetTotems getTotems, GenerarAvisoLlegada generarAvisoLLegada, GetCitas getCitas, ILogin login)
+        public TotemController(
+            SolicitarCitasService solicitarCitasService,
+            IRepositorioCitaMedica repositorioCitaMedica,
+            GetPacientes getPacientes, 
+            AccesoCU acceso, 
+            GetTotems getTotems, 
+            GenerarAvisoLlegada generarAvisoLLegada, 
+            GetCitas getCitas, 
+            ILogin login)
         {
+            _repositorioCitaMedica = repositorioCitaMedica;
+            _solicitarCitasService = solicitarCitasService;
             _getPacientes = getPacientes;
             _acceso = acceso;
             _getTotems = getTotems;
@@ -87,11 +101,10 @@ namespace AppTeleton.Controllers
 
 
 
-        public async Task<IActionResult> Acceder(string cedula)
+        /*public async Task<IActionResult> Acceder(string cedula)
         {
             try
             {
-
                 //ACA FALTA VALIDAR QUE SI LA PERSONA YA ACCEDIO ESE DIA NO VUELVA A GENERAR UN NUEVO ACCESSSOOOO
 
                 Totem totem = GetTotemLogueado();
@@ -126,6 +139,38 @@ namespace AppTeleton.Controllers
                 ViewBag.TipoMensaje = "ERROR";
                 ViewBag.Mensaje = e.Message;
                 return View("Index");
+            }
+        }*/
+        [HttpPost]
+        public async Task<IActionResult> Acceder(string cedula)
+        {
+            try
+            {
+                // Obtener la lista de citas médicas por la cédula del paciente
+                IEnumerable<CitaMedicaDTO> citasMedicas = await _solicitarCitasService.ObtenerCitasPorCedula(cedula);
+
+                if (citasMedicas == null || !citasMedicas.Any())
+                {
+                    ViewBag.TipoMensaje = "ERROR";
+                    ViewBag.Mensaje = "No se encontraron citas médicas para la cédula proporcionada.";
+                    return View("Index"); // Vista del totem
+                }
+
+                // Iterar sobre todas las citas médicas y actualizar el estado de llegada
+                foreach (var citaMedica in citasMedicas)
+                {
+                    await _repositorioCitaMedica.ActualizarEstadoLlegadaAsync(citaMedica.PkAgenda, "Llegó");
+                }
+
+                ViewBag.TipoMensaje = "EXITO";
+                ViewBag.Mensaje = "Estado de llegada actualizado correctamente.";
+                return View("Index"); // Vista del totem
+            }
+            catch (Exception ex)
+            {
+                ViewBag.TipoMensaje = "ERROR";
+                ViewBag.Mensaje = $"Error al actualizar estado de llegada: {ex.Message}";
+                return View("Index"); // Vista del totem
             }
         }
 

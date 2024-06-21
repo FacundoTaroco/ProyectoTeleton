@@ -8,9 +8,9 @@ namespace AppTeleton.Models
         public IEnumerable<CitaMedicaDTO> CitasMedicas { get; set; }
 
         public RecepsionistaViewModel() { }
-        public RecepsionistaViewModel(IEnumerable<CitaMedicaDTO> CitasMedicas)
+        public RecepsionistaViewModel(IEnumerable<CitaMedicaDTO> citasMedicas)
         {
-            CitasMedicas = CitasMedicas;
+            CitasMedicas = citasMedicas;
         }
     }
 }

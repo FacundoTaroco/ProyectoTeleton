@@ -2,12 +2,15 @@
 using AppTeleton.Models.Filtros;
 using LogicaAplicacion.CasosUso.DispositivoUsuarioCU;
 using LogicaAplicacion.CasosUso.RecepcionistaCU;
+using LogicaAplicacion.CasosUso.TotemCU;
 using LogicaAplicacion.Excepciones;
 using LogicaAplicacion.Servicios;
 using LogicaNegocio.DTO;
 using LogicaNegocio.Entidades;
 using LogicaNegocio.InterfacesRepositorio;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace AppTeleton.Controllers
@@ -15,23 +18,26 @@ namespace AppTeleton.Controllers
     [RecepcionistaLogueado]
     public class RecepcionistaController : Controller
     {
-        private readonly GuardarDispositivoNotificacion _guardarDispositivo;
-        private readonly GetRecepcionistas _getRecepcionistas;
-        private readonly IRepositorioCitaMedica _repositorioCitaMedica;
-        private readonly SolicitarCitasService _solicitarCitasService;
-        private readonly ILogger<RecepcionistaController> _logger;
+        private GuardarDispositivoNotificacion _guardarDispositivo;
+        private GetRecepcionistas _getRecepcionistas;
+        private IRepositorioCitaMedica _repositorioCitaMedica;
+        private SolicitarCitasService _solicitarCitasService;
+        private ILogger<RecepcionistaController> _logger;
+        private GenerarAvisoLlegada _generarAvisoLlegada;
 
         public RecepcionistaController(
             GuardarDispositivoNotificacion guardarDispositivo,
             GetRecepcionistas getRecepcionistas,
             IRepositorioCitaMedica repositorioCitaMedica,
             SolicitarCitasService solicitarCitasService,
+            GenerarAvisoLlegada generarAvisoLlegada,
             ILogger<RecepcionistaController> logger)
         {
             _guardarDispositivo = guardarDispositivo;
             _getRecepcionistas = getRecepcionistas;
             _repositorioCitaMedica = repositorioCitaMedica;
             _solicitarCitasService = solicitarCitasService;
+            _generarAvisoLlegada = generarAvisoLlegada;
             _logger = logger;
         }
 
@@ -43,29 +49,17 @@ namespace AppTeleton.Controllers
                 IEnumerable<CitaMedicaDTO> todasLasCitas = await _solicitarCitasService.ObtenerCitas();
 
                 // Filtrar las citas para obtener solo las del día actual
-                DateTime _fecha = new DateTime(2024, 11, 4);
+                DateTime _fecha = new DateTime(2024, 11, 4); // Aquí deberías usar la fecha actual en lugar de una fecha fija para demostración
                 TimeZoneInfo zonaHoraria = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
                 DateTime fechaGMT = TimeZoneInfo.ConvertTimeFromUtc(_fecha, zonaHoraria);
 
                 IEnumerable<CitaMedicaDTO> citasDelDia = todasLasCitas.Where(c => c.Fecha.Date == fechaGMT.Date);
 
                 // Crear el modelo para la vista
-                //que a RecepsionistaViewModel le el dto
                 RecepsionistaViewModel model = new RecepsionistaViewModel
                 {
-                    CitasMedicas = citasDelDia
-                };/*{
-                    CitasMedicas = (IEnumerable<CitaMedicaDTO>)citasDelDia.Select(c => new CitaMedica(
-                        pkAgenda: c.PkAgenda,
-                        cedula: c.Cedula,
-                        nombreCompleto: c.NombreCompleto,
-                        servicio: "",
-                        fecha: c.Fecha,
-                        horaInicio: c.HoraInicio,
-                        tratamiento: c.Tratamiento,
-                        estado: c.Estado
-                    )).ToList()
-                };*/
+                    CitasMedicas = citasDelDia.ToList()
+                };
 
                 // Renderizar la vista con las citas médicas del día actual
                 return View(model);
@@ -86,12 +80,11 @@ namespace AppTeleton.Controllers
             }
         }
 
-        [HttpPost]
+         [HttpPost]
         public async Task<IActionResult> ActualizarEstadoLlegadaAutomatico(int idCita, string llego)
         {
             try
             {
-                // Actualizar estado de llegada en la base de datos
                 await _repositorioCitaMedica.ActualizarEstadoLlegadaAsync(idCita, llego);
                 return Json(new { success = true });
             }
@@ -137,7 +130,6 @@ namespace AppTeleton.Controllers
         [HttpPost]
         public IActionResult SendPushNotification(int Id, string Titulo, string Payload)
         {
-            // Lógica para enviar notificaciones push
             try
             {
                 // Aquí implementa la lógica para enviar la notificación push
