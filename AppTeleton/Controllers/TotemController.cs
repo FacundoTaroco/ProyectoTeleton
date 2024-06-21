@@ -14,6 +14,7 @@ using LogicaNegocio.Enums;
 using AppTeleton.Models.Filtros;
 using LogicaAplicacion.Servicios;
 using LogicaNegocio.InterfacesRepositorio;
+using Microsoft.Data.SqlClient;
 
 
 namespace AppTeleton.Controllers
@@ -29,6 +30,8 @@ namespace AppTeleton.Controllers
         private IRepositorioCitaMedica _repositorioCitaMedica;
         private GetCitas _getCitas;
         private ILogin _login;
+        private ILogger<RecepcionistaController> _logger;
+
         public TotemController(
             SolicitarCitasService solicitarCitasService,
             IRepositorioCitaMedica repositorioCitaMedica,
@@ -37,7 +40,8 @@ namespace AppTeleton.Controllers
             GetTotems getTotems, 
             GenerarAvisoLlegada generarAvisoLLegada, 
             GetCitas getCitas, 
-            ILogin login)
+            ILogin login,
+            ILogger<RecepcionistaController> logger)
         {
             _repositorioCitaMedica = repositorioCitaMedica;
             _solicitarCitasService = solicitarCitasService;
@@ -47,6 +51,7 @@ namespace AppTeleton.Controllers
             _generarAvisoLlegada = generarAvisoLLegada;
             _getCitas = getCitas;
             _login = login;
+            _logger = logger;
         }
 
         public IActionResult Index()
@@ -146,31 +151,38 @@ namespace AppTeleton.Controllers
         {
             try
             {
-                // Obtener la lista de citas médicas por la cédula del paciente
-                IEnumerable<CitaMedicaDTO> citasMedicas = await _solicitarCitasService.ObtenerCitasPorCedula(cedula);
+                // OBTENER CITAS POR CÉDULA Y FECHA
+                DateTime fecha = DateTime.Now.Date;
+                IEnumerable<CitaMedicaDTO> citas = await _repositorioCitaMedica.ObtenerCitasPorCedulaYFecha(cedula, fecha);
 
-                if (citasMedicas == null || !citasMedicas.Any())
+                // LÓGICA ADICIONAL
+                Totem totem = GetTotemLogueado();
+                Paciente paciente = _getPacientes.GetPacientePorCedula(cedula);
+                AccesoTotem nuevoAcceso = new AccesoTotem(cedula, totem);
+                AvisoMedicoDTO avisoMedico = new AvisoMedicoDTO(cedula, "Recepcionado", nuevoAcceso.FechaHora);
+
+                if (!_acceso.PacienteYaAccedioEnFecha(totem.Id, DateTime.Now, cedula))
                 {
-                    ViewBag.TipoMensaje = "ERROR";
-                    ViewBag.Mensaje = "No se encontraron citas médicas para la cédula proporcionada.";
-                    return View("Index"); // Vista del totem
+                    _acceso.AgregarAcceso(nuevoAcceso);
+                    _generarAvisoLlegada.GenerarAvisoLLamada(avisoMedico);
                 }
 
-                // Iterar sobre todas las citas médicas y actualizar el estado de llegada
-                foreach (var citaMedica in citasMedicas)
-                {
-                    await _repositorioCitaMedica.ActualizarEstadoLlegadaAsync(citaMedica.PkAgenda, "Llegó");
-                }
-
-                ViewBag.TipoMensaje = "EXITO";
-                ViewBag.Mensaje = "Estado de llegada actualizado correctamente.";
-                return View("Index"); // Vista del totem
+                AccesoTotemViewModel accesoTotemViewModel = new AccesoTotemViewModel(citas, paciente);
+                return View("HomeUsuario", accesoTotemViewModel);
             }
-            catch (Exception ex)
+            catch (TeletonServerException)
             {
                 ViewBag.TipoMensaje = "ERROR";
-                ViewBag.Mensaje = $"Error al actualizar estado de llegada: {ex.Message}";
-                return View("Index"); // Vista del totem
+                ViewBag.Mensaje = "No se pudieron cargar sus citas, consulte en recepcion";
+                Paciente paciente = _getPacientes.GetPacientePorCedula(cedula);
+                AccesoTotemViewModel accesoTotemViewModel = new AccesoTotemViewModel(paciente);
+                return View("HomeUsuario", accesoTotemViewModel);
+            }
+            catch (Exception e)
+            {
+                ViewBag.TipoMensaje = "ERROR";
+                ViewBag.Mensaje = e.Message;
+                return View("Index");
             }
         }
 

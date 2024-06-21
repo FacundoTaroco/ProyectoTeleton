@@ -11,6 +11,8 @@ namespace LogicaNegocio.InterfacesRepositorio
     {
         //Task<IEnumerable<CitaMedicaDTO>> ObtenerCitasMedicasDelDiaAsync(DateTime fecha);
         Task<IEnumerable<CitaMedicaDTO>> ObtenerCitas();
-        Task ActualizarEstadoLlegadaAsync(int idCita, string llego);
+        Task<IEnumerable<CitaMedicaDTO>> ObtenerCitasPorCedulaYFecha(string cedula, DateTime fecha);
+        //Task ActualizarEstadoLlegadaAsync(string cedula, string llego);
+        Task RecepcionarPacienteAsync(int pkAgenda);
     }
 }

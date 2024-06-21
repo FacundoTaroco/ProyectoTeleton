@@ -1,6 +1,7 @@
 ﻿using LogicaAccesoDatos.EF.Excepciones;
 using LogicaNegocio.DTO;
 using LogicaNegocio.InterfacesRepositorio;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -36,9 +37,27 @@ namespace LogicaAccesoDatos.EF
                 .ToListAsync();
         }
 
-        public async Task ActualizarEstadoLlegadaAsync(int idCita, string estado)
+        public async Task<IEnumerable<CitaMedicaDTO>> ObtenerCitasPorCedulaYFecha(string cedula, DateTime fecha)
         {
-            var cita = await _context.CitasMedicas.FirstOrDefaultAsync(c => c.PkAgenda == idCita);
+            return await _context.CitasMedicas
+                .Where(c => c.Cedula == cedula && c.Fecha.Date == fecha.Date) // Filtrar por cedula y fecha
+                .Select(c => new CitaMedicaDTO
+                {
+                    PkAgenda = c.PkAgenda,
+                    Cedula = c.Cedula,
+                    NombreCompleto = c.NombreCompleto,
+                    Servicio = c.Servicio,
+                    Fecha = c.Fecha,
+                    HoraInicio = c.HoraInicio,
+                    Tratamiento = c.Tratamiento,
+                    Estado = c.Estado
+                })
+                .ToListAsync();
+        }
+
+        /*public async Task ActualizarEstadoLlegadaAsync(string cedula, string estado)
+        {
+            var cita = await _context.CitasMedicas.FirstOrDefaultAsync(c => c.Cedula == cedula);
             if (cita != null)
             {
                 cita.Estado = estado;
@@ -46,8 +65,13 @@ namespace LogicaAccesoDatos.EF
             }
             else
             {
-                throw new NotFoundException($"No se encontró la cita médica con Id {idCita}");
+                throw new NotFoundException($"No se encontró la cita médica con Id {cita.Id}");
             }
+        }*/
+        public async Task RecepcionarPacienteAsync(int pkAgenda)
+        {
+            var param = new SqlParameter("@pkAgenda", pkAgenda);
+            await _context.Database.ExecuteSqlRawAsync("EXEC RecepcionarPaciente @pkAgenda", param);
         }
     }
 }

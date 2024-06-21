@@ -1,6 +1,7 @@
 ﻿using LogicaAplicacion.Excepciones;
 using LogicaNegocio.DTO;
 using LogicaNegocio.Entidades;
+using LogicaNegocio.InterfacesRepositorio;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using RestSharp;
@@ -18,9 +19,11 @@ namespace LogicaAplicacion.Servicios
     {
         /*public string linkAPI { get; set; }*/
         private readonly IConfiguration _config;
-        public SolicitarCitasService(IConfiguration config)
+        private IRepositorioCitaMedica _repositorioCitaMedica;
+        public SolicitarCitasService(IConfiguration config, IRepositorioCitaMedica repositorioCitaMedica)
         {
             _config = config;
+            _repositorioCitaMedica = repositorioCitaMedica;
             /*linkAPI = "https://localhost:7201/";*/
         }
 
@@ -84,12 +87,12 @@ namespace LogicaAplicacion.Servicios
             }
         }*/
 
-        public async Task<IEnumerable<CitaMedicaDTO>> ObtenerCitas()
+        /*public async Task<IEnumerable<CitaMedicaDTO>> ObtenerCitas()
         {
 
             try
             {
-                var connectionString = _config["ConnectionStrings:SimuladorServidorCentral"];
+                var connectionString = _config["ConnectionStrings:TeletonSimuladorDatabase"];
                 var commandText = "SELECT * from GetAgendas()";
                 // Establece la conexión
                 List<CitaMedicaDTO> citasMedicas = new List<CitaMedicaDTO>();
@@ -161,50 +164,54 @@ namespace LogicaAplicacion.Servicios
 
                  throw;
              }*/
+
+        public async Task<IEnumerable<CitaMedicaDTO>> ObtenerCitas()
+        {
+            return await _repositorioCitaMedica.ObtenerCitas();
         }
+
+        public async Task RecepcionarPaciente(int pkAgenda)
+        {
+            await _repositorioCitaMedica.RecepcionarPacienteAsync(pkAgenda);
+        }
+
         public async Task<IEnumerable<CitaMedicaDTO>> ObtenerCitasPorCedula(string cedula)
         {
 
-
+            //SimuladorServidorCentral
             var connectionString = _config["ConnectionStrings:SimuladorServidorCentral"];
             var commandText = $"SELECT * FROM GetAgendasDePaciente({cedula})";
-            SqlConnection con = new(connectionString);
-            try
+            using (SqlConnection con = new(connectionString))
             {
-                // Establece la conexión
-                List<CitaMedicaDTO> citasMedicas = new List<CitaMedicaDTO>();
-                using (con)
+                try
                 {
+                    List<CitaMedicaDTO> citasMedicas = new List<CitaMedicaDTO>();
                     using (SqlCommand cmd = new SqlCommand(commandText, con))
                     {
-                        con.Open();
-                        SqlDataReader reader = await cmd.ExecuteReaderAsync();
-                        while (reader.Read())
+                        await con.OpenAsync();
+                        using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
                         {
-                            int pkAgenda = reader.GetInt32(0);
-                            string ci = reader.GetString(1);
-                            string nombre = reader.GetString(2);
-                            string servicio = reader.GetString(3);
-                            DateTime fecha = reader.GetDateTime(4);
-                            int horaInicio = reader.GetInt32(5);
-                            string tratamiento = reader.GetString(6);
-
-                            string estado = "No llegó";
-                            CitaMedicaDTO cita = new CitaMedicaDTO(pkAgenda, ci, nombre, servicio, fecha, horaInicio, tratamiento, estado);
-                            citasMedicas.Add(cita);
+                            while (reader.Read())
+                            {
+                                int pkAgenda = reader.GetInt32(0);
+                                string ci = reader.GetString(1);
+                                string nombre = reader.GetString(2);
+                                string servicio = reader.GetString(3);
+                                DateTime fecha = reader.GetDateTime(4);
+                                int horaInicio = reader.GetInt32(5);
+                                string tratamiento = reader.GetString(6);
+                                string estado = "No llegó";
+                                CitaMedicaDTO cita = new CitaMedicaDTO(pkAgenda, ci, nombre, servicio, fecha, horaInicio, tratamiento, estado);
+                                citasMedicas.Add(cita);
+                            }
                         }
-                        reader.Close();
-                        con.Close();
                     }
+                    return citasMedicas;
                 }
-                return citasMedicas;
-            }
-
-
-            catch (Exception e)
-            {
-                con.Close();
-                throw new TeletonServerException("Error de conexion con el servidor central, " + e.Message);
+                catch (Exception e)
+                {
+                    throw new TeletonServerException("Error de conexión con el servidor central" + e.Message);
+                }
             }
             /*try
             {

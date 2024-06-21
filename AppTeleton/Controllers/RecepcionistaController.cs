@@ -80,12 +80,12 @@ namespace AppTeleton.Controllers
             }
         }
 
-         [HttpPost]
-        public async Task<IActionResult> ActualizarEstadoLlegadaAutomatico(int idCita, string llego)
+        [HttpPost]
+        public async Task<IActionResult> ActualizarEstadoLlegadaAutomatico(int pkAgenda)
         {
             try
             {
-                await _repositorioCitaMedica.ActualizarEstadoLlegadaAsync(idCita, llego);
+                await _repositorioCitaMedica.RecepcionarPacienteAsync(pkAgenda);
                 return Json(new { success = true });
             }
             catch (Exception ex)
