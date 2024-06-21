@@ -95,9 +95,25 @@ namespace AppTeleton.Controllers
             catch (Exception)
             {
 
-                throw;
+                return RedirectToAction("AdministracionBot");
             }
         
         }
+        [RecepcionistaAdminLogueado]
+        [HttpPost]
+        public IActionResult EliminarMensajeEquivocado(int idMensaje) {
+            try
+            {
+                _abRespuestasEquivocadas.Borrar(idMensaje);
+                return RedirectToAction("AdministracionBot");
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("AdministracionBot");
+            }
+        
+        }
+
     }
 }

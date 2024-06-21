@@ -1,6 +1,7 @@
 ﻿using LogicaNegocio.DTO;
 using LogicaNegocio.EntidadesWit;
 using LogicaNegocio.EntidadesWit.Entrenamiento;
+using LogicaNegocio.EntidadesWit.GetMessage;
 using Microsoft.Extensions.Logging;
 using RestSharp;
 using System;
@@ -24,6 +25,40 @@ namespace LogicaAplicacion.Servicios
 
 
         //HACER TODO ASINCRONO ACA
+
+
+        public MensajeRespuesta GetMessage(string input) {
+
+
+            var options = new RestClientOptions(linkAPI);
+            var client = new RestClient(options);
+            var request = new RestRequest("/message?v=" + Version + "&q=" + input, Method.Get);
+            request.AddHeader("Authorization", $"Bearer {Token}");
+            RestResponse response = client.ExecuteGet(request);
+            JsonSerializerOptions optionsJson = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                WriteIndented = true
+            };
+            if (response.Content == null)
+            {
+                throw new Exception("Error de comunicacion con la api");//ESTO EXPLOTA SI LLEGA
+            }
+            HttpStatusCode res = response.StatusCode;
+            if (res == HttpStatusCode.OK)
+            {
+                var mensaje = JsonSerializer.Deserialize<MensajeRespuesta>(response.Content, optionsJson);
+                return mensaje;
+            }
+            else
+            {
+                Error error = JsonSerializer.Deserialize<Error>(response.Content, optionsJson);
+                throw new Exception("Error " + error.Code + " " + error.Details);
+            }
+
+
+
+        }
 
         public Evento PostEvent(MensajeBotDTO msj)
         {
@@ -50,7 +85,7 @@ namespace LogicaAplicacion.Servicios
 
             if (response.Content == null)
             {
-                throw new Exception("Error de comunicación con la API");
+                throw new Exception("Error de comunicación con la API");//ESTO EXPLOTA SI LLEGA
             }
 
             HttpStatusCode res = response.StatusCode;
@@ -62,7 +97,7 @@ namespace LogicaAplicacion.Servicios
             else
             {
                 Error error = JsonSerializer.Deserialize<Error>(response.Content, optionsJson);
-                throw new Exception("Error " + error.Code + " " + error.Details);
+                throw new Exception("Error " + error.Code + " " + error.Details);//ESTO EXPLOTA SI LLEGA
             }
         }
         public string Responder(string mensaje) {
@@ -89,7 +124,7 @@ namespace LogicaAplicacion.Servicios
 
             if (response.Content == null)
             {
-                throw new Exception("Error de comunicacion con la api");
+                throw new Exception("Error de comunicacion con la api");//ESTO EXPLOTA SI LLEGA
             }
             HttpStatusCode res = response.StatusCode;
             if (res == HttpStatusCode.OK)
@@ -125,7 +160,7 @@ namespace LogicaAplicacion.Servicios
 
             if (response.Content == null)
             {
-                throw new Exception("Error de comunicacion con la api");
+                throw new Exception("Error de comunicacion con la api"); //ESTO EXPLOTA SI LLEGA
             }
             HttpStatusCode res = response.StatusCode;
             if (res == HttpStatusCode.OK)
@@ -136,7 +171,7 @@ namespace LogicaAplicacion.Servicios
             else
             {
                 Error error = JsonSerializer.Deserialize<Error>(response.Content, optionsJson);
-                throw new Exception("Error " + error.Code + " " + error.Details);
+                throw new Exception("Error " + error.Code + " " + error.Details);//ESTO EXPLOTA SI LLEGA
             }
         }
 
@@ -171,12 +206,12 @@ namespace LogicaAplicacion.Servicios
             HttpStatusCode res = response.StatusCode;
             if (res == HttpStatusCode.OK || res == HttpStatusCode.Created)
             {
-              
+              //ACA LLEGA LA RESPUESTA BOOL DE SI SE ENTRENO VER QUE HACER DESPUES CON ESO
             }
             else
             {
                 Error error = JsonSerializer.Deserialize<Error>(response.Content, optionsJson);
-                throw new Exception("Error " + error.Code + " " + error.Details);
+                throw new Exception("Error " + error.Code + " " + error.Details);//ESTO EXPLOTA SI LLEGA
             }
         }
 

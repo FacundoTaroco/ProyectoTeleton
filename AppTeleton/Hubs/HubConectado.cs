@@ -6,6 +6,7 @@ using LogicaNegocio.DTO;
 using LogicaNegocio.Entidades;
 using LogicaNegocio.EntidadesWit;
 using LogicaNegocio.EntidadesWit.Entrenamiento;
+using LogicaNegocio.EntidadesWit.GetMessage;
 using Microsoft.AspNetCore.SignalR;
 
 namespace AppTeleton.Hubs
@@ -59,7 +60,11 @@ namespace AppTeleton.Hubs
 
                     MensajeBotDTO mensaje = new MensajeBotDTO("message", message);
                     Evento evento = _chatBot.PostEvent(mensaje);
+
+
                     string respuesta = evento.response.text;
+
+                    MensajeRespuesta mensajeGetMessage = _chatBot.GetMessage(message);
                     //Aca por ahora con esto detectamos que el bot no reconocio la pregunta, faltaria hacerlo de forma generica(sin esperar un determinado texto)
                     //y ademas detectar cuando se equivoco segun el feedback de la persona(para mas adelante)
                     if (respuesta == "Reescriba la pregunta, por favor.")
