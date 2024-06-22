@@ -102,7 +102,7 @@ builder.Services.AddScoped<GetRespuestasEquivocadas, GetRespuestasEquivocadas>()
 builder.Services.AddScoped<EnviarNotificacionService, EnviarNotificacionService>();
 builder.Services.AddScoped<SolicitarPacientesService, SolicitarPacientesService>();
 builder.Services.AddScoped<SolicitarCitasService, SolicitarCitasService>();
-builder.Services.AddScoped<GenerarAvisoMedicoService, GenerarAvisoMedicoService>();
+builder.Services.AddScoped<RecepcionarPacienteService, RecepcionarPacienteService>();
 builder.Services.AddScoped<ChatBotService, ChatBotService>();
 //Usuario
 builder.Services.AddScoped<ILogin, Login>();
@@ -133,6 +133,9 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Usuario}/{action=Login}/{id?}");
 
-app.MapHub<HubConectado>("/ConnectedHub"); 
+
+app.MapHub<ActualizarListadoHub>("/ActualizarListadoHub");
+app.MapHub<HubConectado>("/ConnectedHub");
+
 
 app.Run();

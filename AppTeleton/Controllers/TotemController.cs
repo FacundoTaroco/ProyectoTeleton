@@ -13,6 +13,8 @@ using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using LogicaNegocio.Enums;
 using AppTeleton.Models.Filtros;
+using AppTeleton.Hubs;
+using Microsoft.AspNetCore.SignalR;
 
 
 namespace AppTeleton.Controllers
@@ -28,7 +30,9 @@ namespace AppTeleton.Controllers
         private GenerarAvisoLlegada _generarAvisoLlegada;
         private GetCitas _getCitas;
         private ILogin _login;
-        public TotemController(GetPacientes getPacientes, AccesoCU acceso, GetTotems getTotems, GenerarAvisoLlegada generarAvisoLLegada,GetCitas getCitas,ILogin login)
+        private IHubContext<ActualizarListadoHub> _actualizarListadosHub;
+
+        public TotemController(IHubContext<ActualizarListadoHub> listadoHub, GetPacientes getPacientes, AccesoCU acceso, GetTotems getTotems, GenerarAvisoLlegada generarAvisoLLegada,GetCitas getCitas,ILogin login)
         {
             _getPacientes = getPacientes;
             _acceso = acceso;
@@ -36,6 +40,7 @@ namespace AppTeleton.Controllers
             _generarAvisoLlegada = generarAvisoLLegada;
             _getCitas = getCitas;
              _login = login;
+            _actualizarListadosHub = listadoHub;    
         }
 
         public IActionResult Index()
@@ -100,18 +105,24 @@ namespace AppTeleton.Controllers
 
                 Paciente paciente = _getPacientes.GetPacientePorCedula(cedula);
                 AccesoTotem nuevoAcceso = new AccesoTotem(cedula, totem);
-                //VER QUE HACER CON AVISO MEDICO AHORA QUE NO TENEMOS MAS API
-                AvisoMedicoDTO avisoMedico = new AvisoMedicoDTO(cedula,"Recepcionado",nuevoAcceso.FechaHora);
+         
+                IEnumerable<CitaMedicaDTO> citas = await _getCitas.ObtenerCitasPorCedula(cedula);
+                IEnumerable<CitaMedicaDTO> citasDeHoy = citas.Where(c => c.Cedula == cedula && (c.Fecha.Day == nuevoAcceso.FechaHora.Day && c.Fecha.Month == nuevoAcceso.FechaHora.Month && c.Fecha.Year == nuevoAcceso.FechaHora.Year)).ToList(); 
+
                 if (!_acceso.PacienteYaAccedioEnFecha(totem.Id, DateTime.Now, cedula))
                 {
-                _acceso.AgregarAcceso(nuevoAcceso); 
-                    
-                    _generarAvisoLlegada.GenerarAvisoLLamada(avisoMedico);
+                     _acceso.AgregarAcceso(nuevoAcceso);
+                    foreach (var cita in citasDeHoy) { 
+                        _generarAvisoLlegada.GenerarAvisoLLamada(cita.PkAgenda);
+                    }
+
+
+                    await _actualizarListadosHub.Clients.All.SendAsync("ActualizarListado", citasDeHoy);
                 }
-               
+                
                 //OBTENER CITAS DE HOY ACA
-                IEnumerable<CitaMedicaDTO> citas = await _getCitas.ObtenerCitasPorCedula(cedula);
-                AccesoTotemViewModel accesoTotemViewModel = new AccesoTotemViewModel(citas, paciente);
+            
+                AccesoTotemViewModel accesoTotemViewModel = new AccesoTotemViewModel(citasDeHoy, paciente);
                
                 return View("HomeUsuario", accesoTotemViewModel);
             }

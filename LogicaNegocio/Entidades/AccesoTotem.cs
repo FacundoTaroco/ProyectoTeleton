@@ -23,7 +23,9 @@ namespace LogicaNegocio.Entidades
         public AccesoTotem(string cedula, Totem totem) {
             _Totem = totem;
             IdTotem = totem.Id;
-            FechaHora = DateTime.Now;
+            DateTime _fecha = DateTime.UtcNow;
+            TimeZoneInfo zonaHoraria = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
+            FechaHora = TimeZoneInfo.ConvertTimeFromUtc(_fecha, zonaHoraria);
             CedulaPaciente = cedula;
         
         }

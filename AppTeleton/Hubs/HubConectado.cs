@@ -58,7 +58,7 @@ namespace AppTeleton.Hubs
                 if (userRecibe == "CHATBOT")
                 {
 
-                    MensajeBotDTO mensaje = new MensajeBotDTO("message", message);
+                      MensajeBotDTO mensaje = new MensajeBotDTO("message", message);
                     Evento evento = _chatBot.PostEvent(mensaje);
 
 

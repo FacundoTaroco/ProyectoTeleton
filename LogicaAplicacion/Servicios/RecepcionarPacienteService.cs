@@ -1,9 +1,12 @@
 ﻿using LogicaAplicacion.Excepciones;
 using LogicaNegocio.DTO;
 using LogicaNegocio.Entidades;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -12,14 +15,51 @@ using System.Threading.Tasks;
 
 namespace LogicaAplicacion.Servicios
 {
-    public class GenerarAvisoMedicoService
+    public class RecepcionarPacienteService
     {
-        public string linkAPI { get; set; }
-        public GenerarAvisoMedicoService()
+        private readonly IConfiguration _config;
+        public RecepcionarPacienteService(IConfiguration config)
         {
-            linkAPI = "https://localhost:7201/";
+            _config = config;
         }
 
+
+
+        public async void RecepcionarPaciente(int pkAgenda) {
+
+            try
+            {
+                var connectionString = _config["ConnectionStrings:SimuladorServidorCentral"];
+                var commandText = "RecepcionarPaciente";
+                // Establece la conexión
+                List<CitaMedicaDTO> citasMedicas = new List<CitaMedicaDTO>();
+                using (SqlConnection con = new(connectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(commandText, con))
+                    {
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(new SqlParameter("@pkAgenda", pkAgenda));
+
+
+                        con.Open();
+                        await cmd.ExecuteNonQueryAsync();
+                        con.Close();
+
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+                //ACA VER QUE HACER SI NO SE PUEDE GENERAR EL AVISO REQUERIMIENTO RF13 (Recepción Automatizada de Usuarios)
+            }
+
+
+        }
+
+        /*
         public async void GenerarAviso(AvisoMedicoDTO aviso) {
 
             try
@@ -68,8 +108,8 @@ namespace LogicaAplicacion.Servicios
 
                 Console.WriteLine("No se mando el aviso porque no se encuentra disponible el servidor central");
             }
-
+        
          
-        }
+        }*/
     }
 }

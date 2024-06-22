@@ -27,7 +27,7 @@ namespace LogicaAplicacion.Servicios
 
             try
             {
-                var connectionString = _config["ConnectionStrings:TeletonSimuladorDatabase"];
+                var connectionString = _config["ConnectionStrings:SimuladorServidorCentral"];
                 var commandText = "SELECT * FROM GetAgendas()";
                 // Establece la conexión
                 List<CitaMedicaDTO> citasMedicas = new List<CitaMedicaDTO>();
@@ -46,7 +46,8 @@ namespace LogicaAplicacion.Servicios
                             DateTime fecha = reader.GetDateTime(4);
                             int horaInicio = reader.GetInt32(5);
                             string tratamiento = reader.GetString(6);
-                            CitaMedicaDTO cita = new CitaMedicaDTO(pkAgenda,cedula,nombre,servicio,fecha,horaInicio,tratamiento);
+                            string estado = reader.GetString(7);
+                            CitaMedicaDTO cita = new CitaMedicaDTO(pkAgenda,cedula,nombre,servicio,fecha,horaInicio,tratamiento,estado);
                             citasMedicas.Add(cita);
                         }
                         con.Close();
@@ -123,7 +124,8 @@ namespace LogicaAplicacion.Servicios
                             DateTime fecha = reader.GetDateTime(4);
                             int horaInicio = reader.GetInt32(5);
                             string tratamiento = reader.GetString(6);
-                            CitaMedicaDTO cita = new CitaMedicaDTO(pkAgenda, ci, nombre, servicio, fecha, horaInicio, tratamiento);
+                            string estado = reader.GetString(7);
+                            CitaMedicaDTO cita = new CitaMedicaDTO(pkAgenda, ci, nombre, servicio, fecha, horaInicio, tratamiento, estado);
                             citasMedicas.Add(cita);
                         }
                         reader.Close();

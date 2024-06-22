@@ -1,8 +1,14 @@
-﻿using AppTeleton.Models.Filtros;
+﻿using AppTeleton.Hubs;
+using AppTeleton.Models;
+using AppTeleton.Models.Filtros;
+using LogicaAccesoDatos.Migrations;
+using LogicaAplicacion.CasosUso.CitaCU;
 using LogicaAplicacion.CasosUso.DispositivoUsuarioCU;
 using LogicaAplicacion.CasosUso.RecepcionistaCU;
+using LogicaNegocio.DTO;
 using LogicaNegocio.Entidades;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace AppTeleton.Controllers
 {
@@ -28,63 +34,34 @@ namespace AppTeleton.Controllers
     {
         private GuardarDispositivoNotificacion _guardarDispositivo;
         private GetRecepcionistas _getRecepcionistas;
+        private GetCitas _getCitas;
+        
 
-        public RecepcionistaController(GuardarDispositivoNotificacion guardarDispositivo, GetRecepcionistas getRecepcionistas)
+        public RecepcionistaController(GuardarDispositivoNotificacion guardarDispositivo, GetRecepcionistas getRecepcionistas, GetCitas getCitas)
         {
             _guardarDispositivo = guardarDispositivo;
             _getRecepcionistas = getRecepcionistas;
+            _getCitas = getCitas;
+            
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            DateTime _fechaHoy = DateTime.UtcNow;
+            TimeZoneInfo zonaHoraria = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
+            DateTime hoyGMT = TimeZoneInfo.ConvertTimeFromUtc(_fechaHoy, zonaHoraria);
+
+
+            IEnumerable<CitaMedicaDTO> citas = await _getCitas.ObtenerCitas();
+            IEnumerable<CitaMedicaDTO> citasDeHoy = citas.Where(c=>c.Fecha.Day == hoyGMT.Day && c.Fecha.Month == hoyGMT.Month && c.Fecha.Year == hoyGMT.Year).ToList();
+            RecepcionistaIndexViewModel model = new RecepcionistaIndexViewModel(citasDeHoy);
+
+            return View(model);
         }
 
-        public IActionResult Send()
-        {
-            return View();
-        }
+       
 
-        [RecepcionistaLogueado]
-        [HttpPost]
-        public IActionResult GuardarDispositivoNotificacion(string pushEndpoint, string pushP256DH, string pushAuth)
-        {
-            try
-            {
-                string usuario = HttpContext.Session.GetString("USR");
-                Recepcionista recepcionistaLogueado = _getRecepcionistas.GetRecepcionistaPorUsuario(usuario);
-
-                DispositivoNotificacion dispositivo = new DispositivoNotificacion
-                {
-                    Auth = pushAuth,
-                    P256dh = pushP256DH,
-                    Endpoint = pushEndpoint,
-                    Usuario = recepcionistaLogueado,
-                    IdUsuario = recepcionistaLogueado.Id
-                };
-
-                _guardarDispositivo.GuardarDispositivo(dispositivo);
-
-                ViewBag.TipoMensaje = "SUCCESS";
-                ViewBag.Mensaje = "Dispositivo de notificación guardado correctamente.";
-                return View("Index");
-            }
-            catch (Exception)
-            {
-                ViewBag.TipoMensaje = "ERROR";
-                ViewBag.Mensaje = "Algo salió mal al activar las notificaciones";
-                return View("Index");
-            }
-        }
-
-        [HttpPost]
-        public IActionResult SendPushNotification(int Id, string Titulo, string Payload)
-        {
-            // acá envío las notificaciones
-
-            ViewBag.Mensaje = "Notificación enviada correctamente";
-            return View("Send");
-        }
+        
     }
 }
 

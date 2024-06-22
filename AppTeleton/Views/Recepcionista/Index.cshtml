@@ -1,4 +1,4 @@
-﻿
+﻿@model AppTeleton.Models.RecepcionistaIndexViewModel;
 @{
     ViewData["Title"] = "Index";
 }
@@ -18,7 +18,8 @@
     }
 }
 
-<h1>Index</h1>
+<h1>Citas de Pacientes</h1>
+
 
 <div id="notificationBlock" class="alert alert-info" role="alert">
     Active las notificaciones para recibir avisos y recordatorios importantes
@@ -27,12 +28,87 @@
 </div>
 
 
+
+<table class="table">
+    <thead>
+        <tr>
+         
+            <th>
+                Cedula
+            </th>
+            <th>
+                Nombre
+            </th>
+            <th>
+                Servicio
+            </th>
+            <th>
+                Fecha
+            </th>
+            <th>
+               Hora
+            </th>
+            <th>
+                Tratamiento
+            </th>
+            <th>
+                Estado
+            </th>
+       
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.citas)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cedula)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreCompleto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Servicio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fecha)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HoraInicio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tratamiento)
+                </td>
+                <td  id=`tdEstado${@item.PkAgenda}`>
+                    @if (item.Estado == "RCP")
+                    {
+
+                        <p>Llego</p>
+
+                    }
+                    else
+                    {
+
+                        <p>No llego</p>
+                    
+                    }
+                </td>
+             
+            </tr>
+        }
+    </tbody>
+</table>
+
+
 <form id="subscriptionForm" asp-controller="Notificacion" asp-action="GuardarDispositivoNotificacion" method="post" style="display: none;">
     <input type="text" id="endpoint" name="pushEndpoint">
     <input type="text" id="p256dh" name="pushP256DH">
     <input type="text" id="auth" name="pushAuth">
 </form>
 
-<h1>VISTA Recepcionista</h1>
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/ActualizarListadoRecepcionista.js"></script>
+
+
 
 
