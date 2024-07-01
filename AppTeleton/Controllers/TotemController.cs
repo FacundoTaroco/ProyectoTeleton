@@ -15,6 +15,9 @@ using AppTeleton.Models.Filtros;
 using LogicaAplicacion.Servicios;
 using LogicaNegocio.InterfacesRepositorio;
 using Microsoft.Data.SqlClient;
+using LogicaAplicacion.CasosUso.AdministradorCU;
+using LogicaAplicacion.CasosUso.MedicoCU;
+using LogicaAplicacion.CasosUso.RecepcionistaCU;
 
 
 namespace AppTeleton.Controllers
@@ -22,26 +25,31 @@ namespace AppTeleton.Controllers
     [TotemLogueado]
     public class TotemController : Controller
     {
-        private GetPacientes _getPacientes;
-        private GetTotems _getTotems;
-        private AccesoCU _acceso;
-        private GenerarAvisoLlegada _generarAvisoLlegada;
-        private SolicitarCitasService _solicitarCitasService;
-        private IRepositorioCitaMedica _repositorioCitaMedica;
-        private GetCitas _getCitas;
-        private ILogin _login;
-        private ILogger<RecepcionistaController> _logger;
+        public GetPacientes _getPacientes;
+        public GetTotems _getTotems;
+        public AccesoCU _acceso;
+        public GenerarAvisoLlegada _generarAvisoLlegada;
+        public SolicitarCitasService _solicitarCitasService;
+        public IRepositorioCitaMedica _repositorioCitaMedica;
+        public GetCitas _getCitas;
+        public ILogin _login;
+        public ILogger<RecepcionistaController> _logger;
+        public ABMTotem _ABMTotems;
+        public GetRecepcionistas _getRecepcionistas;
+        public GetAdministradores _getAdministradores;
+        public GetMedicos _getMedicos;
 
         public TotemController(
             SolicitarCitasService solicitarCitasService,
             IRepositorioCitaMedica repositorioCitaMedica,
-            GetPacientes getPacientes, 
-            AccesoCU acceso, 
-            GetTotems getTotems, 
-            GenerarAvisoLlegada generarAvisoLLegada, 
-            GetCitas getCitas, 
+            GetPacientes getPacientes,
+            AccesoCU acceso,
+            GetTotems getTotems,
+            GenerarAvisoLlegada generarAvisoLLegada,
+            GetCitas getCitas,
             ILogin login,
-            ILogger<RecepcionistaController> logger)
+            ILogger<RecepcionistaController> logger,
+            ABMTotem abmtotem)
         {
             _repositorioCitaMedica = repositorioCitaMedica;
             _solicitarCitasService = solicitarCitasService;
@@ -52,12 +60,15 @@ namespace AppTeleton.Controllers
             _getCitas = getCitas;
             _login = login;
             _logger = logger;
+            _ABMTotems = abmtotem;
         }
 
         public IActionResult Index()
         {
             return View();
         }
+
+        
 
 
         public IActionResult CerrarSesion()
@@ -215,8 +226,17 @@ namespace AppTeleton.Controllers
 
                 return null;
             }
+        }
 
-
+        private UsuariosViewModel ObtenerModeloUsuarios()
+        {
+            IEnumerable<Paciente> pacientes = _getPacientes.GetAll();
+            IEnumerable<Recepcionista> recepcionistas = _getRecepcionistas.GetAll();
+            IEnumerable<Administrador> admins = _getAdministradores.GetAll();
+            IEnumerable<Medico> medicos = _getMedicos.GetAll();
+            IEnumerable<Totem> totems = _getTotems.GetAll();
+            UsuariosViewModel modeloIndex = new UsuariosViewModel(pacientes, admins, recepcionistas, medicos, totems);
+            return modeloIndex;
         }
 
 

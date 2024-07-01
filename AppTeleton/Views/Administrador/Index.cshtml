@@ -57,6 +57,14 @@
         {
             <option value="@TipoUsuario.Admin">Administradores</option>
         }
+        @if (ViewBag.TipoUsuario == TipoUsuario.Totem)
+        {
+            <option value="@TipoUsuario.Totem" selected>Totems</option>
+        }
+        else
+        {
+            <option value="@TipoUsuario.Totem">Totems</option>
+        }
 
     </select>
 </form>
@@ -66,65 +74,65 @@
 {
     <h1>Pacientes</h1>
 
-<form asp-action="ActualizarPacientes" method="post">
+    <form asp-action="ActualizarPacientes" method="post">
 
-     <div class="form-group">
+        <div class="form-group">
             <input type="submit" value="Actualizar Pacientes" class="btn btn-primary" />
-     </div>
+        </div>
 
-</form>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Id
-            </th>
-            <th>
-                Nombre
-            </th>
-            <th>
-                Usuario
-            </th>
-            <th>
-                Contraseña
-            </th>
-            <th>
-                Cedula
-            </th>
-         
-                <th>
-                    
-                </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Pacientes)
-        {
+    </form>
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NombreUsuario)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Contrasenia)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cedula)
-                </td>
-             
-                <td>
-                        @Html.ActionLink("Delete", "Delete","Paciente", new { id=item.Id})
-                        @Html.ActionLink("Editar", "Editar", new { /* id=item.PrimaryKey */ })
-                        @Html.ActionLink("Mandar Notificacion", "EnviarNotificacionUsuario", new { idUsuario=item.Id })
-                </td>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Nombre
+                </th>
+                <th>
+                    Usuario
+                </th>
+                <th>
+                    Contraseña
+                </th>
+                <th>
+                    Cedula
+                </th>
+
+                <th>
+
+                </th>
             </tr>
-        }
-    </tbody>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Pacientes)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NombreUsuario)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Contrasenia)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cedula)
+                    </td>
+
+                    <td>
+                        @Html.ActionLink("Delete", "Delete", "Paciente", new { id = item.Id })
+                        @Html.ActionLink("Mandar Notificacion", "EnviarNotificacionUsuario", new { idUsuario = item.Id })
+                        @Html.ActionLink("Change Password", "CambiarContrasenia", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        </tbody>
     </table>
 }
 
@@ -134,50 +142,51 @@
 
     <form asp-action="AgregarRecepcionista" method="get">
         <div class="form-group">
-            <input type="submit" value="Crear Recepcionista" class="btn btn-primary"/>
+            <input type="submit" value="Crear Recepcionista" class="btn btn-primary" />
         </div>
     </form>
 
-     
-     <table class="table">
-    <thead>
-        <tr>
-            <th>
-                Id
-            </th>
-            <th>
-                Nombre
-            </th>
-            <th>
-                Usuario
-            </th>
-            <th>
-                Contraseña
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Recepcionistas)
-        {
+
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NombreUsuario)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Contrasenia)
-                </td>
-                <td>
-                </td>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Nombre
+                </th>
+                <th>
+                    Usuario
+                </th>
+                <th>
+                    Contraseña
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Recepcionistas)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NombreUsuario)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Contrasenia)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Change Password", "CambiarContrasenia", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        </tbody>
     </table>
 }
 
@@ -220,6 +229,7 @@
                         @Html.DisplayFor(modelItem => item.Contrasenia)
                     </td>
                     <td>
+                        @Html.ActionLink("Change Password", "CambiarContrasenia", new { id = item.Id })
                     </td>
                 </tr>
             }
@@ -273,20 +283,60 @@
                         @Html.DisplayFor(modelItem => item.Contrasenia)
                     </td>
                     <td>
+                        @Html.ActionLink("Change Password", "CambiarContrasenia", new { id = item.Id })
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 }
+@if (ViewBag.TipoUsuario == TipoUsuario.Totem)
+{
 
+    <h1>Totems</h1>
 
+    <form asp-action="AgregarTotem" method="get">
+        <div class="form-group">
+            <input type="submit" value="Crear Totem" class="btn btn-primary" />
+        </div>
+    </form>
 
-
-
-
-
-
-
-
-
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Usuario
+                </th>
+                <th>
+                    Contraseña
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Totems)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NombreUsuario)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Contrasenia)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Change Password", "CambiarContrasenia", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

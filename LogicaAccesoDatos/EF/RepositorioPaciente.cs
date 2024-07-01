@@ -101,6 +101,7 @@ namespace LogicaAccesoDatos.EF
             }
         }
 
+
         public Paciente GetPacientePorCedula(string cedula)
         {
 

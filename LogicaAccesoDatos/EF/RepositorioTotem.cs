@@ -169,12 +169,5 @@ namespace LogicaAccesoDatos.EF
                 throw new ServerErrorException("Error del servidor al actualizar los datos del totem");
             }
         }
-        
-
-        
-
-        
-
-      
     }
 }

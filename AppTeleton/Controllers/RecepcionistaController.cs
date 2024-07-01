@@ -1,5 +1,7 @@
 ﻿using AppTeleton.Models;
 using AppTeleton.Models.Filtros;
+using LogicaAccesoDatos.EF;
+using LogicaAplicacion.CasosUso.AdministradorCU;
 using LogicaAplicacion.CasosUso.DispositivoUsuarioCU;
 using LogicaAplicacion.CasosUso.RecepcionistaCU;
 using LogicaAplicacion.CasosUso.TotemCU;
@@ -7,6 +9,7 @@ using LogicaAplicacion.Excepciones;
 using LogicaAplicacion.Servicios;
 using LogicaNegocio.DTO;
 using LogicaNegocio.Entidades;
+using LogicaNegocio.Enums;
 using LogicaNegocio.InterfacesRepositorio;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -18,12 +21,14 @@ namespace AppTeleton.Controllers
     [RecepcionistaLogueado]
     public class RecepcionistaController : Controller
     {
-        private GuardarDispositivoNotificacion _guardarDispositivo;
-        private GetRecepcionistas _getRecepcionistas;
-        private IRepositorioCitaMedica _repositorioCitaMedica;
-        private SolicitarCitasService _solicitarCitasService;
-        private ILogger<RecepcionistaController> _logger;
-        private GenerarAvisoLlegada _generarAvisoLlegada;
+        public GuardarDispositivoNotificacion _guardarDispositivo;
+        public GetRecepcionistas _getRecepcionistas;
+        public IRepositorioCitaMedica _repositorioCitaMedica;
+        public SolicitarCitasService _solicitarCitasService;
+        public ILogger<RecepcionistaController> _logger;
+        public GenerarAvisoLlegada _generarAvisoLlegada;
+        public CambiarContrasenia _cambiarContrasenia;
+
 
         public RecepcionistaController(
             GuardarDispositivoNotificacion guardarDispositivo,
@@ -31,7 +36,8 @@ namespace AppTeleton.Controllers
             IRepositorioCitaMedica repositorioCitaMedica,
             SolicitarCitasService solicitarCitasService,
             GenerarAvisoLlegada generarAvisoLlegada,
-            ILogger<RecepcionistaController> logger)
+            ILogger<RecepcionistaController> logger,
+            CambiarContrasenia cambiarContrasenia)
         {
             _guardarDispositivo = guardarDispositivo;
             _getRecepcionistas = getRecepcionistas;
@@ -39,6 +45,7 @@ namespace AppTeleton.Controllers
             _solicitarCitasService = solicitarCitasService;
             _generarAvisoLlegada = generarAvisoLlegada;
             _logger = logger;
+            _cambiarContrasenia = cambiarContrasenia;
         }
 
         public async Task<IActionResult> Index()
@@ -132,7 +139,6 @@ namespace AppTeleton.Controllers
         {
             try
             {
-                // Aquí implementa la lógica para enviar la notificación push
                 ViewBag.Mensaje = "Notificación enviada correctamente";
             }
             catch (Exception ex)
@@ -142,6 +148,38 @@ namespace AppTeleton.Controllers
             }
 
             return View("Send");
+        }
+
+        [HttpGet]
+        public IActionResult CambiarContrasenia(int id)
+        {
+            ViewBag.IdUsuario = id;
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CambiarContrasenia(int id, string nuevaContrasenia, string confirmarContrasenia)
+        {
+            if (nuevaContrasenia != confirmarContrasenia)
+            {
+                ViewBag.Mensaje = "Las contraseñas no coinciden";
+                ViewBag.TipoMensaje = "ERROR";
+                return View();
+            }
+
+            try
+            {
+                _cambiarContrasenia.ChangePassword(id, nuevaContrasenia);
+                ViewBag.Mensaje = "Contraseña cambiada exitosamente";
+                ViewBag.TipoMensaje = "EXITO";
+            }
+            catch (Exception ex)
+            {
+                ViewBag.TipoMensaje = "ERROR";
+                ViewBag.Mensaje = ex.Message;
+                return View();
+            }
+            return View();
         }
     }
 }

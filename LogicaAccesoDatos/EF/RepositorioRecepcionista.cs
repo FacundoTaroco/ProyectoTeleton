@@ -67,6 +67,7 @@ namespace LogicaAccesoDatos.EF
                 throw new ServerErrorException("Error del servidor al eliminar la recepcionista");
             }
         }
+
         public void ValidarUnique(Recepcionista obj)
         {
             try

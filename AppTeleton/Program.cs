@@ -17,6 +17,8 @@ using LogicaAplicacion.CasosUso.CitaCU;
 using LogicaAplicacion.CasosUso.DispositivoUsuarioCU;
 using LogicaAplicacion.CasosUso.NotificacionCU;
 using LogicaAplicacion.CasosUso.PreguntasFrecCU;
+using LogicaNegocio.Entidades;
+//using AspNetCore;
 
 
 
@@ -71,7 +73,6 @@ builder.Services.AddScoped<ABMTotem, ABMTotem>();
 builder.Services.AddScoped<GetTotems, GetTotems>();
 builder.Services.AddScoped<GenerarAvisoLlegada, GenerarAvisoLlegada>();
 
-
 builder.Services.AddScoped<AccesoCU, AccesoCU>();
 
 builder.Services.AddScoped<GetCitas, GetCitas>();
@@ -85,6 +86,8 @@ builder.Services.AddScoped<NotificacionesAutomaticas, NotificacionesAutomaticas>
 
 builder.Services.AddScoped<ABMPreguntasFrec, ABMPreguntasFrec>();
 builder.Services.AddScoped<GetPreguntasFrec, GetPreguntasFrec>();
+
+builder.Services.AddScoped<CambiarContrasenia, CambiarContrasenia>();
 
 //scopes de servicios
 builder.Services.AddScoped<EnviarNotificacionService, EnviarNotificacionService>();

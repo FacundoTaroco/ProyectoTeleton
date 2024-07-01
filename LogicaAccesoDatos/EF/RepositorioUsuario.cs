@@ -45,6 +45,70 @@ namespace LogicaAccesoDatos.EF
                 throw;
             }
         }
+        public Usuario GetPorId(int id)
+        {
+            try
+            {
+                if (id == 0)
+                {
+                    throw new NullOrEmptyException("No se recibio id");
+                }
+                var usu = _context.Usuarios.FirstOrDefault(adm => adm.Id == id);
+                if (usu == null)
+                {
+                    throw new NotFoundException("No se encontro ningun usuario con esa cedula");
+                }
+                return usu;
+
+            }
+            catch (NullOrEmptyException)
+            {
+
+                throw;
+            }
+            catch (NotFoundException)
+            {
+
+                throw;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public void Update(Usuario obj)
+        {
+            try
+            {
+                if (obj == null) { throw new NullOrEmptyException("No se recibio usuario para editar"); }
+                obj.Validar();
+                if (_context.Usuarios.FirstOrDefault(r => r.Id == obj.Id) == null)
+                {
+                    throw new NotFoundException("No se encontro administrador a editar");
+                }
+                if (_context.Usuarios.FirstOrDefault(r => r.Id == obj.Id).NombreUsuario != obj.NombreUsuario)
+                {
+                    throw new UsuarioException("El nombre de recepcionista no se puede editar");
+                }
+
+                _context.Usuarios.Update(obj);
+                _context.SaveChanges();
+            }
+            catch (UsuarioException)
+            {
+                throw;
+            }
+            catch (NotFoundException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw new ServerErrorException("Error del servidor al actualizar el administrador");
+            }
+        }
 
         public TipoUsuario Login(string usuario, string contrasenia)
         {

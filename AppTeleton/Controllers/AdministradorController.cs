@@ -1,10 +1,12 @@
 ﻿using AppTeleton.Models;
 using AppTeleton.Models.Filtros;
+using LogicaAccesoDatos.EF;
 using LogicaAplicacion.CasosUso.AdministradorCU;
 using LogicaAplicacion.CasosUso.MedicoCU;
 using LogicaAplicacion.CasosUso.PacienteCU;
 using LogicaAplicacion.CasosUso.RecepcionistaCU;
 using LogicaAplicacion.CasosUso.TotemCU;
+using LogicaNegocio.DTO;
 using LogicaNegocio.Entidades;
 using LogicaNegocio.Enums;
 using Microsoft.AspNetCore.Mvc;
@@ -23,8 +25,19 @@ namespace AppTeleton.Controllers
         public ABMRecepcionistas _ABMRecepcionistas;
         public ActualizarPacientes _actualizarPacientes;
         public GetTotems _getTotems;
-        
-        public AdministradorController(GetAdministradores listaAdmins, GetRecepcionistas listaRecepcionistas, GetPacientes listaPacientes, GetMedicos listaMedicos, ABMAdministradores abmAdministradores, ABMRecepcionistas abmRecepcionistas, ActualizarPacientes actualizarPacientes,GetTotems getTotems)
+        public CambiarContrasenia _cambiarContrasenia;
+        public ABMTotem _ABMTotems;
+
+        public AdministradorController(GetAdministradores listaAdmins,
+            GetRecepcionistas listaRecepcionistas,
+            GetPacientes listaPacientes,
+            GetMedicos listaMedicos,
+            ABMAdministradores abmAdministradores,
+            ABMRecepcionistas abmRecepcionistas,
+            ActualizarPacientes actualizarPacientes,
+            GetTotems getTotems,
+            CambiarContrasenia cambiarContrasenia,
+            ABMTotem abmtotems)
         {
             _getAdministradores = listaAdmins;
             _getRecepcionistas = listaRecepcionistas;
@@ -34,40 +47,50 @@ namespace AppTeleton.Controllers
             _ABMRecepcionistas = abmRecepcionistas;
             _actualizarPacientes = actualizarPacientes;
             _getTotems = getTotems;
+            _cambiarContrasenia = cambiarContrasenia;
+            _ABMTotems = abmtotems;
         }
-      
+
         [HttpGet]
-        public IActionResult Index(TipoUsuario tipoUsuario,string tipoMensaje, string mensaje)
+        public IActionResult Index(TipoUsuario tipoUsuario, string tipoMensaje, string mensaje)
         {
-            if(!String.IsNullOrEmpty(tipoMensaje) && !String.IsNullOrEmpty(mensaje)) {
+            if (!String.IsNullOrEmpty(tipoMensaje) && !String.IsNullOrEmpty(mensaje))
+            {
                 ViewBag.TipoMensaje = tipoMensaje;
-                ViewBag.Mensaje = mensaje;  
+                ViewBag.Mensaje = mensaje;
             }
 
             ViewBag.TipoUsuario = tipoUsuario;
-            if (tipoUsuario == TipoUsuario.NoLogueado) {
+            if (tipoUsuario == TipoUsuario.NoLogueado)
+            {
                 ViewBag.TipoUsuario = TipoUsuario.Paciente;
             }
             return View(ObtenerModeloUsuarios());
         }
 
         [HttpGet]
-        public IActionResult VerTipoUsuario(TipoUsuario opcion) {
+        public IActionResult VerTipoUsuario(TipoUsuario opcion)
+        {
 
             if (opcion == TipoUsuario.Paciente)
             {
                 ViewBag.TipoUsuario = TipoUsuario.Paciente;
             }
-            else if (opcion == TipoUsuario.Recepcionista) {
+            else if (opcion == TipoUsuario.Recepcionista)
+            {
                 ViewBag.TipoUsuario = TipoUsuario.Recepcionista;
             }
             else if (opcion == TipoUsuario.Admin)
             {
                 ViewBag.TipoUsuario = TipoUsuario.Admin;
             }
-            else if(opcion == TipoUsuario.Medico)
+            else if (opcion == TipoUsuario.Medico)
             {
                 ViewBag.TipoUsuario = TipoUsuario.Medico;
+            }
+            else if (opcion == TipoUsuario.Totem)
+            {
+                ViewBag.TipoUsuario = TipoUsuario.Totem;
             }
 
             return View("Index", ObtenerModeloUsuarios());
@@ -76,12 +99,14 @@ namespace AppTeleton.Controllers
 
 
         [HttpGet]
-        public IActionResult AgregarAdmin() { 
-        return View();
+        public IActionResult AgregarAdmin()
+        {
+            return View();
         }
 
         [HttpPost]
-        public IActionResult AgregarAdmin(Administrador admin) {
+        public IActionResult AgregarAdmin(Administrador admin)
+        {
 
             try
             {
@@ -99,7 +124,6 @@ namespace AppTeleton.Controllers
                 ViewBag.Mensaje = e.Message;
                 return View();
             }
-
         }
 
 
@@ -127,18 +151,53 @@ namespace AppTeleton.Controllers
                 ViewBag.Mensaje = e.Message;
                 return View();
             }
-
-           
         }
 
-        [HttpPost] 
-        public async Task<IActionResult> ActualizarPacientes() {
+        [HttpGet]
+        public IActionResult AgregarTotem()
+        {
+            return View();
+        }
+
+        public IActionResult AgregarTotem(TotemDTO totem)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(totem);
+            }
+
+            try
+            {
+                var nuevoTotem = new Totem
+                {
+                    Nombre = totem.Nombre,
+                    NombreUsuario = totem.NombreUsuario,
+                    Contrasenia = totem.Contrasenia
+                };
+
+                _ABMTotems.AltaTotem(nuevoTotem);
+                ViewBag.TipoMensaje = "EXITO";
+                ViewBag.Mensaje = "Totem agregado con éxito";
+                ViewBag.TipoUsuario = TipoUsuario.Totem;
+                return View("Index", ObtenerModeloUsuarios());
+            }
+            catch (Exception e)
+            {
+                ViewBag.TipoMensaje = "ERROR";
+                ViewBag.Mensaje = e.Message;
+                return View(totem);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ActualizarPacientes()
+        {
             try
             {
 
                 await _actualizarPacientes.Actualizar();
                 ViewBag.TipoMensaje = "EXITO";
-                ViewBag.Mensaje ="Usuarios Actualizados con exito";
+                ViewBag.Mensaje = "Usuarios Actualizados con exito";
                 ViewBag.TipoUsuario = TipoUsuario.Paciente;
                 return View("Index", ObtenerModeloUsuarios());
             }
@@ -150,27 +209,62 @@ namespace AppTeleton.Controllers
                 ViewBag.TipoUsuario = TipoUsuario.Paciente;
                 return View("Index", ObtenerModeloUsuarios());
             }
-        
+
         }
 
-        public IActionResult EnviarNotificacionUsuario(int idUsuario, string mensaje) {
+        public IActionResult EnviarNotificacionUsuario(int idUsuario, string mensaje)
+        {
 
-            if (!String.IsNullOrEmpty(mensaje)) {
+            if (!String.IsNullOrEmpty(mensaje))
+            {
                 ViewBag.Mensaje = mensaje;
             }
 
             ViewBag.idUsuario = idUsuario;
-        return View("MandarNotificacionUsuario");
-        
+            return View("MandarNotificacionUsuario");
+
         }
 
-        private UsuariosViewModel ObtenerModeloUsuarios() {
+        [HttpGet]
+        public IActionResult CambiarContrasenia(int id)
+        {
+            ViewBag.IdUsuario = id;
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CambiarContrasenia(int id, string nuevaContrasenia, string confirmarContrasenia)
+        {
+            if (nuevaContrasenia != confirmarContrasenia)
+            {
+                ViewBag.Mensaje = "Las contraseñas no coinciden";
+                ViewBag.TipoMensaje = "ERROR";
+                return View();
+            }
+
+            try
+            {
+                _cambiarContrasenia.ChangePassword(id, nuevaContrasenia);
+                ViewBag.Mensaje = "Contraseña cambiada exitosamente";
+                ViewBag.TipoMensaje = "EXITO";
+            }
+            catch (Exception ex)
+            {
+                ViewBag.TipoMensaje = "ERROR";
+                ViewBag.Mensaje = ex.Message;
+                return View();
+            }
+            return View();
+        }
+
+        private UsuariosViewModel ObtenerModeloUsuarios()
+        {
             IEnumerable<Paciente> pacientes = _getPacientes.GetAll();
             IEnumerable<Recepcionista> recepcionistas = _getRecepcionistas.GetAll();
             IEnumerable<Administrador> admins = _getAdministradores.GetAll();
-            IEnumerable<Medico> medicos= _getMedicos.GetAll();
+            IEnumerable<Medico> medicos = _getMedicos.GetAll();
             IEnumerable<Totem> totems = _getTotems.GetAll();
-            UsuariosViewModel modeloIndex = new UsuariosViewModel(pacientes, admins, recepcionistas, medicos,totems);
+            UsuariosViewModel modeloIndex = new UsuariosViewModel(pacientes, admins, recepcionistas, medicos, totems);
             return modeloIndex;
         }
 

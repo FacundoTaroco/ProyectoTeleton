@@ -1,0 +1,65 @@
+﻿@model LogicaNegocio.DTO.TotemDTO
+
+@{
+    ViewData["Title"] = "AgregarTotem";
+}
+
+@{
+    if (ViewBag.Mensaje != null)
+    {
+        if (ViewBag.TipoMensaje == "ERROR")
+        {
+            <div class="alert alert-danger" role="alert">@ViewBag.Mensaje</div>
+        }
+        else if (ViewBag.TipoMensaje == "EXITO")
+        {
+            <div class="alert alert-success" role="alert">@ViewBag.Mensaje</div>
+        }
+    }
+}
+
+<h1>AgregarTotem</h1>
+
+<h4>Totem</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AgregarTotem" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input asp-for="Id" type="hidden" class="form-control" value="0" />
+
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="NombreUsuario" class="control-label"></label>
+                <input asp-for="NombreUsuario" class="form-control" />
+                <span asp-validation-for="NombreUsuario" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Contrasenia" class="control-label"></label>
+                <input asp-for="Contrasenia" class="form-control" />
+                <span asp-validation-for="Contrasenia" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" asp-route-tipoUsuario="TOTEM">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
