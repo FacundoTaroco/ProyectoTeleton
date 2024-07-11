@@ -10,7 +10,7 @@ namespace LogicaNegocio.EntidadesWit.Entrenamiento
     {
         public int Id { get; set; } 
         public string Input { get; set; }
-        public Intent? IntentAsignado { get; set; }
+        public string IntentAsignado { get; set; }
 
            
         //cuando implementemos entitis hacer esto

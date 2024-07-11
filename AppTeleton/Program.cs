@@ -104,6 +104,7 @@ builder.Services.AddScoped<SolicitarPacientesService, SolicitarPacientesService>
 builder.Services.AddScoped<SolicitarCitasService, SolicitarCitasService>();
 builder.Services.AddScoped<RecepcionarPacienteService, RecepcionarPacienteService>();
 builder.Services.AddScoped<ChatBotService, ChatBotService>();
+builder.Services.AddScoped<GeolocalizacionService, GeolocalizacionService>();
 //Usuario
 builder.Services.AddScoped<ILogin, Login>();
 

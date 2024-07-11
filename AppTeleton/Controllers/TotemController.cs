@@ -114,10 +114,11 @@ namespace AppTeleton.Controllers
                      _acceso.AgregarAcceso(nuevoAcceso);
                     foreach (var cita in citasDeHoy) { 
                         _generarAvisoLlegada.GenerarAvisoLLamada(cita.PkAgenda);
+                        cita.Estado = "RCP";
                     }
 
 
-                    await _actualizarListadosHub.Clients.All.SendAsync("ActualizarListado", citasDeHoy);
+                     _actualizarListadosHub.Clients.All.SendAsync("ActualizarListado", citasDeHoy);
                 }
                 
                 //OBTENER CITAS DE HOY ACA

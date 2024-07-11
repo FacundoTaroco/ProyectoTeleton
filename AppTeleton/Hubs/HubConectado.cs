@@ -1,4 +1,5 @@
-﻿using LogicaAplicacion.CasosUso.ChatCU;
+﻿
+using LogicaAplicacion.CasosUso.ChatCU;
 using LogicaAplicacion.CasosUso.PacienteCU;
 using LogicaAplicacion.CasosUso.RecepcionistaCU;
 using LogicaAplicacion.Servicios;
@@ -58,33 +59,80 @@ namespace AppTeleton.Hubs
                 if (userRecibe == "CHATBOT")
                 {
 
-                      MensajeBotDTO mensaje = new MensajeBotDTO("message", message);
+                    /*MensajeBotDTO mensaje = new MensajeBotDTO("message", message);
                     Evento evento = _chatBot.PostEvent(mensaje);
 
+                    
+                    string respuesta = evento.response.text;*/
 
-                    string respuesta = evento.response.text;
+                    string respuestaFinal = _chatBot.Responder(message);
 
-                    MensajeRespuesta mensajeGetMessage = _chatBot.GetMessage(message);
+                   /* MensajeRespuesta mensajeGetMessage = _chatBot.GetMessage(message);
                     //Aca por ahora con esto detectamos que el bot no reconocio la pregunta, faltaria hacerlo de forma generica(sin esperar un determinado texto)
-                    //y ademas detectar cuando se equivoco segun el feedback de la persona(para mas adelante)
-                    if (respuesta == "Reescriba la pregunta, por favor.")
+                    //y ademas detectar cuando se equivoco segun el feedback de la persona(para mas adelante)*/
+
+                    if (respuestaFinal == "Reescriba la pregunta, por favor.")
                     {
 
                         RespuestaEquivocada respuestaEquivocada = new RespuestaEquivocada();
-                        respuestaEquivocada.IntentAsignado = null;
+                        respuestaEquivocada.IntentAsignado = "";
                         respuestaEquivocada.Input = message;
                         _ABrespuestasEquivocadas.Agregar(respuestaEquivocada);
                     
                     }
-                    ActualizarChats(userRecibe, userManda, respuesta);
-                    await Clients.Client(idConexion).SendAsync("MensajeRecibido", "Asistente virtual", respuesta);
+                    ActualizarChats(userRecibe, userManda, respuestaFinal);
+                    await Clients.Client(idConexion).SendAsync("MensajeRecibido", "CHATBOT", respuestaFinal, true); //no msiempre tiene pq ser true
 
                 }
                 else {
                   
-                    await Clients.All.SendAsync("MensajeRecibido", userManda, message);
+                    await Clients.All.SendAsync("MensajeRecibido", userManda, message,true);
                 }
             }
+
+        }
+        //se asume que es el chat con el bot mas adelante cuando se implemente recepcionista ver
+        //si el mensaje fue bien respondido entonces se carga la utterance para aumentar el porcentaje de confianza
+        //y ademas se cierra el chat ya que fue resuelta la consulta
+
+
+        //VER QUE HACER CON LAS ENTITIES
+        public async Task FeedBackPositivo(string mensaje, string user) {
+
+            Paciente paciente = _getPacientes.GetPacientePorUsuario(user);
+
+
+            //cerramos el chat
+            Chat chatPaciente = _getChats.GetChatAbiertoDePaciente(paciente.Id);
+            chatPaciente.Abierto = false;
+            _abChat.Actualizar(chatPaciente);
+
+            MensajeRespuesta mensajeGetMessage = _chatBot.GetMessage(mensaje);
+
+            UtteranceDTO utterance = new UtteranceDTO();
+            utterance.text = mensaje;
+            utterance.intent = mensajeGetMessage.Intents.First().name; //VALIDAR QUE NO SEA NULO
+            utterance.traits = new List<UtteranceTrait>();
+            utterance.entities = new List<UtteranceEntity>();
+
+            List<UtteranceDTO> utterances = new List<UtteranceDTO> { utterance };
+
+            _chatBot.PostUtterance(utterances);
+        }
+
+        //en caso de que el feedback sea negativo(no le sirvio la resuesta) se manda a la pestaña de administracion para ser revisada
+        public async Task FeedBackNegativo(string mensaje) {
+
+            //
+            MensajeRespuesta mensajeGetMessage = _chatBot.GetMessage(mensaje);
+
+
+            RespuestaEquivocada respuestaEquivocada = new RespuestaEquivocada();
+            respuestaEquivocada.IntentAsignado = mensajeGetMessage.Intents.First().name; //VALIDAR NO NULO
+            respuestaEquivocada.Input = mensaje;
+            _ABrespuestasEquivocadas.Agregar(respuestaEquivocada);
+
+
 
         }
 

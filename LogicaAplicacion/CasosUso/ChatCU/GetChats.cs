@@ -24,5 +24,16 @@ namespace LogicaAplicacion.CasosUso.ChatCU
         public bool PacienteTieneChatAbierto(int idPaciente) {
             return _repo.PacienteTieneChatAbierto(idPaciente);
         }
+
+        public Chat GetChatPorId(int idChat) {
+
+            return _repo.GetPorId(idChat);
+
+        }
+
+        public IEnumerable<Chat> GetChatsDePaciente(int idPaciente) {
+
+            return _repo.GetChatsDePaciente(idPaciente);
+        }
     }
 }

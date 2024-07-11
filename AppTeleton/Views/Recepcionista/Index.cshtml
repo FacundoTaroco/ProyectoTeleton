@@ -79,7 +79,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Tratamiento)
                 </td>
-                <td  id=`tdEstado${@item.PkAgenda}`>
+                <td  id="tdEstado_@item.PkAgenda">
                     @if (item.Estado == "RCP")
                     {
 

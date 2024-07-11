@@ -1,4 +1,6 @@
-﻿using LogicaNegocio.DTO;
+﻿using LogicaAplicacion.CasosUso.PreguntasFrecCU;
+using LogicaNegocio.DTO;
+using LogicaNegocio.Entidades;
 using LogicaNegocio.EntidadesWit;
 using LogicaNegocio.EntidadesWit.Entrenamiento;
 using LogicaNegocio.EntidadesWit.GetMessage;
@@ -12,6 +14,7 @@ using System.Net;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace LogicaAplicacion.Servicios
 {
@@ -21,6 +24,71 @@ namespace LogicaAplicacion.Servicios
         private string Token = "CCQUHLZIFMAQFNZIB3BQW4H2L7NO2DL4";
         private string Version = "20240620";
 
+        private GetPreguntasFrec _getPreguntasFrec;
+        private GeolocalizacionService _geolocalizacionService;
+
+
+        public ChatBotService(GetPreguntasFrec getPreguntasFrec, GeolocalizacionService geolocalizacion) { 
+            _getPreguntasFrec = getPreguntasFrec;
+            _geolocalizacionService = geolocalizacion;
+        }
+
+
+
+        public string Responder(string mensaje)
+        {
+
+            MensajeRespuesta mensajeGetMessage = GetMessage(mensaje);
+
+
+            if (mensajeGetMessage.Intents.Count() > 0)
+            {
+                //aca supo responder el chatbot 
+                string intent = mensajeGetMessage.Intents[0].name;
+
+                if (intent.Equals("transporte")) {
+
+                    //respuesta especial donde tenemos que enviar un link que le muestre las direcciones que tiene que seguir
+
+                    string ubicacionInicial = mensajeGetMessage.Entities.First().Value[0].Value;
+                    string linkTransporte = GenerarLinkTransporte(ubicacionInicial);
+
+                    return "<a href='" + linkTransporte + "' target='_blank'> Presione este mensaje para ver las indicaciones</a>";
+
+                  
+                
+                }
+
+
+                CategoriaPregunta categoria = _getPreguntasFrec.GetCategoriaPorNombre(intent);
+                return categoria.Respuesta;
+            }
+            else { 
+                //aca no supo responder el chatbot
+            return "Reescriba la pregunta, por favor.";
+            
+            }
+         
+        }
+
+
+        public string GenerarLinkTransporte(string puntoPartida) { 
+            
+            CoordenadasDTO coordenadasPartida = _geolocalizacionService.ObtenerCoordenadas(puntoPartida);
+            CoordenadasDTO coordenadasLLegada = _geolocalizacionService.ObtenerCoordenadasTeleton();
+
+            string partida = puntoPartida;
+            string llegada = _geolocalizacionService.ObtenerDireccionTeleton();
+
+
+            partida = partida.Replace(" ", "%20");
+            llegada = llegada.Replace(" ", "%20");
+
+            string link = $"https://moovitapp.com/montevideo-1672/poi/{llegada}/{partida}/es?fll={coordenadasLLegada.lat}_{coordenadasLLegada.lon}&tll={coordenadasPartida.lat}_{coordenadasPartida.lon}";
+
+
+            return link;
+        }
 
 
 
@@ -100,11 +168,7 @@ namespace LogicaAplicacion.Servicios
                 throw new Exception("Error " + error.Code + " " + error.Details);//ESTO EXPLOTA SI LLEGA
             }
         }
-        public string Responder(string mensaje) {
-
-
-            return "Mensaje de bot";
-        }
+       
 
 
 

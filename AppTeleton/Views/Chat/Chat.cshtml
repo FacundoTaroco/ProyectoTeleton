@@ -1,4 +1,7 @@
-﻿@using System.Text.Json
+﻿
+@model IEnumerable<LogicaNegocio.Entidades.Chat>
+
+@using System.Text.Json
 @using System.Text.Json.Serialization
 @*
    
@@ -8,47 +11,84 @@
     var chatJson = "";
 
 
-    if (ViewBag.ChatCargar != null)
-    {
-        var options = new JsonSerializerOptions
-        {
-          ReferenceHandler = ReferenceHandler.Preserve
-         };
-        var chat = ViewBag.ChatCargar;
-        chatJson = System.Text.Json.JsonSerializer.Serialize(chat,options);
-        
-    }
-    <button id="cargarChats"></button>
+
+    var options = new JsonSerializerOptions
+                {
+                    ReferenceHandler = ReferenceHandler.Preserve
+                };
+    var chat = ViewBag.ChatCargar;
+
+    chatJson = System.Text.Json.JsonSerializer.Serialize(chat, options);
+
+
+
+            <button id="cargarChats"></button>
 }
 <style>
     .chat-header-enviado {
-        display: flex;
-        justify-content:end;
-        width: 100%;
+    display: flex;
+    justify-content:end;
+    width: 100%;
     }
 
     .chat-header-recibido {
-        display: flex;
-        justify-content: start;
-        width: 100%;
+    display: flex;
+    justify-content: start;
+    width: 100%;
     }
 
     .chat-message {
-        background-color: #ff8080;
-        border-radius: 8px;
-        padding: 10px;
-        max-width: 100%;
-        word-wrap: break-word; 
-        overflow-wrap: break-word; 
-        white-space: normal; 
+    background-color: #ff8080;
+    border-radius: 8px;
+    padding: 10px;
+    max-width: 100%;
+    word-wrap: break-word; 
+    overflow-wrap: break-word; 
+    white-space: normal; 
     }
 </style>
 
-    <button onclick="cambiarARecepcionista()">Recepcionista</button>
-    <button onclick="cambiarABot()">Bot</button>
-    <div class="container py-5">
+<button onclick="cambiarARecepcionista()">Recepcionista</button>
+<button onclick="cambiarABot()">Bot</button>
+<div class="container py-5">
 
-        <div class="row d-flex justify-content-center">
+    <div class="row d-flex justify-content-between">
+
+
+        <div class ="col-md-3 col-lg-3 col-xl-2">
+
+            <form id="cargarChatCerrado" asp-action="CargarChatCerrado" asp-controller="Chat" method="get">
+                <input type="hidden" id="inputCargarChatCerrado" name="idChat" value="" />
+            </form>
+
+            <p>Chats Cerrados</p>
+
+            <form asp-action="Chat" asp-controller="Chat" method="get">
+              <input type="submit" value="Abrir chat" />
+            
+            </form>
+
+            <ul>
+
+                @foreach (var c in Model)
+                {
+
+                    if (c.Abierto == false) { 
+
+
+                    if (c.AsistenciaAutomatica && c._Recepcionista == null)
+                    {
+                        <li class="liChats" chat-id="@c.Id">Asistente Virtual - @c.FechaApertura</li>
+                    }
+                    else{
+                        <li class="liChats" chat-id="@c.Id">@c._Recepcionista.Nombre</li>
+                    }                                        }                }
+            </ul> 
+
+
+        </div>
+
+
             <div class="col-md-8 col-lg-6 col-xl-4">
 
                 <div class="card">
@@ -61,6 +101,7 @@
                             <i class="fas fa-times text-muted fa-xs"></i>
                         </div>
                     </div>
+
                 <scroll-container class="card-body" id="chatbox" style=" display:block; height: 60vh; overflow-y: scroll;  scroll-behavior: smooth;">
 
 
@@ -80,11 +121,30 @@
                         else{
                                  <input type="hidden" name="name" id="txtUsuarioRecibe" value="" />
                         }
-                            <input type="text" id="txtMensaje" class="form-control" placeholder="Escriba su consulta de forma breve"
+
+                     
+                            <input  type="text" id="txtMensaje" class="form-control" placeholder="Escriba su consulta de forma breve"
                                aria-label="Recipient's username" aria-describedby="btnEnviar" />
                         <button data-mdb-button-init data-mdb-ripple-init class="btn" type="button" id="btnEnviar" style="padding-top: .55rem;background-color: #ff8080;">
                                 Enviar
                             </button>
+                       
+
+                        <div id="botoneraFeedback">
+                            <p>¿Le sirvio la respuesta?<p/>
+
+                            <form id="actualizarAlCerrarChat" asp-action="Chat" asp-controller="Chat" style="display:none;" method="get"></form>
+                            <button onclick="feedBackNegativo()" data-mdb-button-init data-mdb-ripple-init class="btn" type="button" id="btnFeedbackNo" style="padding-top: .55rem;background-color: #ff8080;">
+                                No, seguir chateando
+                            </button>
+
+                            <button onclick="feedBackPositivo()" data-mdb-button-init data-mdb-ripple-init class="btn" type="button" id="btnFeedbackSi" style="padding-top: .55rem;background-color: #ff8080;">
+                                Si, Cerrar chat
+                            </button>
+
+                        </div>
+
+
                         </div>
                     </div>
                 </div>
@@ -95,12 +155,19 @@
     </div>
 
 <script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/Chat.js"></script>
 <script src="~/js/clientHub.js"></script>
 
+
+
+
 <script>
-
-
     document.addEventListener("DOMContentLoaded", function () {
+
+
+        cargarListadoChatsCerrados();
+
+
         var chatRaw = @Html.Raw(chatJson);
         var tipoUsuario = "@tipoUsuario"
         document.getElementById("cargarChats").onclick = function () {
@@ -108,6 +175,4 @@
         };
         document.querySelector("#cargarChats").click()
     });
-
-
 </script>

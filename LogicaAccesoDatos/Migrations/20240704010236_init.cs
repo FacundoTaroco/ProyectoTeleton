@@ -10,6 +10,20 @@ namespace LogicaAccesoDatos.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "CategoriasPregunta",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Categoria = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Respuesta = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CategoriasPregunta", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ParametrosRecordatorios",
                 columns: table => new
                 {
@@ -24,17 +38,17 @@ namespace LogicaAccesoDatos.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PreguntasFrec",
+                name: "RespuestasEquivocadas",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Pregunta = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Respuesta = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Input = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IntentAsignado = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PreguntasFrec", x => x.Id);
+                    table.PrimaryKey("PK_RespuestasEquivocadas", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -52,6 +66,26 @@ namespace LogicaAccesoDatos.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Usuarios", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PreguntasFrec",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Pregunta = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CategoriaPreguntaId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PreguntasFrec", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PreguntasFrec_CategoriasPregunta_CategoriaPreguntaId",
+                        column: x => x.CategoriaPreguntaId,
+                        principalTable: "CategoriasPregunta",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -85,7 +119,8 @@ namespace LogicaAccesoDatos.Migrations
                     _PacienteId = table.Column<int>(type: "int", nullable: false),
                     AsistenciaAutomatica = table.Column<bool>(type: "bit", nullable: false),
                     Abierto = table.Column<bool>(type: "bit", nullable: false),
-                    _RecepcionistaId = table.Column<int>(type: "int", nullable: true)
+                    _RecepcionistaId = table.Column<int>(type: "int", nullable: true),
+                    FechaApertura = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -135,7 +170,8 @@ namespace LogicaAccesoDatos.Migrations
                     Titulo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Mensaje = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UsuarioId = table.Column<int>(type: "int", nullable: false),
-                    IdUsuario = table.Column<int>(type: "int", nullable: false)
+                    IdUsuario = table.Column<int>(type: "int", nullable: false),
+                    fecha = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -170,6 +206,25 @@ namespace LogicaAccesoDatos.Migrations
                         principalTable: "Chats",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "CategoriasPregunta",
+                columns: new[] { "Id", "Categoria", "Respuesta" },
+                values: new object[,]
+                {
+                    { 1, "prueba_ingreso", "Para la prueba de ingreso debes llevar la cédula." },
+                    { 2, "acompaniante", "El niño/adolescente que va a ser atendido, debe concurrir obligatoriamente con uno de sus tutores legales a cargo, o con la persona que ese tutor autorice en la entrevista de recepción que realizamos cuando ingresó al Centro. \r\nEn casos específicos de adolescentes podría evaluarse, en ese caso debería consultar con Coordinación de Agenda.\r\nEn caso de querer asistir con un acompañante mas, se permite (por ejemplo, hermanos).\r\nMientras el niño/adolescente se este atendiendo, el tutor debe permanecer en el centro, aunque no siempre ingrese a las terapias.  Las atenciones pueden ir desde 30, 45, 60, 90 o 120 minutos dependiendo de la actividad que tengas coordinada (para saber cuanto dura su tratamiento, escriba el nombre del mismo en el chat, por ejemplo, fisitría)." },
+                    { 3, "comida", "Disponemos de una cafetería, aquí podrá comprar comida, o traer la suya y comerla aquí. Tenemos microondas donde podrá calentarla. En caso de cualquier consulta, los voluntarios presentes en el centro, podrán ayudarle." },
+                    { 4, "ubicacion", "El centro de la fundación Teletón ubicado en Montevideo, se encuentra en Carlos Brussa 2854, en el Barrio Prado. Y el centro Teletón de la ciudad de Fray Bentos, se encuentra en la dirección Zorrilla de San Martín 1484." },
+                    { 5, "donacion", "En caso de donaciones, o devolver algún equipamiento, primero deberá comunicarse con el número de coordinación: 09*******. Si estas en el interior del país, puede enviarlo por las distintas agencias de transporte (DAC, Correo Uruguayo, etc), y por el tema del costo del envío, se charla con la coordinación y se evalúa. Y en caso de estar en Montevideo, y no tener medio de transporte, también se charla con coordinación." },
+                    { 6, "materiales_generales", "Los materiales que deben llevar el niño/adolescente varían según su tratamiento del día, para mas información escriba el nombre de su tratamiento y le enviaremos mas información." },
+                    { 7, "alcancias", "Las alcancías se comienzan a entregar aproximadamente un mes antes del comienzo del Programa Teletón. Todos los usuarios tienen derecho a llevar 1 alcancía, presentando la cédula en el área de voluntariado. ubicada en el Centro Teletón. Si necesitas más de 1 alcancía, en el área de voluntariado le podrán dar más información para gestionarla." },
+                    { 8, "historia_clinica", "Enseguida le enviamos su historia clinica" },
+                    { 9, "transporte", "Enseguida le enviamos indicaciones" },
+                    { 10, "cita", "Enseguida le enviaremos la información sobre sus cita" },
+                    { 11, "solicitud_traslado", "Enseguida le enviaremos la información de la solicitud de traslado" },
+                    { 12, "tratamiento_info", "Enseguida le enviaremos la información de la solicitud del tratamiento" }
                 });
 
             migrationBuilder.InsertData(
@@ -218,6 +273,11 @@ namespace LogicaAccesoDatos.Migrations
                 column: "UsuarioId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PreguntasFrec_CategoriaPreguntaId",
+                table: "PreguntasFrec",
+                column: "CategoriaPreguntaId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Usuarios_NombreUsuario",
                 table: "Usuarios",
                 column: "NombreUsuario",
@@ -245,7 +305,13 @@ namespace LogicaAccesoDatos.Migrations
                 name: "PreguntasFrec");
 
             migrationBuilder.DropTable(
+                name: "RespuestasEquivocadas");
+
+            migrationBuilder.DropTable(
                 name: "Chats");
+
+            migrationBuilder.DropTable(
+                name: "CategoriasPregunta");
 
             migrationBuilder.DropTable(
                 name: "Usuarios");

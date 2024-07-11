@@ -32,7 +32,7 @@ namespace LogicaAplicacion.CasosUso.NotificacionCU
 
                 IEnumerable<CitaMedicaDTO> citasDePaciente = await _solicitarCitas.ObtenerCitasPorCedula(p.Cedula);
                 if (citasDePaciente.Count() > 0) {
-                citasDePaciente= citasDePaciente.OrderBy(p => p.Fecha).ThenBy(p => p.HoraInicio);
+                citasDePaciente= citasDePaciente.OrderBy(p => p.Fecha).ThenBy(p => p.HoraInicio).Where(p => p.Estado == "RPA");
                
 
                  CitaMedicaDTO citaMasReciente = citasDePaciente.First();

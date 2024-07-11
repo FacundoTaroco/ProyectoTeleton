@@ -33,16 +33,54 @@ namespace AppTeleton.Controllers
         [HttpGet]
         public IActionResult Chat()
         {
+
+            try
+            {
             string usuario = HttpContext.Session.GetString("USR");
             ViewBag.Usuario = usuario;
-
+            int idUsuario = 0;
             if (HttpContext.Session.GetString("TIPO") == "PACIENTE") {
                 Paciente paciente = _getPacientes.GetPacientePorUsuario(usuario);
-                if (_getChats.PacienteTieneChatAbierto(paciente.Id)) {
-                    ViewBag.ChatCargar = _getChats.GetChatAbiertoDePaciente(paciente.Id);
+                 idUsuario = paciente.Id;
+                if (_getChats.PacienteTieneChatAbierto(idUsuario))
+                {
+                    ViewBag.ChatCargar = _getChats.GetChatAbiertoDePaciente(idUsuario);
+                }
+                else {
+                    ViewBag.ChatCargar = new Chat(paciente);
                 }
             }
-            return View();
+
+               
+                return View(_getChats.GetChatsDePaciente(idUsuario));
+            }
+            catch (Exception)
+            {
+
+                return View();
+            }
+           
+        }
+
+
+
+        [PacienteRecepcionistaLogueado]
+        [HttpGet]
+        public IActionResult CargarChatCerrado(int idChat) {
+
+            string usuario = HttpContext.Session.GetString("USR");
+            int idUsuario = 0;  
+            ViewBag.Usuario = usuario;
+
+            if (HttpContext.Session.GetString("TIPO") == "PACIENTE")
+            {
+                Paciente paciente = _getPacientes.GetPacientePorUsuario(usuario);
+                idUsuario = paciente.Id;
+                ViewBag.ChatCargar = _getChats.GetChatPorId(idChat);
+                    
+            }
+            return View("Chat", _getChats.GetChatsDePaciente(idUsuario));
+
         }
 
         [RecepcionistaAdminLogueado]

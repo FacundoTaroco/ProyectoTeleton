@@ -1,7 +1,7 @@
 ﻿using AppTeleton.Hubs;
 using AppTeleton.Models;
 using AppTeleton.Models.Filtros;
-using LogicaAccesoDatos.Migrations;
+
 using LogicaAplicacion.CasosUso.CitaCU;
 using LogicaAplicacion.CasosUso.DispositivoUsuarioCU;
 using LogicaAplicacion.CasosUso.RecepcionistaCU;

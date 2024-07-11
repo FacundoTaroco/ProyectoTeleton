@@ -43,11 +43,10 @@ namespace AppTeleton.Worker
                         Console.WriteLine("Algo fallo al enviar notificaciones automaticas");
                     }
 
-                    int diasEnMilisegundos = parametros.CadaCuantoEnviarRecordatorio * 86400000;
-                    int segundosParaTesting = parametros.CadaCuantoEnviarRecordatorio * 1000; 
+                   
                     //ACA SIEMPRE ES UNA VEZ POR DIA
                     //delay en milisegundos entre que se ejecuta una tarea y otra
-                    await Task.Delay(10000, stoppingToken);
+                    await Task.Delay(100000, stoppingToken);
                 }
 
 

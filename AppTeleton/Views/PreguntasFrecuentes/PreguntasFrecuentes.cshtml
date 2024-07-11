@@ -5,6 +5,21 @@
     var preguntasFrecuentes = Model.PreguntasFrec ?? new List<LogicaNegocio.Entidades.PreguntaFrec>();
     var isAdminOrRecepcionista = ViewBag.IsAdminOrRecepcionista;
 }
+@{
+
+    if (ViewBag.Mensaje != null)
+    {
+        if (ViewBag.TipoMensaje == "ERROR")
+        {
+            <div class="alert alert-danger" role="alert">@ViewBag.Mensaje</div>
+        }
+        else if (ViewBag.TipoMensaje == "EXITO")
+        {
+            <div class="alert alert-success" role="alert">@ViewBag.Mensaje</div>
+        }
+
+    }
+}
 
 <!DOCTYPE html>
 <html>

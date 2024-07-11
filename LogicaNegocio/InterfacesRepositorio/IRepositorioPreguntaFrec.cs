@@ -9,6 +9,9 @@ namespace LogicaNegocio.InterfacesRepositorio
 {
     public interface IRepositorioPreguntaFrec : IRepositorio<PreguntaFrec>
     {
+        public void AddCategoria(CategoriaPregunta categoria);
 
+        public IEnumerable<CategoriaPregunta> GetAllCategorias();
+        public CategoriaPregunta GetCategoriaPorNombre(string nombre);
     }
 }

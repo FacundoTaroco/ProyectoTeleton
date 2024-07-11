@@ -1,15 +1,69 @@
-﻿@{
+﻿@model AppTeleton.Models.AltaPreguntaViewModel;
+
+@{
     ViewData["Title"] = "Agregar Pregunta Frecuente";
+}@{
+
+    if (ViewBag.Mensaje != null)
+    {
+        if (ViewBag.TipoMensaje == "ERROR")
+        {
+            <div class="alert alert-danger" role="alert">@ViewBag.Mensaje</div>
+        }
+        else if (ViewBag.TipoMensaje == "EXITO")
+        {
+            <div class="alert alert-success" role="alert">@ViewBag.Mensaje</div>
+        }
+
+    }
 }
 
 <h2>Agregar Pregunta Frecuente</h2>
 
-<form method="post" action="/PreguntasFrecuentes/Create">
-    <label for="pregunta" class="form-label">Pregunta</label>
+<form method="post" asp-action="Create" asp-controller="PreguntasFrecuentes">
+
+
+    <label for="pregunta" class="form-label">Ingrese el cuerpo de la pregunta</label>
     <input type="text" class="form-control mb-3" id="pregunta" name="pregunta" required>
 
-    <label for="respuesta" class="form-label">Respuesta</label>
-    <textarea class="form-control mb-3" id="respuesta" name="respuesta" rows="5" required></textarea>
+
+    <label for="isChecked">¿Crear nueva categoria? Si/No</label>
+    <input type="checkbox" name="isChecked" id="checkboxNuevaCategoria"/>
+
+
+    <div id="divCategoriaExistente">
+
+        <label>Seleccione una categoria</label>
+        <select id="selectCategoria" name="categoriaSeleccionada">
+            <option value="noSeleccionado" selected></option>
+
+            @if (Model != null && Model.Categorias.Count() > 0)
+            {
+                foreach (var c in Model.Categorias)
+                {
+                    <option categoria-respuesta="@c.Respuesta" value="@c.Categoria">@c.Categoria</option>
+                }
+            }
+        </select>
+
+    </div>
+
+    <div id="divCategoriaNueva">
+
+        <label for="txtNuevaCategoria">Ingrese el nombre de la nueva categoria</label>
+        <input name="categoriaNueva" type="text" id="txtNuevaCat">
+
+    </div>
+
+    <label for="respuesta" class="form-label">Respuesta: </label>
+    <textarea class="form-control mb-3" id="txtRespuesta" name="respuesta" rows="5"></textarea>
+   
 
     <button type="submit" class="btn btn-primary">Agregar</button>
 </form>
+
+
+
+<script src="~/js/AltaPreguntaFrecuente.js"></script>
+
+   

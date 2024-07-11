@@ -18,11 +18,25 @@ namespace LogicaAplicacion.CasosUso.PreguntasFrecCU
         }
 
 
+
+        public void AltaCategoria(CategoriaPregunta categoria) {
+            try
+            {
+                _repo.AddCategoria(categoria);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        
+        }
+
         public void AltaPreguntaFrec(PreguntaFrec preguntaFrec)
         {
             try
             {
-                preguntaFrec.Validar();
+           
                 _repo.Add(preguntaFrec);
             }
             catch (Exception)

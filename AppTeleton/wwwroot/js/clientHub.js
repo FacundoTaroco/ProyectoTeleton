@@ -4,19 +4,24 @@
 
 var chatbox = document.getElementById("chatbox");
 var conexion = new signalR.HubConnectionBuilder().withUrl("/ConnectedHub").build();
+var ultimoMensajeEnviado = "";
+
+mostrarBarraTexto();
 
 
-
-conexion.on("MensajeRecibido", function (user, mensaje) {
+conexion.on("MensajeRecibido", function (user, mensaje, isFinal) {
 
     if (user != document.querySelector("#txtUsuarioManda").value) { 
         let fecha = new Date();
-        insertarMensajeRecibido(fecha.toString(),user,mensaje)
+        insertarMensajeRecibido(fecha.toString(), user, mensaje)
+       
+
+        if (user == "CHATBOT" && isFinal && mensaje != "Reescriba la pregunta, por favor.") {
+            mostrarBotonesFeedback();
+        }
     }
 
 })
-
-
 conexion.start().then(function () {
     document.getElementById("btnEnviar").disabled = false;
 }).catch(function (err) {
@@ -35,114 +40,34 @@ document.getElementById("btnEnviar").addEventListener("click", function (e) {
         conexion.invoke("SendMessage",userManda, userRecibe, mensaje).catch(function (err) {
         return console.error(err.toString());
         })
+    ultimoMensajeEnviado = mensaje;
         
         e.preventDefault();
     
                        
 })
 
+function feedBackNegativo() {
+    conexion.invoke("FeedBackNegativo", ultimoMensajeEnviado).then(function () {
 
-function cargarChat(chat, tipoUsuario) {
-
-    if (chat != "") {
-
-        chat.Mensajes.$values.forEach(function (mensaje) {
-            if (tipoUsuario == "PACIENTE") {
-                if (mensaje.EsDePaciente) {
-                    insertarMensajeMandado(mensaje.fecha, mensaje.nombreUsuario,mensaje.contenido)
-
-                } else {
-
-                    insertarMensajeRecibido(mensaje.fecha, mensaje.nombreUsuario, mensaje.contenido)
-                }
-
-
-            } else {
-
-                if (mensaje.EsDePaciente) {
-                    insertarMensajeRecibido(mensaje.fecha, mensaje.nombreUsuario, mensaje.contenido)
-
-                } else {
-
-                    insertarMensajeEnviado(mensaje.fecha, mensaje.nombreUsuario, mensaje.contenido)
-                }
-            }
-           
-
-
-        })
-
-
-
-    }
+        mostrarBarraTexto();
+    }).catch(function (err) {
+        return console.error(err.toString());
+    })
 
 }
 
+function feedBackPositivo() {
 
-function insertarMensajeRecibido(fechaRecibida, user, mensaje) {
-    let fecha = new Date(fechaRecibida);
-    let dia = fecha.getDate();
-    let mes = fecha.toLocaleString('es-ES', { month: 'long' }); // Nombre del mes en español
-    let hora = fecha.getHours();
-    let minutos = fecha.getMinutes().toString().padStart(2, '0');
-    let fechaString = `${dia} de ${mes}, ${hora}:${minutos}`
+    let userManda = document.querySelector("#txtUsuarioManda").value;
+    conexion.invoke("FeedBackPositivo", ultimoMensajeEnviado, userManda).then(function () {
 
+        
+        mostrarBarraTexto();
+        document.querySelector("#actualizarAlCerrarChat").submit();
 
-    let divInsertar = ` <div class="d-flex justify-content-between">
-                            <p class="small mb-1">${user}</p>
-                            <p class="small mb-1 text-muted">${fechaString}</p>
-                        </div>
-                        <div class="d-flex flex-row">
-                        <div class="chat-header-recibido">
-                                <p class="small p-2 rounded-3 chat-message" style="background-color: #f5f6f7;">
-                                   ${mensaje}
-                                </p>
-                            </div>
-                        </div>`
-
-    chatbox.innerHTML += divInsertar;
-    chatbox.scrollTop = chatbox.scrollHeight;
-
-
-}
-function cambiarARecepcionista() {
-
-    document.querySelector("#txtUsuarioRecibe").value = "Recepcionista";
-
-
+    }).catch(function (err) {
+        return console.error(err.toString());
+    })
 }
 
-function cambiarABot() {
-
-
-    document.querySelector("#txtUsuarioRecibe").value = "CHATBOT";
-
-}
-
-function insertarMensajeMandado(fechaRecibida, userManda, mensaje) {
-    let fecha = new Date(fechaRecibida);
-    let dia = fecha.getDate();
-    let mes = fecha.toLocaleString('es-ES', { month: 'long' }); // Nombre del mes en español
-    let hora = fecha.getHours();
-    let minutos = fecha.getMinutes().toString().padStart(2, '0');
-    let fechaString = `${dia} de ${mes}, ${hora}:${minutos}`
-    if (mensaje != "") {
-
-        let divInsertar = ` <div class="d-flex justify-content-between">
-                            <p class="small mb-1">${userManda}</p>
-                            <p class="small mb-1 text-muted">${fechaString}</p>
-                        </div>
-                        <div class="d-flex flex-row">
-                        <div  class="chat-header-enviado" >
-                                <p class="small p-2 rounded-3 chat-message" style="background-color: #ff8080;">
-                                   ${mensaje}
-                                </p>
-                            </div>
-                        </div>`
-        chatbox.innerHTML += divInsertar;
-        chatbox.scrollTop = chatbox.scrollHeight;
-
-    }
-
-
-}

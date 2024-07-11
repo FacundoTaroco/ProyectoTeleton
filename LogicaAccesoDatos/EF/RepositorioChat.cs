@@ -58,11 +58,29 @@ namespace LogicaAccesoDatos.EF
         }
 
 
+        public IEnumerable<Chat> GetChatsDePaciente(int idPaciente) {
+            try
+            {
+                IEnumerable<Chat> chats = new List<Chat>();
+
+                chats = _context.Chats.Include(c => c._Paciente).Where(c => c._Paciente.Id == idPaciente);
+
+                return chats;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        
+        
+        }
+
         public Chat GetChatAbiertoDePaciente(int idPaciente)
         {
             try
             {
-                Chat chatAbiertoDePaciente = _context.Chats.Include(c => c._Paciente).FirstOrDefault(c => c._Paciente.Id == idPaciente && c.Abierto);
+                Chat chatAbiertoDePaciente = _context.Chats.Include(c => c._Paciente).Include(c => c.Mensajes).FirstOrDefault(c => c._Paciente.Id == idPaciente && c.Abierto);
                 if (chatAbiertoDePaciente == null) {
                     throw new NotFoundException("No se encontro ningun chat abierto del paciente");
                 }
@@ -81,7 +99,7 @@ namespace LogicaAccesoDatos.EF
         }
 
         public bool PacienteTieneChatAbierto(int idPaciente) {
-            Chat chatAbiertoDePaciente = _context.Chats.Include(c => c._Paciente).Include(c =>c.Mensajes).FirstOrDefault(c => c._Paciente.Id == idPaciente && c.Abierto);
+            Chat chatAbiertoDePaciente = _context.Chats.Include(c => c._Paciente).FirstOrDefault(c => c._Paciente.Id == idPaciente && c.Abierto);
             if (chatAbiertoDePaciente == null) { 
                 return false;
             }
@@ -97,7 +115,7 @@ namespace LogicaAccesoDatos.EF
                 {
                     throw new NullOrEmptyException("No se recibio id");
                 }
-                var chat = _context.Chats.FirstOrDefault(chat => chat.Id == id);
+                var chat = _context.Chats.Include(c => c._Paciente).Include(c => c.Mensajes).FirstOrDefault(chat => chat.Id == id);
                 if (chat == null)
                 {
                     throw new NotFoundException("No se encontro ningun paciente con ese id");
