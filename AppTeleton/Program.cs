@@ -76,6 +76,7 @@ builder.Services.AddScoped<GenerarAvisoLlegada, GenerarAvisoLlegada>();
 builder.Services.AddScoped<AccesoCU, AccesoCU>();
 
 builder.Services.AddScoped<GetCitas, GetCitas>();
+builder.Services.AddScoped<ABMCitas, ABMCitas>();
 
 builder.Services.AddScoped<ABMMedicos, ABMMedicos>();
 builder.Services.AddScoped<GetMedicos, GetMedicos>();

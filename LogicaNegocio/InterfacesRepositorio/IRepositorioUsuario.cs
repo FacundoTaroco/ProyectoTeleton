@@ -13,6 +13,7 @@ namespace LogicaNegocio.InterfacesRepositorio
         public TipoUsuario Login(string usuario, string contra);
         public Usuario GetUsuario(int idUsuario);
         public Usuario GetPorId(int idPorId);
+        public Usuario GetUsuarioPorNombre(string nombreUsuario);
         public void Update(Usuario usuario);
 
     }

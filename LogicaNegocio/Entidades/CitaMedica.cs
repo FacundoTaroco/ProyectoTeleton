@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LogicaNegocio.Excepciones;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,9 +18,10 @@ namespace LogicaNegocio.Entidades
         public int HoraInicio { get; set; }
         public string Tratamiento { get; set; }
         public string Estado { get; set; }
+        public string Detalles { get; set; }
         public CitaMedica() { }
 
-        public CitaMedica(int id,int pkAgenda, string cedula, string nombreCompleto, string servicio, DateTime fecha, int horaInicio, string tratamiento, string estado)
+        public CitaMedica(int id,int pkAgenda, string cedula, string nombreCompleto, string servicio, DateTime fecha, int horaInicio, string tratamiento, string estado, string detalles)
         {
             Id = id;
             PkAgenda = pkAgenda;
@@ -30,7 +32,30 @@ namespace LogicaNegocio.Entidades
             HoraInicio = horaInicio;
             Tratamiento = tratamiento;
             Estado = estado;
+            Detalles = detalles;
         }
 
+
+        public void Validar()
+        {
+            try
+            {
+                if (String.IsNullOrEmpty(Cedula) || String.IsNullOrEmpty(NombreCompleto)|| 
+                    String.IsNullOrEmpty(Servicio) || Fecha == DateTime.MinValue || HoraInicio == 0
+                    || String.IsNullOrEmpty(Detalles) || String.IsNullOrEmpty(Estado) || String.IsNullOrEmpty(Tratamiento))
+                {
+                    throw new PreguntaFrecException("Ingrese todos los campos");
+                }
+            }
+            catch (PreguntaFrecException)
+            {
+
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

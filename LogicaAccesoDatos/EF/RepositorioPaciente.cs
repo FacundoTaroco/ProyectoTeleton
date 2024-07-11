@@ -226,6 +226,17 @@ namespace LogicaAccesoDatos.EF
                 throw new ServerErrorException("Error del servidor al actualizar el paciente");
             }
         }
-        
+        public IEnumerable<Paciente> ObtenerTodosLosPacientes()
+        {
+            try
+            {
+                return _context.Pacientes.ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
     }
 }

@@ -4,6 +4,7 @@ using LogicaNegocio.Entidades;
 using LogicaNegocio.Enums;
 using LogicaNegocio.Excepciones;
 using LogicaNegocio.InterfacesDominio;
+using LogicaNegocio.InterfacesRepositorio;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.IIS.Core;
 using NuGet.Protocol.Plugins;
@@ -13,14 +14,16 @@ namespace AppTeleton.Controllers
     public class UsuarioController : Controller
     {
 
-        ILogin _login;
-        GetTotems _getTotems;
+        public ILogin _login;
+        public GetTotems _getTotems;
+        public IRepositorioUsuario _repositorioUsuario;
 
-    
-        public UsuarioController(ILogin login, GetTotems getTotems)
+
+        public UsuarioController(ILogin login, GetTotems getTotems, IRepositorioUsuario repositorioUsuario)
         {
             _login = login;
             _getTotems = getTotems;
+            _repositorioUsuario = repositorioUsuario;
 
         }
 
@@ -41,45 +44,38 @@ namespace AppTeleton.Controllers
         {
             try
             {
-                if(String.IsNullOrEmpty(nombre) ||String.IsNullOrEmpty(contrasenia))
+                if (string.IsNullOrEmpty(nombre) || string.IsNullOrEmpty(contrasenia))
                 {
                     throw new Exception("Ingrese todos los campos");
                 }
 
                 TipoUsuario tipoUsuario = _login.LoginCaso(nombre, contrasenia);
-                
-                HttpContext.Session.SetString("USR", nombre);
-                ViewBag.TipoMensaje = "EXITO";
-                ViewBag.Mensaje = "Sesion iniciada correctamente";
-                if (tipoUsuario == TipoUsuario.Totem)
-                {
-                    HttpContext.Session.SetString("TIPO", "TOTEM");
-                    Totem totem = _getTotems.GetTotemPorUsr(nombre);
-                    return RedirectToAction("Index", "Totem");
-                }
-                else if (tipoUsuario == TipoUsuario.Recepcionista)
-                {
-                    HttpContext.Session.SetString("TIPO", "RECEPCIONISTA");
-                    return RedirectToAction("Index", "Recepcionista");
-                }
-                else if (tipoUsuario == TipoUsuario.Admin)
-                {
-                    HttpContext.Session.SetString("TIPO", "ADMIN");
-                    return RedirectToAction("Index", "Administrador");
+                var usuario = _repositorioUsuario.GetUsuarioPorNombre(nombre); // Obtenemos el usuario por nombre
 
-                }
-                else if (tipoUsuario == TipoUsuario.Paciente)
+                HttpContext.Session.SetString("USR", nombre);
+                HttpContext.Session.SetString("Id", usuario.Id.ToString()); // Guardamos el Id en la sesión
+                ViewBag.TipoMensaje = "EXITO";
+                ViewBag.Mensaje = "Sesión iniciada correctamente";
+
+                switch (tipoUsuario)
                 {
-                    HttpContext.Session.SetString("TIPO", "PACIENTE");
-                    return RedirectToAction("Index", "Paciente");
-                }
-                else if (tipoUsuario == TipoUsuario.Medico)
-                {
-                    HttpContext.Session.SetString("TIPO", "MEDICO");
-                    return RedirectToAction("Index", "Medico");
-                }
-                else {
-                    throw new Exception("No se recibio el tipo de usuario");
+                    case TipoUsuario.Totem:
+                        HttpContext.Session.SetString("TIPO", "TOTEM");
+                        return RedirectToAction("Index", "Totem");
+                    case TipoUsuario.Recepcionista:
+                        HttpContext.Session.SetString("TIPO", "RECEPCIONISTA");
+                        return RedirectToAction("Index", "Recepcionista");
+                    case TipoUsuario.Admin:
+                        HttpContext.Session.SetString("TIPO", "ADMIN");
+                        return RedirectToAction("Index", "Administrador");
+                    case TipoUsuario.Paciente:
+                        HttpContext.Session.SetString("TIPO", "PACIENTE");
+                        return RedirectToAction("Index", "Paciente");
+                    case TipoUsuario.Medico:
+                        HttpContext.Session.SetString("TIPO", "MEDICO");
+                        return RedirectToAction("Index", "Medico");
+                    default:
+                        throw new Exception("No se recibió el tipo de usuario");
                 }
             }
             catch (UsuarioException e)
@@ -106,8 +102,6 @@ namespace AppTeleton.Controllers
                 ViewBag.Mensaje = e.Message;
                 return View("Login");
             }
-
-
         }
         public IActionResult Logout()
         {

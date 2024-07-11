@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Index";
 }
 @{
@@ -7,11 +6,11 @@
     {
         if (ViewBag.TipoMensaje == "ERROR")
         {
-                    <div class="alert alert-danger" role="alert">@ViewBag.Mensaje</div>
+            <div class="alert alert-danger" role="alert">@ViewBag.Mensaje</div>
         }
         else if (ViewBag.TipoMensaje == "EXITO")
         {
-                    <div class="alert alert-success" role="alert">@ViewBag.Mensaje</div>
+            <div class="alert alert-success" role="alert">@ViewBag.Mensaje</div>
         }
 
     }
@@ -35,5 +34,11 @@
     <input type="text" id="endpoint" name="pushEndpoint">
     <input type="text" id="p256dh" name="pushP256DH">
     <input type="text" id="auth" name="pushAuth">
+</form>
+
+<form asp-action="CambiarContrasenia" method="get">
+    <div class="form-group">
+        <input type="submit" value="Cambiar Contraseña" class="btn btn-primary" />
+    </div>
 </form>
 

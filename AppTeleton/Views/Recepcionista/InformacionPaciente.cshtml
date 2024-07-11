@@ -1,0 +1,58 @@
+﻿@model LogicaNegocio.DTO.PacienteDTO
+
+@{
+    ViewData["Title"] = "Información del Paciente";
+}
+
+<h1>Información del Paciente</h1>
+
+<p><strong>Nombre Completo:</strong> @Model.NombreCompleto</p>
+<p><strong>Cédula:</strong> @Model.Cedula</p>
+
+<!--@if (ViewBag.Tratamientos != null && ViewBag.Tratamientos.Count > 0)
+{
+    <h2>Tratamientos:</h2>
+    <ul>
+        @foreach (var tratamiento in ViewBag.Tratamientos)
+        {
+            <li>
+                @tratamiento
+                <a asp-action="InformacionCita" asp-route-tratamiento="@tratamiento" class="btn btn-primary">Detalles</a>
+            </li>
+        }
+    </ul>
+}-->
+
+@if (ViewBag.CitasMedicas != null && ViewBag.CitasMedicas.Count > 0)
+{
+    <h2>Citas Médicas:</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Servicio</th>
+                <th>Fecha</th>
+                <th>Hora de Inicio</th>
+                <th>Estado</th>
+                <th>Detalles</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cita in ViewBag.CitasMedicas)
+            {
+                <tr>
+                    <td>@cita.Servicio</td>
+                    <td>@cita.Fecha.ToShortDateString()</td>
+                    <td>@cita.HoraInicio</td>
+                    <td>@cita.Estado</td>
+                    <td>
+                        <a asp-action="InformacionCita" asp-route-id="@cita.PkAgenda" class="btn btn-primary">Detalles</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No hay citas médicas asociadas a este paciente.</p>
+}

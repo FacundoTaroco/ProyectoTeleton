@@ -165,9 +165,50 @@ namespace LogicaAplicacion.Servicios
                  throw;
              }*/
 
-        public async Task<IEnumerable<CitaMedicaDTO>> ObtenerCitas()
+        /*public async Task<IEnumerable<CitaMedicaDTO>> ObtenerCitas()
         {
             return await _repositorioCitaMedica.ObtenerCitas();
+        }*/
+
+        public async Task<IEnumerable<CitaMedicaDTO>> ObtenerCitas()
+        {
+
+            //SimuladorServidorCentral
+            var connectionString = _config["ConnectionStrings:SimuladorServidorCentral"];
+            var commandText = $"SELECT * FROM GetAgendas()";
+            using (SqlConnection con = new(connectionString))
+            {
+                try
+                {
+                    List<CitaMedicaDTO> citasMedicas = new List<CitaMedicaDTO>();
+                    using (SqlCommand cmd = new SqlCommand(commandText, con))
+                    {
+                        await con.OpenAsync();
+                        using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
+                        {
+                            while (reader.Read())
+                            {
+                                int pkAgenda = reader.GetInt32(0);
+                                string ci = reader.GetString(1);
+                                string nombre = reader.GetString(2);
+                                string servicio = reader.GetString(3);
+                                DateTime fecha = reader.GetDateTime(4);
+                                int horaInicio = reader.GetInt32(5);
+                                string tratamiento = reader.GetString(6);
+                                string estado = "No llegó";
+                                string detalles = reader.GetString(7);
+                                CitaMedicaDTO cita = new CitaMedicaDTO(pkAgenda, ci, nombre, servicio, fecha, horaInicio, tratamiento, estado, detalles);
+                                citasMedicas.Add(cita);
+                            }
+                        }
+                    }
+                    return citasMedicas;
+                }
+                catch (Exception e)
+                {
+                    throw new TeletonServerException("Error de conexión con el servidor central" + e.Message);
+                }
+            }
         }
 
         public async Task RecepcionarPaciente(int pkAgenda)
@@ -201,7 +242,8 @@ namespace LogicaAplicacion.Servicios
                                 int horaInicio = reader.GetInt32(5);
                                 string tratamiento = reader.GetString(6);
                                 string estado = "No llegó";
-                                CitaMedicaDTO cita = new CitaMedicaDTO(pkAgenda, ci, nombre, servicio, fecha, horaInicio, tratamiento, estado);
+                                string detalles = reader.GetString(7);
+                                CitaMedicaDTO cita = new CitaMedicaDTO(pkAgenda, ci, nombre, servicio, fecha, horaInicio, tratamiento, estado, detalles);
                                 citasMedicas.Add(cita);
                             }
                         }
@@ -255,9 +297,7 @@ namespace LogicaAplicacion.Servicios
             }*/
 
         }
-
     }
-
 }
 
 

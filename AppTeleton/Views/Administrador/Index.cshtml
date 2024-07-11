@@ -126,9 +126,10 @@
                     </td>
 
                     <td>
+                        @Html.ActionLink("Detalles", "InformacionPaciente", "Administrador", new { cedula = item.Cedula }, null)
                         @Html.ActionLink("Delete", "Delete", "Paciente", new { id = item.Id })
                         @Html.ActionLink("Mandar Notificacion", "EnviarNotificacionUsuario", new { idUsuario = item.Id })
-                        @Html.ActionLink("Change Password", "CambiarContrasenia", new { id = item.Id })
+                        @Html.ActionLink("Cambiar contraseña", "CambiarContrasenia", new { id = item.Id })
                     </td>
                 </tr>
             }

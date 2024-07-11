@@ -1,0 +1,18 @@
+﻿@model LogicaNegocio.DTO.CitaMedicaDTO
+
+@{
+    ViewData["Title"] = "Información de la Cita";
+}
+
+<h1>Información de la Cita</h1>
+
+<p><strong>Nombre del Paciente:</strong> @Model.NombreCompleto</p>
+<p><strong>Cédula:</strong> @Model.Cedula</p>
+<p><strong>Tratamiento:</strong> @Model.Tratamiento</p>
+<p><strong>Fecha:</strong> @Model.Fecha.ToShortDateString()</p>
+<p><strong>Hora:</strong> @Model.HoraInicio</p>
+
+<h2>Detalles:</h2>
+<p>@Model.Detalles</p>
+
+<a asp-action="EditarCita" asp-route-id="@Model.PkAgenda" class="btn btn-primary">Editar</a>

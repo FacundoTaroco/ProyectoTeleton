@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Cambiar Contraseña";
+}
+
+<h1>Cambiar Contraseña</h1>
+
+@if (ViewBag.Mensaje != null)
+{
+    if (ViewBag.TipoMensaje == "ERROR")
+    {
+        <p class="alert alert-danger">@ViewBag.Mensaje</p>
+    }
+    else if (ViewBag.TipoMensaje == "EXITO")
+    {
+        <p class="alert alert-success">@ViewBag.Mensaje</p>
+    }
+}
+
+<form asp-action="CambiarContrasenia" method="post" class="needs-validation" novalidate>
+    <table class="table">
+        <tbody>
+            <tr>
+                <td><label for="nuevaContrasenia">Nueva Contraseña</label></td>
+                <td>
+                    <input type="password" class="form-control" id="nuevaContrasenia" name="nuevaContrasenia" required>
+                    <span class="invalid-feedback">Por favor, ingrese la nueva contraseña.</span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="confirmarContrasenia">Confirmar Nueva Contraseña</label></td>
+                <td>
+                    <input type="password" class="form-control" id="confirmarContrasenia" name="confirmarContrasenia" required>
+                    <span class="invalid-feedback">Por favor, confirme la nueva contraseña.</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-primary">Cambiar Contraseña</button>
+</form>

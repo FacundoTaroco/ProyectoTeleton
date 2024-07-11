@@ -22,7 +22,8 @@ namespace LogicaAccesoDatos.Migrations
                     Fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
                     HoraInicio = table.Column<int>(type: "int", nullable: false),
                     Tratamiento = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Estado = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Estado = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Detalles = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {

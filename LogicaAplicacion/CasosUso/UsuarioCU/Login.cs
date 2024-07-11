@@ -1,4 +1,6 @@
-﻿using LogicaNegocio.Enums;
+﻿using LogicaAccesoDatos.EF;
+using LogicaNegocio.Entidades;
+using LogicaNegocio.Enums;
 using LogicaNegocio.InterfacesDominio;
 using LogicaNegocio.InterfacesRepositorio;
 using System;
@@ -19,11 +21,13 @@ namespace LogicaAplicacion.CasosUso.UsuarioCU
 
         public TipoUsuario LoginCaso(string usuario, string contrasenia)
         {
-          
             TipoUsuario retorno = _repo.Login(usuario, contrasenia);
             return retorno;
-           
-           
+        }
+
+        public Usuario GetUsuarioPorNombre(string nombreUsuario)
+        {
+            return _repo.GetUsuarioPorNombre(nombreUsuario);
         }
 
     }

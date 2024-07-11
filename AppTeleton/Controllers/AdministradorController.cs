@@ -2,14 +2,18 @@
 using AppTeleton.Models.Filtros;
 using LogicaAccesoDatos.EF;
 using LogicaAplicacion.CasosUso.AdministradorCU;
+using LogicaAplicacion.CasosUso.CitaCU;
 using LogicaAplicacion.CasosUso.MedicoCU;
 using LogicaAplicacion.CasosUso.PacienteCU;
+using LogicaAplicacion.CasosUso.PreguntasFrecCU;
 using LogicaAplicacion.CasosUso.RecepcionistaCU;
 using LogicaAplicacion.CasosUso.TotemCU;
 using LogicaNegocio.DTO;
 using LogicaNegocio.Entidades;
 using LogicaNegocio.Enums;
+using LogicaNegocio.InterfacesRepositorio;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Build.Framework;
 
 namespace AppTeleton.Controllers
 {
@@ -27,6 +31,10 @@ namespace AppTeleton.Controllers
         public GetTotems _getTotems;
         public CambiarContrasenia _cambiarContrasenia;
         public ABMTotem _ABMTotems;
+        public GetCitas _getCitas;
+        public IRepositorioPaciente _repositorioPaciente;
+        public IRepositorioCitaMedica _repositorioCitaMedica;
+        public ABMCitas _abmCitaMedica;
 
         public AdministradorController(GetAdministradores listaAdmins,
             GetRecepcionistas listaRecepcionistas,
@@ -37,7 +45,12 @@ namespace AppTeleton.Controllers
             ActualizarPacientes actualizarPacientes,
             GetTotems getTotems,
             CambiarContrasenia cambiarContrasenia,
-            ABMTotem abmtotems)
+            ABMTotem abmtotems,
+            GetCitas getCitas,
+            IRepositorioPaciente repositorioPaciente,
+            IRepositorioCitaMedica repositorioCitaMedica,
+            ABMCitas abmCitaMedica
+            )
         {
             _getAdministradores = listaAdmins;
             _getRecepcionistas = listaRecepcionistas;
@@ -49,6 +62,10 @@ namespace AppTeleton.Controllers
             _getTotems = getTotems;
             _cambiarContrasenia = cambiarContrasenia;
             _ABMTotems = abmtotems;
+            _getCitas = getCitas;
+            _repositorioPaciente = repositorioPaciente;
+            _repositorioCitaMedica = repositorioCitaMedica;
+            _abmCitaMedica = abmCitaMedica;
         }
 
         [HttpGet]
@@ -66,6 +83,95 @@ namespace AppTeleton.Controllers
                 ViewBag.TipoUsuario = TipoUsuario.Paciente;
             }
             return View(ObtenerModeloUsuarios());
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> InformacionPaciente(string cedula)
+        {
+            var paciente = _repositorioPaciente.GetPacientePorCedula(cedula);
+            if (paciente == null)
+            {
+                return NotFound();
+            }
+
+            var citasMedicas = _getCitas.ObtenerCitasPorCedula(cedula).Result;
+
+            PacienteDTO pacienteDTO = new PacienteDTO
+            {
+                NombreCompleto = paciente.Nombre,
+                Cedula = paciente.Cedula
+            };
+
+            ViewBag.CitasMedicas = citasMedicas;
+
+            return View("InformacionPaciente", pacienteDTO);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> InformacionCita(int id)
+        {
+            var citas = await _getCitas.ObtenerCitas();
+            var cita = citas.FirstOrDefault(c => c.PkAgenda == id);
+
+            if (cita == null)
+            {
+                return NotFound();
+            }
+            return View("InformacionCita", cita);
+        }
+
+        [HttpGet]
+        public IActionResult EditarCita(int id)
+        {
+            var citasTask = _getCitas.ObtenerCitas();
+
+            var citas = citasTask.GetAwaiter().GetResult();
+
+            var cita = citas.FirstOrDefault(c => c.PkAgenda == id);
+
+            if (cita == null)
+            {
+                return NotFound();
+            }
+            return View("EditarCita", cita);
+        }
+
+        [HttpPost]
+        public IActionResult EditarCita(CitaMedica citaMedica)
+        {
+            try
+            {
+                _abmCitaMedica.ModificarCitaMedica(citaMedica);
+                ViewBag.TipoMensaje = "EXITO";
+                ViewBag.Mensaje = "Cita medica editada con éxito";
+                return RedirectToAction("InformacionPaciente");
+            }
+            catch (Exception e)
+            {
+                ViewBag.TipoMensaje = "ERROR";
+                ViewBag.Mensaje = e.Message;
+                return View();
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GuardarCita(CitaMedicaDTO cita)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _repositorioCitaMedica.ActualizarCita(cita);
+                    return RedirectToAction("InformacionCita", new { id = cita.PkAgenda });
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Error al guardar la cita: " + ex.Message);
+                }
+            }
+
+            // Si llegamos aquí, significa que hubo un error de validación o una excepción
+            return View("EditarCita", cita);
         }
 
         [HttpGet]
@@ -247,6 +353,7 @@ namespace AppTeleton.Controllers
                 _cambiarContrasenia.ChangePassword(id, nuevaContrasenia);
                 ViewBag.Mensaje = "Contraseña cambiada exitosamente";
                 ViewBag.TipoMensaje = "EXITO";
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {

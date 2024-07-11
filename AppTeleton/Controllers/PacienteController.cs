@@ -7,23 +7,22 @@ using LogicaAplicacion.CasosUso.PacienteCU;
 using LogicaNegocio.Entidades;
 using LogicaNegocio.Enums;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace AppTeleton.Controllers
 {
     public class PacienteController : Controller
     {
-        public RepositorioPaciente _repositorioPaciente;
         public ABMPacientes _abmPacientes { get;}
         public GetPacientes _getPacientes { get;  }
         public GetNotificacion _getNotificaciones { get; }
         public CambiarContrasenia _cambiarContrasenia;
 
-        public PacienteController(ABMPacientes abmPacientes, GetPacientes getPacientes,GetNotificacion getNotificacion, RepositorioPaciente repositorioPaciente, CambiarContrasenia cambiarContrasenia) { 
+        public PacienteController(ABMPacientes abmPacientes, GetPacientes getPacientes,GetNotificacion getNotificacion, CambiarContrasenia cambiarContrasenia) { 
         
             _abmPacientes = abmPacientes;   
             _getPacientes = getPacientes;
             _getNotificaciones = getNotificacion;
-            _repositorioPaciente = repositorioPaciente;
             _cambiarContrasenia = cambiarContrasenia;
         }
 
@@ -48,15 +47,17 @@ namespace AppTeleton.Controllers
         }
 
         [HttpGet]
-        public IActionResult CambiarContrasenia(int id)
+        public IActionResult CambiarContrasenia()
         {
-            ViewBag.IdUsuario = id;
+            int idUsuario = Convert.ToInt32(HttpContext.Session.GetString("Id"));
+            ViewBag.IdUsuario = idUsuario;
             return View();
         }
 
         [HttpPost]
-        public IActionResult CambiarContrasenia(int id, string nuevaContrasenia, string confirmarContrasenia)
+        public IActionResult CambiarContrasenia(string nuevaContrasenia, string confirmarContrasenia)
         {
+            int idUsuario = Convert.ToInt32(HttpContext.Session.GetString("Id"));
             if (nuevaContrasenia != confirmarContrasenia)
             {
                 ViewBag.Mensaje = "Las contraseñas no coinciden";
@@ -66,7 +67,7 @@ namespace AppTeleton.Controllers
 
             try
             {
-                _cambiarContrasenia.ChangePassword(id, nuevaContrasenia);
+                _cambiarContrasenia.ChangePassword(idUsuario, nuevaContrasenia);
                 ViewBag.Mensaje = "Contraseña cambiada exitosamente";
                 ViewBag.TipoMensaje = "EXITO";
             }
@@ -87,8 +88,6 @@ namespace AppTeleton.Controllers
             IEnumerable<Notificacion> notificaciones = _getNotificaciones.GetPorUsuario(pacienteLogueado.Id);
             return View(notificaciones);
         }
-
-      
 
     }
 }

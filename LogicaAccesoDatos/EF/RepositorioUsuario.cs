@@ -45,6 +45,31 @@ namespace LogicaAccesoDatos.EF
                 throw;
             }
         }
+
+        public Usuario GetUsuarioPorNombre(string nombreUsuario)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(nombreUsuario))
+                {
+                    throw new NullOrEmptyException("El nombre de usuario no puede estar vacío");
+                }
+
+                Usuario usuario = _context.Usuarios.FirstOrDefault(u => u.NombreUsuario == nombreUsuario);
+
+                if (usuario == null)
+                {
+                    throw new NotFoundException("Usuario no encontrado");
+                }
+
+                return usuario;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener el usuario: " + ex.Message);
+            }
+        }
+
         public Usuario GetPorId(int id)
         {
             try

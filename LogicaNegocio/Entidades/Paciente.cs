@@ -12,7 +12,7 @@ namespace LogicaNegocio.Entidades
         //aca iria todo el tema de la agenda por ahora el paciente tiene solo los datos generales de Usuario
 
         public string Cedula { get; set; }
-
+        //public string Contraseña { get; set; }
 
 
         public Paciente() { }

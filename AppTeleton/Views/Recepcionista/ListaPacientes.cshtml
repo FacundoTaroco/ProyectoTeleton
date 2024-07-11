@@ -1,0 +1,62 @@
+﻿@model AppTeleton.Models.UsuariosViewModel;
+
+@{
+    ViewData["Title"] = "Lista de Pacientes";
+}
+
+<h1>Recepcionista - Lista de Pacientes</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Nombre
+            </th>
+            <th>
+                Usuario
+            </th>
+            <th>
+                Contraseña
+            </th>
+            <th>
+                Cedula
+            </th>
+
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Pacientes)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreUsuario)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Contrasenia)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cedula)
+                </td>
+
+                <td>
+                    @Html.ActionLink("Detalles", "InformacionPaciente", "Administrador", new { cedula = item.Cedula }, null)
+                    @Html.ActionLink("Delete", "Delete", "Paciente", new { id = item.Id })
+                    @Html.ActionLink("Mandar Notificacion", "EnviarNotificacionUsuario", new { idUsuario = item.Id })
+                    @Html.ActionLink("Cambiar contraseña", "CambiarContrasenia", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
