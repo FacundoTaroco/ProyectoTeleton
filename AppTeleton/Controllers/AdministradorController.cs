@@ -121,60 +121,6 @@ namespace AppTeleton.Controllers
         }
 
         [HttpGet]
-        public IActionResult EditarCita(int id)
-        {
-            var citasTask = _getCitas.ObtenerCitas();
-
-            var citas = citasTask.GetAwaiter().GetResult();
-
-            var cita = citas.FirstOrDefault(c => c.PkAgenda == id);
-
-            if (cita == null)
-            {
-                return NotFound();
-            }
-            return View("EditarCita", cita);
-        }
-
-        [HttpPost]
-        public IActionResult EditarCita(CitaMedica citaMedica)
-        {
-            try
-            {
-                _abmCitaMedica.ModificarCitaMedica(citaMedica);
-                ViewBag.TipoMensaje = "EXITO";
-                ViewBag.Mensaje = "Cita medica editada con éxito";
-                return RedirectToAction("InformacionPaciente");
-            }
-            catch (Exception e)
-            {
-                ViewBag.TipoMensaje = "ERROR";
-                ViewBag.Mensaje = e.Message;
-                return View();
-            }
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> GuardarCita(CitaMedicaDTO cita)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    await _repositorioCitaMedica.ActualizarCita(cita);
-                    return RedirectToAction("InformacionCita", new { id = cita.PkAgenda });
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError("", "Error al guardar la cita: " + ex.Message);
-                }
-            }
-
-            // Si llegamos aquí, significa que hubo un error de validación o una excepción
-            return View("EditarCita", cita);
-        }
-
-        [HttpGet]
         public IActionResult VerTipoUsuario(TipoUsuario opcion)
         {
 

@@ -17,24 +17,27 @@
 }
 
 <form asp-action="CambiarContrasenia" method="post">
-    <table class="table">
-        <tbody>
-            <tr>
-                <td><label for="nuevaContrasenia">Nueva Contraseña</label></td>
-                <td>
-                    <input type="password" class="form-control" id="nuevaContrasenia" name="nuevaContrasenia" required>
-                </td>
-            </tr>
-            <tr>
-                <td><label for="confirmarContrasenia">Confirmar Nueva Contraseña</label></td>
-                <td>
-                    <input type="password" class="form-control" id="confirmarContrasenia" name="confirmarContrasenia" required>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <input type="hidden" name="id" value="@ViewBag.IdUsuario" /> <!-- Campo oculto para el id -->
 
-    <button type="submit" class="btn btn-primary">Cambiar Contraseña</button>
+    <table class="table">
+        <tr>
+            <td><label for="nuevaContrasenia">Nueva Contraseña</label></td>
+            <td>
+                <input type="password" class="form-control" id="nuevaContrasenia" name="nuevaContrasenia" required>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="confirmarContrasenia">Confirmar Nueva Contraseña</label></td>
+            <td>
+                <input type="password" class="form-control" id="confirmarContrasenia" name="confirmarContrasenia" required>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button type="submit" class="btn btn-primary">Cambiar Contraseña</button>
+            </td>
+        </tr>
+    </table>
 </form>
 
 @if (ViewBag.TipoMensaje != null && ViewBag.Mensaje != null)

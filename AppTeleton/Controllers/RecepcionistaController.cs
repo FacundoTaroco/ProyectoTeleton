@@ -75,10 +75,20 @@ namespace AppTeleton.Controllers
 
                 IEnumerable<CitaMedicaDTO> citasDelDia = todasLasCitas.Where(c => c.Fecha.Date == fechaGMT.Date);
 
+                // Obtener el nombre de usuario del usuario autenticado
+                string usuario = HttpContext.Session.GetString("USR");
+                Recepcionista recepcionistaLogueado = _getRecepcionistas.GetRecepcionistaPorUsuario(usuario);
+
+                if (recepcionistaLogueado == null)
+                {
+                    throw new Exception("No se pudo obtener el recepcionista logueado.");
+                }
+
                 // Crear el modelo para la vista
                 RecepsionistaViewModel model = new RecepsionistaViewModel
                 {
-                    CitasMedicas = citasDelDia.ToList()
+                    CitasMedicas = citasDelDia.ToList(),
+                    IdUsuario = recepcionistaLogueado.Id
                 };
 
                 // Renderizar la vista con las citas médicas del día actual
@@ -163,45 +173,13 @@ namespace AppTeleton.Controllers
             return View("Send");
         }
 
-        /*[HttpGet]
-        public IActionResult CambiarContrasenia()
-        {
-            int idUsuario = Convert.ToInt32(HttpContext.Session.GetString("Id"));
-            ViewBag.IdUsuario = idUsuario;
-            return View();
-        }*/
         [HttpGet]
         public IActionResult CambiarContrasenia(int id)
         {
-            ViewBag.IdPaciente = id;
+            ViewBag.IdUsuario = id;
             return View();
         }
 
-        /*[HttpPost]
-        public IActionResult CambiarContrasenia(string nuevaContrasenia, string confirmarContrasenia)
-        {
-            int idUsuario = Convert.ToInt32(HttpContext.Session.GetString("Id"));
-            if (nuevaContrasenia != confirmarContrasenia)
-            {
-                ViewBag.Mensaje = "Las contraseñas no coinciden";
-                ViewBag.TipoMensaje = "ERROR";
-                return View();
-            }
-
-            try
-            {
-                _cambiarContrasenia.ChangePassword(idUsuario, nuevaContrasenia);
-                ViewBag.Mensaje = "Contraseña cambiada exitosamente";
-                ViewBag.TipoMensaje = "EXITO";
-            }
-            catch (Exception ex)
-            {
-                ViewBag.TipoMensaje = "ERROR";
-                ViewBag.Mensaje = ex.Message;
-                return View();
-            }
-            return View();
-        }*/
         [HttpPost]
         public IActionResult CambiarContrasenia(int id, string nuevaContrasenia, string confirmarContrasenia)
         {
@@ -214,10 +192,10 @@ namespace AppTeleton.Controllers
 
             try
             {
-                _cambiarContrasenia.ChangePassword(id, nuevaContrasenia); // Cambiar la contraseña del paciente con el ID especificado
+                _cambiarContrasenia.ChangePassword(id, nuevaContrasenia);
                 ViewBag.Mensaje = "Contraseña cambiada exitosamente";
                 ViewBag.TipoMensaje = "EXITO";
-                return RedirectToAction("ListaPacientes");
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
@@ -225,7 +203,6 @@ namespace AppTeleton.Controllers
                 ViewBag.Mensaje = ex.Message;
                 return View();
             }
-            return View();
         }
 
         [HttpGet]
@@ -301,60 +278,6 @@ namespace AppTeleton.Controllers
                 return NotFound();
             }
             return View("InformacionCita", cita);
-        }
-
-        [HttpGet]
-        public IActionResult EditarCita(int id)
-        {
-            var citasTask = _getCitas.ObtenerCitas();
-
-            var citas = citasTask.GetAwaiter().GetResult();
-
-            var cita = citas.FirstOrDefault(c => c.PkAgenda == id);
-
-            if (cita == null)
-            {
-                return NotFound();
-            }
-            return View("EditarCita", cita);
-        }
-
-        [HttpPost]
-        public IActionResult EditarCita(CitaMedica citaMedica)
-        {
-            try
-            {
-                _abmCitaMedica.ModificarCitaMedica(citaMedica);
-                ViewBag.TipoMensaje = "EXITO";
-                ViewBag.Mensaje = "Cita medica editada con éxito";
-                return RedirectToAction("InformacionPaciente");
-            }
-            catch (Exception e)
-            {
-                ViewBag.TipoMensaje = "ERROR";
-                ViewBag.Mensaje = e.Message;
-                return View();
-            }
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> GuardarCita(CitaMedicaDTO cita)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    await _repositorioCitaMedica.ActualizarCita(cita);
-                    return RedirectToAction("InformacionCita", new { id = cita.PkAgenda });
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError("", "Error al guardar la cita: " + ex.Message);
-                }
-            }
-
-            // Si llegamos aquí, significa que hubo un error de validación o una excepción
-            return View("EditarCita", cita);
         }
     }
 }
