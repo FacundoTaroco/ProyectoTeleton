@@ -33,7 +33,7 @@ builder.Services.AddDbContext<LibreriaContext>();
 
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromSeconds(1000000); // aca es el tiempo que la sesion se mantiene abierta ver que hacer pq el totem se tiene que                                                
+    options.IdleTimeout = TimeSpan.FromDays(365); // aca es el tiempo que la sesion se mantiene abierta ver que hacer pq el totem se tiene que                                                
     options.Cookie.HttpOnly = true;                      //mantener abierto indefinidamente para el totem
     options.Cookie.IsEssential = true;
 });
@@ -123,5 +123,7 @@ app.UseSession();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Usuario}/{action=Login}/{id?}");
+
+app.MapHub<UserActivityHub>("/userActivityHub");
 
 app.Run();
