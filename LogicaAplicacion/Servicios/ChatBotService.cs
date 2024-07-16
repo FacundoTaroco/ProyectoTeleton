@@ -30,6 +30,7 @@ namespace LogicaAplicacion.Servicios
 
         public ChatBotService(GetPreguntasFrec getPreguntasFrec, GeolocalizacionService geolocalizacion) { 
             _getPreguntasFrec = getPreguntasFrec;
+            _getPreguntasFrec = getPreguntasFrec;
             _geolocalizacionService = geolocalizacion;
         }
 
@@ -50,16 +51,20 @@ namespace LogicaAplicacion.Servicios
 
                     //respuesta especial donde tenemos que enviar un link que le muestre las direcciones que tiene que seguir
 
+
+                    //IF NO HAY ENTIDADES!!!!!! NO RESPONDE SINO
                     string ubicacionInicial = mensajeGetMessage.Entities.First().Value[0].Value;
                     string linkTransporte = GenerarLinkTransporte(ubicacionInicial);
-
                     return "<a href='" + linkTransporte + "' target='_blank'> Presione este mensaje para ver las indicaciones</a>";
-
-                  
-                
+                }
+                if (intent.Equals("tratamiento_info")) { 
+                    //respuesta especial donde varia la respuesta segun cada tipo de tratamiento
+                    MensajeBotDTO msgDTO = new MensajeBotDTO(mensaje);
+                    Evento evento = PostEvent(msgDTO);
+                    return evento.response.text;
                 }
 
-
+                //respuesta generica para cada categoria
                 CategoriaPregunta categoria = _getPreguntasFrec.GetCategoriaPorNombre(intent);
                 return categoria.Respuesta;
             }
@@ -84,7 +89,7 @@ namespace LogicaAplicacion.Servicios
             partida = partida.Replace(" ", "%20");
             llegada = llegada.Replace(" ", "%20");
 
-            string link = $"https://moovitapp.com/montevideo-1672/poi/{llegada}/{partida}/es?fll={coordenadasLLegada.lat}_{coordenadasLLegada.lon}&tll={coordenadasPartida.lat}_{coordenadasPartida.lon}";
+            string link = $"https://moovitapp.com/montevideo-1672/poi/{partida}/{llegada}/es?fll={coordenadasPartida.lat}_{coordenadasPartida.lon}&tll={coordenadasLLegada.lat}_{coordenadasLLegada.lon}";
 
 
             return link;
@@ -132,7 +137,7 @@ namespace LogicaAplicacion.Servicios
         {
             var options = new RestClientOptions(linkAPI);
             var client = new RestClient(options);
-            var request = new RestRequest("/event?v=20240618&session_id=prodn7i&context_map=%7B%7D", Method.Post);
+            var request = new RestRequest("/event?v=20240711&session_id=prod78f&context_map=%7B%7D", Method.Post);
             //request.AddHeader("Content-Type", "application/json");
             request.AddHeader("Authorization", $"Bearer {Token}");
 
@@ -142,9 +147,7 @@ namespace LogicaAplicacion.Servicios
                 WriteIndented = true
             };
 
-            string jsonBody = JsonSerializer.Serialize(msj, optionsJson);
-
-            request.AddStringBody(jsonBody, DataFormat.Json);
+            request.AddBody(msj);
 
             RestResponse response = client.ExecutePost(request);
 

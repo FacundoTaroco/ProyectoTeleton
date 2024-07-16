@@ -25,6 +25,13 @@ namespace LogicaAplicacion.CasosUso.ChatCU
             return _repo.PacienteTieneChatAbierto(idPaciente);
         }
 
+        public bool ExisteChatPacienteRecepcionista(string pacienteUsuario, string recepcionistaUsuario)
+        {
+
+            return _repo.ExisteChatPacienteRecepcionista(pacienteUsuario, recepcionistaUsuario);
+
+        }
+
         public Chat GetChatPorId(int idChat) {
 
             return _repo.GetPorId(idChat);
@@ -35,5 +42,16 @@ namespace LogicaAplicacion.CasosUso.ChatCU
 
             return _repo.GetChatsDePaciente(idPaciente);
         }
+
+        public IEnumerable<Chat> GetChatsQueSolicitaronAsistenciaNoAtendidos() {
+
+            return _repo.GetChatsQueSolicitaronAsistenciaNoAtendidos();
+        }
+
+        public IEnumerable<Chat> GetChatsDeRecepcionista(int idRecepcionista) { 
+        
+            return _repo.GetChatsDeRecepcionista(idRecepcionista);
+        }
+
     }
 }

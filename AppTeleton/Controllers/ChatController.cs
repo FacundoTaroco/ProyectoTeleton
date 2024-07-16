@@ -10,6 +10,7 @@ using AppTeleton.Models;
 using LogicaNegocio.EntidadesWit;
 using System.Collections;
 using static System.Net.Mime.MediaTypeNames;
+using LogicaAplicacion.CasosUso.RecepcionistaCU;
 
 namespace AppTeleton.Controllers
 {
@@ -18,41 +19,68 @@ namespace AppTeleton.Controllers
     {
 
         private GetChats _getChats;
+        private ABMChat _abmChat;
         private GetPacientes _getPacientes;
         private ChatBotService _chatBotService;
         private GetRespuestasEquivocadas _getRespuestasEquivocadas;
         private ABRespuestasEquivocadas _abRespuestasEquivocadas;
-        public ChatController(ABRespuestasEquivocadas abrespuestasMal, GetRespuestasEquivocadas respuestasMal ,GetChats getChats, GetPacientes getPacientes, ChatBotService chatbot) { 
+        private GetRecepcionistas _getRecepcionistas;
+        public ChatController(ABMChat abmChat, ABRespuestasEquivocadas abrespuestasMal, GetRespuestasEquivocadas respuestasMal ,GetChats getChats, GetPacientes getPacientes, ChatBotService chatbot, GetRecepcionistas getRecepcionistas) { 
             _getChats = getChats;
             _getPacientes = getPacientes;
             _chatBotService = chatbot;
             _getRespuestasEquivocadas = respuestasMal;
             _abRespuestasEquivocadas = abrespuestasMal;
+            _getRecepcionistas = getRecepcionistas; 
+            _abmChat = abmChat;
         }
         [PacienteRecepcionistaLogueado]
         [HttpGet]
         public IActionResult Chat()
         {
-
             try
             {
             string usuario = HttpContext.Session.GetString("USR");
+            string tipo = HttpContext.Session.GetString("TIPO");
             ViewBag.Usuario = usuario;
+            ViewBag.TipoUsuario = tipo;
             int idUsuario = 0;
-            if (HttpContext.Session.GetString("TIPO") == "PACIENTE") {
-                Paciente paciente = _getPacientes.GetPacientePorUsuario(usuario);
-                 idUsuario = paciente.Id;
-                if (_getChats.PacienteTieneChatAbierto(idUsuario))
+            IEnumerable<Chat> chatsListado = new List<Chat>();
+                if (tipo == "PACIENTE")
                 {
-                    ViewBag.ChatCargar = _getChats.GetChatAbiertoDePaciente(idUsuario);
+                    Paciente paciente = _getPacientes.GetPacientePorUsuario(usuario);
+                    idUsuario = paciente.Id;
+                    if (_getChats.PacienteTieneChatAbierto(idUsuario))
+                    {
+                        Chat chatAbierto =  _getChats.GetChatAbiertoDePaciente(idUsuario);
+                        if (chatAbierto._Recepcionista == null)
+                        {
+                            ViewBag.UsuarioRecibe = "CHATBOT";
+                        }
+                        else {
+                            ViewBag.UsuarioRecibe = chatAbierto._Recepcionista.NombreUsuario;
+                        }
+                        ViewBag.ChatCargar = chatAbierto;
+                    }
+                    else
+                    {
+                        ViewBag.ChatCargar = new Chat(paciente);
+                    }
+
+                    chatsListado = _getChats.GetChatsDePaciente(idUsuario);
                 }
-                else {
-                    ViewBag.ChatCargar = new Chat(paciente);
+                else if (tipo == "RECEPCIONISTA") {
+                    Recepcionista recepcionista = _getRecepcionistas.GetRecepcionistaPorUsuario(usuario);
+                    idUsuario = recepcionista.Id;
+                    IEnumerable<Chat> chatsRecepcionista = _getChats.GetChatsDeRecepcionista(idUsuario);
+                    IEnumerable<Chat> chatsSinAsistencia = _getChats.GetChatsQueSolicitaronAsistenciaNoAtendidos();
+                    chatsListado = chatsRecepcionista.Concat(chatsSinAsistencia);
+
+                    ViewBag.ChatCargar = new Chat();
                 }
-            }
 
                
-                return View(_getChats.GetChatsDePaciente(idUsuario));
+                return View(chatsListado);
             }
             catch (Exception)
             {
@@ -71,15 +99,47 @@ namespace AppTeleton.Controllers
             string usuario = HttpContext.Session.GetString("USR");
             int idUsuario = 0;  
             ViewBag.Usuario = usuario;
+            ViewBag.TipoUsuario = HttpContext.Session.GetString("TIPO");
+            IEnumerable<Chat> chatsListado = new List<Chat>();
 
             if (HttpContext.Session.GetString("TIPO") == "PACIENTE")
             {
                 Paciente paciente = _getPacientes.GetPacientePorUsuario(usuario);
                 idUsuario = paciente.Id;
-                ViewBag.ChatCargar = _getChats.GetChatPorId(idChat);
-                    
+                Chat chatACargar = _getChats.GetChatPorId(idChat);
+                if (chatACargar._Recepcionista == null)
+                {
+                    ViewBag.UsuarioRecibe = "CHATBOT";
+                }
+                else
+                {
+                    ViewBag.UsuarioRecibe = chatACargar._Recepcionista.NombreUsuario;
+                }
+                ViewBag.ChatCargar = chatACargar;
+                chatsListado = _getChats.GetChatsDePaciente(idUsuario);
+
             }
-            return View("Chat", _getChats.GetChatsDePaciente(idUsuario));
+            else if (HttpContext.Session.GetString("TIPO") == "RECEPCIONISTA") {
+
+                Recepcionista recepcionista = _getRecepcionistas.GetRecepcionistaPorUsuario(usuario);
+                idUsuario = recepcionista.Id;
+                IEnumerable<Chat> chatsRecepcionista = _getChats.GetChatsDeRecepcionista(idUsuario);
+                IEnumerable<Chat> chatsSinAsistencia = _getChats.GetChatsQueSolicitaronAsistenciaNoAtendidos();
+
+                Chat chatActivo = _getChats.GetChatPorId(idChat);
+                if (chatActivo._Recepcionista == null) {
+
+                    chatActivo._Recepcionista = recepcionista;
+                    _abmChat.Actualizar(chatActivo);
+                    
+                }
+
+                ViewBag.UsuarioRecibe = chatActivo._Paciente.NombreUsuario;
+                ViewBag.ChatCargar = chatActivo;
+                chatsListado = chatsRecepcionista.Concat(chatsSinAsistencia);
+
+            }
+            return View("Chat", chatsListado);
 
         }
 

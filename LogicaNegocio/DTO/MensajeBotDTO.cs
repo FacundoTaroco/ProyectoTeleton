@@ -11,7 +11,7 @@ namespace LogicaNegocio.DTO
         public string type { get; set; }
         public string message { get; set; }
 
-        public MensajeBotDTO(string type, string message)
+        public MensajeBotDTO(string message)
         {
             this.type = "message";
             this.message = message;

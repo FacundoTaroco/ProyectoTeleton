@@ -119,6 +119,7 @@ namespace LogicaAccesoDatos.Migrations
                     _PacienteId = table.Column<int>(type: "int", nullable: false),
                     AsistenciaAutomatica = table.Column<bool>(type: "bit", nullable: false),
                     Abierto = table.Column<bool>(type: "bit", nullable: false),
+                    IndiceReintento = table.Column<int>(type: "int", nullable: false),
                     _RecepcionistaId = table.Column<int>(type: "int", nullable: true),
                     FechaApertura = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },

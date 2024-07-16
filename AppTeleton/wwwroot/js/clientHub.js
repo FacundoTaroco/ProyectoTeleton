@@ -6,10 +6,17 @@ var chatbox = document.getElementById("chatbox");
 var conexion = new signalR.HubConnectionBuilder().withUrl("/ConnectedHub").build();
 var ultimoMensajeEnviado = "";
 
+
 mostrarBarraTexto();
 
 
-conexion.on("MensajeRecibido", function (user, mensaje, isFinal) {
+conexion.on("MensajeRecibido", function (user,userDestino, mensaje, isFinal, paraPaciente) {
+
+
+   
+
+    document.querySelector("#txtUsuarioRecibe").value = user;
+
 
     if (user != document.querySelector("#txtUsuarioManda").value) { 
         let fecha = new Date();
@@ -22,6 +29,10 @@ conexion.on("MensajeRecibido", function (user, mensaje, isFinal) {
     }
 
 })
+
+conexion.on("MostrarBotoneraAsistencia", function () {
+    mostrarBotonesAsistenciaPersonalizada();
+})
 conexion.start().then(function () {
     document.getElementById("btnEnviar").disabled = false;
 }).catch(function (err) {
@@ -30,8 +41,12 @@ conexion.start().then(function () {
 
 
 document.getElementById("btnEnviar").addEventListener("click", function (e) {
+
+
     let userManda = document.querySelector("#txtUsuarioManda").value;
     let userRecibe = document.querySelector("#txtUsuarioRecibe").value;
+
+
     let mensaje = document.querySelector("#txtMensaje").value;
     let fecha = new Date();
 
@@ -48,7 +63,9 @@ document.getElementById("btnEnviar").addEventListener("click", function (e) {
 })
 
 function feedBackNegativo() {
-    conexion.invoke("FeedBackNegativo", ultimoMensajeEnviado).then(function () {
+    let userManda = document.querySelector("#txtUsuarioManda").value;
+ 
+    conexion.invoke("FeedBackNegativo", ultimoMensajeEnviado, userManda).then(function () {
 
         mostrarBarraTexto();
     }).catch(function (err) {
@@ -69,5 +86,22 @@ function feedBackPositivo() {
     }).catch(function (err) {
         return console.error(err.toString());
     })
+}
+
+function SolicitarRecepcionista() {
+  
+    let userManda = document.querySelector("#txtUsuarioManda").value;
+
+
+    conexion.invoke("SolicitarAsistenciaPersonalizada", userManda).then(function () {
+
+        let fecha = new Date();
+        let mensaje = "Una recepcionista lo atendera por esta u otra via lo antes posible, recuerde que el horario de atencion personalizada es de 8am hasta las 5pm"
+        insertarMensajeRecibido(fecha.toString(), "CHATBOT", mensaje)
+        mostrarBarraTexto();
+    }).catch(function (err) {
+        return console.error(err.toString());
+    })
+
 }
 

@@ -1,6 +1,11 @@
 ﻿
+var pacienteChat = "";
+function ActualizarPagina() {
+    
+    let form = document.getElementById("formularioRecargarPagina");
+    form.submit();
 
-
+}
 function cargarChat(chat, tipoUsuario) {
 
     if (chat.Abierto == false) {
@@ -23,7 +28,7 @@ function cargarChat(chat, tipoUsuario) {
             if (tipoUsuario == "PACIENTE") {
                 if (mensaje.EsDePaciente) {
                     insertarMensajeMandado(mensaje.fecha, mensaje.nombreUsuario, mensaje.contenido)
-
+                    pacienteChat = mensaje.nombreUsuario;
                 } else {
 
                     insertarMensajeRecibido(mensaje.fecha, mensaje.nombreUsuario, mensaje.contenido)
@@ -37,7 +42,7 @@ function cargarChat(chat, tipoUsuario) {
 
                 } else {
 
-                    insertarMensajeEnviado(mensaje.fecha, mensaje.nombreUsuario, mensaje.contenido)
+                    insertarMensajeMandado(mensaje.fecha, mensaje.nombreUsuario, mensaje.contenido)
                 }
             }
         })
@@ -71,19 +76,14 @@ function insertarMensajeRecibido(fechaRecibida, user, mensaje) {
 
 
 }
-function cambiarARecepcionista() {
-
-    document.querySelector("#txtUsuarioRecibe").value = "Recepcionista";
 
 
-}
-
-function cambiarABot() {
 
 
-    document.querySelector("#txtUsuarioRecibe").value = "CHATBOT";
 
-}
+
+
+
 
 function insertarMensajeMandado(fechaRecibida, userManda, mensaje) {
     let fecha = new Date(fechaRecibida);
@@ -113,12 +113,15 @@ function insertarMensajeMandado(fechaRecibida, userManda, mensaje) {
 
 }
 
+
+
 function mostrarBotonesFeedback() {
 
 
     document.getElementById("botoneraFeedback").style.display = "block";
 
 
+    document.getElementById("botoneraAsistencia").style.display = "none";
     document.getElementById("txtMensaje").style.display = "none";
     document.getElementById("btnEnviar").style.display = "none";
 }
@@ -126,9 +129,20 @@ function mostrarBotonesFeedback() {
 function mostrarBarraTexto() {
 
     document.getElementById("botoneraFeedback").style.display = "none";
+
+    document.getElementById("botoneraAsistencia").style.display = "none";
     document.getElementById("txtMensaje").style.display = "block";
     document.getElementById("btnEnviar").style.display = "block";
 }
+
+function mostrarBotonesAsistenciaPersonalizada() {
+    document.getElementById("botoneraAsistencia").style.display = "block";
+
+    document.getElementById("botoneraFeedback").style.display = "none";
+    document.getElementById("txtMensaje").style.display = "none";
+    document.getElementById("btnEnviar").style.display = "none";
+}
+
 
 function cargarListadoChatsCerrados() {
 
@@ -143,6 +157,17 @@ function cargarListadoChatsCerrados() {
             formCargarChat.submit();
         })
     }
+}
 
+
+
+
+
+function LlamarTeleton() {
+
+
+    window.location.href = 'tel:+1234567890';
 
 }
+
+

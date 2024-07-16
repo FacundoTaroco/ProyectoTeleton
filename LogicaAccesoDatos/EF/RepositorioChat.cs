@@ -63,7 +63,37 @@ namespace LogicaAccesoDatos.EF
             {
                 IEnumerable<Chat> chats = new List<Chat>();
 
-                chats = _context.Chats.Include(c => c._Paciente).Where(c => c._Paciente.Id == idPaciente);
+                chats = _context.Chats.Include(c => c._Paciente).Where(c => c._Paciente.Id == idPaciente).ToList();
+
+                return chats;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        
+        }
+        public IEnumerable<Chat> GetChatsQueSolicitaronAsistenciaNoAtendidos() {
+            try
+            {
+                IEnumerable<Chat> chats = new List<Chat>();
+                chats = _context.Chats.Include(c => c._Paciente).Where(c => c.AsistenciaAutomatica == false && c._Recepcionista == null).ToList();
+
+                return chats;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public IEnumerable<Chat> GetChatsDeRecepcionista(int idRecepcionista) {
+            try
+            {
+                IEnumerable<Chat> chats = new List<Chat>();
+                chats = _context.Chats.Include(c => c._Paciente).Where(c => c._Recepcionista != null && c._Recepcionista.Id == idRecepcionista).ToList();
 
                 return chats;
             }
@@ -74,13 +104,18 @@ namespace LogicaAccesoDatos.EF
             }
         
         
+        
+        
         }
+
+
+
 
         public Chat GetChatAbiertoDePaciente(int idPaciente)
         {
             try
             {
-                Chat chatAbiertoDePaciente = _context.Chats.Include(c => c._Paciente).Include(c => c.Mensajes).FirstOrDefault(c => c._Paciente.Id == idPaciente && c.Abierto);
+                Chat chatAbiertoDePaciente = _context.Chats.Include(c => c._Paciente).Include(c => c.Mensajes).Include(c => c._Recepcionista).FirstOrDefault(c => c._Paciente.Id == idPaciente && c.Abierto);
                 if (chatAbiertoDePaciente == null) {
                     throw new NotFoundException("No se encontro ningun chat abierto del paciente");
                 }
@@ -96,6 +131,17 @@ namespace LogicaAccesoDatos.EF
 
                 throw;
             }
+        }
+
+        public bool ExisteChatPacienteRecepcionista(string pacienteUsuario, string recepcionistaUsuario) {
+
+            Chat chatEntreLosDos = _context.Chats.Include(c => c._Paciente).Include(c => c._Recepcionista).FirstOrDefault(c => c._Paciente.NombreUsuario == pacienteUsuario && c._Recepcionista.NombreUsuario == recepcionistaUsuario);
+            if (chatEntreLosDos == null)
+            {
+                return false;
+            }
+            return true;
+
         }
 
         public bool PacienteTieneChatAbierto(int idPaciente) {
@@ -115,7 +161,7 @@ namespace LogicaAccesoDatos.EF
                 {
                     throw new NullOrEmptyException("No se recibio id");
                 }
-                var chat = _context.Chats.Include(c => c._Paciente).Include(c => c.Mensajes).FirstOrDefault(chat => chat.Id == id);
+                var chat = _context.Chats.Include(c => c._Paciente).Include(c => c.Mensajes).Include(c => c._Recepcionista).FirstOrDefault(chat => chat.Id == id);
                 if (chat == null)
                 {
                     throw new NotFoundException("No se encontro ningun paciente con ese id");

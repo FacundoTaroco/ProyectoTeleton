@@ -17,6 +17,8 @@ namespace LogicaNegocio.Entidades
         public bool AsistenciaAutomatica { get; set; }
         public bool Abierto { get; set; }
 
+        public int IndiceReintento { get; set; } = 0;
+
         public Recepcionista? _Recepcionista { get; set; }
 
         public List<Mensaje> Mensajes { get; set; } = new List<Mensaje>();
@@ -25,18 +27,18 @@ namespace LogicaNegocio.Entidades
 
 
 
-        public Chat() { 
+        public Chat() {
+            Abierto = true;
         }
 
         public Chat(Paciente paciente)
         {
+            IndiceReintento = 0;
             _Paciente = paciente;
             Abierto = true;
             AsistenciaAutomatica = true;
-
             Mensaje msgBienvenida = new Mensaje("¡Hola! Bienvenido, ¿En qué puedo asistirte?", "CHATBOT");
             Mensajes.Add(msgBienvenida);
-
             DateTime _fecha = DateTime.UtcNow;
             TimeZoneInfo zonaHoraria = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
             FechaApertura = TimeZoneInfo.ConvertTimeFromUtc(_fecha, zonaHoraria);

@@ -48,41 +48,58 @@
     }
 </style>
 
-<button onclick="cambiarARecepcionista()">Recepcionista</button>
-<button onclick="cambiarABot()">Bot</button>
 <div class="container py-5">
 
     <div class="row d-flex justify-content-between">
-
-
         <div class ="col-md-3 col-lg-3 col-xl-2">
-
             <form id="cargarChatCerrado" asp-action="CargarChatCerrado" asp-controller="Chat" method="get">
                 <input type="hidden" id="inputCargarChatCerrado" name="idChat" value="" />
             </form>
-
             <p>Chats Cerrados</p>
-
             <form asp-action="Chat" asp-controller="Chat" method="get">
               <input type="submit" value="Abrir chat" />
-            
             </form>
-
+            <form id="formularioRecargarPagina" asp-action="Chat" asp-controller="Chat" style="display:none;" method="get"></form>
             <ul>
+                
+                @{
 
-                @foreach (var c in Model)
-                {
-
-                    if (c.Abierto == false) { 
-
-
-                    if (c.AsistenciaAutomatica && c._Recepcionista == null)
+                    if (ViewBag.TipoUsuario == "PACIENTE")
                     {
-                        <li class="liChats" chat-id="@c.Id">Asistente Virtual - @c.FechaApertura</li>
+                        foreach (var c in Model)
+                         {
+
+                             if (c.Abierto == false) { 
+
+
+                                 if (c._Recepcionista == null)
+                                 {
+                                    <li class="liChats" chat-id="@c.Id">Asistente Virtual - @c.FechaApertura</li>
+                                 }
+
+                                else
+                                 {
+                                    <li class="liChats" chat-id="@c.Id">@c._Recepcionista.Nombre</li>
+                                 }                            }                        }
+
                     }
-                    else{
-                        <li class="liChats" chat-id="@c.Id">@c._Recepcionista.Nombre</li>
-                    }                                        }                }
+                    else if (ViewBag.TipoUsuario == "RECEPCIONISTA")
+                    {
+                     
+                        <button onclick="ActualizarPagina()">Actualizar Chats</button>
+                        foreach (var c in Model)
+                        {
+                            if (c.Abierto == true)
+                            {
+                                <li class="liChats" chat-id="@c.Id">@c._Paciente.Nombre</li>
+                            }
+                        }
+
+                    }
+
+                
+            
+            }
             </ul> 
 
 
@@ -115,12 +132,9 @@
                         <div class="input-group mb-0">
                             <input type="hidden" name="name" id="txtUsuarioManda" value="@ViewBag.Usuario" />
 
-                        @if (tipoUsuario == "PACIENTE") {
-                            <input type="hidden" name="name" id="txtUsuarioRecibe" value="CHATBOT" /> <!--ACA CAMBIAR CON VIEWBAG O ALGO A RECEPCIONISTA-->
-                        }
-                        else{
-                                 <input type="hidden" name="name" id="txtUsuarioRecibe" value="" />
-                        }
+                    
+                            <input type="hidden" name="name" id="txtUsuarioRecibe" value="@ViewBag.UsuarioRecibe" /> 
+                      
 
                      
                             <input  type="text" id="txtMensaje" class="form-control" placeholder="Escriba su consulta de forma breve"
@@ -138,8 +152,24 @@
                                 No, seguir chateando
                             </button>
 
-                            <button onclick="feedBackPositivo()" data-mdb-button-init data-mdb-ripple-init class="btn" type="button" id="btnFeedbackSi" style="padding-top: .55rem;background-color: #ff8080;">
+                            <button onclick="feedBackPositivo()" data-mdb-button-init data-mdb-ripple-init class="btn mt-1" type="button" id="btnFeedbackSi" style="padding-top: .55rem;background-color: #ff8080;">
                                 Si, Cerrar chat
+                            </button>
+                        </div>
+                        <div id="botoneraAsistencia">
+                            <p>¿Quiere ayuda personalizada?<p/>
+
+                            <button onclick="SolicitarRecepcionista()" data-mdb-button-init data-mdb-ripple-init class="btn" type="button" id="btnSolicitarRecepcionista" style="padding-top: .55rem;background-color: #ff8080;">
+                                Solicitar ayuda a una recepcionista
+                            </button>
+
+                            <button onclick="LlamarTeleton()" data-mdb-button-init data-mdb-ripple-init class="btn mt-1" type="button" id="btnLLamarTeleton" style="padding-top: .55rem;background-color: #ff8080;">
+                               LLamar al centro
+                            </button>
+
+
+                            <button onclick="mostrarBarraTexto()" data-mdb-button-init data-mdb-ripple-init class="btn mt-1" type="button" style="padding-top: .55rem;background-color: #ff8080;">
+                                Seguir Chateando
                             </button>
 
                         </div>

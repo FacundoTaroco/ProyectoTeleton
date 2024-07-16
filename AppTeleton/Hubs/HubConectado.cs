@@ -47,48 +47,90 @@ namespace AppTeleton.Hubs
             return base.OnDisconnectedAsync(exception); 
         }
 
-        public async Task SendMessage(string userManda,string userRecibe, string message) {
+        public async Task SendMessage(string userManda, string userRecibe, string message) {
 
-            
-           ActualizarChats(userManda,userRecibe,message);
-           
-            string idConexion = UsuariosConectados.GetIdConexionDeUsuario(userManda);
-            if (!String.IsNullOrEmpty(idConexion))
+            string idConexion = "";
+        
+            ActualizarChats(userManda, userRecibe, message);
+
+            if (_getPacientes.ExistePaciente(userManda))
             {
+               
 
-                if (userRecibe == "CHATBOT")
-                {
-
-                    /*MensajeBotDTO mensaje = new MensajeBotDTO("message", message);
-                    Evento evento = _chatBot.PostEvent(mensaje);
-
+                    if (userRecibe == "") { 
                     
-                    string respuesta = evento.response.text;*/
+                    
 
-                    string respuestaFinal = _chatBot.Responder(message);
-
-                   /* MensajeRespuesta mensajeGetMessage = _chatBot.GetMessage(message);
-                    //Aca por ahora con esto detectamos que el bot no reconocio la pregunta, faltaria hacerlo de forma generica(sin esperar un determinado texto)
-                    //y ademas detectar cuando se equivoco segun el feedback de la persona(para mas adelante)*/
-
-                    if (respuestaFinal == "Reescriba la pregunta, por favor.")
+                    }
+                    else if (userRecibe == "CHATBOT")
                     {
+                        //si el mensaje es para el chatbot entonces se responde directamente al paciente(el usuario que mando el mensaje)
+                        idConexion = UsuariosConectados.GetIdConexionDeUsuario(userManda);
+                    if (!String.IsNullOrEmpty(idConexion))
+                    { 
+                    /*MensajeBotDTO mensaje = new MensajeBotDTO("message", message);
+                        Evento evento = _chatBot.PostEvent(mensaje);
 
-                        RespuestaEquivocada respuestaEquivocada = new RespuestaEquivocada();
-                        respuestaEquivocada.IntentAsignado = "";
-                        respuestaEquivocada.Input = message;
-                        _ABrespuestasEquivocadas.Agregar(respuestaEquivocada);
+
+                        string respuesta = evento.response.text;*/
+
+                        string respuestaFinal = _chatBot.Responder(message);
+
+                        /* MensajeRespuesta mensajeGetMessage = _chatBot.GetMessage(message);
+                         //Aca por ahora con esto detectamos que el bot no reconocio la pregunta, faltaria hacerlo de forma generica(sin esperar un determinado texto)
+                         //y ademas detectar cuando se equivoco segun el feedback de la persona(para mas adelante)*/
+
+                        if (respuestaFinal == "Reescriba la pregunta, por favor.")
+                        {
+
+                            RespuestaEquivocada respuestaEquivocada = new RespuestaEquivocada();
+                            respuestaEquivocada.IntentAsignado = "";
+                            respuestaEquivocada.Input = message;
+                            _ABrespuestasEquivocadas.Agregar(respuestaEquivocada);
+                            AumentarIndiceReintento(userManda);
+
+                        }
+                        ActualizarChats(userRecibe, userManda, respuestaFinal);
+                        await Clients.Client(idConexion).SendAsync("MensajeRecibido", "CHATBOT", userRecibe, respuestaFinal, true, true); //no msiempre tiene pq ser true
                     
                     }
-                    ActualizarChats(userRecibe, userManda, respuestaFinal);
-                    await Clients.Client(idConexion).SendAsync("MensajeRecibido", "CHATBOT", respuestaFinal, true); //no msiempre tiene pq ser true
 
-                }
-                else {
-                  
-                    await Clients.All.SendAsync("MensajeRecibido", userManda, message,true);
-                }
+                        
+
+                    }
+                    else
+                    {
+                        //si no es un mensaje para el chatbot entonces se manda un mensaje a la recepcionista(si existe)
+
+                        if (_getChats.ExisteChatPacienteRecepcionista(userManda, userRecibe)) {
+
+                            idConexion = UsuariosConectados.GetIdConexionDeUsuario(userRecibe);
+                        if (!String.IsNullOrEmpty(idConexion))
+                        { 
+                        await Clients.Client(idConexion).SendAsync("MensajeRecibido", userManda, userRecibe, message, false, false);
+                        
+                        }
+                            
+                        }
+
+                       
+                        
+
+                    }
+                
+
+
             }
+            else if(_getPacientes.ExistePaciente(userRecibe)) {
+                idConexion = UsuariosConectados.GetIdConexionDeUsuario(userRecibe);
+                await Clients.Client(idConexion).SendAsync("MensajeRecibido", userManda, userRecibe, message, false, true);
+            }
+
+
+
+         
+            
+            
 
         }
         //se asume que es el chat con el bot mas adelante cuando se implemente recepcionista ver
@@ -121,18 +163,73 @@ namespace AppTeleton.Hubs
         }
 
         //en caso de que el feedback sea negativo(no le sirvio la resuesta) se manda a la pestaña de administracion para ser revisada
-        public async Task FeedBackNegativo(string mensaje) {
+        public async Task FeedBackNegativo(string mensaje, string userManda) {
 
-            //
+            AumentarIndiceReintento(userManda);
             MensajeRespuesta mensajeGetMessage = _chatBot.GetMessage(mensaje);
-
-
             RespuestaEquivocada respuestaEquivocada = new RespuestaEquivocada();
             respuestaEquivocada.IntentAsignado = mensajeGetMessage.Intents.First().name; //VALIDAR NO NULO
             respuestaEquivocada.Input = mensaje;
             _ABrespuestasEquivocadas.Agregar(respuestaEquivocada);
 
+        }
 
+        public async Task SolicitarAsistenciaPersonalizada(string userManda)
+        {
+
+
+            if (_getPacientes.ExistePaciente(userManda))
+            {
+                Paciente paciente = _getPacientes.GetPacientePorUsuario(userManda);
+                if (_getChats.PacienteTieneChatAbierto(paciente.Id))
+                {
+                    //SI el paciente tiene un chat abierto lo actualiza
+                    Chat chat = _getChats.GetChatAbiertoDePaciente(paciente.Id);
+                    Mensaje mensaje = new Mensaje("Una recepcionista lo atendera por esta u otra via lo antes posible, recuerde que el horario de atencion personalizada es de 8am hasta las 5pm", "CHATBOT");
+                    chat.AgregarMensajeBotRecepcion(mensaje);
+                    chat.AsistenciaAutomatica = false;
+                    _abChat.Actualizar(chat);
+                }
+
+            }
+        }
+
+
+        public void AumentarIndiceReintento(string userManda) {
+
+            if (_getPacientes.ExistePaciente(userManda))
+            {
+                Paciente paciente = _getPacientes.GetPacientePorUsuario(userManda);
+                 if (_getChats.PacienteTieneChatAbierto(paciente.Id))
+                {
+                    //SI el paciente tiene un chat abierto lo actualiza
+                    Chat chat = _getChats.GetChatAbiertoDePaciente(paciente.Id);
+                    chat.IndiceReintento += 1;
+                    _abChat.Actualizar(chat);
+
+                    if (chat.IndiceReintento > 2) {
+                        MostrarBotoneraAsistencia(userManda);
+                    }
+                }
+                else
+                {
+                    //si el paciente NO tiene un chat abierto lo crea
+                    Chat chat = new Chat(paciente);
+                    chat.IndiceReintento += 1;
+                    _abChat.Crear(chat);
+                }
+            }
+        
+        }
+
+        private async void MostrarBotoneraAsistencia(string userManda)
+        {
+
+            string idConexion = UsuariosConectados.GetIdConexionDeUsuario(userManda);
+            if (!String.IsNullOrEmpty(idConexion))
+            {
+                await Clients.Client(idConexion).SendAsync("MostrarBotoneraAsistencia");
+            }
 
         }
 

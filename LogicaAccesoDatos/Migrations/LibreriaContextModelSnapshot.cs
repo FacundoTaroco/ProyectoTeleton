@@ -162,6 +162,9 @@ namespace LogicaAccesoDatos.Migrations
                     b.Property<DateTime>("FechaApertura")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("IndiceReintento")
+                        .HasColumnType("int");
+
                     b.Property<int>("_PacienteId")
                         .HasColumnType("int");
 

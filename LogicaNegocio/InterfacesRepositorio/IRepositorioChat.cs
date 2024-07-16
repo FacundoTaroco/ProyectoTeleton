@@ -17,5 +17,9 @@ namespace LogicaNegocio.InterfacesRepositorio
         public bool PacienteTieneChatAbierto(int idPaciente);
 
         public IEnumerable<Chat> GetChatsDePaciente(int idPaciente);
+        public IEnumerable<Chat> GetChatsQueSolicitaronAsistenciaNoAtendidos();
+        public IEnumerable<Chat> GetChatsDeRecepcionista(int idRecepcionista);
+        public bool ExisteChatPacienteRecepcionista(string pacienteUsuario, string recepcionistaUsuario);
+
     }
 }

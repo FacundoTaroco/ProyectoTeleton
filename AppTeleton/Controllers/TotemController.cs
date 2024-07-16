@@ -39,7 +39,7 @@ namespace AppTeleton.Controllers
             _getTotems = getTotems;
             _generarAvisoLlegada = generarAvisoLLegada;
             _getCitas = getCitas;
-             _login = login;
+            _login = login;
             _actualizarListadosHub = listadoHub;    
         }
 
@@ -94,7 +94,6 @@ namespace AppTeleton.Controllers
             }
                 
         
-
         public async Task<IActionResult> Acceder(string cedula) {
             try
             {
@@ -121,7 +120,7 @@ namespace AppTeleton.Controllers
                      _actualizarListadosHub.Clients.All.SendAsync("ActualizarListado", citasDeHoy);
                 }
                 
-                //OBTENER CITAS DE HOY ACA
+              
             
                 AccesoTotemViewModel accesoTotemViewModel = new AccesoTotemViewModel(citasDeHoy, paciente);
                

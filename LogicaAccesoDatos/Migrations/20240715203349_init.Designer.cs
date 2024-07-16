@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LogicaAccesoDatos.Migrations
 {
     [DbContext(typeof(LibreriaContext))]
-    [Migration("20240704010236_init")]
+    [Migration("20240715203349_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -163,6 +163,9 @@ namespace LogicaAccesoDatos.Migrations
 
                     b.Property<DateTime>("FechaApertura")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("IndiceReintento")
+                        .HasColumnType("int");
 
                     b.Property<int>("_PacienteId")
                         .HasColumnType("int");
