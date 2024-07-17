@@ -18,6 +18,7 @@ using LogicaAplicacion.CasosUso.DispositivoUsuarioCU;
 using LogicaAplicacion.CasosUso.NotificacionCU;
 using LogicaAplicacion.CasosUso.PreguntasFrecCU;
 using LogicaNegocio.Entidades;
+using LogicaAplicacion.CasosUso.EncuestaCU;
 //using AspNetCore;
 
 
@@ -51,6 +52,8 @@ builder.Services.AddScoped<IRepositorioDispositivoNotificaciones, RepositorioDis
 builder.Services.AddScoped<IRepositorioNotificacion, RepositorioNotificacion>();
 builder.Services.AddScoped<IRepositorioPreguntaFrec, RepositorioPreguntaFrec>();
 builder.Services.AddScoped<IRepositorioCitaMedica, RepositorioCitaMedica>();
+builder.Services.AddScoped<IRepositorioEncuesta, RepositorioEncuesta>();
+
 //Scope de casos de uso
 
 builder.Services.AddScoped<GetUsuarios, GetUsuarios>();
@@ -90,11 +93,15 @@ builder.Services.AddScoped<GetPreguntasFrec, GetPreguntasFrec>();
 
 builder.Services.AddScoped<CambiarContrasenia, CambiarContrasenia>();
 
+builder.Services.AddScoped<GetEncuestas, GetEncuestas>();
+builder.Services.AddScoped<ABMEncuestas, ABMEncuestas>();
+
 //scopes de servicios
 builder.Services.AddScoped<EnviarNotificacionService, EnviarNotificacionService>();
 builder.Services.AddScoped<SolicitarPacientesService, SolicitarPacientesService>();
 builder.Services.AddScoped<SolicitarCitasService, SolicitarCitasService>();
 builder.Services.AddScoped<GenerarAvisoMedicoService, GenerarAvisoMedicoService>();
+builder.Services.AddScoped<SolicitarEncuestasService, SolicitarEncuestasService>();
 //Usuario
 builder.Services.AddScoped<ILogin, Login>();
 
