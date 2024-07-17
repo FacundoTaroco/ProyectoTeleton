@@ -20,14 +20,16 @@ namespace AppTeleton.Hubs
         private GetPacientes _getPacientes;
         private GetRecepcionistas _getRecepcionistas;
         private ABRespuestasEquivocadas _ABrespuestasEquivocadas;
+        public EnviarNotificacionService _enviarNotificacion;
 
-        public HubConectado(ABRespuestasEquivocadas respuestasMal, ChatBotService chatbot, ABMChat abChat, GetChats getChats, GetPacientes getPacientes, GetRecepcionistas getRecepcionistas) { 
+        public HubConectado(EnviarNotificacionService enviarNotificacion, ABRespuestasEquivocadas respuestasMal, ChatBotService chatbot, ABMChat abChat, GetChats getChats, GetPacientes getPacientes, GetRecepcionistas getRecepcionistas) { 
         _chatBot = chatbot;
         _abChat = abChat;
         _getChats = getChats;
         _getPacientes = getPacientes;
         _getRecepcionistas = getRecepcionistas;
         _ABrespuestasEquivocadas = respuestasMal;
+        _enviarNotificacion = enviarNotificacion;
         }
 
         public override Task OnConnectedAsync()
@@ -123,7 +125,11 @@ namespace AppTeleton.Hubs
             }
             else if(_getPacientes.ExistePaciente(userRecibe)) {
                 idConexion = UsuariosConectados.GetIdConexionDeUsuario(userRecibe);
+                if (!String.IsNullOrEmpty(idConexion))
+                { 
                 await Clients.Client(idConexion).SendAsync("MensajeRecibido", userManda, userRecibe, message, false, true);
+                }
+                    
             }
 
 
@@ -181,6 +187,7 @@ namespace AppTeleton.Hubs
             if (_getPacientes.ExistePaciente(userManda))
             {
                 Paciente paciente = _getPacientes.GetPacientePorUsuario(userManda);
+                _enviarNotificacion.EnviarATodosRecepcion("Solicitud de asistencia", paciente.Nombre + " esta solicitando asistencia personalizada por chat");
                 if (_getChats.PacienteTieneChatAbierto(paciente.Id))
                 {
                     //SI el paciente tiene un chat abierto lo actualiza

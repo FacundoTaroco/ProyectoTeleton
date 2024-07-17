@@ -36,44 +36,9 @@ namespace AppTeleton.Controllers
             _getTotems = getTotems;
         }
       
-        [HttpGet]
-        public IActionResult Index(TipoUsuario tipoUsuario,string tipoMensaje, string mensaje)
-        {
-            if(!String.IsNullOrEmpty(tipoMensaje) && !String.IsNullOrEmpty(mensaje)) {
-                ViewBag.TipoMensaje = tipoMensaje;
-                ViewBag.Mensaje = mensaje;  
-            }
+     
 
-            ViewBag.TipoUsuario = tipoUsuario;
-            if (tipoUsuario == TipoUsuario.NoLogueado) {
-                ViewBag.TipoUsuario = TipoUsuario.Paciente;
-            }
-            return View(ObtenerModeloUsuarios());
-        }
-
-        [HttpGet]
-        public IActionResult VerTipoUsuario(TipoUsuario opcion) {
-
-            if (opcion == TipoUsuario.Paciente)
-            {
-                ViewBag.TipoUsuario = TipoUsuario.Paciente;
-            }
-            else if (opcion == TipoUsuario.Recepcionista) {
-                ViewBag.TipoUsuario = TipoUsuario.Recepcionista;
-            }
-            else if (opcion == TipoUsuario.Admin)
-            {
-                ViewBag.TipoUsuario = TipoUsuario.Admin;
-            }
-            else if(opcion == TipoUsuario.Medico)
-            {
-                ViewBag.TipoUsuario = TipoUsuario.Medico;
-            }
-
-            return View("Index", ObtenerModeloUsuarios());
-
-        }
-
+       
 
         [HttpGet]
         public IActionResult AgregarAdmin() { 
@@ -86,11 +51,8 @@ namespace AppTeleton.Controllers
             try
             {
                 _ABMAdministradores.AltaAdmin(admin);
-                ViewBag.TipoMensaje = "EXITO";
-                ViewBag.Mensaje = "Administrador agregado con exito";
-                ViewBag.TipoUsuario = TipoUsuario.Admin;
-                return View("Index", ObtenerModeloUsuarios());
-
+                
+                return RedirectToAction("ListadoUsuarios", "Usuario", new { tipoUsuario = TipoUsuario.Admin, tipoMensaje = "EXITO", mensaje= "Administrador agregado con exito" });
 
             }
             catch (Exception e)
@@ -119,7 +81,7 @@ namespace AppTeleton.Controllers
                 ViewBag.TipoMensaje = "EXITO";
                 ViewBag.Mensaje = "Recepcionista agregado con exito";
                 ViewBag.TipoUsuario = TipoUsuario.Recepcionista;
-                return View("Index", ObtenerModeloUsuarios());
+                return RedirectToAction("ListadoUsuarios", "Usuario", new { tipoUsuario = TipoUsuario.Recepcionista, tipoMensaje = "EXITO", mensaje = "Recepcionista agregado con exito" });
             }
             catch (Exception e)
             {
@@ -129,28 +91,6 @@ namespace AppTeleton.Controllers
             }
 
            
-        }
-
-        [HttpPost] 
-        public async Task<IActionResult> ActualizarPacientes() {
-            try
-            {
-            
-                await _actualizarPacientes.Actualizar();
-                ViewBag.TipoMensaje = "EXITO";
-                ViewBag.Mensaje ="Usuarios Actualizados con exito";
-                ViewBag.TipoUsuario = TipoUsuario.Paciente;
-                return View("Index", ObtenerModeloUsuarios());
-            }
-            catch (Exception e)
-            {
-
-                ViewBag.TipoMensaje = "ERROR";
-                ViewBag.Mensaje = e.Message;
-                ViewBag.TipoUsuario = TipoUsuario.Paciente;
-                return View("Index", ObtenerModeloUsuarios());
-            }
-        
         }
 
         public IActionResult EnviarNotificacionUsuario(int idUsuario, string mensaje) {
@@ -164,18 +104,6 @@ namespace AppTeleton.Controllers
         
         }
 
-      
-
-
-        private UsuariosViewModel ObtenerModeloUsuarios() {
-            IEnumerable<Paciente> pacientes = _getPacientes.GetAll();
-            IEnumerable<Recepcionista> recepcionistas = _getRecepcionistas.GetAll();
-            IEnumerable<Administrador> admins = _getAdministradores.GetAll();
-            IEnumerable<Medico> medicos= _getMedicos.GetAll();
-            IEnumerable<Totem> totems = _getTotems.GetAll();
-            UsuariosViewModel modeloIndex = new UsuariosViewModel(pacientes, admins, recepcionistas, medicos,totems);
-            return modeloIndex;
-        }
 
     }
 }

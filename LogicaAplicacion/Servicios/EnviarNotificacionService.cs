@@ -88,6 +88,52 @@ namespace LogicaAplicacion.Servicios
 
         }
 
+        public void EnviarATodosRecepcion(string titulo, string mensaje) {
+
+            try
+            {
+                IEnumerable<DispositivoNotificacion> dispositivos = _getDispositivos.getAllDispositivos();
+
+                if (dispositivos.Count() > 0)
+                {
+                    NotificacionDTO payload = new NotificacionDTO(titulo, mensaje);
+                    string vapidPublicKey = _config["ClavesNotificaciones:PublicKey"];
+                    string vapidPrivateKey = _config["ClavesNotificaciones:PrivateKey"];
+                    foreach (DispositivoNotificacion dispositivo in dispositivos)
+                    {
+                        
+                        if (dispositivo.Usuario is Recepcionista)
+                        {
+                            try
+                            {
+                                PushSubscription pushSubscription = new PushSubscription(dispositivo.Endpoint, dispositivo.P256dh, dispositivo.Auth);
+                                VapidDetails vapidDetails = new VapidDetails("mailto:centroteleton@qa.teleton.org.uy", vapidPublicKey, vapidPrivateKey);
+                                WebPushClient webPushClient = new WebPushClient();
+                                webPushClient.SetVapidDetails(vapidDetails);
+                                string payloadToken = JsonConvert.SerializeObject(payload, new JsonSerializerSettings()
+                                {
+                                    DateTimeZoneHandling = DateTimeZoneHandling.Utc,
+                                    ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                                });
+                                webPushClient.SendNotification(pushSubscription, payloadToken);
+                            }
+                            catch (WebPushException)
+                            {
+                                //si tira esta exception es porque el dispositivo ya no es valido entonces lo borramos de la BD  
+                                _borrarDispositivo.Delete(dispositivo.Id);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
         public void EnviarATodos(string titulo, string mensaje) {
 
             try
@@ -110,13 +156,13 @@ namespace LogicaAplicacion.Servicios
                     string vapidPrivateKey = _config["ClavesNotificaciones:PrivateKey"];
                     foreach (DispositivoNotificacion dispositivo in dispositivos)
                     {
-                        //EVENTUALMENTE HACER TAMBIEN PARA RECEPCIONISTA
+                      
                         if (dispositivo.Usuario is Paciente)
                         {
                             try
                             {
                                 PushSubscription pushSubscription = new PushSubscription(dispositivo.Endpoint, dispositivo.P256dh, dispositivo.Auth);
-                                VapidDetails vapidDetails = new VapidDetails("mailto:lucasahre05@gmail.com", vapidPublicKey, vapidPrivateKey);
+                                VapidDetails vapidDetails = new VapidDetails("mailto:centroteleton@qa.teleton.org.uy", vapidPublicKey, vapidPrivateKey);
                                 WebPushClient webPushClient = new WebPushClient();
                                 webPushClient.SetVapidDetails(vapidDetails);
                                 string payloadToken = JsonConvert.SerializeObject(payload, new JsonSerializerSettings()

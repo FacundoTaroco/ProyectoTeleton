@@ -57,6 +57,7 @@ builder.Services.AddScoped<IRepositorioRespuestasEquivocadas, RepositorioRespues
 //Scope de casos de uso
 
 builder.Services.AddScoped<GetUsuarios, GetUsuarios>();
+builder.Services.AddScoped<CambiarContrasenia, CambiarContrasenia>();
 
 builder.Services.AddScoped<ABMPacientes, ABMPacientes>();
 builder.Services.AddScoped<GetPacientes, GetPacientes>();

@@ -79,22 +79,20 @@ namespace AppTeleton.Controllers
                 dispositivo.IdUsuario = usuarioLogueado.Id;
                 _guardarDispositivoNotificacion.GuardarDispositivo(dispositivo);
 
-                if (tipoUsuario == "PACIENTE") {
+                
 
-                    return RedirectToAction("Index", "Paciente");
-                }
-                    return RedirectToAction("Index", "Recepcionista");
+                    return RedirectToAction("Index", "Citas");
+                
             }
             catch (Exception)
             {
                 ViewBag.TipoMensaje = "ERROR";
                 ViewBag.Mensaje = "Algo salio mal al activar las notificaciones";
                 string tipoUsuario = HttpContext.Session.GetString("TIPO");
-                if (tipoUsuario == "PACIENTE")
-                {
-                    return RedirectToAction("Index", "Paciente");
-                }
-                return RedirectToAction("Index", "Recepcionista");
+                
+                    return RedirectToAction("Index", "Citas");
+                
+               
             }
 
 

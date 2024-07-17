@@ -24,14 +24,7 @@ namespace AppTeleton.Controllers
 
 
         }
-        [PacienteLogueado]
-        public IActionResult Index()
-        {
-            Paciente paciente = _getPacientes.GetPacientePorUsuario(HttpContext.Session.GetString("USR"));
-            Notificacion notificacionMasReciente = _getNotificaciones.GetMasRecientePorUsuario(paciente.Id);
-            PacienteIndexViewModel modelo = new PacienteIndexViewModel(notificacionMasReciente);
-            return View(modelo);
-        }
+        
         [AdminLogueado]
         public IActionResult Delete(int id) {
             try

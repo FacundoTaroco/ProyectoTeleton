@@ -1,6 +1,7 @@
 ﻿@{
     string tipoUsuario = "";
     string usuario = "";
+   
     if (!String.IsNullOrEmpty(Context.Session.GetString("TIPO")))
     {
         tipoUsuario = Context.Session.GetString("TIPO");
@@ -9,6 +10,9 @@
     {
         usuario = Context.Session.GetString("USR");
     }
+
+   
+   
 }
 
 <!DOCTYPE html>
@@ -37,30 +41,30 @@
 
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                         <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
 
+                            @if (!String.IsNullOrEmpty(usuario))
+                            {
+                          
+                             <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Perfil">Perfil</a>
+                            </li>
+                                
+                            }
                             @if (tipoUsuario == "ADMIN")
                             {
 
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Administrador" asp-action="Index" asp-route-tipoUsuario="PACIENTE">Usuarios</a>
-                                </li>
                             }
                             @if (tipoUsuario == "RECEPCIONISTA")
                             {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Recepcionista" asp-action="Index">Pacientes</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Recepcionista" asp-action="Chats">Chats</a>
-                                </li>
+                                
                             }
                             @if (tipoUsuario == "RECEPCIONISTA" || tipoUsuario == "ADMIN")
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Recepcionista" asp-action="Agenda">Agenda</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Citas" asp-action="Index">Agenda</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="ListadoUsuarios" asp-route-tipoUsuario="PACIENTE">Usuarios</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Notificacion" asp-action="EnviarAvisos">Enviar Notificaciones</a>
@@ -72,14 +76,23 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Chat" asp-action="AdministracionBot">Administrar BOT</a>
                                 </li>
                             } 
+                            
+
+                            @if (tipoUsuario == "RECEPCIONISTA" || tipoUsuario == "PACIENTE")
+                            {
+                                
+                            
                             <li class="nav-item">
                                    <a class="nav-link text-dark" asp-area="" asp-controller="Chat" asp-action="Chat">Asistencia</a>
                              </li>
+                            
+                            }
+                            
                           
                             @if (tipoUsuario == "PACIENTE")
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Paciente" asp-action="Index">Agenda</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Citas" asp-action="Index">Agenda</a>
                                 </li>
                                
                                 <li class="nav-item">
@@ -88,9 +101,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Paciente" asp-action="Mapa">Mapa Teleton</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="PreguntasFrecuentes" asp-action="PreguntasFrecuentes">Preguntas Frecuentes</a>
-                                </li>
+                               
                             }
 
                             @if (!String.IsNullOrEmpty(usuario))
@@ -127,19 +138,39 @@
     }
     <div class="container">
         <main role="main" class="pb-3">
+
+            @if (tipoUsuario == "RECEPCIONISTA" || tipoUsuario == "PACIENTE")
+            {
+                 <div id="notificationBlock" class="alert alert-info" role="alert">
+                Active las notificaciones para recibir avisos y recordatorios importantes
+                <button class="btn btn-primary" onclick="suscribirse()">Aceptar</button>
+                <button class="btn btn-secondary" onclick="hideNotificationBlock()">No ahora</button>
+                 </div>
+            
+           
+            <form id="subscriptionForm" asp-controller="Notificacion" asp-action="GuardarDispositivoNotificacion" method="post" style="display: none;">
+                <input type="text" id="endpoint" name="pushEndpoint">
+                <input type="text" id="p256dh" name="pushP256DH">
+                <input type="text" id="auth" name="pushAuth">
+                </form>
+            }
+
             @RenderBody()
         </main>
     </div>
 
-    <!--<footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - AppTeleton - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>-->
+    
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @if (tipoUsuario == "RECEPCIONISTA" || tipoUsuario == "PACIENTE")
+            {
+        <script>
+            document.addEventListener("DOMContentLoaded", function () { verSiEsconderMensajeNotificacion() });
+    </script>
+            }
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

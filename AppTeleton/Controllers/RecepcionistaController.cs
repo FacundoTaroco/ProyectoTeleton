@@ -45,25 +45,17 @@ namespace AppTeleton.Controllers
             
         }
 
-        public async Task<IActionResult> Index()
-        {
-            DateTime _fechaHoy = DateTime.UtcNow;
-            TimeZoneInfo zonaHoraria = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
-            DateTime hoyGMT = TimeZoneInfo.ConvertTimeFromUtc(_fechaHoy, zonaHoraria);
 
 
-            IEnumerable<CitaMedicaDTO> citas = await _getCitas.ObtenerCitas();
-            IEnumerable<CitaMedicaDTO> citasDeHoy = citas.Where(c=>c.Fecha.Day == hoyGMT.Day && c.Fecha.Month == hoyGMT.Month && c.Fecha.Year == hoyGMT.Year).ToList();
-            RecepcionistaIndexViewModel model = new RecepcionistaIndexViewModel(citasDeHoy);
-
-            return View(model);
-        }
-
-       
-
-       
 
         
+
+
+
+
+
+
+
     }
 }
 

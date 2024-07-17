@@ -9,7 +9,6 @@ using LogicaAplicacion.Excepciones;
 using LogicaNegocio.DTO;
 using LogicaNegocio.Entidades;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using LogicaNegocio.Enums;
 using AppTeleton.Models.Filtros;
