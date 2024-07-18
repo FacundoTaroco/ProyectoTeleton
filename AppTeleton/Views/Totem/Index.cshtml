@@ -1,35 +1,80 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-
-@{
+﻿@{
     ViewData["Title"] = "Login";
     if (ViewBag.Mensaje != null)
     {
         if (ViewBag.TipoMensaje == "ERROR")
         {
-            <div class="alert alert-danger" role="alert">@ViewBag.Mensaje</div>
+            <table class="container h-100">
+                <tr class="row align-items-center">
+                    <td class="col-lg-6 mx-auto">
+                        <p role="alert" style="background-color: #e83844; color: white; padding: 10px;">@ViewBag.Mensaje</p>
+                    </td>
+                </tr>
+            </table>
         }
         else if (ViewBag.TipoMensaje == "EXITO")
         {
-            <div class="alert alert-success" role="alert">@ViewBag.Mensaje</div>
+            <table class="container h-100">
+                <tr class="row align-items-center">
+                    <td class="col-lg-6 mx-auto">
+                        <p role="alert" style="background-color: #28a745; color: white; padding: 10px;">@ViewBag.Mensaje</p>
+                    </td>
+                </tr>
+            </table>
         }
-
     }
 }
 
-<form asp-action="Acceder" asp-controller="Totem" method="post">
-    
-    <div class="form-group col-lg-6">
-        <label for="cedula" name="cedula">Ingrese Numero de cedula sin puntos ni guiones</label>
-        <input name="cedula" class="form-control" type="text" required />
-    </div>
+<table class="container h-100">
+    <tr class="row align-items-center">
+        <td class="col-lg-6 mx-auto text-center">
+            <!-- Centrado vertical y horizontalmente -->
+            <form asp-action="Acceder" asp-controller="Totem" method="post">
+                <label for="cedula" name="cedula" class="mb-0">Ingrese Numero de cedula sin puntos ni guiones más abajo</label>
+                <input name="cedula" class="form-control mb-2" type="text" required />
 
-    <input class="btn btn-primary" type="submit" value="Ingresar" />
+                <input class="btn btn-ingresar btn-block" type="submit" value="Ingresar" /> <!-- Botón centrado y con estilo bloque -->
 
+                <ul class="nav justify-content-center mt-3">
+                    <li class="nav-item">
+                        <a class="nav-link text-red btn-cerrar" href="@Url.Action("CerrarSesion", "Totem")"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+                    </li>
+                </ul>
+            </form>
+        </td>
+    </tr>
+</table>
 
+<style>
+    .btn-ingresar {
+        background-color: #e83844;
+        color: white;
+        border: 2px solid #e83844;
+        border-radius: 15px; /* Redondeado menos prominente */
+        padding: 10px 20px; /* Ajuste de tamaño */
+        font-size: 14px; /* Tamaño de fuente */
+        transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    }
 
-    <li><a href="@Url.Action("CerrarSesion", "Totem")" class="text-black"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
-</form>
+        .btn-ingresar:hover {
+            background-color: white;
+            color: #e83844;
+            border-color: #e83844;
+        }
+
+    .btn-cerrar {
+        color: #e83844; /* Texto inicialmente rojo */
+        background-color: white;
+        border: 2px solid #e83844;
+        border-radius: 15px; /* Redondeado menos prominente */
+        padding: 10px 20px; /* Ajuste de tamaño */
+        font-size: 14px; /* Tamaño de fuente */
+        transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    }
+
+        .btn-cerrar:hover {
+            background-color: #e83844;
+            color: white;
+            border-color: #e83844;
+        }
+</style>

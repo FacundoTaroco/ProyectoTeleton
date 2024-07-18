@@ -1,4 +1,4 @@
-﻿const idleTimeout = 10; // Tiempo de inactividad en segundos (10 minutos)
+﻿const idleTimeout = 60; // Tiempo de inactividad en segundos (1 minuto)
 let timer; // Variable para el temporizador
 let timeLeft = idleTimeout; // Variable para el tiempo restante inicializada con idleTimeout
 
