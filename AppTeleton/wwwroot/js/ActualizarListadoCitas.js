@@ -25,11 +25,11 @@ conexion.on("ActualizarListado", function (listadoActualizado) {
 
             if (cita.estado == "RCP") {
 
-                tabActualizar.innerHTML = "<p>Llego</p>"
+                tabActualizar.innerHTML = "<p>Recepcionado</p>"
 
             }
             else {
-                tabActualizar.innerHTML = "<p>No llego</p>"
+                tabActualizar.innerHTML = "<p>NO recepcionado</p>"
             }
 
         }

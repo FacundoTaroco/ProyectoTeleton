@@ -128,7 +128,7 @@
                          @Html.ActionLink("Cambiar Contraseña", "Perfil", new { idUsuario =item.Id })
 
                         @Html.ActionLink("Ver Citas", "IndexFiltro", "Citas", new { nombre = item.Nombre })
-                     
+
                     </td>
                 </tr>
             }
@@ -182,9 +182,12 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Contrasenia)
                     </td>
-                    <td>
-                        @Html.ActionLink("Cambiar Contraseña", "Perfil", new { idUsuario = item.Id })
+                    @if (ViewBag.UsuarioLogueado == "ADMIN")
+                    {
+                        <td>
+                            @Html.ActionLink("Cambiar Contraseña", "Perfil", new { idUsuario = item.Id })
                     </td>
+                    }
                 </tr>
             }
         </tbody>

@@ -1,6 +1,5 @@
 ﻿using LogicaAccesoDatos.EF.Excepciones;
 using LogicaNegocio.Entidades;
-using LogicaNegocio.EntidadesWit.Entrenamiento;
 using LogicaNegocio.Excepciones;
 using LogicaNegocio.InterfacesRepositorio;
 using Microsoft.EntityFrameworkCore;

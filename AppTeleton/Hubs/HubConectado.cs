@@ -6,8 +6,6 @@ using LogicaAplicacion.Servicios;
 using LogicaNegocio.DTO;
 using LogicaNegocio.Entidades;
 using LogicaNegocio.EntidadesWit;
-using LogicaNegocio.EntidadesWit.Entrenamiento;
-using LogicaNegocio.EntidadesWit.GetMessage;
 using Microsoft.AspNetCore.SignalR;
 
 namespace AppTeleton.Hubs
@@ -157,13 +155,13 @@ namespace AppTeleton.Hubs
 
             MensajeRespuesta mensajeGetMessage = _chatBot.GetMessage(mensaje);
 
-            UtteranceDTO utterance = new UtteranceDTO();
+            Utterance utterance = new Utterance();
             utterance.text = mensaje;
             utterance.intent = mensajeGetMessage.Intents.First().name; //VALIDAR QUE NO SEA NULO
             utterance.traits = new List<UtteranceTrait>();
             utterance.entities = new List<UtteranceEntity>();
 
-            List<UtteranceDTO> utterances = new List<UtteranceDTO> { utterance };
+            List<Utterance> utterances = new List<Utterance> { utterance };
 
             _chatBot.PostUtterance(utterances);
         }

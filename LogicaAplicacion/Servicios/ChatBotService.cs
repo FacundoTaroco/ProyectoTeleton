@@ -2,8 +2,6 @@
 using LogicaNegocio.DTO;
 using LogicaNegocio.Entidades;
 using LogicaNegocio.EntidadesWit;
-using LogicaNegocio.EntidadesWit.Entrenamiento;
-using LogicaNegocio.EntidadesWit.GetMessage;
 using Microsoft.Extensions.Logging;
 using RestSharp;
 using System;
@@ -52,10 +50,19 @@ namespace LogicaAplicacion.Servicios
                     //respuesta especial donde tenemos que enviar un link que le muestre las direcciones que tiene que seguir
 
 
-                    //IF NO HAY ENTIDADES!!!!!! NO RESPONDE SINO
-                    string ubicacionInicial = mensajeGetMessage.Entities.First().Value[0].Value;
-                    string linkTransporte = GenerarLinkTransporte(ubicacionInicial);
-                    return "<a href='" + linkTransporte + "' target='_blank'> Presione este mensaje para ver las indicaciones</a>";
+                    if (mensajeGetMessage.Entities.First().Value.Count() > 0)
+                    {
+                        string ubicacionInicial = mensajeGetMessage.Entities.First().Value[0].Value;
+                        string linkTransporte = GenerarLinkTransporte(ubicacionInicial);
+                        return "<a href='" + linkTransporte + "' target='_blank'> Presione este mensaje para ver las indicaciones</a>";
+
+                    }
+                    else { 
+                    
+                    //VER QUE HACER ACA SI NO ENTENDIO LA DIRECCION
+                    
+                    }
+                  
                 }
                 if (intent.Equals("tratamiento_info")) { 
                     //respuesta especial donde varia la respuesta segun cada tipo de tratamiento
@@ -132,12 +139,12 @@ namespace LogicaAplicacion.Servicios
 
 
         }
-
+        
         public Evento PostEvent(MensajeBotDTO msj)
         {
             var options = new RestClientOptions(linkAPI);
             var client = new RestClient(options);
-            var request = new RestRequest("/event?v=20240711&session_id=prod78f&context_map=%7B%7D", Method.Post);
+            var request = new RestRequest("/event?v=20240719&session_id=prodgwe&context_map=%7B%7D", Method.Post);
             //request.AddHeader("Content-Type", "application/json");
             request.AddHeader("Authorization", $"Bearer {Token}");
 
@@ -242,7 +249,7 @@ namespace LogicaAplicacion.Servicios
             }
         }
 
-        public void PostUtterance(List<UtteranceDTO> utterances)
+        public void PostUtterance(List<Utterance> utterances)
         {
             var options = new RestClientOptions(linkAPI);
             var client = new RestClient(options);

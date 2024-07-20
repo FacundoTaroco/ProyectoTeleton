@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LogicaNegocio.EntidadesWit.Entrenamiento
+namespace LogicaNegocio.EntidadesWit
 {
     public class UtteranceTrait
     {

@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LogicaNegocio.EntidadesWit.Entrenamiento
+namespace LogicaNegocio.EntidadesWit
 {
-    public class UtteranceDTO
+    public class Utterance
     {
         public string text { get; set; }
         public string intent { get; set; }
         public List<UtteranceEntity> entities { get; set; }
         public List<UtteranceTrait> traits { get; set; }
 
-        public UtteranceDTO(string text, string intent, List<UtteranceEntity> entities, List<UtteranceTrait> traits)
+        public Utterance(string text, string intent, List<UtteranceEntity> entities, List<UtteranceTrait> traits)
         {
             this.text = text;
             this.intent = intent;
@@ -21,6 +21,6 @@ namespace LogicaNegocio.EntidadesWit.Entrenamiento
             this.traits = traits;
 
         }
-        public UtteranceDTO() { }
+        public Utterance() { }
     }
 }

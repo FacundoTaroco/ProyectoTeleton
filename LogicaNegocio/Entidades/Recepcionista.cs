@@ -9,7 +9,7 @@ namespace LogicaNegocio.Entidades
 {
     public class Recepcionista:Usuario
     {
-        //aca tendria chats y otras cosas 
+   
 
         public Recepcionista() { }
         public Recepcionista(string nombre ,string nombreUsr, string contrasenia):base(nombreUsr,contrasenia,nombre)

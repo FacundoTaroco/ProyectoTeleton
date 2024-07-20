@@ -1,6 +1,6 @@
-﻿using LogicaNegocio.Entidades;
+﻿
 
-namespace AppTeleton.Hubs
+namespace LogicaNegocio.Entidades
 {
     public class UsuariosConectados
     {

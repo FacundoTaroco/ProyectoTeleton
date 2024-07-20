@@ -1,8 +1,9 @@
 ﻿using AppTeleton.Models;
 using LogicaAplicacion.CasosUso.PreguntasFrecCU;
 using LogicaAplicacion.Servicios;
+using LogicaNegocio.DTO;
 using LogicaNegocio.Entidades;
-using LogicaNegocio.EntidadesWit.Entrenamiento;
+using LogicaNegocio.EntidadesWit;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AppTeleton.Controllers
@@ -92,12 +93,12 @@ namespace AppTeleton.Controllers
 
                     //enviamos la pregunta como utterance a wit para que se entrene
 
-                    UtteranceDTO utterance = new UtteranceDTO();
+                    Utterance utterance = new Utterance();
                     utterance.text = pregunta;
                     utterance.intent = categoriaNueva;
                     utterance.traits = new List<UtteranceTrait>();
                     utterance.entities = new List<UtteranceEntity>();
-                    List<UtteranceDTO> utterances = new List<UtteranceDTO> { utterance };
+                    List<Utterance> utterances = new List<Utterance> { utterance };
                     _chatBotService.PostUtterance(utterances);
 
                     return RedirectToAction("PreguntasFrecuentes");
@@ -119,12 +120,12 @@ namespace AppTeleton.Controllers
 
                     //enviamos la pregunta como utterance a wit para que se entrene
 
-                    UtteranceDTO utterance = new UtteranceDTO();
+                    Utterance utterance = new Utterance();
                     utterance.text = pregunta;
                     utterance.intent = categoriaSeleccionada;
                     utterance.traits = new List<UtteranceTrait>();
                     utterance.entities = new List<UtteranceEntity>();
-                    List<UtteranceDTO> utterances = new List<UtteranceDTO> { utterance };
+                    List<Utterance> utterances = new List<Utterance> { utterance };
                     _chatBotService.PostUtterance(utterances);
                     return RedirectToAction("PreguntasFrecuentes");
 

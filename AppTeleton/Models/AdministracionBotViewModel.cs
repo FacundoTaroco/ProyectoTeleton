@@ -1,4 +1,5 @@
-﻿using LogicaNegocio.EntidadesWit.Entrenamiento;
+﻿using LogicaNegocio.Entidades;
+using LogicaNegocio.EntidadesWit;
 
 namespace AppTeleton.Models
 {

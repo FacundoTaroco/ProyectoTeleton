@@ -1,4 +1,4 @@
-﻿using LogicaNegocio.EntidadesWit.Entrenamiento;
+﻿using LogicaNegocio.Entidades;
 using LogicaNegocio.InterfacesRepositorio;
 using System;
 using System.Collections.Generic;

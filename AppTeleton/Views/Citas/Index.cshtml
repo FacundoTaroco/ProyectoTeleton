@@ -65,6 +65,9 @@ else
 
         <button class="btn btn-primary btn-block" type="submit">Buscar</button>
     </form>
+     <form asp-action="Index" asp-controller="Citas">
+            <button class="btn btn-primary btn-block" type="submit">Citas de hoy</button>
+     </form>
 </div>
 }
 
@@ -96,6 +99,10 @@ else
                     Estado
             </th>
             }
+            <th>
+
+
+            </th>
 
         </tr>
     </thead>
@@ -128,19 +135,23 @@ else
                     @if (item.Estado == "RCP")
                     {
 
-                        <p>Llego</p>
+                        <p>Recepcionado</p>
 
                     }
                     else
                     {
 
-                        <p>No llego</p>
+                        <p>NO recepcionado</p>
 
                     }
                 </td>
                 
                 
                 }
+                <td>
+                    @Html.ActionLink("Detalles", "Detalles", new { pkAgenda = item.PkAgenda })
+
+                </td>
                 
 
             </tr>

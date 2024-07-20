@@ -5,16 +5,16 @@ using LogicaAplicacion.CasosUso.ChatCU;
 using LogicaAplicacion.CasosUso.PacienteCU;
 using LogicaNegocio.Entidades;
 using LogicaAplicacion.Servicios;
-using LogicaNegocio.EntidadesWit.Entrenamiento;
 using AppTeleton.Models;
 using LogicaNegocio.EntidadesWit;
 using System.Collections;
 using static System.Net.Mime.MediaTypeNames;
 using LogicaAplicacion.CasosUso.RecepcionistaCU;
+using LogicaNegocio.DTO;
 
 namespace AppTeleton.Controllers
 {
-    
+
     public class ChatController : Controller
     {
 
@@ -64,6 +64,7 @@ namespace AppTeleton.Controllers
                     }
                     else
                     {
+                        ViewBag.UsuarioRecibe = "CHATBOT";
                         ViewBag.ChatCargar = new Chat(paciente);
                     }
 
@@ -175,13 +176,13 @@ namespace AppTeleton.Controllers
             try
             {
               
-                UtteranceDTO utterance = new UtteranceDTO();    
+                Utterance utterance = new Utterance();    
                 utterance.text = input;
                 utterance.intent = intentname;
                 utterance.traits = new List<UtteranceTrait>();
                 utterance.entities = new List<UtteranceEntity>();   
 
-                List<UtteranceDTO> utterances = new List<UtteranceDTO> { utterance };
+                List<Utterance> utterances = new List<Utterance> { utterance };
 
                 _chatBotService.PostUtterance(utterances);
 

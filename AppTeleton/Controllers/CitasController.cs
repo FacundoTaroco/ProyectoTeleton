@@ -62,8 +62,32 @@ namespace AppTeleton.Controllers
                 ViewBag.TipoMensaje = "ERROR";
                 return View(new CitasViewModel());
             }
-            
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Detalles(int pkAgenda) {
+
+            try
+            {
+            IEnumerable<CitaMedicaDTO> citas = await _getCitas.ObtenerCitas();
+                CitaMedicaDTO citaAMostrar = citas.FirstOrDefault(c => c.PkAgenda == pkAgenda);
+                if (citaAMostrar == null) {
+                    throw new Exception("No se encontro la cita medica");
+                }
+                return View(citaAMostrar);
+            }
+            catch (Exception e)
+            {
+
+
+                return RedirectToAction("Index");
+            }
+
+           
+
+
+        }
+
 
         [RecepcionistaAdminLogueado]
         public async Task<IActionResult> IndexFiltro(string nombre, DateTime fechaInicio, DateTime fechaFin)

@@ -18,46 +18,15 @@
     }
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Detalle Pregunta Frecuente</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 200px;
-            height: 100%;
-            background-color: #DC143C;
-            z-index: 1;
-        }
-
-        .main-content {
-            margin-left: 200px;
-            padding: 20px;
-        }
-
-        .footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background-color: #f8f9fa;
-            text-align: center;
-            padding: 0.5rem;
-        }
-    </style>
-</head>
 <body>
-    <nav class="sidebar">
-        <h2>Opciones</h2>
-    </nav>
+ 
     <main role="main" class="main-content">
         <h1>@Model.Pregunta</h1>
+        <label>Respuesta: </label>
         <p>@Model.CategoriaPregunta.Respuesta</p>
+        <label>Categoria: </label>
         <p>@Model.CategoriaPregunta.Categoria</p>
         <a href="@Url.Action("PreguntasFrecuentes")" class="btn btn-secondary">Volver</a>
     </main>
 </body>
-</html>
+

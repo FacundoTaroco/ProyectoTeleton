@@ -1,6 +1,5 @@
 ﻿using LogicaAccesoDatos.EF.Config;
 using LogicaNegocio.Entidades;
-using LogicaNegocio.EntidadesWit.Entrenamiento;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;

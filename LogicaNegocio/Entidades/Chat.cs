@@ -43,20 +43,7 @@ namespace LogicaNegocio.Entidades
             TimeZoneInfo zonaHoraria = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
             FechaApertura = TimeZoneInfo.ConvertTimeFromUtc(_fecha, zonaHoraria);
         }
-        public Chat(Paciente paciente, Recepcionista? recepcionista)
-        {
-            _Paciente = paciente;
-            _Recepcionista = recepcionista;
-            Abierto = true;
-            AsistenciaAutomatica = true;
-
-            Mensaje msgBienvenida = new Mensaje("¡Hola! Bienvenido, ¿En qué puedo asistirte?", "CHATBOT");
-            Mensajes.Add(msgBienvenida);
-
-            DateTime _fecha = DateTime.UtcNow;
-            TimeZoneInfo zonaHoraria = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
-            FechaApertura = TimeZoneInfo.ConvertTimeFromUtc(_fecha, zonaHoraria);
-        }
+      
 
         public void AgregarMensajePaciente(Mensaje mensaje)
         {
