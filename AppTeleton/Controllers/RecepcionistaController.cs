@@ -214,18 +214,14 @@ namespace AppTeleton.Controllers
 
                 var pacientesDTOs = pacientesEntidades.Select(p => new PacienteDTO
                 {
-                    Id = p.Id,
                     NombreCompleto = p.Nombre,
                     Cedula = p.Cedula,
-                    Contraseña = p.Contrasenia
                 }).ToList();
 
                 var pacientes = pacientesDTOs.Select(dto => new Paciente
                 {
-                    Id = dto.Id,
                     Nombre = dto.NombreCompleto,
                     Cedula = dto.Cedula,
-                    Contrasenia = dto.Contraseña
                 }).ToList();
 
                 var viewModel = new UsuariosViewModel

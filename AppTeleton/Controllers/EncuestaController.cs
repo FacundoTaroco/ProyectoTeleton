@@ -9,7 +9,7 @@ namespace AppTeleton.Controllers
 
     public class EncuestaController : Controller
     {
-        private readonly IRepositorioEncuesta _repositorioEncuesta;
+        public IRepositorioEncuesta _repositorioEncuesta;
 
         public EncuestaController(IRepositorioEncuesta repositorioEncuesta)
         {
@@ -17,7 +17,7 @@ namespace AppTeleton.Controllers
         }
 
         // Acción para mostrar la vista de creación de encuestas
-        public IActionResult Add()
+        /*public IActionResult Add()
         {
             return View();
         }
@@ -32,7 +32,7 @@ namespace AppTeleton.Controllers
                 return RedirectToAction("Index");
             }
             return View(encuesta);
-        }
+        }*/
 
         // Otras acciones para actualizar, obtener, y eliminar encuestas según sea necesario
     }

@@ -31,6 +31,20 @@ namespace LogicaAccesoDatos.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Encuestas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SatisfaccionGeneral = table.Column<int>(type: "int", nullable: false),
+                    Comentarios = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Encuestas", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PreguntasFrec",
                 columns: table => new
                 {
@@ -175,6 +189,9 @@ namespace LogicaAccesoDatos.Migrations
 
             migrationBuilder.DropTable(
                 name: "Dispositivos");
+
+            migrationBuilder.DropTable(
+                name: "Encuestas");
 
             migrationBuilder.DropTable(
                 name: "Notificaciones");

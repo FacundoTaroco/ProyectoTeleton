@@ -129,6 +129,26 @@ namespace LogicaAccesoDatos.Migrations
                     b.ToTable("Dispositivos");
                 });
 
+            modelBuilder.Entity("LogicaNegocio.Entidades.Encuesta", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Comentarios")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SatisfaccionGeneral")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Encuestas");
+                });
+
             modelBuilder.Entity("LogicaNegocio.Entidades.Notificacion", b =>
                 {
                     b.Property<int>("Id")

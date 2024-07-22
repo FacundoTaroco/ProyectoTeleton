@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LogicaAccesoDatos.Migrations
 {
     [DbContext(typeof(LibreriaContext))]
-    [Migration("20240710233659_init")]
+    [Migration("20240722191933_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -129,6 +129,26 @@ namespace LogicaAccesoDatos.Migrations
                     b.HasIndex("UsuarioId");
 
                     b.ToTable("Dispositivos");
+                });
+
+            modelBuilder.Entity("LogicaNegocio.Entidades.Encuesta", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Comentarios")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SatisfaccionGeneral")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Encuestas");
                 });
 
             modelBuilder.Entity("LogicaNegocio.Entidades.Notificacion", b =>

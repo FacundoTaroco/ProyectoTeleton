@@ -14,8 +14,8 @@ namespace AppTeleton.Controllers
 {
     public class PreguntasFrecuentesController : Controller
     {
-        private readonly ABMPreguntasFrec _abmPreguntasFrec;
-        private readonly GetPreguntasFrec _getPreguntasFrec;
+        public ABMPreguntasFrec _abmPreguntasFrec;
+        public GetPreguntasFrec _getPreguntasFrec;
 
         public PreguntasFrecuentesController(GetPreguntasFrec getPreguntasFrec, ABMPreguntasFrec abmPreguntasFrec)
         {

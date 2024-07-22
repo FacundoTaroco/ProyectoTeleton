@@ -28,7 +28,7 @@ namespace LogicaAccesoDatos.EF
         public DbSet<Notificacion> Notificaciones { get; set; }
         public DbSet<PreguntaFrec> PreguntasFrec { get; set; }
         public DbSet<CitaMedica> CitasMedicas { get; set; }
-
+        public DbSet<Encuesta> Encuestas{ get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

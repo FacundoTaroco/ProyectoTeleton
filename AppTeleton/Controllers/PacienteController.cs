@@ -2,10 +2,13 @@
 using LogicaAccesoDatos.EF;
 using LogicaAplicacion.CasosUso.AdministradorCU;
 using LogicaAplicacion.CasosUso.DispositivoUsuarioCU;
+using LogicaAplicacion.CasosUso.EncuestaCU;
 using LogicaAplicacion.CasosUso.NotificacionCU;
 using LogicaAplicacion.CasosUso.PacienteCU;
+using LogicaAplicacion.CasosUso.PreguntasFrecCU;
 using LogicaNegocio.Entidades;
 using LogicaNegocio.Enums;
+using LogicaNegocio.InterfacesRepositorio;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -17,13 +20,34 @@ namespace AppTeleton.Controllers
         public GetPacientes _getPacientes { get;  }
         public GetNotificacion _getNotificaciones { get; }
         public CambiarContrasenia _cambiarContrasenia;
+        public ABMEncuestas _abmEncuestas;
+        public GetEncuestas _getEncuestas;
 
-        public PacienteController(ABMPacientes abmPacientes, GetPacientes getPacientes,GetNotificacion getNotificacion, CambiarContrasenia cambiarContrasenia) { 
+        public PacienteController(ABMPacientes abmPacientes, GetPacientes getPacientes,GetNotificacion getNotificacion, CambiarContrasenia cambiarContrasenia, ABMEncuestas abmEncuestas, GetEncuestas getEncuestas) { 
         
             _abmPacientes = abmPacientes;   
             _getPacientes = getPacientes;
             _getNotificaciones = getNotificacion;
             _cambiarContrasenia = cambiarContrasenia;
+            _abmEncuestas = abmEncuestas;
+            _getEncuestas = getEncuestas;
+        }
+        [HttpGet]
+        public IActionResult CrearEncuesta()
+        {
+            return View();
+        }
+
+        // Acción HTTP POST para procesar el formulario de creación de encuestas
+        [HttpPost]
+        public IActionResult GuardarEncuesta(Encuesta encuesta)
+        {
+            if (ModelState.IsValid)
+            {
+                _abmEncuestas.AltaEncuesta(encuesta);
+                return RedirectToAction("Index");
+            }
+            return View("Paciente/CrearEncuesta");
         }
 
         [PacienteLogueado]

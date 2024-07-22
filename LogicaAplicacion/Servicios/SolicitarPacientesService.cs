@@ -53,10 +53,8 @@ namespace LogicaAplicacion.Servicios
 
                             string Documento = reader.GetString(0);
                             string Nombre = reader.GetString(1);
-                            string Contrasenia= reader.GetString(2);
-                            int Id = reader.GetInt32(3);
 
-                            PacienteDTO paciente = new PacienteDTO(Id, Nombre, Documento, Contrasenia);
+                            PacienteDTO paciente = new PacienteDTO(Nombre, Documento);
                             pacientesBaseDeDatos.Add(paciente);
 
 

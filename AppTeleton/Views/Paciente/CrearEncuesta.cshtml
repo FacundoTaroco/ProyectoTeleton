@@ -1,4 +1,4 @@
-﻿@model EncuestaViewModel
+﻿@model AppTeleton.Models.EncuestaViewModel
 
 @{
     ViewData["Title"] = "Crear Encuesta";
@@ -99,7 +99,6 @@
                     <li><a href="#"><i class="fas fa-map-marker-alt"></i> Mapa del centro</a></li>
                 </ul>
                 <ul>
-                    <li>Se cerrará la sesión en <span id="time"></span> segundos</li>
                     <li><a href="@Url.Action("CerrarAcceso", "Totem")" class="text-white"><i class="fas fa-sign-out-alt"></i> Salir</a></li>
                 </ul>
             </td>
@@ -108,14 +107,6 @@
                 <form asp-action="GuardarEncuesta" method="post">
                     <table class="table">
                         <tbody>
-                            <tr>
-                                <td><label for="TratamientoNombre">Tratamiento</label></td>
-                                <td><input type="text" class="form-control" id="TratamientoNombre" name="TratamientoNombre" value="@Model.TratamientoNombre" readonly></td>
-                            </tr>
-                            <tr>
-                                <td><label for="PacienteNombre">Paciente</label></td>
-                                <td><input type="text" class="form-control" id="PacienteNombre" name="PacienteNombre" value="@Model.PacienteNombre" readonly></td>
-                            </tr>
                             <tr>
                                 <td><label for="SatisfaccionGeneral">Satisfacción General (1-5)</label></td>
                                 <td>

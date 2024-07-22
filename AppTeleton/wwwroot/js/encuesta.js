@@ -14,7 +14,7 @@ function hideNotificationBlock() {
 
 function irAEncuesta() {
     // Redirecciona a la página de agregar encuesta
-    window.location.href = "/Encuesta/Add"; // Ajustar la URL según la estructura de tu proyecto
+    window.location.href = "/Paciente/CrearEncuesta"; // Ajustar la URL según la estructura de tu proyecto
 }
 
 function reaparecer() {
