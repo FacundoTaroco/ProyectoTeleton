@@ -10,6 +10,7 @@ namespace LogicaNegocio.Entidades
     {
         public int Id { get; set; } 
         public string Categoria { get; set; }
+        public string Descripcion { get; set; } 
         public string Respuesta { get; set; }
 
         public CategoriaPregunta() { 
@@ -17,10 +18,11 @@ namespace LogicaNegocio.Entidades
         
         }
 
-        public CategoriaPregunta(string categoria, string respuesta)
+        public CategoriaPregunta(string categoria, string respuesta, string descripcion)
         {
             Categoria = categoria;
             Respuesta = respuesta;
+            Descripcion = descripcion;
         }
     }
 }

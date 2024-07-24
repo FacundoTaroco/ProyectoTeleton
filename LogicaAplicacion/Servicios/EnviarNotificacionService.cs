@@ -37,9 +37,10 @@ namespace LogicaAplicacion.Servicios
             _borrarDispositivo = borrarDispositivo;
             _getUsuario = getUsuarios;
         }
-        public void Enviar(string titulo, string mensaje, int idUsuario) {
+        public void Enviar(string titulo, string mensaje, string link, int idUsuario) {
             try
             {
+                
                 Usuario usr = _getUsuario.GetUsuario(idUsuario);
                 IEnumerable<DispositivoNotificacion> dispositivos = _getDispositivos.getDispositivosPacientePorId(idUsuario);
                 Notificacion notificacionAGuardar = new Notificacion();
@@ -53,7 +54,10 @@ namespace LogicaAplicacion.Servicios
                 {
 
                     NotificacionDTO payload = new NotificacionDTO(titulo, mensaje);
-
+                    if (!String.IsNullOrEmpty(link))
+                    {
+                        payload.Link = link;
+                    }
 
                     string vapidPublicKey = _config["ClavesNotificaciones:PublicKey"];
                     string vapidPrivateKey = _config["ClavesNotificaciones:PrivateKey"];
@@ -88,7 +92,7 @@ namespace LogicaAplicacion.Servicios
 
         }
 
-        public void EnviarATodosRecepcion(string titulo, string mensaje) {
+        public void EnviarATodosRecepcion(string titulo, string mensaje, string link) {
 
             try
             {
@@ -97,6 +101,10 @@ namespace LogicaAplicacion.Servicios
                 if (dispositivos.Count() > 0)
                 {
                     NotificacionDTO payload = new NotificacionDTO(titulo, mensaje);
+                    if (!String.IsNullOrEmpty(link))
+                    {
+                        payload.Link = link;
+                    }
                     string vapidPublicKey = _config["ClavesNotificaciones:PublicKey"];
                     string vapidPrivateKey = _config["ClavesNotificaciones:PrivateKey"];
                     foreach (DispositivoNotificacion dispositivo in dispositivos)
@@ -134,7 +142,7 @@ namespace LogicaAplicacion.Servicios
 
         }
 
-        public void EnviarATodos(string titulo, string mensaje) {
+        public void EnviarATodos(string titulo, string mensaje, string link) {
 
             try
             {
@@ -152,6 +160,9 @@ namespace LogicaAplicacion.Servicios
                 if (dispositivos.Count() > 0)
                 {
                     NotificacionDTO payload = new NotificacionDTO(titulo, mensaje);
+                    if (!String.IsNullOrEmpty(link)) { 
+                        payload.Link = link;
+                    }
                     string vapidPublicKey = _config["ClavesNotificaciones:PublicKey"];
                     string vapidPrivateKey = _config["ClavesNotificaciones:PrivateKey"];
                     foreach (DispositivoNotificacion dispositivo in dispositivos)

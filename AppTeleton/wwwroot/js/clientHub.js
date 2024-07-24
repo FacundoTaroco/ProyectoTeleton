@@ -10,15 +10,12 @@ var ultimoMensajeEnviado = "";
 mostrarBarraTexto();
 
 
-conexion.on("MensajeRecibido", function (user,userDestino, mensaje, isFinal, paraPaciente) {
+conexion.on("MensajeRecibido", function (user, userDestino, mensaje, isFinal, paraPaciente) {
 
 
-   
+    if ((user != document.querySelector("#txtUsuarioManda").value && user == document.querySelector("#txtUsuarioRecibe").value) || paraPaciente) { 
 
-    document.querySelector("#txtUsuarioRecibe").value = user;
-
-
-    if (user != document.querySelector("#txtUsuarioManda").value) { 
+        document.querySelector("#txtUsuarioRecibe").value = user;
         let fecha = new Date();
         insertarMensajeRecibido(fecha.toString(), user, mensaje)
        
@@ -33,6 +30,7 @@ conexion.on("MensajeRecibido", function (user,userDestino, mensaje, isFinal, par
 conexion.on("MostrarBotoneraAsistencia", function () {
     mostrarBotonesAsistenciaPersonalizada();
 })
+
 conexion.start().then(function () {
     document.getElementById("btnEnviar").disabled = false;
 }).catch(function (err) {
@@ -43,11 +41,17 @@ conexion.start().then(function () {
 document.getElementById("btnEnviar").addEventListener("click", function (e) {
 
 
+
+
     let userManda = document.querySelector("#txtUsuarioManda").value;
     let userRecibe = document.querySelector("#txtUsuarioRecibe").value;
 
 
     let mensaje = document.querySelector("#txtMensaje").value;
+
+    if (mensaje != "") {
+
+  document.querySelector("#txtMensaje").value = "";
     let fecha = new Date();
 
     insertarMensajeMandado(fecha.toString(), userManda, mensaje);
@@ -58,6 +62,10 @@ document.getElementById("btnEnviar").addEventListener("click", function (e) {
     ultimoMensajeEnviado = mensaje;
         
         e.preventDefault();
+
+
+    }
+  
     
                        
 })
@@ -67,7 +75,11 @@ function feedBackNegativo() {
  
     conexion.invoke("FeedBackNegativo", ultimoMensajeEnviado, userManda).then(function () {
 
-        mostrarBarraTexto();
+
+        if (document.getElementById("botoneraAsistencia").style.display == "none") {
+                mostrarBarraTexto();
+        }
+        
     }).catch(function (err) {
         return console.error(err.toString());
     })

@@ -41,19 +41,24 @@
             {
                 foreach (var c in Model.Categorias)
                 {
-                    <option categoria-respuesta="@c.Respuesta" value="@c.Categoria">@c.Categoria</option>
+                    <option categoria-descripcion ="@c.Descripcion" categoria-respuesta="@c.Respuesta" value="@c.Categoria">@c.Categoria</option>
                 }
             }
         </select>
 
+        
+        <p type="text" id="descripcionCategoria"></>
+
     </div>
 
     <div id="divCategoriaNueva">
-
         <label for="txtNuevaCategoria">Ingrese el nombre de la nueva categoria</label>
         <input name="categoriaNueva" type="text" id="txtNuevaCat">
-
+        <label for="txtNuevaCategoria">Ingrese la descripcion de la nueva categoria</label>
+        <input name="categoriaNuevaDescripcion" type="text" id="txtNuevaCatDesc">
     </div>
+
+    
 
     <label for="respuesta" class="form-label">Respuesta: </label>
     <textarea class="form-control mb-3" id="txtRespuesta" name="respuesta" rows="5"></textarea>

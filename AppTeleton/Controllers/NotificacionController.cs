@@ -152,7 +152,7 @@ namespace AppTeleton.Controllers
                 if (String.IsNullOrEmpty(titulo)) throw new Exception("Ingrese un titulo para la notificacion");
                 if (String.IsNullOrEmpty(mensaje)) throw new Exception("Ingrese un mensaje para la notificacion");
 
-                _enviarNotificacionService.EnviarATodos(titulo, mensaje);
+                _enviarNotificacionService.EnviarATodos(titulo, mensaje, "https://localhost:7051/Paciente/NotificacionesPaciente");
                     ViewBag.Mensaje = "notificacion enviada con exito";
                     ViewBag.TipoMensaje = "EXITO";
                 ParametrosNotificaciones parametros = _getNotificacion.GetParametrosRecordatorios();
@@ -185,7 +185,7 @@ namespace AppTeleton.Controllers
                 if(String.IsNullOrEmpty(titulo)) throw new Exception("Ingrese un titulo para la notificacion");
                 if (String.IsNullOrEmpty(mensaje)) throw new Exception("Ingrese un mensaje para la notificacion");
 
-                _enviarNotificacionService.Enviar(titulo, mensaje,idUsuario);
+                _enviarNotificacionService.Enviar(titulo, mensaje, "https://localhost:7051/Paciente/NotificacionesPaciente", idUsuario);
                     ViewBag.Mensaje = "notificacion enviada con exito";
                     ViewBag.TipoMensaje = "EXITO";
                 ParametrosNotificaciones parametros = _getNotificacion.GetParametrosRecordatorios();

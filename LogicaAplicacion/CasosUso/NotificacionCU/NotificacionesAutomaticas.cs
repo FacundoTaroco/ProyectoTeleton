@@ -27,22 +27,26 @@ namespace LogicaAplicacion.CasosUso.NotificacionCU
 
             try
             {
-            IEnumerable<Paciente> pacientes = _getPacientes.GetAll();
-            foreach (Paciente p in pacientes) {
+
+                DateTime _fecha = DateTime.UtcNow;
+                TimeZoneInfo zonaHoraria = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
+                DateTime fechaUruguay = TimeZoneInfo.ConvertTimeFromUtc(_fecha, zonaHoraria);
+
+                IEnumerable<Paciente> pacientes = _getPacientes.GetAll();
+                foreach (Paciente p in pacientes) {
 
                 IEnumerable<CitaMedicaDTO> citasDePaciente = await _solicitarCitas.ObtenerCitasPorCedula(p.Cedula);
                 if (citasDePaciente.Count() > 0) {
-                citasDePaciente= citasDePaciente.OrderBy(p => p.Fecha).ThenBy(p => p.HoraInicio).Where(p => p.Estado == "RPA");
+                citasDePaciente= citasDePaciente.OrderBy(p => p.Fecha).ThenBy(p => p.HoraInicio).Where(p => p.Estado == "RPA" && p.Fecha >= fechaUruguay);
                
 
                  CitaMedicaDTO citaMasReciente = citasDePaciente.First();
                         int diasQueFaltan = (citaMasReciente.Fecha - DateTime.Now).Days;
-
                         if (diasQueFaltan < _getNotificacion.GetParametrosRecordatorios().CadaCuantoEnviarRecordatorio) { 
                         
-                        string tituloNotificacion = "RECORDATORIO: Su proxima cita medica es el " + citaMasReciente.Fecha.ToShortDateString() + " a las " + citaMasReciente.HoraInicio + " hs";
-                        string mensajeNotificacion = "Tiene agendado para " + citaMasReciente.Servicio;
-                        _enviarNotificaciones.Enviar(tituloNotificacion, mensajeNotificacion, p.Id);
+                        string tituloNotificacion = "RECORDATORIO: Su proxima cita en Teletón";
+                        string mensajeNotificacion = "El " + citaMasReciente.Fecha.ToShortDateString() + " a las " + citaMasReciente.HoraInicio + " hs Tiene agendado para " + citaMasReciente.Servicio;
+                        _enviarNotificaciones.Enviar(tituloNotificacion, mensajeNotificacion, "https://localhost:7051/Paciente/NotificacionesPaciente", p.Id); //CAMBIAR LOCALHOST DESPUES POR EL LINK DE AZURE
 
                         }                        
                 }

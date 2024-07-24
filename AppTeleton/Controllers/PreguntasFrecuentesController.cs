@@ -57,7 +57,7 @@ namespace AppTeleton.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(string pregunta,string isChecked, string categoriaSeleccionada, string categoriaNueva ,  string respuesta)
+        public IActionResult Create(string pregunta,string isChecked, string categoriaSeleccionada, string categoriaNueva ,  string respuesta, string categoriaNuevaDescripcion)
         {
             try
             {
@@ -78,7 +78,7 @@ namespace AppTeleton.Controllers
                     }
 
                     //primero tenemos que crear la nueva categoria, guardarla y enviarla como intent a wit
-                    CategoriaPregunta nuevaCategoria = new CategoriaPregunta(categoriaNueva, respuesta);
+                    CategoriaPregunta nuevaCategoria = new CategoriaPregunta(categoriaNueva, respuesta, categoriaNuevaDescripcion);
                     _abmPreguntasFrec.AltaCategoria(nuevaCategoria);
 
                     //mandamos la categoria a wit
@@ -119,7 +119,7 @@ namespace AppTeleton.Controllers
                     _abmPreguntasFrec.AltaPreguntaFrec(preguntaNueva);
 
                     //enviamos la pregunta como utterance a wit para que se entrene
-
+                    
                     Utterance utterance = new Utterance();
                     utterance.text = pregunta;
                     utterance.intent = categoriaSeleccionada;
@@ -127,6 +127,7 @@ namespace AppTeleton.Controllers
                     utterance.entities = new List<UtteranceEntity>();
                     List<Utterance> utterances = new List<Utterance> { utterance };
                     _chatBotService.PostUtterance(utterances);
+
                     return RedirectToAction("PreguntasFrecuentes");
 
                 }

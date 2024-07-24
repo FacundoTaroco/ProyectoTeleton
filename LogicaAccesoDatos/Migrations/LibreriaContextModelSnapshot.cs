@@ -62,6 +62,10 @@ namespace LogicaAccesoDatos.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Respuesta")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -75,72 +79,84 @@ namespace LogicaAccesoDatos.Migrations
                         {
                             Id = 1,
                             Categoria = "prueba_ingreso",
+                            Descripcion = "Preguntas relacionadas al protocolo de ingreso",
                             Respuesta = "Para la prueba de ingreso debes llevar la cédula."
                         },
                         new
                         {
                             Id = 2,
                             Categoria = "acompaniante",
+                            Descripcion = "Preguntas relacionadas a como/quien debe acompañar al paciente",
                             Respuesta = "El niño/adolescente que va a ser atendido, debe concurrir obligatoriamente con uno de sus tutores legales a cargo, o con la persona que ese tutor autorice en la entrevista de recepción que realizamos cuando ingresó al Centro. \r\nEn casos específicos de adolescentes podría evaluarse, en ese caso debería consultar con Coordinación de Agenda.\r\nEn caso de querer asistir con un acompañante mas, se permite (por ejemplo, hermanos).\r\nMientras el niño/adolescente se este atendiendo, el tutor debe permanecer en el centro, aunque no siempre ingrese a las terapias.  Las atenciones pueden ir desde 30, 45, 60, 90 o 120 minutos dependiendo de la actividad que tengas coordinada (para saber cuanto dura su tratamiento, escriba el nombre del mismo en el chat, por ejemplo, fisitría)."
                         },
                         new
                         {
                             Id = 3,
                             Categoria = "comida",
+                            Descripcion = "Preguntas relacionadas a las diferentes opciones de alimentos a las que pueden acceder los pacientes y/o familias en el centro",
                             Respuesta = "Disponemos de una cafetería, aquí podrá comprar comida, o traer la suya y comerla aquí. Tenemos microondas donde podrá calentarla. En caso de cualquier consulta, los voluntarios presentes en el centro, podrán ayudarle."
                         },
                         new
                         {
                             Id = 4,
                             Categoria = "ubicacion",
+                            Descripcion = "Preguntas que solicitan la direccion de la Teletón",
                             Respuesta = "El centro de la fundación Teletón ubicado en Montevideo, se encuentra en Carlos Brussa 2854, en el Barrio Prado. Y el centro Teletón de la ciudad de Fray Bentos, se encuentra en la dirección Zorrilla de San Martín 1484."
                         },
                         new
                         {
                             Id = 5,
                             Categoria = "donacion",
+                            Descripcion = "Preguntas relacionadas al protocolo de donaciones",
                             Respuesta = "En caso de donaciones, o devolver algún equipamiento, primero deberá comunicarse con el número de coordinación: 09*******. Si estas en el interior del país, puede enviarlo por las distintas agencias de transporte (DAC, Correo Uruguayo, etc), y por el tema del costo del envío, se charla con la coordinación y se evalúa. Y en caso de estar en Montevideo, y no tener medio de transporte, también se charla con coordinación."
                         },
                         new
                         {
                             Id = 6,
                             Categoria = "materiales_generales",
+                            Descripcion = "Preguntas relacionadas a con que materiales basicos deben contar a la hora de presentarse a cualquier cita medica",
                             Respuesta = "Los materiales que deben llevar el niño/adolescente varían según su tratamiento del día, para mas información escriba el nombre de su tratamiento y le enviaremos mas información."
                         },
                         new
                         {
                             Id = 7,
                             Categoria = "alcancias",
+                            Descripcion = "Preguntas relacionadas a las alcancias",
                             Respuesta = "Las alcancías se comienzan a entregar aproximadamente un mes antes del comienzo del Programa Teletón. Todos los usuarios tienen derecho a llevar 1 alcancía, presentando la cédula en el área de voluntariado. ubicada en el Centro Teletón. Si necesitas más de 1 alcancía, en el área de voluntariado le podrán dar más información para gestionarla."
                         },
                         new
                         {
                             Id = 8,
                             Categoria = "historia_clinica",
+                            Descripcion = "Preguntas relacionadas a la historia clinica de los pacientes",
                             Respuesta = "Enseguida le enviamos su historia clinica"
                         },
                         new
                         {
                             Id = 9,
                             Categoria = "transporte",
+                            Descripcion = "Preguntas que solicitan direcciones para llegar al centro Teletón",
                             Respuesta = "Enseguida le enviamos indicaciones"
                         },
                         new
                         {
                             Id = 10,
                             Categoria = "cita",
+                            Descripcion = "Preguntas que solicitan informacion de sus citas",
                             Respuesta = "Enseguida le enviaremos la información sobre sus cita"
                         },
                         new
                         {
                             Id = 11,
                             Categoria = "solicitud_traslado",
+                            Descripcion = "Preguntas relacionadas al protocolo de de solicitudes de traslado",
                             Respuesta = "Enseguida le enviaremos la información de la solicitud de traslado"
                         },
                         new
                         {
                             Id = 12,
                             Categoria = "tratamiento_info",
+                            Descripcion = "Preguntas que solicitan informacion de los diferentes tratamientosii",
                             Respuesta = "Enseguida le enviaremos la información de la solicitud del tratamiento"
                         });
                 });
@@ -329,6 +345,27 @@ namespace LogicaAccesoDatos.Migrations
                     b.ToTable("PreguntasFrec");
                 });
 
+            modelBuilder.Entity("LogicaNegocio.Entidades.RespuestaEquivocada", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Input")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IntentAsignado")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RespuestasEquivocadas");
+                });
+
             modelBuilder.Entity("LogicaNegocio.Entidades.Usuario", b =>
                 {
                     b.Property<int>("Id")
@@ -361,27 +398,6 @@ namespace LogicaAccesoDatos.Migrations
                     b.ToTable("Usuarios");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Usuario");
-                });
-
-            modelBuilder.Entity("LogicaNegocio.EntidadesWit.Entrenamiento.RespuestaEquivocada", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Input")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("IntentAsignado")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("RespuestasEquivocadas");
                 });
 
             modelBuilder.Entity("LogicaNegocio.Entidades.Administrador", b =>

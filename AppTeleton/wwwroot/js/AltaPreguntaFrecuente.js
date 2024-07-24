@@ -9,7 +9,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.querySelector("#checkboxNuevaCategoria").addEventListener("change", cambioCheckbox);
 
-document.querySelector("#selectCategoria").addEventListener("change", actualizarRespuesta);
+    document.querySelector("#selectCategoria").addEventListener("change", actualizarRespuesta);
+    document.querySelector("#selectCategoria").addEventListener("change", actualizarDescripcionCategoria);
 
 });
 
@@ -59,4 +60,12 @@ function actualizarRespuesta() {
     let texto = opcionSeleccionada.getAttribute('categoria-respuesta')
 
     document.querySelector("#txtRespuesta").value = texto;
+}
+
+function actualizarDescripcionCategoria() {
+    let select = document.querySelector("#selectCategoria");
+    let opcionSeleccionada = select.options[select.selectedIndex]
+    let texto = opcionSeleccionada.getAttribute('categoria-descripcion')
+
+    document.querySelector("#descripcionCategoria").innerHTML = texto;
 }

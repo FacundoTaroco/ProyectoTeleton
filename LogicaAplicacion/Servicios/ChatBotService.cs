@@ -19,8 +19,8 @@ namespace LogicaAplicacion.Servicios
     public class ChatBotService
     {
         private string linkAPI = "https://api.wit.ai";
-        private string Token = "CCQUHLZIFMAQFNZIB3BQW4H2L7NO2DL4";
-        private string Version = "20240620";
+        private string Token = "535ZGAHWV62GJSIM55I3FYZYG7Z67U4S";
+        private string Version = "20240722";
 
         private GetPreguntasFrec _getPreguntasFrec;
         private GeolocalizacionService _geolocalizacionService;

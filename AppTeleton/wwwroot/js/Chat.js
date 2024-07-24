@@ -165,9 +165,7 @@ function cargarListadoChatsCerrados() {
 
 function LlamarTeleton() {
 
-
     window.location.href = 'tel:+1234567890';
-
 }
 
 

@@ -41,6 +41,7 @@ namespace AppTeleton.Controllers
                 {
                     Paciente pacienteLogueado = _getPacientes.GetPacientePorUsuario(usuario);
                     citasAMostrar = await _getCitas.ObtenerCitasPorCedula(pacienteLogueado.Cedula);
+                    citasAMostrar = citasAMostrar.OrderBy(c => c.Fecha).ThenBy(c => c.HoraInicio).Where(c => c.Fecha >= hoyGMT);
 
                     Paciente paciente = _getPacientes.GetPacientePorUsuario(HttpContext.Session.GetString("USR"));
                     Notificacion notificacionMasReciente = _getNotificacion.GetMasRecientePorUsuario(paciente.Id);
@@ -90,10 +91,11 @@ namespace AppTeleton.Controllers
 
 
         [RecepcionistaAdminLogueado]
-        public async Task<IActionResult> IndexFiltro(string nombre, DateTime fechaInicio, DateTime fechaFin)
+        public async Task<IActionResult> IndexFiltro(string nombre,string cedula, DateTime fechaInicio, DateTime fechaFin)
         {
             try
             {
+
 
             ViewBag.TipoUsuario = HttpContext.Session.GetString("TIPO");
 
@@ -101,46 +103,59 @@ namespace AppTeleton.Controllers
             TimeZoneInfo zonaHoraria = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
             DateTime hoyGMT = TimeZoneInfo.ConvertTimeFromUtc(_fechaHoy, zonaHoraria);
 
+                if (String.IsNullOrEmpty(cedula))
+                {
 
-            IEnumerable<CitaMedicaDTO> citas = await _getCitas.ObtenerCitas();
-            IEnumerable<CitaMedicaDTO> citasFiltradas;
+                    IEnumerable<CitaMedicaDTO> citas = await _getCitas.ObtenerCitas();
+                    IEnumerable<CitaMedicaDTO> citasFiltradas;
 
 
-            if ((nombre != null && nombre != "") && (!fechaInicio.Equals(DateTime.MinValue) && !fechaFin.Equals(DateTime.MinValue)))// La recepcionista filtra por nombre y entre dos fechas
-            {
-                citasFiltradas = citas.Where(c => (c.NombreCompleto.ToLower().Contains(nombre.ToLower())) && (c.Fecha >= fechaInicio && c.Fecha <= fechaFin)).ToList();
-            }
-            else if ((nombre == null || nombre == "") && (!fechaInicio.Equals(DateTime.MinValue) && !fechaFin.Equals(DateTime.MinValue))) //Filtra solo entre fechas
-            {
-                citasFiltradas = citas.Where(c => (c.Fecha >= fechaInicio && c.Fecha <= fechaFin)).ToList();
-            }
-            else if ((nombre != null && nombre != "") && (fechaInicio.Equals(DateTime.MinValue) && fechaFin.Equals(DateTime.MinValue)))//filtra solo por nombre
-            {
-                citasFiltradas = citas.Where(c => (c.NombreCompleto.ToLower().Contains(nombre.ToLower()))).ToList();
-            }
-            else if ((nombre != null && nombre != "") && (!fechaInicio.Equals(DateTime.MinValue)) && (fechaFin.Equals(DateTime.MinValue))) // filtra por nombre, desde determinada fecha hacia delante
-            {
-                citasFiltradas = citas.Where(c => (c.NombreCompleto.ToLower().Contains(nombre.ToLower())) && c.Fecha >= fechaInicio).ToList();
-            }
-            else if ((nombre != null && nombre != "") && (fechaInicio.Equals(DateTime.MinValue)) && (!fechaFin.Equals(DateTime.MinValue))) // filtra por nombre, desde determinada fecha hacia atras
-            {
-                citasFiltradas = citas.Where(c => (c.NombreCompleto.ToLower().Contains(nombre.ToLower())) && c.Fecha <= fechaFin).ToList();
-            }
-            else if ((nombre == null || nombre == "") && (!fechaInicio.Equals(DateTime.MinValue)) && (fechaFin.Equals(DateTime.MinValue))) // filtra desde determinada fecha hacia delante
-            {
-                citasFiltradas = citas.Where(c => c.Fecha >= fechaInicio).ToList();
-            }
-            else if ((nombre == null || nombre == "") && (fechaInicio.Equals(DateTime.MinValue)) && (!fechaFin.Equals(DateTime.MinValue))) // filtra desde determinada fecha hacia atras
-            {
-                citasFiltradas = citas.Where(c => c.Fecha <= fechaFin).ToList();
-            }
-            else
-            {
-                citasFiltradas = citas.Where(c => c.Fecha.Day == hoyGMT.Day && c.Fecha.Month == hoyGMT.Month && c.Fecha.Year == hoyGMT.Year).ToList();
-            }
-            CitasViewModel model = new CitasViewModel(citasFiltradas);
+                    if ((nombre != null && nombre != "") && (!fechaInicio.Equals(DateTime.MinValue) && !fechaFin.Equals(DateTime.MinValue)))// La recepcionista filtra por nombre y entre dos fechas
+                    {
+                        citasFiltradas = citas.Where(c => (c.NombreCompleto.ToLower().Contains(nombre.ToLower())) && (c.Fecha >= fechaInicio && c.Fecha <= fechaFin)).ToList();
+                    }
+                    else if ((nombre == null || nombre == "") && (!fechaInicio.Equals(DateTime.MinValue) && !fechaFin.Equals(DateTime.MinValue))) //Filtra solo entre fechas
+                    {
+                        citasFiltradas = citas.Where(c => (c.Fecha >= fechaInicio && c.Fecha <= fechaFin)).ToList();
+                    }
+                    else if ((nombre != null && nombre != "") && (fechaInicio.Equals(DateTime.MinValue) && fechaFin.Equals(DateTime.MinValue)))//filtra solo por nombre
+                    {
+                        citasFiltradas = citas.Where(c => (c.NombreCompleto.ToLower().Contains(nombre.ToLower()))).ToList();
+                    }
+                    else if ((nombre != null && nombre != "") && (!fechaInicio.Equals(DateTime.MinValue)) && (fechaFin.Equals(DateTime.MinValue))) // filtra por nombre, desde determinada fecha hacia delante
+                    {
+                        citasFiltradas = citas.Where(c => (c.NombreCompleto.ToLower().Contains(nombre.ToLower())) && c.Fecha >= fechaInicio).ToList();
+                    }
+                    else if ((nombre != null && nombre != "") && (fechaInicio.Equals(DateTime.MinValue)) && (!fechaFin.Equals(DateTime.MinValue))) // filtra por nombre, desde determinada fecha hacia atras
+                    {
+                        citasFiltradas = citas.Where(c => (c.NombreCompleto.ToLower().Contains(nombre.ToLower())) && c.Fecha <= fechaFin).ToList();
+                    }
+                    else if ((nombre == null || nombre == "") && (!fechaInicio.Equals(DateTime.MinValue)) && (fechaFin.Equals(DateTime.MinValue))) // filtra desde determinada fecha hacia delante
+                    {
+                        citasFiltradas = citas.Where(c => c.Fecha >= fechaInicio).ToList();
+                    }
+                    else if ((nombre == null || nombre == "") && (fechaInicio.Equals(DateTime.MinValue)) && (!fechaFin.Equals(DateTime.MinValue))) // filtra desde determinada fecha hacia atras
+                    {
+                        citasFiltradas = citas.Where(c => c.Fecha <= fechaFin).ToList();
+                    }
+                    else
+                    {
+                        citasFiltradas = citas.Where(c => c.Fecha.Day == hoyGMT.Day && c.Fecha.Month == hoyGMT.Month && c.Fecha.Year == hoyGMT.Year).ToList();
+                    }
+                    CitasViewModel model = new CitasViewModel(citasFiltradas);
 
-            return View("Index", model);
+                    return View("Index", model);
+
+
+                }
+                else {
+
+                    IEnumerable<CitaMedicaDTO> citas = await _getCitas.ObtenerCitasPorCedula(cedula);
+                    IEnumerable<CitaMedicaDTO> citasFiltradas = citas.OrderBy(c => c.Fecha).ThenBy(c => c.HoraInicio).Where(c => c.Fecha >= hoyGMT);
+                    CitasViewModel model = new CitasViewModel(citasFiltradas);
+                    return View("Index", model);
+                }
+           
             }
             catch (Exception e )
             {

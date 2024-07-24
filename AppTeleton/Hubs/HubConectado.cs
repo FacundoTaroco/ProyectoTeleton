@@ -185,7 +185,7 @@ namespace AppTeleton.Hubs
             if (_getPacientes.ExistePaciente(userManda))
             {
                 Paciente paciente = _getPacientes.GetPacientePorUsuario(userManda);
-                _enviarNotificacion.EnviarATodosRecepcion("Solicitud de asistencia", paciente.Nombre + " esta solicitando asistencia personalizada por chat");
+                _enviarNotificacion.EnviarATodosRecepcion("Solicitud de asistencia", paciente.Nombre + " esta solicitando asistencia personalizada por chat", "https://localhost:7051/Chat/Chat");
                 if (_getChats.PacienteTieneChatAbierto(paciente.Id))
                 {
                     //SI el paciente tiene un chat abierto lo actualiza
