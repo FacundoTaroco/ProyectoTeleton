@@ -198,7 +198,7 @@ namespace AppTeleton.Hubs
 
             }
         }
-
+        
 
         public void AumentarIndiceReintento(string userManda) {
 

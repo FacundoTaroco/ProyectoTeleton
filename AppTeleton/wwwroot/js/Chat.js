@@ -67,23 +67,34 @@ function insertarMensajeRecibido(fechaRecibida, user, mensaje) {
                         <div class="chat-header-recibido">
                                 <p class="small p-2 rounded-3 chat-message" style="background-color: #f5f6f7;">
                                    ${mensaje}
-                                </p>
-                            </div>
-                        </div>`
+                                </p>                               
+                            </div>     
+                        </div>
+                        <button class="btn-xs" data-message="${mensaje}">Reproducir</button>   
+                        `
 
     chatbox.innerHTML += divInsertar;
     chatbox.scrollTop = chatbox.scrollHeight;
 
-
 }
 
+chatbox.addEventListener('click', function (event) {
+    if (event.target.tagName === 'BUTTON') {
+        let mensaje = event.target.getAttribute('data-message');
+        reproducirMensaje(mensaje);
+    }
+});
 
+function reproducirMensaje(mensaje) {
+    window.speechSynthesis.cancel();
+    const audio = new SpeechSynthesisUtterance(mensaje);
 
+    audio.pitch = 1; 
+    audio.rate = 1;  
+    audio.volume = 1;
 
-
-
-
-
+    window.speechSynthesis.speak(audio);
+}
 
 function insertarMensajeMandado(fechaRecibida, userManda, mensaje) {
     let fecha = new Date(fechaRecibida);
@@ -158,10 +169,6 @@ function cargarListadoChatsCerrados() {
         })
     }
 }
-
-
-
-
 
 function LlamarTeleton() {
 
