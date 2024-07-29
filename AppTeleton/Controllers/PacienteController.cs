@@ -1,4 +1,5 @@
-﻿using AppTeleton.Models.Filtros;
+﻿using AppTeleton.Models;
+using AppTeleton.Models.Filtros;
 using LogicaAccesoDatos.EF;
 using LogicaAplicacion.CasosUso.AdministradorCU;
 using LogicaAplicacion.CasosUso.DispositivoUsuarioCU;
@@ -22,8 +23,9 @@ namespace AppTeleton.Controllers
         public CambiarContrasenia _cambiarContrasenia;
         public ABMEncuestas _abmEncuestas;
         public GetEncuestas _getEncuestas;
+        public GetPreguntasFrec _getPreguntasFrec;
 
-        public PacienteController(ABMPacientes abmPacientes, GetPacientes getPacientes,GetNotificacion getNotificacion, CambiarContrasenia cambiarContrasenia, ABMEncuestas abmEncuestas, GetEncuestas getEncuestas) { 
+        public PacienteController(ABMPacientes abmPacientes, GetPacientes getPacientes,GetNotificacion getNotificacion, CambiarContrasenia cambiarContrasenia, ABMEncuestas abmEncuestas, GetEncuestas getEncuestas, GetPreguntasFrec getPreguntasFrec) { 
         
             _abmPacientes = abmPacientes;   
             _getPacientes = getPacientes;
@@ -31,6 +33,7 @@ namespace AppTeleton.Controllers
             _cambiarContrasenia = cambiarContrasenia;
             _abmEncuestas = abmEncuestas;
             _getEncuestas = getEncuestas;
+            _getPreguntasFrec = getPreguntasFrec;
         }
         [HttpGet]
         public IActionResult CrearEncuesta()
@@ -42,12 +45,34 @@ namespace AppTeleton.Controllers
         [HttpPost]
         public IActionResult GuardarEncuesta(Encuesta encuesta)
         {
-            if (ModelState.IsValid)
+            /*if (ModelState.IsValid)
             {
                 _abmEncuestas.AltaEncuesta(encuesta);
                 return RedirectToAction("Index");
             }
-            return View("Paciente/CrearEncuesta");
+            return View("CrearEncuesta");*/
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _abmEncuestas.AltaEncuesta(encuesta);
+                    return RedirectToAction("Index");
+                }
+                catch (ArgumentException ex)
+                {
+                    ViewBag.ErrorMessage = ex.Message;
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.ErrorMessage = "Ocurrió un error inesperado. Por favor, inténtelo de nuevo.";
+                }
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "Debe completar todos los campos correctamente.";
+            }
+
+            return View("CrearEncuesta");
         }
 
         [PacienteLogueado]
@@ -103,6 +128,30 @@ namespace AppTeleton.Controllers
             }
             return View();
         }
+
+        public IActionResult PreguntasFrecuentes()
+        {
+            var modelo = ObtenerModeloPreguntasFrec();
+            return View(modelo);
+        }
+
+        public PreguntasFrecViewModel ObtenerModeloPreguntasFrec()
+        {
+            IEnumerable<PreguntaFrec> preguntasFrec = _getPreguntasFrec.GetAll();
+            PreguntasFrecViewModel modeloIndex = new PreguntasFrecViewModel(preguntasFrec);
+            return modeloIndex;
+        }
+
+        public IActionResult Detalle(int id)
+        {
+            var preguntaFrec = _getPreguntasFrec.GetPreguntaFrecPorId(id);
+            if (preguntaFrec == null)
+            {
+                return NotFound();
+            }
+            return View(preguntaFrec);
+        }
+
 
         [PacienteLogueado]
         [HttpGet]

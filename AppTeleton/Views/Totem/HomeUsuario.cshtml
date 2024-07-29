@@ -17,61 +17,58 @@
             height: 100%;
             margin: 0;
             font-family: Arial, Helvetica, sans-serif;
+            font-size: 16px; /* Tamaño de fuente unificado */
         }
 
         .full-height-table {
             width: 100%;
             height: 100vh;
+            margin: 0;
         }
 
-        .sidebar-container, .content-container {
-            vertical-align: top;
-        }
-
-        .sidebar-container {
+        .sidebar {
             background-color: #e83844;
             color: white;
-            width: 20%;
+            height: 100vh;
+            width: 250px; /* Ancho del sidebar */
             padding: 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1;
         }
 
-        .content-container {
-            width: 80%;
-            padding: 20px;
-        }
-
-        .sidebar ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-            .sidebar ul li {
-                margin: 10px 0;
+            .sidebar ul {
+                list-style-type: none;
+                padding: 0;
             }
 
-                .sidebar ul li a {
-                    color: white !important; /* Asegura que los enlaces sean blancos */
-                    text-decoration: none;
-                    padding: 10px;
-                    display: flex;
-                    align-items: center;
-                    border: 2px solid transparent;
-                    transition: all 0.3s ease;
+                .sidebar ul li {
+                    margin: 10px 0;
                 }
 
-                    .sidebar ul li a:hover {
-                        background-color: #ff6666;
-                        border-color: #ff6666;
-                        color: white !important; /* Asegura que los enlaces sean blancos al pasar el mouse */
+                    .sidebar ul li a {
+                        color: white !important;
                         text-decoration: none;
+                        display: flex;
+                        align-items: center;
+                        padding: 10px;
+                        border-radius: 5px;
+                        transition: background-color 0.3s;
                     }
 
-                    .sidebar ul li a i {
-                        margin-right: 10px;
-                        color: white !important; /* Asegura que los íconos sean blancos */
-                    }
+                        .sidebar ul li a:hover {
+                            background-color: #ff6666;
+                        }
 
-        .content h3 {
+        .main-content {
+            margin-left: 250px; /* Debe coincidir con el ancho del sidebar */
+            padding: 20px;
+        }
+
+        .footer {
+            background-color: #f8f9fa;
+            padding: 0.5rem;
             text-align: center;
         }
 
@@ -94,55 +91,54 @@
     </style>
 </head>
 <body>
-    <table class="full-height-table">
-        <tr>
-            <td class="sidebar-container">
-                <h3>Menú</h3>
-                <ul>
-                    <li><a href="#" style="color: white !important;"><i class="fas fa-calendar-alt" style="color: white !important;"></i> Tratamientos para hoy</a></li>
-                    <li><a href="#" style="color: white !important;"><i class="fas fa-question-circle" style="color: white !important;"></i> Preguntas frecuentes</a></li>
-                    <li><a href="#" style="color: white !important;"><i class="fas fa-map-marker-alt" style="color: white !important;"></i> Mapa del centro</a></li>
-                </ul>
-                <ul>
-                    <li>Se cerrará la sesión en <span id="time"></span> segundos</li>
-                    <li><a href="@Url.Action("CerrarAcceso", "Totem")" class="text-white"><i class="fas fa-sign-out-alt"></i> Salir</a></li>
-                </ul>
-            </td>
-            <td class="content-container">
-                <p>Recuerda que puedes realizar una encuesta de satisfacción en la web de tu dispositivo</p>
-                <h3>Tratamientos para hoy</h3>
-                <form asp-action="ActualizarCitas" method="post">
-                    <input type="submit" value="Actualizar Citas" class="btn btn-actualizar" />
-                </form>
-                @if (Model.Citas != null)
-                {
-                    <table class="table table-bordered mt-3">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Servicio</th>
-                                <th>Tratamiento</th>
-                                <th>Fecha</th>
-                                <th>Hora</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.Citas)
-                            {
-                                <tr>
-                                    <td>@Html.DisplayFor(modelItem => item.NombreCompleto)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Servicio)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Tratamiento)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Fecha)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.HoraInicio)</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                }
-            </td>
-        </tr>
-    </table>
+    <nav class="sidebar">
+        <h3>Menú</h3>
+        <ul>
+            <li><a href="@Url.Action("HomeUsuario", "Totem")"><i class="fas fa-calendar-alt"></i> Tratamientos para hoy</a></li>
+            <li><a href="@Url.Action("PreguntasFrecuentes", "PreguntasFrecuentes")"><i class="fas fa-question-circle"></i> Preguntas frecuentes</a></li>
+            <li><a href="#"><i class="fas fa-map-marker-alt"></i> Mapa del centro</a></li>
+        </ul>
+        <ul>
+            <li>Se cerrará la sesión en <span id="time"></span> segundos</li>
+            <li><a href="@Url.Action("CerrarAcceso", "Totem")"><i class="fas fa-sign-out-alt"></i> Salir</a></li>
+        </ul>
+    </nav>
+    <main class="main-content">
+        <p>Recuerda que puedes realizar una encuesta de satisfacción en la web de tu dispositivo</p>
+        <h3>Tratamientos para hoy</h3>
+        <form asp-action="ActualizarCitas" method="post">
+            <input type="submit" value="Actualizar Citas" class="btn btn-actualizar" />
+        </form>
+        @if (Model.Citas != null)
+        {
+            <table class="table table-bordered mt-3">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Servicio</th>
+                        <th>Tratamiento</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Citas)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.NombreCompleto)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Servicio)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Tratamiento)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Fecha)</td>
+                            <td>@Html.DisplayFor(modelItem => item.HoraInicio)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </main>
+    <footer class="footer">
+        <span class="text-muted">© 2024 - AppTeleton - <a href="#">Privacy</a></span>
+    </footer>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>

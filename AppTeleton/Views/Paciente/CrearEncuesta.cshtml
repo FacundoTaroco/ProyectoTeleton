@@ -45,30 +45,30 @@
             padding: 0;
         }
 
-        .sidebar ul li {
-            margin: 10px 0;
-        }
+            .sidebar ul li {
+                margin: 10px 0;
+            }
 
-        .sidebar ul li a {
-            color: white;
-            text-decoration: none;
-            padding: 10px;
-            display: flex;
-            align-items: center;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-        }
+                .sidebar ul li a {
+                    color: white;
+                    text-decoration: none;
+                    padding: 10px;
+                    display: flex;
+                    align-items: center;
+                    border: 2px solid transparent;
+                    transition: all 0.3s ease;
+                }
 
-        .sidebar ul li a:hover {
-            background-color: #ff6666;
-            border-color: #ff6666;
-            color: white;
-            text-decoration: none;
-        }
+                    .sidebar ul li a:hover {
+                        background-color: #ff6666;
+                        border-color: #ff6666;
+                        color: white;
+                        text-decoration: none;
+                    }
 
-        .sidebar ul li a i {
-            margin-right: 10px;
-        }
+                    .sidebar ul li a i {
+                        margin-right: 10px;
+                    }
 
         .content h3 {
             text-align: center;
@@ -81,11 +81,11 @@
             transition: background-color 0.3s, color 0.3s, border-color 0.3s;
         }
 
-        .btn-actualizar:hover {
-            background-color: white;
-            color: #e83844;
-            border-color: #e83844;
-        }
+            .btn-actualizar:hover {
+                background-color: white;
+                color: #e83844;
+                border-color: #e83844;
+            }
     </style>
 </head>
 <body>
@@ -93,12 +93,10 @@
         <tr>
             <td class="sidebar-container">
                 <h3>Menú</h3>
-                <ul>
+                <ul class="sidebar">
                     <li><a href="#"><i class="fas fa-calendar-alt"></i> Tratamientos para hoy</a></li>
                     <li><a href="#"><i class="fas fa-question-circle"></i> Preguntas frecuentes</a></li>
                     <li><a href="#"><i class="fas fa-map-marker-alt"></i> Mapa del centro</a></li>
-                </ul>
-                <ul>
                     <li><a href="@Url.Action("CerrarAcceso", "Totem")" class="text-white"><i class="fas fa-sign-out-alt"></i> Salir</a></li>
                 </ul>
             </td>
@@ -117,11 +115,20 @@
                                         <option value="4">4</option>
                                         <option value="5">5</option>
                                     </select>
+                                    @Html.ValidationMessageFor(model => model.SatisfaccionGeneral, "", new { @class = "invalid-feedback" })
                                 </td>
                             </tr>
                             <tr>
                                 <td><label for="Comentarios">Comentarios</label></td>
-                                <td><textarea class="form-control" id="Comentarios" name="Comentarios" rows="4"></textarea></td>
+                                <td>
+                                    <textarea class="form-control" id="Comentarios" name="Comentarios" rows="4"></textarea>
+                                    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+                                    {
+                                        <p class="alert alert-danger mt-2" role="alert">
+                                            @ViewBag.ErrorMessage
+                                        </p>
+                                    }
+                                </td>
                             </tr>
                         </tbody>
                     </table>

@@ -18,7 +18,7 @@ namespace LogicaAccesoDatos.EF
 
         public void Add(Encuesta entidad)
         {
-            try
+            /*try
             {
                 if (entidad == null)
                     throw new ArgumentNullException(nameof(entidad));
@@ -28,7 +28,14 @@ namespace LogicaAccesoDatos.EF
             }
             catch (Exception ex) {
                 throw;
-            }
+            }*/
+            if (entidad == null)
+                throw new ArgumentNullException(nameof(entidad));
+            if (string.IsNullOrWhiteSpace(entidad.Comentarios))
+                throw new ArgumentException("Debe completar todos los campos", nameof(entidad.Comentarios));
+
+            _context.Encuestas.Add(entidad);
+            _context.SaveChanges();
         }
 
         public void Guardar(Encuesta entidad)
