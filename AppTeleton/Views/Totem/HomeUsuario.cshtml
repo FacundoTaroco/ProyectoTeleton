@@ -6,7 +6,6 @@
     Layout = null; // Si tienes un layout general, cambia esto por el nombre del layout a
 
 }
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -109,8 +108,12 @@
         }
 
         <div class="row">
+          
+            
+
             <div class="col-md-2 text-white full-height sidebar">
                 <div>
+                  
                     <h3>Menú</h3>
                     <ul class="list-unstyled">
                         <li><a href="#" class="text-white"><i class="fas fa-calendar-alt"></i> Tratamientos para hoy</a></li>
@@ -120,23 +123,18 @@
                 </div>
                 <div>
                     <ul class="list-unstyled">
-                        <li>Se cerrara la sesion en <span id="time"></span> segundos</li>
                         <li><a href="@Url.Action("CerrarAcceso", "Totem")" class="text-white"><i class="fas fa-sign-out-alt"></i>Salir</a></li>
                     </ul>
                 </div>
             </div>
             <div class="col-md-10 content">
+                <div id="time" class="alert alert-danger" role="alert"></div>
                 <h3>Tratamientos para hoy</h3>
-                <form asp-action="ActualizarCitas" method="post">
-                    <input type="submit" value="Actualizar Citas" class="btn btn-actualizar" />
-                </form>
-                @if (Model.Citas != null){
+      
+                @if (Model.Citas != null && Model.Citas.Count()>0){
                 <table class="table table-bordered mt-3">
                     <thead>
                         <tr>
-                            <th>
-                                Nombre
-                            </th>
                             <th>
                                 Servicio
                             </th>
@@ -156,24 +154,26 @@
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.NombreCompleto)
-                                </td>
-                                <td>
                                     @Html.DisplayFor(modelItem => item.Servicio)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Tratamiento)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Fecha)
+                                    @item.Fecha.Date
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.HoraInicio)
+                                    @Html.DisplayFor(modelItem => item.HoraInicio) hs
                                 </td>
                             </tr>
                         }
                     </tbody>
-                </table>
+                    </table>
+                }
+                else
+                {
+                    
+                <h4>No tiene citas agendadas para el dia actual, consulte en recepcion en caso de que esto sea un error</h4>
                 }
             </div>
         </div>
