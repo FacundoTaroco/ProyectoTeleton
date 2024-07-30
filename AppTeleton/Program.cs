@@ -19,6 +19,7 @@ using LogicaAplicacion.CasosUso.PreguntasFrecCU;
 using AppTeleton.Hubs;
 using LogicaAplicacion.CasosUso.ChatCU;
 using System.Text.Json.Serialization;
+using LogicaAplicacion.CasosUso.EncuestaCU;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -54,6 +55,8 @@ builder.Services.AddScoped<IRepositorioPreguntaFrec, RepositorioPreguntaFrec>();
 
 builder.Services.AddScoped<IRepositorioChat, RepositorioChat>();
 builder.Services.AddScoped<IRepositorioRespuestasEquivocadas, RepositorioRespuestaEquivocada>();
+
+builder.Services.AddScoped<IRepositorioEncuesta, RepositorioEncuesta>();
 //Scope de casos de uso
 
 builder.Services.AddScoped<GetUsuarios, GetUsuarios>();
@@ -98,6 +101,9 @@ builder.Services.AddScoped<GetChats, GetChats>();
 builder.Services.AddScoped<ABRespuestasEquivocadas, ABRespuestasEquivocadas>();
 builder.Services.AddScoped<GetRespuestasEquivocadas, GetRespuestasEquivocadas>();
 
+builder.Services.AddScoped<AgregarEncuesta, AgregarEncuesta>();
+builder.Services.AddScoped<GetEncuestas, GetEncuestas>();
+builder.Services.AddScoped<EnviarEncuestas, EnviarEncuestas>();
 
 //scopes de servicios
 builder.Services.AddScoped<EnviarNotificacionService, EnviarNotificacionService>();
@@ -113,6 +119,7 @@ builder.Services.AddScoped<ILogin, Login>();
 //Worker
 builder.Services.AddHostedService<CargarPacientesWorker>();
 builder.Services.AddHostedService<NotificacionesAutomaticasWorker>();
+builder.Services.AddHostedService<EnviarEncuestasWorker>();
 
 var app = builder.Build();
 

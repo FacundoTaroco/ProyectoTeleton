@@ -13,6 +13,7 @@ namespace LogicaNegocio.Entidades
         public int Id { get; set; }
         public string Pregunta { get; set; }
         public CategoriaPregunta CategoriaPregunta { get; set; }
+        public bool MostrarEnTotem { get; set; } = true;
 
         public PreguntaFrec() { }
 
@@ -20,6 +21,7 @@ namespace LogicaNegocio.Entidades
         {
             Pregunta = pregunta;
             CategoriaPregunta = categoria;
+            MostrarEnTotem = true;
        
         }
 

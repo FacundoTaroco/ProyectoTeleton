@@ -1,11 +1,25 @@
 ﻿
 var pacienteChat = "";
+var mensajesConAudio = false;
 function ActualizarPagina() {
     
     let form = document.getElementById("formularioRecargarPagina");
     form.submit();
 
 }
+
+document.querySelector("#btnAudio").addEventListener("click", ActivarAudio);
+function ActivarAudio() {
+
+    if (mensajesConAudio == true) {
+        document.querySelector("#btnAudio").value = "Activar audio";
+        mensajesConAudio = false;
+    } else {
+        document.querySelector("#btnAudio").value = "Desactivar audio";
+        mensajesConAudio = true;
+    }
+}
+
 function cargarChat(chat, tipoUsuario) {
 
     if (chat.Abierto == false) {
@@ -74,13 +88,25 @@ function insertarMensajeRecibido(fechaRecibida, user, mensaje) {
     chatbox.innerHTML += divInsertar;
     chatbox.scrollTop = chatbox.scrollHeight;
 
+    if (mensajesConAudio) {
+        reproducirMensaje(mensaje)
+    }
 
 }
 
 
 
 
+function reproducirMensaje(mensaje) {
+    window.speechSynthesis.cancel();
+    const audio = new SpeechSynthesisUtterance(mensaje);
 
+    audio.pitch = 1;
+    audio.rate = 1;
+    audio.volume = 1;
+
+    window.speechSynthesis.speak(audio);
+}
 
 
 

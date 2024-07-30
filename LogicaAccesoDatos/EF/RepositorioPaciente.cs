@@ -153,7 +153,7 @@ namespace LogicaAccesoDatos.EF
             {
                 if (String.IsNullOrEmpty(usuario))
                 {
-                    throw new NullOrEmptyException("No se recibio cedula");
+                    throw new NullOrEmptyException("No se recibio usuario");
                 }
                 var paciente = _context.Pacientes.FirstOrDefault(paciente => paciente.NombreUsuario.Equals(usuario));
                 if (paciente == null)

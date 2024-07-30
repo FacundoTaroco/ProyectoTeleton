@@ -42,6 +42,7 @@ namespace LogicaAccesoDatos.EF
         public DbSet<RespuestaEquivocada> RespuestasEquivocadas { get; set; }
         public DbSet<PreguntaFrec> PreguntasFrec { get; set; }
         public DbSet<CategoriaPregunta> CategoriasPregunta { get; set; }
+        public DbSet<Encuesta> Encuestas { get; set; }
 
 
 
@@ -172,7 +173,7 @@ namespace LogicaAccesoDatos.EF
 
          
         }
-        //a
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 

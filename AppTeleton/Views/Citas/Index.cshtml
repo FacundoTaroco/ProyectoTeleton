@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Index";
     string tipoUsuario = Context.Session.GetString("TIPO");
+    string usuario = Context.Session.GetString("USR");
 }
 @{
     if (ViewBag.Mensaje != null)
@@ -24,7 +25,25 @@
 @{
     if (tipoUsuario == "PACIENTE")
     {
-        
+
+        if (ViewBag.Encuestar != null)
+        {
+            if (ViewBag.Encuestar == "si")
+            {
+                <div class="alert alert-success" role="alert">
+                <p>¿Desea realizar una encuesta sobre el servicio ofrecido el dia de hoy?</p>
+                    <form asp-controller="Encuesta" asp-action="Create" method="get">
+                        <input type="hidden" value="@usuario" name="nombreUsuario">
+                        <input type="submit" value="Si, realizar encuesta">
+                    </form>
+                    <form asp-controller="Encuesta" asp-action="NoCrear" method="post">
+                        <input type="hidden" value="@usuario" name="nombreUsuario">
+                        <input type="submit" value="No gracias">
+                    </form>
+                </div>
+            }
+        }
+
     <form id="formularioAbrirNotificaciones" asp-controller="Paciente" asp-action="NotificacionesPaciente" style="display:none;" method="get">
     </form>
     <h1>Index</h1>

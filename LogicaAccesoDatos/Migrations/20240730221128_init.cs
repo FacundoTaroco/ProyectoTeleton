@@ -25,6 +25,20 @@ namespace LogicaAccesoDatos.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Encuestas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SatisfaccionGeneral = table.Column<int>(type: "int", nullable: false),
+                    Comentarios = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Encuestas", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ParametrosRecordatorios",
                 columns: table => new
                 {
@@ -62,7 +76,8 @@ namespace LogicaAccesoDatos.Migrations
                     NombreUsuario = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Contrasenia = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Cedula = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Cedula = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ParaEncuestar = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -76,7 +91,8 @@ namespace LogicaAccesoDatos.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Pregunta = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CategoriaPreguntaId = table.Column<int>(type: "int", nullable: false)
+                    CategoriaPreguntaId = table.Column<int>(type: "int", nullable: false),
+                    MostrarEnTotem = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -293,6 +309,9 @@ namespace LogicaAccesoDatos.Migrations
 
             migrationBuilder.DropTable(
                 name: "Dispositivos");
+
+            migrationBuilder.DropTable(
+                name: "Encuestas");
 
             migrationBuilder.DropTable(
                 name: "Mensaje");

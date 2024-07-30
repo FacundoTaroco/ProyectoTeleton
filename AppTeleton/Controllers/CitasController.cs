@@ -27,7 +27,7 @@ namespace AppTeleton.Controllers
         {
             try
             {
-
+                ViewBag.Encuestar = "no";
                 string tipoUsuario = HttpContext.Session.GetString("TIPO");
                 string usuario = HttpContext.Session.GetString("USR");
                 ViewBag.TipoUsuario = tipoUsuario;
@@ -47,6 +47,9 @@ namespace AppTeleton.Controllers
                     Paciente paciente = _getPacientes.GetPacientePorUsuario(HttpContext.Session.GetString("USR"));
                     Notificacion notificacionMasReciente = _getNotificacion.GetMasRecientePorUsuario(paciente.Id);
                     model = new CitasViewModel(citasAMostrar, notificacionMasReciente);
+                    if (paciente.ParaEncuestar) {
+                        ViewBag.Encuestar = "si";
+                    }
                     return View(model);
                 }
                 else {

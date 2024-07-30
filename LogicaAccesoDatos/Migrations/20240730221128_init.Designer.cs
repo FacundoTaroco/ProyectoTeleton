@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LogicaAccesoDatos.Migrations
 {
     [DbContext(typeof(LibreriaContext))]
-    [Migration("20240723020139_init")]
+    [Migration("20240730221128_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -231,6 +231,26 @@ namespace LogicaAccesoDatos.Migrations
                     b.ToTable("Dispositivos");
                 });
 
+            modelBuilder.Entity("LogicaNegocio.Entidades.Encuesta", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Comentarios")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SatisfaccionGeneral")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Encuestas");
+                });
+
             modelBuilder.Entity("LogicaNegocio.Entidades.Mensaje", b =>
                 {
                     b.Property<int>("Id")
@@ -335,6 +355,9 @@ namespace LogicaAccesoDatos.Migrations
 
                     b.Property<int>("CategoriaPreguntaId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("MostrarEnTotem")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Pregunta")
                         .IsRequired()
@@ -441,6 +464,9 @@ namespace LogicaAccesoDatos.Migrations
                     b.Property<string>("Cedula")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("ParaEncuestar")
+                        .HasColumnType("bit");
 
                     b.HasDiscriminator().HasValue("Paciente");
                 });
