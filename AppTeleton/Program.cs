@@ -138,6 +138,8 @@ app.MapControllerRoute(
 
 app.MapHub<ActualizarListadoHub>("/ActualizarListadoHub");
 app.MapHub<HubConectado>("/ConnectedHub");
+app.MapHub<PantallaLLamadosHub>("/PantallaLLamados");
+app.MapHub<ListadoParaMedicosHub>("/ActualizarListadoParaMedicosHub");
 
 
 app.Run();

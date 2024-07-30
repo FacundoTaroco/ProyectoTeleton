@@ -35,13 +35,14 @@ namespace AppTeleton.Controllers
                 DateTime _fechaHoy = DateTime.UtcNow;
                 TimeZoneInfo zonaHoraria = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
                 DateTime hoyGMT = TimeZoneInfo.ConvertTimeFromUtc(_fechaHoy, zonaHoraria);
+                
                 CitasViewModel model;
 
                 if (tipoUsuario == "PACIENTE")
                 {
                     Paciente pacienteLogueado = _getPacientes.GetPacientePorUsuario(usuario);
                     citasAMostrar = await _getCitas.ObtenerCitasPorCedula(pacienteLogueado.Cedula);
-                    citasAMostrar = citasAMostrar.OrderBy(c => c.Fecha).ThenBy(c => c.HoraInicio).Where(c => c.Fecha >= hoyGMT);
+                    citasAMostrar = citasAMostrar.OrderBy(c => c.Fecha).ThenBy(c => c.HoraInicio).Where(c => c.Fecha.Date >= hoyGMT.Date);
 
                     Paciente paciente = _getPacientes.GetPacientePorUsuario(HttpContext.Session.GetString("USR"));
                     Notificacion notificacionMasReciente = _getNotificacion.GetMasRecientePorUsuario(paciente.Id);

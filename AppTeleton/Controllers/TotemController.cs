@@ -30,8 +30,9 @@ namespace AppTeleton.Controllers
         private GetCitas _getCitas;
         private ILogin _login;
         private IHubContext<ActualizarListadoHub> _actualizarListadosHub;
+        private IHubContext<ListadoParaMedicosHub> _listadoMedicosHub;
 
-        public TotemController(IHubContext<ActualizarListadoHub> listadoHub, GetPacientes getPacientes, AccesoCU acceso, GetTotems getTotems, GenerarAvisoLlegada generarAvisoLLegada,GetCitas getCitas,ILogin login)
+        public TotemController(IHubContext<ListadoParaMedicosHub> listadoMedicosHub, IHubContext<ActualizarListadoHub> listadoHub, GetPacientes getPacientes, AccesoCU acceso, GetTotems getTotems, GenerarAvisoLlegada generarAvisoLLegada,GetCitas getCitas,ILogin login)
         {
             _getPacientes = getPacientes;
             _acceso = acceso;
@@ -39,7 +40,8 @@ namespace AppTeleton.Controllers
             _generarAvisoLlegada = generarAvisoLLegada;
             _getCitas = getCitas;
             _login = login;
-            _actualizarListadosHub = listadoHub;    
+            _actualizarListadosHub = listadoHub;
+            _listadoMedicosHub = listadoMedicosHub;
         }
 
         public IActionResult Index()
@@ -117,6 +119,11 @@ namespace AppTeleton.Controllers
 
 
                      _actualizarListadosHub.Clients.All.SendAsync("ActualizarListado", citasDeHoy);
+
+                    ActualizarListadoMedicos();
+
+
+
                 }
                 
               
@@ -141,7 +148,20 @@ namespace AppTeleton.Controllers
             }
             }
 
-       
+
+        public async void ActualizarListadoMedicos() {
+
+            DateTime _fecha = DateTime.UtcNow;
+            TimeZoneInfo zonaHoraria = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
+            DateTime fechaHoy = TimeZoneInfo.ConvertTimeFromUtc(_fecha, zonaHoraria);
+            IEnumerable<CitaMedicaDTO> citas = await _getCitas.ObtenerCitas();
+            IEnumerable<CitaMedicaDTO> citasDeHoy = citas.Where(c => (c.Fecha.Day == fechaHoy.Day && c.Fecha.Month == fechaHoy.Month && c.Fecha.Year == fechaHoy.Year) && c.Estado.Equals("RCP")).OrderBy(c => c.HoraInicio).ToList();
+
+
+            _listadoMedicosHub.Clients.All.SendAsync("ActualizarListado", citasDeHoy);
+        }
+
+
         public IActionResult CerrarAcceso() { 
             
             return View("Index");

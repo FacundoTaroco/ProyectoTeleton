@@ -139,6 +139,7 @@ namespace LogicaAccesoDatos.EF
         public void ActualizarParametrosRecordatorios(ParametrosNotificaciones nuevosParametros) {
             try
             {
+                nuevosParametros.Validar();
                 _context.Update(nuevosParametros);
                 _context.SaveChanges();
             }

@@ -98,7 +98,7 @@ namespace AppTeleton.Controllers
 
         }
         [HttpGet]
-
+        [RecepcionistaAdminLogueado]
         public IActionResult EnviarAvisos() {
 
             try
@@ -116,12 +116,13 @@ namespace AppTeleton.Controllers
           
 
         }
-
+        [RecepcionistaAdminLogueado]
         [HttpGet]
         public IActionResult ConfigurarRecordatorios() {
             ParametrosNotificaciones parametros = _getNotificacion.GetParametrosRecordatorios();
             return View(parametros);
         }
+        [RecepcionistaAdminLogueado]
         [HttpPost]
         public IActionResult ConfigurarRecordatorios(ParametrosNotificaciones nuevosParametros)
         {
