@@ -1,4 +1,5 @@
 ﻿using AppTeleton.Models;
+using AppTeleton.Models.Filtros;
 using LogicaAplicacion.CasosUso.PreguntasFrecCU;
 using LogicaAplicacion.Servicios;
 using LogicaNegocio.DTO;
@@ -14,12 +15,16 @@ namespace AppTeleton.Controllers
         private readonly GetPreguntasFrec _getPreguntasFrec;
         private readonly ChatBotService _chatBotService;
 
+
         public PreguntasFrecuentesController(ChatBotService chatBotService, GetPreguntasFrec getPreguntasFrec, ABMPreguntasFrec abmPreguntasFrec)
         {
             _getPreguntasFrec = getPreguntasFrec;
             _abmPreguntasFrec = abmPreguntasFrec;
             _chatBotService = chatBotService;
         }
+
+
+        [RecepcionistaAdminLogueado]
         public IActionResult PreguntasFrecuentes()
         {
             var modelo = ObtenerModeloPreguntasFrec();
@@ -40,6 +45,7 @@ namespace AppTeleton.Controllers
             }
         }
 
+        [RecepcionistaAdminLogueado]
         [HttpGet]
         public IActionResult Create()
         {
@@ -56,8 +62,9 @@ namespace AppTeleton.Controllers
          
         }
 
+        [RecepcionistaAdminLogueado]
         [HttpPost]
-        public IActionResult Create(string pregunta,string isChecked, string categoriaSeleccionada, string categoriaNueva ,  string respuesta, string categoriaNuevaDescripcion)
+        public IActionResult Create(string pregunta,string isChecked, string categoriaSeleccionada, string categoriaNueva ,  string respuesta, string categoriaNuevaDescripcion, bool paraTotem)
         {
             try
             {
@@ -88,7 +95,7 @@ namespace AppTeleton.Controllers
 
                     //creamos la pregunta frecuente 
                     CategoriaPregunta categoria = _getPreguntasFrec.GetCategoriaPorNombre(categoriaNueva);
-                    PreguntaFrec preguntaNueva = new PreguntaFrec(pregunta, categoria);
+                    PreguntaFrec preguntaNueva = new PreguntaFrec(pregunta, categoria, paraTotem);
                     _abmPreguntasFrec.AltaPreguntaFrec(preguntaNueva);
 
                     //enviamos la pregunta como utterance a wit para que se entrene
@@ -115,7 +122,7 @@ namespace AppTeleton.Controllers
 
                     //creamos la pregunta frecuente 
                    
-                    PreguntaFrec preguntaNueva = new PreguntaFrec(pregunta, categoria);
+                    PreguntaFrec preguntaNueva = new PreguntaFrec(pregunta, categoria,paraTotem);
                     _abmPreguntasFrec.AltaPreguntaFrec(preguntaNueva);
 
                     //enviamos la pregunta como utterance a wit para que se entrene
@@ -143,49 +150,10 @@ namespace AppTeleton.Controllers
                 model.Categorias = categoriaPreguntas;
                 return View(model);
             }
-
-
-
-
-
-
-
-
-
-
-
-               /* IEnumerable<Intent> intentsExistentes = _chatBotService.GetIntent();
-                
-                IntentDTO nuevoIntent = new IntentDTO(intentNuevo);
-                _chatBotService.PostIntent(nuevoIntent);
-
-                //si se creo el intent entonces se  crea y envia la pregunta como utterance para el entrenamiento
-
-                PreguntaFrec nuevaPregunta = new PreguntaFrec(pregunta,respuesta,intentNuevo);
-                _abmPreguntasFrec.AltaPreguntaFrec(nuevaPregunta);
-                UtteranceDTO utterance = new UtteranceDTO();
-                utterance.text = pregunta;
-                utterance.intent = intentNuevo;
-                utterance.traits = new List<UtteranceTrait>();
-                utterance.entities = new List<UtteranceEntity>();
-                List<UtteranceDTO> utterances = new List<UtteranceDTO> { utterance };
-                _chatBotService.PostUtterance(utterances);
-
-
-
-                //_abmPreguntasFrec.AltaPreguntaFrec(preguntaFrec);
-                ViewBag.TipoMensaje = "EXITO";
-                ViewBag.Mensaje = "Pregunta frecuente agregada con éxito";
-                return RedirectToAction("PreguntasFrecuentes");
-            }
-            catch (Exception e)
-            {
-                ViewBag.TipoMensaje = "ERROR";
-                ViewBag.Mensaje = e.Message;
-                return View();
-            }*/
+              
         }
 
+        [RecepcionistaAdminLogueado]
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -215,15 +183,14 @@ namespace AppTeleton.Controllers
             }
         }
 
+
+        [RecepcionistaAdminLogueado]
         public IActionResult Detalle(int id)
         {
             var preguntaFrec = _getPreguntasFrec.GetPreguntaFrecPorId(id);
-            if (preguntaFrec == null)
-            {
-                return NotFound();
-            }
             return View(preguntaFrec);
         }
+
 
         private PreguntasFrecViewModel ObtenerModeloPreguntasFrec()
         {

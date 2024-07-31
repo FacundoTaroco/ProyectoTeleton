@@ -18,7 +18,19 @@ namespace LogicaAccesoDatos.EF
         {
             _context = context;
         }
+        public IEnumerable<PreguntaFrec> GetPreguntasTotem() {
+            try
+            {
+                IEnumerable<PreguntaFrec> preguntasParaTotem = new List<PreguntaFrec>();
+                preguntasParaTotem = _context.PreguntasFrec.Where(p => p.MostrarEnTotem).Include(p => p.CategoriaPregunta).ToList();
+                return preguntasParaTotem;
+            }
+            catch (Exception)
+            {
 
+                throw;
+            }
+        }
         public CategoriaPregunta GetCategoriaPorNombre(string nombre) {
             try
             {

@@ -17,11 +17,12 @@ namespace LogicaNegocio.Entidades
 
         public PreguntaFrec() { }
 
-        public PreguntaFrec(string pregunta, CategoriaPregunta categoria)
+        public PreguntaFrec(string pregunta, CategoriaPregunta categoria, bool paraTotem)
         {
             Pregunta = pregunta;
             CategoriaPregunta = categoria;
-            MostrarEnTotem = true;
+            MostrarEnTotem = paraTotem;
+            
        
         }
 

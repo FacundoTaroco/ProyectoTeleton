@@ -60,6 +60,20 @@ namespace LogicaAplicacion.CasosUso.PreguntasFrecCU
 
         }
 
+        public IEnumerable<PreguntaFrec> GetPreguntasParaTotem() {
+            try
+            {
+                return _repo.GetPreguntasTotem();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+
+        }
+
         public PreguntaFrec GetPreguntaFrecPorId(int id)
         {
             try

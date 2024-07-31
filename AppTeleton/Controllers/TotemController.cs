@@ -14,6 +14,7 @@ using LogicaNegocio.Enums;
 using AppTeleton.Models.Filtros;
 using AppTeleton.Hubs;
 using Microsoft.AspNetCore.SignalR;
+using LogicaAplicacion.CasosUso.PreguntasFrecCU;
 
 
 namespace AppTeleton.Controllers
@@ -22,7 +23,7 @@ namespace AppTeleton.Controllers
     public class TotemController : Controller
     {
 
-
+        private GetPreguntasFrec _getPreguntasFrec;
         private GetPacientes _getPacientes;
         private GetTotems _getTotems;
         private AccesoCU _acceso;
@@ -32,7 +33,7 @@ namespace AppTeleton.Controllers
         private IHubContext<ActualizarListadoHub> _actualizarListadosHub;
         private IHubContext<ListadoParaMedicosHub> _listadoMedicosHub;
 
-        public TotemController(IHubContext<ListadoParaMedicosHub> listadoMedicosHub, IHubContext<ActualizarListadoHub> listadoHub, GetPacientes getPacientes, AccesoCU acceso, GetTotems getTotems, GenerarAvisoLlegada generarAvisoLLegada,GetCitas getCitas,ILogin login)
+        public TotemController(GetPreguntasFrec getPreguntas,IHubContext<ListadoParaMedicosHub> listadoMedicosHub, IHubContext<ActualizarListadoHub> listadoHub, GetPacientes getPacientes, AccesoCU acceso, GetTotems getTotems, GenerarAvisoLlegada generarAvisoLLegada,GetCitas getCitas,ILogin login)
         {
             _getPacientes = getPacientes;
             _acceso = acceso;
@@ -42,6 +43,7 @@ namespace AppTeleton.Controllers
             _login = login;
             _actualizarListadosHub = listadoHub;
             _listadoMedicosHub = listadoMedicosHub;
+            _getPreguntasFrec = getPreguntas;
         }
 
         public IActionResult Index()
@@ -54,9 +56,44 @@ namespace AppTeleton.Controllers
         {
             return View();
         }
-        public IActionResult HomeUsuario()
+        public async Task<IActionResult> HomeUsuario(string cedula)
         {
-            return View();
+            try
+            {
+                Paciente paciente = _getPacientes.GetPacientePorCedula(cedula);
+                DateTime _fecha = DateTime.UtcNow;
+                TimeZoneInfo zonaHoraria = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
+                DateTime fechaHoy = TimeZoneInfo.ConvertTimeFromUtc(_fecha, zonaHoraria);
+                IEnumerable<CitaMedicaDTO> citas = await _getCitas.ObtenerCitasPorCedula(cedula);
+                IEnumerable<CitaMedicaDTO> citasDeHoy = citas.Where(c => c.Cedula == cedula && (c.Fecha.Day == fechaHoy.Day && c.Fecha.Month == fechaHoy.Month && c.Fecha.Year == fechaHoy.Year)).OrderBy(c => c.HoraInicio).ToList();
+                AccesoTotemViewModel accesoTotemViewModel = new AccesoTotemViewModel(citasDeHoy, paciente);
+                return View(accesoTotemViewModel);
+            }
+            catch (Exception e)
+            {
+
+                ViewBag.Mensaje = e.Message;
+                ViewBag.TipoMensaje = "ERROR";
+                return View("Index");
+            }
+        
+        }
+
+
+        public IActionResult PreguntasParaTotem()
+        {
+            try
+            {
+                IEnumerable<PreguntaFrec> preguntasParaTotem = new List<PreguntaFrec>();
+                preguntasParaTotem = _getPreguntasFrec.GetPreguntasParaTotem();
+                return View("PreguntasTotem",preguntasParaTotem);
+            }
+            catch (Exception e)
+            {
+                ViewBag.Mensaje = e.Message;
+                ViewBag.TipoMensaje = "ERROR";
+                return View("Index");
+            }
         }
 
         [HttpPost]
@@ -98,16 +135,16 @@ namespace AppTeleton.Controllers
         public async Task<IActionResult> Acceder(string cedula) {
             try
             {
-               
-                
-                
+
+
+                ViewBag.CedulaUsuario = cedula;
                 Totem totem = GetTotemLogueado();
 
                 Paciente paciente = _getPacientes.GetPacientePorCedula(cedula);
                 AccesoTotem nuevoAcceso = new AccesoTotem(cedula, totem);
          
                 IEnumerable<CitaMedicaDTO> citas = await _getCitas.ObtenerCitasPorCedula(cedula);
-                IEnumerable<CitaMedicaDTO> citasDeHoy = citas.Where(c => c.Cedula == cedula && (c.Fecha.Day == nuevoAcceso.FechaHora.Day && c.Fecha.Month == nuevoAcceso.FechaHora.Month && c.Fecha.Year == nuevoAcceso.FechaHora.Year)).ToList(); 
+                IEnumerable<CitaMedicaDTO> citasDeHoy = citas.Where(c => c.Cedula == cedula && (c.Fecha.Day == nuevoAcceso.FechaHora.Day && c.Fecha.Month == nuevoAcceso.FechaHora.Month && c.Fecha.Year == nuevoAcceso.FechaHora.Year)).OrderBy(c => c.HoraInicio).ToList(); 
 
                 if (!_acceso.PacienteYaAccedioEnFecha(totem.Id, DateTime.Now, cedula))
                 {

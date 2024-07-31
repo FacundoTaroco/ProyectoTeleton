@@ -1,6 +1,7 @@
 ﻿using AppTeleton.Hubs;
 using AppTeleton.Models;
 using AppTeleton.Models.Filtros;
+using LogicaAccesoDatos.EF.Excepciones;
 using LogicaAplicacion.CasosUso.CitaCU;
 using LogicaNegocio.DTO;
 using LogicaNegocio.Entidades;
@@ -45,10 +46,24 @@ namespace AppTeleton.Controllers
         public async Task<IActionResult> RealizarLLamado(string nombre, string cedula, string consultorio) {
             try
             {
+
+                if (String.IsNullOrEmpty(consultorio)) {
+                    throw new NullOrEmptyException("Ingrese el nombre/numero del consultorio");
+                }
+              
+
                 LLamado nuevoLLamado = new LLamado(nombre,cedula,consultorio);
                 _pantallaLlamados.Clients.All.SendAsync("NuevoLlamado", nuevoLLamado);
                 MedicoViewModel model = await ObtenerModeloMedicos();
                 return View("Index",model);
+            }
+            catch (NullOrEmptyException e)
+            {
+
+                MedicoViewModel model = await ObtenerModeloMedicos();
+                ViewBag.Mensaje = e.Message;
+                ViewBag.TipoMensaje = "ERROR";
+                return View("Index", model);
             }
             catch (Exception e)
             {
