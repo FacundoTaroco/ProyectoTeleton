@@ -91,7 +91,7 @@ namespace AppTeleton.Hubs
 
                         }
                         ActualizarChats(userRecibe, userManda, respuestaFinal);
-                        await Clients.Client(idConexion).SendAsync("MensajeRecibido", "CHATBOT", userRecibe, respuestaFinal, true, true); //no msiempre tiene pq ser true
+                        await Clients.Client(idConexion).SendAsync("MensajeRecibido", "CHATBOT", userRecibe, respuestaFinal, true, true);
                     
                     }
 
@@ -143,6 +143,24 @@ namespace AppTeleton.Hubs
 
 
         //VER QUE HACER CON LAS ENTITIES
+
+        public async Task CerrarChat(string userPaciente) {
+
+            Paciente paciente = _getPacientes.GetPacientePorUsuario(userPaciente);
+            //cerramos el chat
+            Chat chatPaciente = _getChats.GetChatAbiertoDePaciente(paciente.Id);
+            chatPaciente.Abierto = false;
+            _abChat.Actualizar(chatPaciente);
+
+            string idConexion = UsuariosConectados.GetIdConexionDeUsuario(userPaciente);
+            if (!String.IsNullOrEmpty(idConexion)) {
+
+
+                await Clients.Client(idConexion).SendAsync("CerrarChatEnVivo");
+
+            }
+        }
+
         public async Task FeedBackPositivo(string mensaje, string user) {
 
             Paciente paciente = _getPacientes.GetPacientePorUsuario(user);

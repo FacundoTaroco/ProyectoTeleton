@@ -51,14 +51,7 @@
                             </li>
                                 
                             }
-                            @if (tipoUsuario == "ADMIN")
-                            {
-
-                            }
-                            @if (tipoUsuario == "RECEPCIONISTA")
-                            {
-                                
-                            }
+                         
                             @if (tipoUsuario == "RECEPCIONISTA" || tipoUsuario == "ADMIN")
                             {
                                 <li class="nav-item">
@@ -75,6 +68,9 @@
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Chat" asp-action="AdministracionBot">Administrar BOT</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Encuesta" asp-action="VisualizarDatosEncuestas">Encuestas</a>
                                 </li>
                             } 
                             

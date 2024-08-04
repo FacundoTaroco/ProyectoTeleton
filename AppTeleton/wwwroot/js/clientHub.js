@@ -27,6 +27,25 @@ conexion.on("MensajeRecibido", function (user, userDestino, mensaje, isFinal, pa
 
 })
 
+
+function CerrarChat() {
+
+    let userRecibe = document.querySelector("#txtUsuarioRecibe").value;
+    document.getElementById("txtMensaje").value = "Este chat se cerro";
+    document.getElementById("txtMensaje").disabled = true;
+    document.getElementById("btnEnviar").style.display = "none";
+    conexion.invoke("CerrarChat", userRecibe).catch(function (err) {
+        return console.error(err.toString());
+    })
+
+}
+conexion.on("CerrarChatEnVivo", function () {
+
+    document.getElementById("txtMensaje").value = "Este chat se cerro";
+    document.getElementById("txtMensaje").disabled = true;
+    document.getElementById("btnEnviar").style.display = "none";
+})
+
 conexion.on("MostrarBotoneraAsistencia", function () {
     mostrarBotonesAsistenciaPersonalizada();
 })
@@ -116,4 +135,6 @@ function SolicitarRecepcionista() {
     })
 
 }
+
+
 

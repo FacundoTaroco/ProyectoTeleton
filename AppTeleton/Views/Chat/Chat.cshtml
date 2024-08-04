@@ -97,9 +97,6 @@
                         }
 
                     }
-
-                
-            
             }
             </ul> 
 
@@ -177,8 +174,16 @@
 
                         </div>
 
+                        @if (ViewBag.TipoUsuario == "RECEPCIONISTA")
+                        {
 
-                        </div>
+                            <button onclick="CerrarChat()" data-mdb-button-init data-mdb-ripple-init class="btn mt-1" type="button" style="padding-top: .55rem;background-color: grey;">
+                                Cerrar Chat
+                            </button>
+                        
+                        
+                        }
+                    </div>
                     </div>
                 </div>
 

@@ -50,16 +50,17 @@ namespace LogicaAplicacion.Servicios
                     //respuesta especial donde tenemos que enviar un link que le muestre las direcciones que tiene que seguir
 
 
-                    if (mensajeGetMessage.Entities.First().Value.Count() > 0)
+                    if (mensajeGetMessage.Entities.Count() > 0)
                     {
                         string ubicacionInicial = mensajeGetMessage.Entities.First().Value[0].Value;
                         string linkTransporte = GenerarLinkTransporte(ubicacionInicial);
-                        return "<a href='" + linkTransporte + "' target='_blank'> Presione este mensaje para ver las indicaciones</a>";
+                        return linkTransporte;
 
                     }
-                    else { 
-                    
-                    //VER QUE HACER ACA SI NO ENTENDIO LA DIRECCION
+                    else {
+
+                        string linkTerminales = GenerarLinkTerminales();
+                        return linkTerminales;
                     
                     }
                   
@@ -69,6 +70,11 @@ namespace LogicaAplicacion.Servicios
                     MensajeBotDTO msgDTO = new MensajeBotDTO(mensaje);
                     Evento evento = PostEvent(msgDTO);
                     return evento.response.text;
+                }
+                if (intent.Equals("cita")) {
+                  
+                    return $"<a href='https://localhost:7051/Citas/Index'>Presione aqui para ver las citas que tiene agendadas<a>";
+                
                 }
 
                 //respuesta generica para cada categoria
@@ -84,27 +90,63 @@ namespace LogicaAplicacion.Servicios
         }
 
 
+        public string GenerarLinkTerminales() {
+
+
+            CoordenadasDTO coordenadasTresCruces = _geolocalizacionService.ObtenerCoordenadasTresCruces();
+            CoordenadasDTO coordenadasRioBranco = _geolocalizacionService.ObtenerCoordenadasRioBranco();
+            CoordenadasDTO coordenadasInterBelloni = _geolocalizacionService.ObtenerCoordenadasInterBelloni();
+
+            CoordenadasDTO coordenadasLLegada = _geolocalizacionService.ObtenerCoordenadasTeleton();
+
+            string tresCruces = _geolocalizacionService.ObtenerDireccionTresCruces();
+            string rioBranco = _geolocalizacionService.ObtenerDireccionRioBranco();
+            string interBelloni = _geolocalizacionService.ObtenerDireccionInterBelloni();
+
+            string llegada = _geolocalizacionService.ObtenerDireccionTeleton();
+
+
+            string linkATresCruces = $"https://moovitapp.com/montevideo-1672/poi/{tresCruces}/{llegada}/es?fll={coordenadasTresCruces.lat}_{coordenadasTresCruces.lon}&tll={coordenadasLLegada.lat}_{coordenadasLLegada.lon}";
+
+            string linkARioBranco = $"https://moovitapp.com/montevideo-1672/poi/{rioBranco}/{llegada}/es?fll={coordenadasRioBranco.lat}_{coordenadasRioBranco.lon}&tll={coordenadasLLegada.lat}_{coordenadasLLegada.lon}";
+        
+            string linkAInterBelloni = $"https://moovitapp.com/montevideo-1672/poi/{interBelloni}/{llegada}/es?fll={coordenadasInterBelloni.lat}_{coordenadasInterBelloni.lon}&tll={coordenadasLLegada.lat}_{coordenadasLLegada.lon}";
+
+            string respuesta = $"Como llegar a Teletón desde las terminales, presione el link para ver las indicaciones correspondientes:\r\n" +
+                $"<a target='_blank' href='{linkATresCruces}'>Indicaciones desde terminal Tres Cruces</a>\r\n" +
+                $" - <a target='_blank' href='{linkARioBranco}'>Indicaciones desde terminal Rio Branco</a>\r\n" +
+                $" - <a target='_blank' href='{linkAInterBelloni}'>Indicaciones desde intercambiador belloni</a>";
+
+            return respuesta;
+        
+        
+        }
+
+
         public string GenerarLinkTransporte(string puntoPartida) { 
             
             CoordenadasDTO coordenadasPartida = _geolocalizacionService.ObtenerCoordenadas(puntoPartida);
             CoordenadasDTO coordenadasLLegada = _geolocalizacionService.ObtenerCoordenadasTeleton();
 
-            string partida = puntoPartida;
-            string llegada = _geolocalizacionService.ObtenerDireccionTeleton();
 
+            if (_geolocalizacionService.EsDeMontevideo(coordenadasPartida))
+            {
 
-            partida = partida.Replace(" ", "%20");
-            llegada = llegada.Replace(" ", "%20");
-
-            string link = $"https://moovitapp.com/montevideo-1672/poi/{partida}/{llegada}/es?fll={coordenadasPartida.lat}_{coordenadasPartida.lon}&tll={coordenadasLLegada.lat}_{coordenadasLLegada.lon}";
-
-
-            return link;
+                string partida = puntoPartida;
+                string llegada = _geolocalizacionService.ObtenerDireccionTeleton();
+                partida = partida.Replace(" ", "%20");
+                llegada = llegada.Replace(" ", "%20");
+                string link = $"https://moovitapp.com/montevideo-1672/poi/{partida}/{llegada}/es?fll={coordenadasPartida.lat}_{coordenadasPartida.lon}&tll={coordenadasLLegada.lat}_{coordenadasLLegada.lon}";
+                string respuesta = "<a href='" + link + "' target='_blank'> Presione este mensaje para ver las indicaciones</a>";
+                return respuesta;
+            }
+            else {
+                return GenerarLinkTerminales();
+            }
         }
 
 
 
-        //HACER TODO ASINCRONO ACA
 
 
         public MensajeRespuesta GetMessage(string input) {

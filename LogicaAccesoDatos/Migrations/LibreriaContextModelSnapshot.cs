@@ -241,7 +241,19 @@ namespace LogicaAccesoDatos.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("SatisfaccionAplicacion")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SatisfaccionEstadoDelCentro")
+                        .HasColumnType("int");
+
                     b.Property<int>("SatisfaccionGeneral")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SatisfaccionRecepcion")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

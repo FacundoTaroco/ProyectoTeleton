@@ -1,4 +1,5 @@
-﻿using LogicaNegocio.Entidades;
+﻿using LogicaNegocio.DTO;
+using LogicaNegocio.Entidades;
 using LogicaNegocio.InterfacesRepositorio;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,35 @@ namespace LogicaAplicacion.CasosUso.EncuestaCU
         public IEnumerable<Encuesta> GetAll() { 
         
         return _repo.GetEncuestas();
+        }
+
+        public double PromedioSatisfaccionGeneral() { 
+        
+        
+        return _repo.GetPromedioSatisfaccionGeneral();
+        }
+        public double PromedioSatisfaccionRecepcion()
+        {
+
+
+            return _repo.GetPromedioSatisfaccionRecepcion();
+        }
+        public double PromedioSatisfaccionAplicacion()
+        {
+
+
+            return _repo.GetPromedioSatisfaccionAplicacion();
+        }
+        public double PromedioSatisfaccionEstadoCentro()
+        {
+
+
+            return _repo.GetPromedioSatisfaccionEstadoCentro();
+        }
+        public IEnumerable<ComentarioEncuestaDTO> GetComentarios()
+        {
+
+            return _repo.GetComentariosPuntuados();
         }
     }
 }

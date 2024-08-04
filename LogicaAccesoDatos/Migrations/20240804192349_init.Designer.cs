@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LogicaAccesoDatos.Migrations
 {
     [DbContext(typeof(LibreriaContext))]
-    [Migration("20240730221128_init")]
+    [Migration("20240804192349_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -243,7 +243,19 @@ namespace LogicaAccesoDatos.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("SatisfaccionAplicacion")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SatisfaccionEstadoDelCentro")
+                        .HasColumnType("int");
+
                     b.Property<int>("SatisfaccionGeneral")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SatisfaccionRecepcion")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
