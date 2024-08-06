@@ -94,12 +94,15 @@ else
     <thead>
         <tr>
 
+            @if (ViewBag.TipoUsuario == "RECEPCIONISTA" || ViewBag.TipoUsuario == "ADMIN")
+                {
             <th>
                 Cedula
             </th>
             <th>
                 Nombre
             </th>
+                }
             <th>
                 Servicio
             </th>
@@ -129,12 +132,15 @@ else
         @foreach (var item in Model.citas)
         {
             <tr>
+                @if (ViewBag.TipoUsuario == "RECEPCIONISTA" || ViewBag.TipoUsuario == "ADMIN")
+                {
                 <td>
                     @Html.DisplayFor(modelItem => item.Cedula)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.NombreCompleto)
                 </td>
+                }
                 <td>
                     @Html.DisplayFor(modelItem => item.Servicio)
                 </td>

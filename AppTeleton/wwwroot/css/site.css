@@ -1,29 +1,235 @@
+
+/*
+    COLORES 
+    ROJO TELETON: rgb(231,55,67)
+    ROJO TELETON TRANSPARENTE: rgba(231,55,67,.5)
+    GRIS:#CED4DA
+*/
+
+/*LAYOUT Y GENERALES*/
+
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+}
+
+.mensaje {
+    margin-top: 20px;
+    font-size: 1.8em
+}
+
+/*FIN LAYOUT*/
+
+
+/*LOGIN*/
+
+.contenedorLogin {
+    margin: 0 auto;
+}
+
+.form-group {
+    position: relative;
+}
+
+.contenedorLogin label {
+    color: #999;
+    font-size: 20px;
+    position: absolute;
+    left: 5px;
+    top: 10px;
+    transition: 0.2s ease all;
+}
+.contenedorLogin input:focus ~ label,
+.contenedorLogin input:valid ~ label {
+    top: -20px;
+    font-size: 14px;
+    color: gray;
+}
+
+.contenedorLogin input[type="text"] {
+    background: transparent;
+    height: 50px;
+}
+
+.contenedorLogin input[type="password"] {
+    background: transparent;
+    height: 50px;
+}
+
+.contenedorLogin input[type="submit"] {
+    background-color: rgb(231,55,67);
+    color: white;
+    font-size: 25px;
+}
+
+.contenedorLogin input:focus {
+    outline: none;
+    border: 1px solid rgba(231,55,67,.5);
+}
+
+.contenedorLogin h4 {
+    text-align: center;
+}
+
+/*FIN LOGIN*/
+
+
+
+/*CHAT*/
+
+.chat-header-enviado {
+    display: flex;
+    justify-content: end;
+    width: 100%;
+}
+
+.chat-header-recibido {
+    display: flex;
+    justify-content: start;
+    width: 100%;
+}
+
+.chat-message {
+    background-color: #ff8080;
+    border-radius: 8px;
+    padding: 10px;
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+}
+.fechaMensaje {
+
+    font-size:12px
+}
+#txtMensaje {
+    width: 80%;
+    overflow: hidden;
+    resize: none;
+}
+.imagenAudio {
+    width:50px;
+    height:50px;
+}
+
+.listadoChats {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+.liChats {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid white;
+    background-color: #CED4DA;
 }
 
 
 
-/*PACIENTES*/
+/*FIN CHAT*/
+/*DISPOSITIVOS MOVILES(sm xs)*/
+@media screen and (max-width: 767px) {
+    /*LOGIN*/
+    #logoComputadora {
+        display: none;
+    }
+
+    #logoMobile {
+        display: block;
+    }
+
+    .contenedorLogin {
+        margin-top: 10vh;
+    }
+
+        .contenedorLogin h4 {
+            font-size: 1.6em;
+            margin-bottom: 5vh !important;
+        }
+
+        .contenedorLogin img {
+            width: 80%;
+        }
+
+    .form-group {
+        margin-bottom: 4vh !important;
+    }
+
+    .contenedorLogin input {
+        border-radius: 18px !important;
+    }
+    /*FIN LOGIN*/
+}
+
+
+/* TABLETS EN ADELANTE (md lg xl xxl) */
+@media screen and (min-width: 768px) {
+    /*LOGIN*/
+    #logoComputadora {
+        display: block;
+    }
+
+    #logoMobile {
+        display: none;
+    }
+
+    .contenedorLogin {
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+        width: 50%;
+        height: 470px;
+        margin-top: 10vh;
+    }
+
+        .contenedorLogin img {
+            width: 80%;
+        }
+
+        .contenedorLogin form {
+            height: 250px;
+        }
+
+        .contenedorLogin h4 {
+            border-bottom: 1px solid #CED4DA;
+            padding-bottom: 12px;
+            font-size: 1.2em;
+        }
+    /*FIN LOGIN*/
+}
 
 
 
+/*SOLO TABLETS(md)*/
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    /*LOGIN*/
+    .contenedorLogin h4 {
+        border-bottom: 1px solid #CED4DA;
+        padding-bottom: 12px;
+        font-size: 0.9em;
+    }
+    /*FIN LOGIN*/
+}
 
 
 
-
+/* lg xl xxl */
+@media screen and (min-width: 992px) {
+}

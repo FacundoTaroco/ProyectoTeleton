@@ -12,6 +12,7 @@ mostrarBarraTexto();
 
 conexion.on("MensajeRecibido", function (user, userDestino, mensaje, isFinal, paraPaciente) {
 
+    document.querySelector("#tituloUsuario").innerHTML = user;
 
     if ((user != document.querySelector("#txtUsuarioManda").value && user == document.querySelector("#txtUsuarioRecibe").value) || paraPaciente) { 
 

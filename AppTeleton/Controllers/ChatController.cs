@@ -80,7 +80,8 @@ namespace AppTeleton.Controllers
                     ViewBag.ChatCargar = new Chat();
                 }
 
-               
+                chatsListado = chatsListado.OrderByDescending(c => c.FechaApertura).ToList();
+
                 return View(chatsListado);
             }
             catch (Exception)
@@ -140,6 +141,7 @@ namespace AppTeleton.Controllers
                 chatsListado = chatsRecepcionista.Concat(chatsSinAsistencia);
 
             }
+            chatsListado = chatsListado.OrderByDescending(c => c.FechaApertura).ToList();
             return View("Chat", chatsListado);
 
         }

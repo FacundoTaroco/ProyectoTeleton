@@ -63,7 +63,7 @@ namespace LogicaAccesoDatos.EF
             {
                 IEnumerable<Chat> chats = new List<Chat>();
 
-                chats = _context.Chats.Include(c => c._Paciente).Where(c => c._Paciente.Id == idPaciente).ToList();
+                chats = _context.Chats.Include(c => c._Paciente).Include(c=>c._Recepcionista).Where(c => c._Paciente.Id == idPaciente).ToList();
 
                 return chats;
             }

@@ -22,47 +22,48 @@
 
 
 
-            <button id="cargarChats"></button>
+            <button id="cargarChats" style="display:none"></button>
 }
-<style>
-    .chat-header-enviado {
-    display: flex;
-    justify-content:end;
-    width: 100%;
-    }
 
-    .chat-header-recibido {
-    display: flex;
-    justify-content: start;
-    width: 100%;
-    }
-
-    .chat-message {
-    background-color: #ff8080;
-    border-radius: 8px;
-    padding: 10px;
-    max-width: 100%;
-    word-wrap: break-word; 
-    overflow-wrap: break-word; 
-    white-space: normal; 
-    }
-</style>
 
 <div class="container py-5">
 
-    <div class="row d-flex justify-content-between">
+    <div class="row d-flex justify-content-center">
         <div class ="col-md-3 col-lg-3 col-xl-2">
             <form id="cargarChatCerrado" asp-action="CargarChatCerrado" asp-controller="Chat" method="get">
                 <input type="hidden" id="inputCargarChatCerrado" name="idChat" value="" />
             </form>
-            <p>Chats Cerrados</p>
+
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center p-3 flex-column"
+                     style="border-top: 4px solid #ff8080;">
+                   
+                    
+                  
+            
+
+            @if (ViewBag.TipoUsuario == "PACIENTE")
+            {
+                        <h5>Chats Cerrados</h5>
+
+                        
             <form asp-action="Chat" asp-controller="Chat" method="get">
               <input type="submit" value="Abrir chat" />
-            </form>
+                </form>
+            }
+            else
+            {
+                        <h5>Pacientes</h5>
+                <button onclick="ActualizarPagina()">Actualizar Chats</button>
+            }    
+            
+        
+        </div>
+            </div>
             <form id="formularioRecargarPagina" asp-action="Chat" asp-controller="Chat" style="display:none;" method="get"></form>
 
-            <ul>
-                
+            <ul class="listadoChats">
+                <scroll-container style=" display:block; height: 68vh; overflow-y: scroll;  scroll-behavior: smooth;">
                 @{
 
                     if (ViewBag.TipoUsuario == "PACIENTE")
@@ -73,21 +74,21 @@
                              if (c.Abierto == false) { 
 
 
-                                 if (c._Recepcionista == null)
+                                 if (c.AsistenciaAutomatica)
                                  {
                                     <li class="liChats" chat-id="@c.Id">Asistente Virtual - @c.FechaApertura</li>
                                  }
 
                                 else
                                  {
-                                    <li class="liChats" chat-id="@c.Id">@c._Recepcionista.Nombre</li>
+                                        <li class="liChats" chat-id="@c.Id">@c._Recepcionista.Nombre - @c.FechaApertura</li>
                                  }                            }                        }
 
                     }
                     else if (ViewBag.TipoUsuario == "RECEPCIONISTA")
                     {
                      
-                        <button onclick="ActualizarPagina()">Actualizar Chats</button>
+                      
                         foreach (var c in Model)
                         {
                             if (c.Abierto == true)
@@ -97,26 +98,27 @@
                         }
 
                     }
-            }
+                    }
+                </scroll-container>
             </ul> 
 
 
         </div>
 
 
-            <div class="col-md-8 col-lg-6 col-xl-4">
-            <input type="button" value="Activar audio" id="btnAudio">
-
+         <div class="col-md-8 col-lg-6 col-xl-4 contenedorChat">
+           
+            
 
                 <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center p-3"
+                    <div class="card-header d-flex justify-content-around align-items-center p-3"
                      style="border-top: 4px solid #ff8080;">
-                        <h5 class="mb-0">Chat</h5>
-                        <div class="d-flex flex-row align-items-center">
-                            <i class="fas fa-minus me-3 text-muted fa-xs"></i>
-                            <i class="fas fa-comments me-3 text-muted fa-xs"></i>
-                            <i class="fas fa-times text-muted fa-xs"></i>
-                        </div>
+                        <button id="btnAudio">
+                            <img src="~/images/audioApagado.png" alt="Audio apagado" id="imgAudioApagado" class="imagenAudio" />
+                            <img src="~/images/audioEncendido.png" alt="Audio encendido" id="imgAudioEncendido" class="imagenAudio" style="display:none" />
+                        </button>
+                    <h4 id="tituloUsuario">@ViewBag.UsuarioRecibe</h4>
+                       <div></div>
                     </div>
 
                 <scroll-container class="card-body" id="chatbox" style=" display:block; height: 60vh; overflow-y: scroll;  scroll-behavior: smooth;">
@@ -137,8 +139,8 @@
                       
 
                      
-                            <input  type="text" id="txtMensaje" class="form-control" placeholder="Escriba su consulta de forma breve"
-                               aria-label="Recipient's username" aria-describedby="btnEnviar" />
+                            <textarea  type="text" id="txtMensaje" class="form-control" placeholder="Escriba su consulta de forma breve"
+                                  aria-describedby="btnEnviar"></textarea>
                         <button data-mdb-button-init data-mdb-ripple-init class="btn" type="button" id="btnEnviar" style="padding-top: .55rem;background-color: #ff8080;">
                                 Enviar
                             </button>
@@ -174,23 +176,22 @@
 
                         </div>
 
+
                         @if (ViewBag.TipoUsuario == "RECEPCIONISTA")
                         {
 
                             <button onclick="CerrarChat()" data-mdb-button-init data-mdb-ripple-init class="btn mt-1" type="button" style="padding-top: .55rem;background-color: grey;">
                                 Cerrar Chat
                             </button>
-                        
-                        
                         }
+
+                        </div>
                     </div>
                     </div>
                 </div>
-
-            </div>
         </div>
+ </div>
 
-    </div>
 
 <script src="~/js/signalr/dist/browser/signalr.js"></script>
 <script src="~/js/Chat.js"></script>

@@ -12,10 +12,12 @@ document.querySelector("#btnAudio").addEventListener("click", ActivarAudio);
 function ActivarAudio() {
 
     if (mensajesConAudio == true) {
-        document.querySelector("#btnAudio").value = "Activar audio";
+        document.querySelector("#imgAudioApagado").style.display = "block";
+        document.querySelector("#imgAudioEncendido").style.display = "none";
         mensajesConAudio = false;
     } else {
-        document.querySelector("#btnAudio").value = "Desactivar audio";
+        document.querySelector("#imgAudioApagado").style.display = "none";
+        document.querySelector("#imgAudioEncendido").style.display = "block";
         mensajesConAudio = true;
     }
 }
@@ -73,9 +75,9 @@ function insertarMensajeRecibido(fechaRecibida, user, mensaje) {
     let fechaString = `${dia} de ${mes}, ${hora}:${minutos}`
 
 
-    let divInsertar = ` <div class="d-flex justify-content-between">
-                            <p class="small mb-1">${user}</p>
-                            <p class="small mb-1 text-muted">${fechaString}</p>
+    let divInsertar = ` <div class="d-flex justify-content-start">
+                            
+                            <p class="small mb-1 text-muted fechaMensaje"> ${fechaString}</p>
                         </div>
                         <div class="d-flex flex-row">
                         <div class="chat-header-recibido">
@@ -119,10 +121,10 @@ function insertarMensajeMandado(fechaRecibida, userManda, mensaje) {
     let minutos = fecha.getMinutes().toString().padStart(2, '0');
     let fechaString = `${dia} de ${mes}, ${hora}:${minutos}`
     if (mensaje != "") {
-
-        let divInsertar = ` <div class="d-flex justify-content-between">
-                            <p class="small mb-1">${userManda}</p>
-                            <p class="small mb-1 text-muted">${fechaString}</p>
+        // <p class="small mb-1 usuarioMensaje">${userManda}</p>
+        let divInsertar = ` <div class="d-flex justify-content-end">
+                           
+                            <p class="small mb-1 text-muted fechaMensaje">${fechaString}</p>
                         </div>
                         <div class="d-flex flex-row">
                         <div  class="chat-header-enviado" >
