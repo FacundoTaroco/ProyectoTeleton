@@ -31,6 +31,11 @@ body {
     margin-top: 20px;
     font-size: 1.8em
 }
+.hidden {
+    display:none;
+}
+
+
 
 /*FIN LAYOUT*/
 
@@ -111,6 +116,7 @@ body {
     word-wrap: break-word;
     overflow-wrap: break-word;
     white-space: normal;
+    font-size: 16px
 }
 .fechaMensaje {
 
@@ -143,10 +149,72 @@ body {
 }
 
 
-
 /*FIN CHAT*/
 /*DISPOSITIVOS MOVILES(sm xs)*/
 @media screen and (max-width: 767px) {
+    /*NAVBAR*/
+
+    .navbar-collapse {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background-color: rgb(231,55,67);  
+        transition: left 0.2s ease;
+        z-index: 1050;
+    }
+    .navbar-toggler {
+        z-index: 1051;
+        border:none;
+    }
+    .iconoNavbar {
+        border: none;
+        font-size: 3rem;
+    }
+
+    .show {
+        left: 0;
+    }
+
+    .navbar-nav {
+        flex-direction: column;
+        align-items: center;
+        margin-top:50px
+    }
+
+    .nav-item {
+        width: 100%;
+        text-align: center;
+        margin: 1rem 0;
+        display:flex;
+        align-items:center;
+        flex-direction:row;
+        justify-content:start;
+        gap:30px;
+       
+        margin-top:20px;
+        margin-bottom:20px
+        
+    }
+        .nav-item:hover {
+            background-color: gray;
+        }
+
+    .nav-link {
+        color: white !important;
+        font-size: 1.8rem;
+        font-weight: bold;
+    }
+    .imagenesNav {
+        display: block;
+        width: 70px;
+        
+        margin-left: 27%;
+    }
+    /*FIN NAVBAR*/
+
+
     /*LOGIN*/
     #logoComputadora {
         display: none;
@@ -177,11 +245,46 @@ body {
         border-radius: 18px !important;
     }
     /*FIN LOGIN*/
+
+    /*CHAT*/
+    .botoneraChatMobile {
+        display:block;
+    }
+
+    .contenedorListadoChats {
+        display: none;
+       
+    }
+    .contenedorChat {
+        display: block;
+      
+    }
+    .botonesChatParaMobile {
+        height:50px;
+
+    }
+    .chat-message {
+        background-color: #ff8080;
+        border-radius: 8px;
+        padding: 10px;
+        max-width: 100%;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
+        font-size:18px
+    }
+   
+    /*FIN CHAT*/
 }
 
 
 /* TABLETS EN ADELANTE (md lg xl xxl) */
 @media screen and (min-width: 768px) {
+    /*NAVBAR*/
+    .imagenesNav {
+        display:none;
+    }
+    /*FIN NAVBAR*/
     /*LOGIN*/
     #logoComputadora {
         display: block;
@@ -213,6 +316,23 @@ body {
             font-size: 1.2em;
         }
     /*FIN LOGIN*/
+
+    /*CHAT*/
+   
+
+    .botoneraChatMobile {
+        display: none;
+    }
+    .contenedorListadoChats {
+        display: block !important;
+    }
+
+    .contenedorChat {
+        display: block !important;
+    }
+
+    /*FIN CHAT*/
+
 }
 
 

@@ -3,6 +3,26 @@
 
 // Write your JavaScript code.
 
+
+document.querySelector('#navbar-toggler').addEventListener("click", navBarMobile)
+
+function navBarMobile(){
+    var iconoNavCerrado = document.querySelector('#iconoNavCerrado');
+    var iconoNavAbierto = document.querySelector('#iconoNavAbierto');
+
+
+    if (iconoNavCerrado.classList.contains('hidden')) {
+        iconoNavCerrado.classList.remove('hidden')
+        iconoNavAbierto.classList.add('hidden')
+    } else {
+
+        iconoNavCerrado.classList.add('hidden')
+        iconoNavAbierto.classList.remove('hidden')
+
+    }
+}
+
+
 const urlBase64ToUint8Array = base64String => {
     const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
     const base64 = (base64String + padding)

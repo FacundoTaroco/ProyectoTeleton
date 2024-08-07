@@ -8,6 +8,35 @@ function ActualizarPagina() {
 
 }
 
+document.querySelector("#btnAbrirListadoChats").addEventListener("click", AbrirListadoChatsMobile);
+
+function AbrirListadoChatsMobile() {
+    let contenedorListadoChats = document.querySelector("#contenedorListadoChats")
+    let contenedorChat = document.querySelector("#contenedorChat")
+
+
+    contenedorChat.style.display = "none";
+    contenedorListadoChats.style.display = "block";
+
+    document.querySelector("#btnAbrirListadoChats").style.display = "none";
+    document.querySelector("#btnAbrirChat").style.display = "block";
+
+}
+
+document.querySelector("#btnAbrirChat").addEventListener("click", AbrirChatActivoMobile);
+
+function AbrirChatActivoMobile() {
+    let contenedorChat = document.querySelector("#contenedorChat")
+    let contenedorListadoChats = document.querySelector("#contenedorListadoChats")
+
+    contenedorChat.style.display = "block";
+    contenedorListadoChats.style.display = "none";
+
+    document.querySelector("#btnAbrirListadoChats").style.display = "block";
+    document.querySelector("#btnAbrirChat").style.display = "none";
+}
+
+
 document.querySelector("#btnAudio").addEventListener("click", ActivarAudio);
 function ActivarAudio() {
 
