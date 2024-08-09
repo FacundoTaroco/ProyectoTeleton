@@ -21,6 +21,7 @@ namespace AppTeleton.Worker
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+
             while (!stoppingToken.IsCancellationRequested)
             {
 
@@ -46,7 +47,7 @@ namespace AppTeleton.Worker
                    
                     //ACA SIEMPRE ES UNA VEZ POR DIA
                     //delay en milisegundos entre que se ejecuta una tarea y otra
-                    await Task.Delay(100000, stoppingToken);
+                    await Task.Delay(10000, stoppingToken);
                 }
 
 

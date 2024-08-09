@@ -121,6 +121,7 @@ builder.Services.AddHostedService<CargarPacientesWorker>();
 builder.Services.AddHostedService<NotificacionesAutomaticasWorker>();
 builder.Services.AddHostedService<EnviarEncuestasWorker>();
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

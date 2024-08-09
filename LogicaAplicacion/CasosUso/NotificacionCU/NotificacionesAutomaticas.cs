@@ -36,13 +36,12 @@ namespace LogicaAplicacion.CasosUso.NotificacionCU
                 foreach (Paciente p in pacientes) {
 
                 IEnumerable<CitaMedicaDTO> citasDePaciente = await _solicitarCitas.ObtenerCitasPorCedula(p.Cedula);
+                citasDePaciente= citasDePaciente.OrderBy(p => p.Fecha).ThenBy(p => p.HoraInicio).Where(p => p.Estado == "RPA" && p.Fecha >= fechaUruguay).ToList();
                 if (citasDePaciente.Count() > 0) {
-                citasDePaciente= citasDePaciente.OrderBy(p => p.Fecha).ThenBy(p => p.HoraInicio).Where(p => p.Estado == "RPA" && p.Fecha >= fechaUruguay);
-               
 
                  CitaMedicaDTO citaMasReciente = citasDePaciente.First();
                         int diasQueFaltan = (citaMasReciente.Fecha - DateTime.Now).Days;
-                        if (diasQueFaltan < _getNotificacion.GetParametrosRecordatorios().CadaCuantoEnviarRecordatorio) { 
+                        if (citaMasReciente != null && diasQueFaltan <= _getNotificacion.GetParametrosRecordatorios().CadaCuantoEnviarRecordatorio) { 
                         
                         string tituloNotificacion = "RECORDATORIO: Su proxima cita en Teletón";
                         string mensajeNotificacion = "El " + citaMasReciente.Fecha.ToShortDateString() + " a las " + citaMasReciente.HoraInicio + " hs Tiene agendado para " + citaMasReciente.Servicio;

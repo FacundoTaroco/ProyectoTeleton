@@ -15,6 +15,8 @@ using AppTeleton.Models.Filtros;
 using AppTeleton.Hubs;
 using Microsoft.AspNetCore.SignalR;
 using LogicaAplicacion.CasosUso.PreguntasFrecCU;
+using AppTeleton.Worker;
+using LogicaAplicacion.Servicios;
 
 
 namespace AppTeleton.Controllers
@@ -32,9 +34,11 @@ namespace AppTeleton.Controllers
         private ILogin _login;
         private IHubContext<ActualizarListadoHub> _actualizarListadosHub;
         private IHubContext<ListadoParaMedicosHub> _listadoMedicosHub;
+        private static readonly object _lock = new object();
 
         public TotemController(GetPreguntasFrec getPreguntas,IHubContext<ListadoParaMedicosHub> listadoMedicosHub, IHubContext<ActualizarListadoHub> listadoHub, GetPacientes getPacientes, AccesoCU acceso, GetTotems getTotems, GenerarAvisoLlegada generarAvisoLLegada,GetCitas getCitas,ILogin login)
         {
+           
             _getPacientes = getPacientes;
             _acceso = acceso;
             _getTotems = getTotems;
@@ -139,44 +143,60 @@ namespace AppTeleton.Controllers
 
                 ViewBag.CedulaUsuario = cedula;
                 Totem totem = GetTotemLogueado();
-
                 Paciente paciente = _getPacientes.GetPacientePorCedula(cedula);
                 AccesoTotem nuevoAcceso = new AccesoTotem(cedula, totem);
          
-                IEnumerable<CitaMedicaDTO> citas = await _getCitas.ObtenerCitasPorCedula(cedula);
-                IEnumerable<CitaMedicaDTO> citasDeHoy = citas.Where(c => c.Cedula == cedula && (c.Fecha.Day == nuevoAcceso.FechaHora.Day && c.Fecha.Month == nuevoAcceso.FechaHora.Month && c.Fecha.Year == nuevoAcceso.FechaHora.Year)).OrderBy(c => c.HoraInicio).ToList(); 
+                IEnumerable<CitaMedicaDTO> citas = new List<CitaMedicaDTO>();
+                IEnumerable<CitaMedicaDTO> citasDeHoy = new List<CitaMedicaDTO>();
 
-                if (!_acceso.PacienteYaAccedioEnFecha(totem.Id, DateTime.Now, cedula))
+
+                DateTime _fecha = DateTime.UtcNow;
+                TimeZoneInfo zonaHoraria = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
+                DateTime fechaHoy = TimeZoneInfo.ConvertTimeFromUtc(_fecha, zonaHoraria);
+
+
+                if (!_acceso.PacienteYaAccedioEnFecha(totem.Id, fechaHoy, cedula))
                 {
-                     _acceso.AgregarAcceso(nuevoAcceso);
-                    foreach (var cita in citasDeHoy) { 
-                        _generarAvisoLlegada.GenerarAvisoLLamada(cita.PkAgenda);
-                        cita.Estado = "RCP";
+                    _acceso.AgregarAcceso(nuevoAcceso);
+                    try
+                    {
+                        citas = await _getCitas.ObtenerCitasPorCedula(cedula);
+                        citasDeHoy = citas.Where(c => c.Cedula == cedula && (c.Fecha.Day == nuevoAcceso.FechaHora.Day && c.Fecha.Month == nuevoAcceso.FechaHora.Month && c.Fecha.Year == nuevoAcceso.FechaHora.Year)).OrderBy(c => c.HoraInicio).ToList();
+                        foreach (var cita in citasDeHoy)
+                        {
+                            _generarAvisoLlegada.GenerarAvisoLLamada(cita.PkAgenda);
+                            cita.Estado = "RCP";
+                        }
+                    }
+                    catch (TeletonServerException)
+                    {
+                        AccesosFallidos.accesosFallidos.Add(nuevoAcceso);
+                        if (!AccesosFallidos.servicioDeReintentoActivado) {
+                            AccesosFallidos.servicioDeReintentoActivado = true;
+                            AccesosFallidosService.IniciarServicioDeReintento(_getCitas, _generarAvisoLlegada);
+                        }
+                        ViewBag.TipoMensaje = "ERROR";
+                        ViewBag.Mensaje = "No se pudieron cargar sus citas, consulte en recepcion";
+                        AccesoTotemViewModel model = new AccesoTotemViewModel(paciente);
+                        return View("HomeUsuario", model);
                     }
 
-
-                     _actualizarListadosHub.Clients.All.SendAsync("ActualizarListado", citasDeHoy);
-
+                    _actualizarListadosHub.Clients.All.SendAsync("ActualizarListado", citasDeHoy);
                     ActualizarListadoMedicos();
-
-
+                }
+                else {
+                    citas = await _getCitas.ObtenerCitasPorCedula(cedula);
+                    citasDeHoy = citas.Where(c => c.Cedula == cedula && (c.Fecha.Day == nuevoAcceso.FechaHora.Day && c.Fecha.Month == nuevoAcceso.FechaHora.Month && c.Fecha.Year == nuevoAcceso.FechaHora.Year)).OrderBy(c => c.HoraInicio).ToList();
 
                 }
-                
-              
-            
+
+
+
                 AccesoTotemViewModel accesoTotemViewModel = new AccesoTotemViewModel(citasDeHoy, paciente);
                
                 return View("HomeUsuario", accesoTotemViewModel);
             }
-            catch (TeletonServerException)
-            {
-                ViewBag.TipoMensaje = "ERROR";
-                ViewBag.Mensaje = "No se pudieron cargar sus citas, consulte en recepcion";
-                Paciente paciente = _getPacientes.GetPacientePorCedula(cedula);
-                AccesoTotemViewModel accesoTotemViewModel = new AccesoTotemViewModel(paciente);
-                return View("HomeUsuario",accesoTotemViewModel);
-            }
+       
             catch (Exception e)
             {
             ViewBag.TipoMensaje = "ERROR";
@@ -229,6 +249,90 @@ namespace AppTeleton.Controllers
 
         }
 
-       
+        public async Task ColaDeAccesosFallidos() {
+
+            try
+            {
+            bool cancelarServicio = false;
+
+            while (!cancelarServicio)
+            {
+                cancelarServicio = false;
+                List<AccesoTotem> accesos;
+
+                    lock (_lock) { 
+                     accesos = AccesosFallidos.accesosFallidos.ToList();
+                    }
+                
+                   
+
+                bool accesoEnviado;
+
+                foreach (AccesoTotem a in accesos)
+                {
+                    accesoEnviado = await GenerarAvisoLLegada(a);
+
+                    if (accesoEnviado)
+                    {
+                            lock (_lock)
+                            {
+                                AccesosFallidos.accesosFallidos.Remove(a);
+                            }   
+                    }
+                    cancelarServicio = cancelarServicio && accesoEnviado;
+                }
+
+                if (accesos.Count() == 0)
+                {
+                    cancelarServicio = true;
+                    AccesosFallidos.servicioDeReintentoActivado = false;
+                }
+                if (accesos.Count() != 0 && cancelarServicio)
+                {
+                    cancelarServicio = false;
+                }
+                await Task.Delay(7000);
+            }
+            }
+            catch (Exception)
+            {
+
+                int a = 1;
+            }
+           
+
+
+        }
+
+        public async Task<bool> GenerarAvisoLLegada(AccesoTotem acceso)
+        {
+
+
+            try { 
+                    IEnumerable<CitaMedicaDTO> citas = await _getCitas.ObtenerCitasPorCedula(acceso.CedulaPaciente);
+                    IEnumerable<CitaMedicaDTO> citasDeHoy = citas.Where(c => c.Cedula == acceso.CedulaPaciente && (c.Fecha.Day == acceso.FechaHora.Day && c.Fecha.Month == acceso.FechaHora.Month && c.Fecha.Year == acceso.FechaHora.Year)).OrderBy(c => c.HoraInicio).ToList();
+
+                    foreach (var cita in citasDeHoy)
+                    {
+                        _generarAvisoLlegada.GenerarAvisoLLamada(cita.PkAgenda);
+                        cita.Estado = "RCP";
+                    }
+
+                    return true;
+                }
+                catch (TeletonServerException)
+                {
+
+                    //si fallo el servidor NO hay que cancelar el servicio ya que tiene que seguir repitiendose la tarea hasta que se haya podido comunicar con el servidor central de la teleton
+
+                    return false;
+
+                }
+
+            }
+
+        }
+
+
     }
-}
+
