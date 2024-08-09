@@ -249,90 +249,9 @@ namespace AppTeleton.Controllers
 
         }
 
-        public async Task ColaDeAccesosFallidos() {
-
-            try
-            {
-            bool cancelarServicio = false;
-
-            while (!cancelarServicio)
-            {
-                cancelarServicio = false;
-                List<AccesoTotem> accesos;
-
-                    lock (_lock) { 
-                     accesos = AccesosFallidos.accesosFallidos.ToList();
-                    }
-                
-                   
-
-                bool accesoEnviado;
-
-                foreach (AccesoTotem a in accesos)
-                {
-                    accesoEnviado = await GenerarAvisoLLegada(a);
-
-                    if (accesoEnviado)
-                    {
-                            lock (_lock)
-                            {
-                                AccesosFallidos.accesosFallidos.Remove(a);
-                            }   
-                    }
-                    cancelarServicio = cancelarServicio && accesoEnviado;
-                }
-
-                if (accesos.Count() == 0)
-                {
-                    cancelarServicio = true;
-                    AccesosFallidos.servicioDeReintentoActivado = false;
-                }
-                if (accesos.Count() != 0 && cancelarServicio)
-                {
-                    cancelarServicio = false;
-                }
-                await Task.Delay(7000);
-            }
-            }
-            catch (Exception)
-            {
-
-                int a = 1;
-            }
-           
-
-
-        }
-
-        public async Task<bool> GenerarAvisoLLegada(AccesoTotem acceso)
-        {
-
-
-            try { 
-                    IEnumerable<CitaMedicaDTO> citas = await _getCitas.ObtenerCitasPorCedula(acceso.CedulaPaciente);
-                    IEnumerable<CitaMedicaDTO> citasDeHoy = citas.Where(c => c.Cedula == acceso.CedulaPaciente && (c.Fecha.Day == acceso.FechaHora.Day && c.Fecha.Month == acceso.FechaHora.Month && c.Fecha.Year == acceso.FechaHora.Year)).OrderBy(c => c.HoraInicio).ToList();
-
-                    foreach (var cita in citasDeHoy)
-                    {
-                        _generarAvisoLlegada.GenerarAvisoLLamada(cita.PkAgenda);
-                        cita.Estado = "RCP";
-                    }
-
-                    return true;
-                }
-                catch (TeletonServerException)
-                {
-
-                    //si fallo el servidor NO hay que cancelar el servicio ya que tiene que seguir repitiendose la tarea hasta que se haya podido comunicar con el servidor central de la teleton
-
-                    return false;
-
-                }
-
-            }
-
-        }
 
 
     }
+
+}
 
