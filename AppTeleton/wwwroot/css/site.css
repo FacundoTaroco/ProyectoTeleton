@@ -153,15 +153,23 @@ padding:0 !important;
 /*FIN CHAT*/
 
 /*TOTEM INDEX*/
-.contenedorIndexTotem {
- 
-   display:flex;
-   flex-direction:column;
-   height:98vh;
-   align-items:center;
-   justify-content:center;
-   
 
+
+
+
+.logoTeletonIndexTotem {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+    width: 10em;
+}
+.contenedorIndexTotem {
+    display: flex;
+    flex-direction: column;
+    height: 98vh;
+    align-items: center;
+    justify-content: center;
 }
 
 .imagenTeletonRecepcion {
@@ -191,10 +199,12 @@ padding:0 !important;
 }
 
 .fondoTotem {
+
+
     background-image: url("../images/fondoTotem.png");
     background-size: cover;
     background-repeat: no-repeat;
-    height:100vh;
+    height: 100vh;
 }
 
 
@@ -226,11 +236,49 @@ padding:0 !important;
 
 /*TOTEM HOME USUARIO*/
 
+.contenedorContenidoHomeUsuario {
+padding:0!important;
+
+}
+
+
+.homeUsuarioTitulo {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 2.5em;
+    color: white;
+    text-shadow: -3px -3px 0 black, 3px -3px 0 black, -3px 3px 0 black, 3px 3px 0 black, 0px -3px 0 black, 0px 3px 0 black, -3px 0px 0 black, 3px 0px 0 black; /* Sombra para cada dirección, creando un borde de 3px */
+}
+
+.tablaCitasTotem {
+    border:5px solid black;
+    border-radius:2em;
+}
+.titulosTr {
+    border-radius: 20px;
+  
+}
+
+.tablaCitasTotem th {
+    text-align:center;
+    background-color:lightcoral;
+}
+    .tablaCitasTotem td {
+        text-align: center;
+        background-color:white;
+        height:7vh;
+        font-weight:500;
+        font-size:1.3em
+            
+    }
+
 
 .contenedorListadoHomeUsuario {
-
-    background-color:black;
-    height:100vh
+    position: sticky;
+    top: 0;
+    background-color: black;
+    height: 100vh
 }
 
 .listadoNavHomeUsuario {
@@ -258,6 +306,59 @@ padding:0 !important;
 
 }
 /*FIN TOTEM HOME USUARIO*/
+
+
+/*TOTEM PREGUNTAS*/
+
+.faq-container {
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+.faq-item {
+    margin-bottom: 20px;
+}
+
+.faq-question {
+    background-color: #CED4DA;
+    color: black;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: 500;
+    font-size: 1.5em;
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+    padding: 0 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 5px;
+    font-weight: 500;
+    font-size:1.5em;
+    background-color:white;
+}
+
+    .faq-answer.show {
+        max-height: 500px;
+        opacity: 1;
+        padding: 10px;
+    }
+
+/*FIN TOTEM PREGUNTAS*/
+
+/*MAPA TOTEM*/
+.mapaTeleton {
+    
+    height:99vh;
+
+
+}
+/*FIN MAPA TOTEM*/
 /*DISPOSITIVOS MOVILES(sm xs)*/
 @media screen and (max-width: 767px) {
     /*NAVBAR*/

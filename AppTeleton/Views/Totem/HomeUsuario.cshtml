@@ -23,14 +23,14 @@
           
         <div class="row contenedorHomeUsuario">
 
-            <div class="col-4 col-md-3 text-white contenedorListadoHomeUsuario d-flex flex-column align-items-center justify-content-between">
+            <div class="col-3 col-md-2 text-white contenedorListadoHomeUsuario d-flex flex-column align-items-center justify-content-between">
                 <div class="mb-3">
                   
                     <h3 class="h3HomeUsuario">Menú</h3>
                     <ul class="list-unstyled listadoNavHomeUsuario">
                         <li><a asp-action="HomeUsuario" asp-route-cedula="@ViewBag.CedulaUsuario" class="text-white"><i class="fas fa-calendar-alt"></i> Agenda</a></li>
                 <li><a asp-action="PreguntasParaTotem" asp-route-cedula="@ViewBag.CedulaUsuario"  class="text-white"><i class="fas fa-question-circle"></i> Preguntas</a></li>
-                        <li><a class="text-white"><i class="fas fa-map-marker-alt"></i> Mapa</a></li>
+                <li><a asp-action="Mapa" asp-route-cedula="@ViewBag.CedulaUsuario" class="text-white"><i class="fas fa-map-marker-alt"></i> Mapa</a></li>
                     </ul>
                 </div>
                 <div>
@@ -39,44 +39,50 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-8 col-md-9 contenedorContenidoHomeUsuario">
+            <div class="col-9 col-md-10 contenedorContenidoHomeUsuario">
                 <div id="time" class="alert alert-danger" role="alert"></div>
-                <h3>Tratamientos para hoy</h3>
+                <h3 class="homeUsuarioTitulo">Tratamientos para hoy</h3>
       
                 @if (Model.Citas != null && Model.Citas.Count()>0){
-                <table class="table table-bordered mt-3">
+                <table class="table mt-3 tablaCitasTotem">
                     <thead>
-                        <tr>
+                        <tr class="titulosTr">
+                        <th>
+                            Hora
+                        </th>
                             <th>
                                 Servicio
                             </th>
-                            <th>
-                               Tratamiento
-                            </th>
-                            <th>
-                               Fecha
-                            </th>
-                            <th>
-                               Hora
-                            </th>   
-                        </tr>
+                      
+                            
+                        <th>
+                            Consultorio
+                        </th>
+                        <th>
+                            Mapa
+                        </th>
+                    </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model.Citas)
                         {
                             <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.HoraInicio) hs
+                            </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Servicio)
                                 </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Tratamiento)
-                                </td>
-                                <td>
-                                    @item.Fecha.Date
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.HoraInicio) hs
-                                </td>
+                               
+                               
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Consultorio)
+                            </td>
+
+
+                            <td>
+                                VER
+                            </td>
                             </tr>
                         }
                     </tbody>
@@ -85,7 +91,7 @@
                 else
                 {
                     
-                <h4>No tiene citas agendadas para el dia actual, consulte en recepcion en caso de que esto sea un error</h4>
+                <h4>No tiene citas agendadas para el dia actual, consulte en recepción en caso de que esto sea un error</h4>
                 }
         </div>
          </div>

@@ -115,6 +115,9 @@ else
             <th>
                 Tratamiento
             </th>
+            <th>
+                Consultorio
+            </th>
              @if (ViewBag.TipoUsuario == "RECEPCIONISTA" || ViewBag.TipoUsuario == "ADMIN")
             {
                 <th>
@@ -152,6 +155,9 @@ else
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Tratamiento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Consultorio)
                 </td>
                 @if (ViewBag.TipoUsuario == "RECEPCIONISTA" || ViewBag.TipoUsuario == "ADMIN")
                 {
@@ -192,12 +198,12 @@ else
 <script>
     flatpickr("#fechaFiltroInicio", {
         dateFormat: "d/m/Y H:i",
-        enableTime: true
+        enableTime: false
     });
 
     flatpickr("#fechaFiltroFin", {
         dateFormat: "d/m/Y H:i",
-        enableTime: true
+        enableTime: false
     });
 </script>
 

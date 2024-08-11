@@ -16,10 +16,11 @@ namespace LogicaNegocio.DTO
         public DateTime Fecha { get; set; }
         public int HoraInicio { get; set; }
         public string Tratamiento { get; set; }
+        public string Consultorio { get; set; }
         public string Estado { get; set; }
         public CitaMedicaDTO() { }
 
-        public CitaMedicaDTO(int pkAgenda, string cedula, string nombreCompleto, string servicio, DateTime fecha, int horaInicio, string tratamiento, string estado)
+        public CitaMedicaDTO(int pkAgenda, string cedula, string nombreCompleto, string servicio, DateTime fecha, int horaInicio, string tratamiento, string consultorio,string estado)
         {
             PkAgenda = pkAgenda;
             Cedula = cedula;
@@ -28,6 +29,7 @@ namespace LogicaNegocio.DTO
             Fecha = fecha;
             HoraInicio = horaInicio;
             Tratamiento = tratamiento;
+            Consultorio = consultorio;
             Estado = estado;
         }
     }

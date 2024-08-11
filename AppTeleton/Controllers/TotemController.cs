@@ -102,6 +102,23 @@ namespace AppTeleton.Controllers
             }
         }
 
+        public IActionResult Mapa(string cedula)
+        {
+            try
+            {
+                ViewBag.CedulaUsuario = cedula;
+                IEnumerable<PreguntaFrec> preguntasParaTotem = new List<PreguntaFrec>();
+                preguntasParaTotem = _getPreguntasFrec.GetPreguntasParaTotem();
+                return View();
+            }
+            catch (Exception e)
+            {
+                ViewBag.Mensaje = e.Message;
+                ViewBag.TipoMensaje = "ERROR";
+                return View();
+            }
+        }
+
         [HttpPost]
         public IActionResult CerrarSesion(string NombreUsuario, string Contrasenia)
         {

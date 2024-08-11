@@ -1,5 +1,30 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿
 @{
 }
+ <div class="row contenedorHomeUsuario">
+
+    <div class="col-3 col-md-2 text-white contenedorListadoHomeUsuario d-flex flex-column align-items-center justify-content-between">
+        <div class="mb-3">
+
+            <h3 class="h3HomeUsuario">Menú</h3>
+            <ul class="list-unstyled listadoNavHomeUsuario">
+                <li><a asp-action="HomeUsuario" asp-route-cedula="@ViewBag.CedulaUsuario" class="text-white"><i class="fas fa-calendar-alt"></i> Agenda</a></li>
+                <li><a asp-action="PreguntasParaTotem" asp-route-cedula="@ViewBag.CedulaUsuario" class="text-white"><i class="fas fa-question-circle"></i> Preguntas</a></li>
+                <li><a asp-action="Mapa" asp-route-cedula="@ViewBag.CedulaUsuario" class="text-white"><i class="fas fa-map-marker-alt"></i> Mapa</a></li>
+            </ul>
+        </div>
+        <div>
+            <ul class="list-unstyled listadoNavHomeUsuario ">
+                <li><a href="@Url.Action("CerrarAcceso", "Totem")" class="text-white"><i class="fas fa-sign-out-alt"></i>Salir</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-9 col-md-10 contenedorContenidoHomeUsuario">
+
+        <img src="~/images/MapaTeleton.jpg" class="mapaTeleton">
+
+
+    </div>
+</div>
+
+
