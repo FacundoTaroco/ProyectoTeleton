@@ -6,7 +6,7 @@
   
 
 }
-    <div class="container-fluid">
+
         @if (ViewBag.Mensaje != null)
         {
             if (ViewBag.TipoMensaje == "ERROR")
@@ -19,27 +19,27 @@
             }
         }
 
-        <div class="row">
+    
           
-            
+        <div class="row contenedorHomeUsuario">
 
-            <div class="col-md-2 text-white full-height sidebar">
-                <div>
+            <div class="col-4 col-md-3 text-white contenedorListadoHomeUsuario d-flex flex-column align-items-center justify-content-between">
+                <div class="mb-3">
                   
-                    <h3>Menú</h3>
-                    <ul class="list-unstyled">
-                        <li><a asp-action="HomeUsuario" asp-route-cedula ="@ViewBag.CedulaUsuario" class="text-white"><i class="fas fa-calendar-alt"></i> Tratamientos para hoy</a></li>
-                        <li><a asp-action="PreguntasParaTotem" class="text-white"><i class="fas fa-question-circle"></i> Preguntas frecuentes</a></li>
-                        <li><a class="text-white"><i class="fas fa-map-marker-alt"></i> Mapa del centro</a></li>
+                    <h3 class="h3HomeUsuario">Menú</h3>
+                    <ul class="list-unstyled listadoNavHomeUsuario">
+                        <li><a asp-action="HomeUsuario" asp-route-cedula="@ViewBag.CedulaUsuario" class="text-white"><i class="fas fa-calendar-alt"></i> Agenda</a></li>
+                <li><a asp-action="PreguntasParaTotem" asp-route-cedula="@ViewBag.CedulaUsuario"  class="text-white"><i class="fas fa-question-circle"></i> Preguntas</a></li>
+                        <li><a class="text-white"><i class="fas fa-map-marker-alt"></i> Mapa</a></li>
                     </ul>
                 </div>
                 <div>
-                    <ul class="list-unstyled">
+            <ul class="list-unstyled listadoNavHomeUsuario ">
                         <li><a href="@Url.Action("CerrarAcceso", "Totem")" class="text-white"><i class="fas fa-sign-out-alt"></i>Salir</a></li>
                     </ul>
                 </div>
             </div>
-            <div class="col-md-10 content">
+            <div class="col-8 col-md-9 contenedorContenidoHomeUsuario">
                 <div id="time" class="alert alert-danger" role="alert"></div>
                 <h3>Tratamientos para hoy</h3>
       
@@ -87,9 +87,10 @@
                     
                 <h4>No tiene citas agendadas para el dia actual, consulte en recepcion en caso de que esto sea un error</h4>
                 }
-            </div>
         </div>
-    </div>
+         </div>
+    
+   
 
     
 

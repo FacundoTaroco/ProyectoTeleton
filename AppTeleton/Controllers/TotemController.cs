@@ -64,6 +64,7 @@ namespace AppTeleton.Controllers
         {
             try
             {
+                ViewBag.CedulaUsuario = cedula;
                 Paciente paciente = _getPacientes.GetPacientePorCedula(cedula);
                 DateTime _fecha = DateTime.UtcNow;
                 TimeZoneInfo zonaHoraria = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
@@ -84,10 +85,11 @@ namespace AppTeleton.Controllers
         }
 
 
-        public IActionResult PreguntasParaTotem()
+        public IActionResult PreguntasParaTotem(string cedula)
         {
             try
             {
+                ViewBag.CedulaUsuario = cedula;
                 IEnumerable<PreguntaFrec> preguntasParaTotem = new List<PreguntaFrec>();
                 preguntasParaTotem = _getPreguntasFrec.GetPreguntasParaTotem();
                 return View("PreguntasTotem",preguntasParaTotem);

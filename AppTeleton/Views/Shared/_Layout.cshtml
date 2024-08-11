@@ -28,120 +28,197 @@
     <link rel="stylesheet" href="~/AppTeleton.styles.css" asp-append-version="true" />
 </head>
 
+
+
 <body>
-    @if (tipoUsuario != "TOTEM" && !String.IsNullOrEmpty(tipoUsuario))
+    @if (tipoUsuario != "TOTEM")
     {
-        <header>
-            <nav class="navbar navbar-expand-md navbar-toggleable-md navbar-light bg-white border-bottom box-shadow mb-3">
-                <div class="container-fluid">
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AppTeleton</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation" id="navbar-toggler">
-                        <i class="fas fa-bars iconoNavbar" id="iconoNavCerrado"></i>
-                        <i class="fas fa-times hidden iconoNavbar" id="iconoNavAbierto"></i>
-                     
-                    </button>
+        @if (!String.IsNullOrEmpty(tipoUsuario))
+        {
+            <header>
+                <nav class="navbar navbar-expand-md navbar-toggleable-md navbar-light bg-white border-bottom box-shadow mb-3">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                            <img src="~/images/LogoTeleton.png" class="imagenNav">
+                        </a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation" id="navbar-toggler">
+                            <i class="fas fa-bars iconoNavbar" id="iconoNavCerrado"></i>
+                            <i class="fas fa-times hidden iconoNavbar" id="iconoNavAbierto"></i>
+
+                        </button>
 
 
-                    <div class="navbar-collapse collapse d-md-inline-flex justify-content-between" id="navbar-collapse">
-                        <ul class="navbar-nav flex-grow-1">
+                        <div class="navbar-collapse collapse d-md-inline-flex justify-content-between contenedorNav" id="navbar-collapse">
+                            <ul class="navbar-nav flex-grow-1 row justify-content-center justify-content-md-start ulNav">
 
-                            @if (!String.IsNullOrEmpty(usuario))
-                            {
+                                @if (!String.IsNullOrEmpty(usuario))
+                                {
 
-                                <li class="nav-item">
-                                    <img src="~/images/perfil.png" class="imagenesNav">
-                                    <a class="nav-link" asp-area="" asp-controller="Usuario" asp-action="Perfil">Perfil</a>
-                            </li>
-                                
-                            }
-                         
-                            @if (tipoUsuario == "RECEPCIONISTA" || tipoUsuario == "ADMIN")
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Citas" asp-action="Index">Agenda</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Usuario" asp-action="ListadoUsuarios" asp-route-tipoUsuario="PACIENTE">Usuarios</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Notificacion" asp-action="EnviarAvisos">Enviar Notificaciones</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="PreguntasFrecuentes" asp-action="PreguntasFrecuentes">Preguntas Frecuentes</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Chat" asp-action="AdministracionBot">Administrar BOT</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Encuesta" asp-action="VisualizarDatosEncuestas">Encuestas</a>
-                                </li>
-                            } 
-                            
-
-                            @if (tipoUsuario == "RECEPCIONISTA" || tipoUsuario == "PACIENTE")
-                            {
+                                    <a class="nav-link col-12 col-md-2 row justify-content-center" asp-area="" asp-controller="Usuario" asp-action="Perfil">
+                                        <li class="d-flex flex-row justify-content-center align-items-center gap-4">
+                                            <img src="~/images/perfil.png" class="imagenesNav">
+                                            Perfil
+                                        </li>
+                                    </a>
 
 
-                                <li class="nav-item">
-                                    <img src="~/images/mensajeIcono.png" class="imagenesNav">
-                                    <a class="nav-link" asp-area="" asp-controller="Chat" asp-action="Chat">Asistencia</a>
-                             </li>
-                            
-                            }
-                            
-                          
-                            @if (tipoUsuario == "PACIENTE")
-                            {
-                                <li class="nav-item">
-                                    <img src="~/images/agendaIcono.png" class="imagenesNav">
-                                    <a class="nav-link" asp-area="" asp-controller="Citas" asp-action="Index">Agenda</a>
-                                </li>
+                                }
 
-                                <li class="nav-item">
-                                    <img src="~/images/notificacionIcono.png" class="imagenesNav">
-                                    <a class="nav-link" asp-area="" asp-controller="Paciente" asp-action="NotificacionesPaciente">Notificaciones</a>
-                                </li>
-                            }
+                                @if (tipoUsuario == "RECEPCIONISTA" || tipoUsuario == "ADMIN")
+                                {
 
-                            @if (!String.IsNullOrEmpty(usuario))
-                            {
-                                <li class="nav-item">
-                                    <img src="~/images/cerrarSesionIcono.png" class="imagenesNav">
-                                    <a class="nav-link" asp-area="" asp-controller="Usuario" asp-action="Logout">Cerrar Sesión</a>
-                                </li>
+                                    <a class="nav-link col-12  col-md-2 row justify-content-center" asp-area="" asp-controller="Usuario" asp-action="ListadoUsuarios" asp-route-tipoUsuario="PACIENTE">
+                                    <li class="d-flex flex-row justify-content-center align-items-center gap-4">
+                                            <img src="~/images/perfil.png" class="imagenesNav">
+                                            Usuarios
+                                        </li>
+                                    </a>
+                                    <a class="nav-link col-12 col-md-2  row justify-content-center" asp-area="" asp-controller="Notificacion" asp-action="EnviarAvisos">
+                                    <li class="d-flex flex-row justify-content-center align-items-center gap-4">
+                                            <img src="~/images/perfil.png" class="imagenesNav">
+                                            Enviar Notificaciones
+                                        </li>
+                                    </a>
+                                    <a class="nav-link col-12 col-md-2 row justify-content-center" asp-area="" asp-controller="PreguntasFrecuentes" asp-action="PreguntasFrecuentes">
+                                    <li class="d-flex flex-row justify-content-center align-items-center gap-4">
+                                            <img src="~/images/perfil.png" class="imagenesNav">
+                                            Preguntas Frecuentes
+                                        </li>
+                                    </a>
+                                    <a class="nav-link col-12 col-md-2 row justify-content-center" asp-area="" asp-controller="Chat" asp-action="AdministracionBot">
+                                    <li class="d-flex flex-row justify-content-center align-items-center gap-4">
+                                            <img src="~/images/perfil.png" class="imagenesNav">
+                                            Administrar BOT
+                                        </li>
+                                    </a>
 
-                             
-                            }
-                        </ul>
+                                    <a class="nav-link col-12 col-md-1 row justify-content-center" asp-area="" asp-controller="Encuesta" asp-action="VisualizarDatosEncuestas">
+                                    <li class="d-flex flex-row justify-content-center align-items-center gap-4">
+                                            <img src="~/images/perfil.png" class="imagenesNav">
+                                            Encuestas
+                                        </li>
+                                    </a>
+
+                                } 
+
+
+                                @if (tipoUsuario == "RECEPCIONISTA" || tipoUsuario == "PACIENTE")
+                                {
+
+                                    <a class="nav-link col-12 col-md-1 row justify-content-center" asp-area="" asp-controller="Citas" asp-action="Index">
+                                    <li class="d-flex flex-row justify-content-center align-items-center gap-4">
+                                            <img src="~/images/agendaIcono.png" class="imagenesNav">
+                                            Agenda
+                                        </li>
+                                    </a>
+                                    <a class="nav-link col-12 col-md-1 row justify-content-center" asp-area="" asp-controller="Chat" asp-action="Chat">
+                                    <li class="d-flex flex-row justify-content-center align-items-center gap-4">
+                                            <img src="~/images/mensajeIcono.png" class="imagenesNav">
+                                            Asistencia
+                                        </li>
+                                    </a>
+
+
+
+                                }
+
+
+                                @if (tipoUsuario == "PACIENTE")
+                                {
+
+                                    <a class="nav-link col-12 col-md-1 row justify-content-center" asp-area="" asp-controller="Paciente" asp-action="NotificacionesPaciente">
+                                    <li class="d-flex flex-row justify-content-center align-items-center gap-4">
+                                            <img src="~/images/notificacionIcono.png" class="imagenesNav">
+                                            Notificaciones
+                                        </li>
+                                    </a>
+
+
+                                }
+
+                                @if (!String.IsNullOrEmpty(usuario))
+                                {
+                                    <a class="nav-link col-12 col-md-1 row justify-content-center" asp-area="" asp-controller="Usuario" asp-action="Logout">
+                                    <li class="d-flex flex-row justify-content-center align-items-center gap-4">
+                                            <img src="~/images/cerrarSesionIcono.png" class="imagenesNav">
+                                            Cerrar Sesión
+                                        </li>
+                                    </a>
+
+                                }
+                            </ul>
+                        </div>
+
+                    </div>
+                </nav>
+            </header>
+        }
+
+    }
+
+    @if (tipoUsuario == "TOTEM")
+    {
+        
+    <div class="fondoTotem">
+
+            <div class="container-fluid">
+                <main role="main">
+
+                    @if (tipoUsuario == "RECEPCIONISTA" || tipoUsuario == "PACIENTE")
+                    {
+                        <div id="notificationBlock" class="alert alert-info" role="alert">
+                            Active las notificaciones para recibir avisos y recordatorios importantes
+                            <button class="btn btn-primary" onclick="suscribirse()">Aceptar</button>
+                            <button class="btn btn-secondary" onclick="hideNotificationBlock()">No ahora</button>
+                        </div>
+
+
+                        <form id="subscriptionForm" asp-controller="Notificacion" asp-action="GuardarDispositivoNotificacion" method="post" style="display: none;">
+                            <input type="text" id="endpoint" name="pushEndpoint">
+                            <input type="text" id="p256dh" name="pushP256DH">
+                            <input type="text" id="auth" name="pushAuth">
+                        </form>
+                    }
+
+                    @RenderBody()
+                </main>
+            </div>
+
+    </div>
+
+    
+    }
+    else
+    {
+
+        <div class="container">
+            <main role="main" class="pb-3">
+
+                @if (tipoUsuario == "RECEPCIONISTA" || tipoUsuario == "PACIENTE")
+                {
+                    <div id="notificationBlock" class="alert alert-info" role="alert">
+                        Active las notificaciones para recibir avisos y recordatorios importantes
+                        <button class="btn btn-primary" onclick="suscribirse()">Aceptar</button>
+                        <button class="btn btn-secondary" onclick="hideNotificationBlock()">No ahora</button>
                     </div>
 
-                </div>
-            </nav>
-        </header>
+
+                    <form id="subscriptionForm" asp-controller="Notificacion" asp-action="GuardarDispositivoNotificacion" method="post" style="display: none;">
+                        <input type="text" id="endpoint" name="pushEndpoint">
+                        <input type="text" id="p256dh" name="pushP256DH">
+                        <input type="text" id="auth" name="pushAuth">
+                    </form>
+                }
+
+                @RenderBody()
+            </main>
+        </div>
     }
-    <div class="container">
-        <main role="main" class="pb-3">
 
-            @if (tipoUsuario == "RECEPCIONISTA" || tipoUsuario == "PACIENTE")
-            {
-                 <div id="notificationBlock" class="alert alert-info" role="alert">
-                Active las notificaciones para recibir avisos y recordatorios importantes
-                <button class="btn btn-primary" onclick="suscribirse()">Aceptar</button>
-                <button class="btn btn-secondary" onclick="hideNotificationBlock()">No ahora</button>
-                 </div>
-            
-           
-            <form id="subscriptionForm" asp-controller="Notificacion" asp-action="GuardarDispositivoNotificacion" method="post" style="display: none;">
-                <input type="text" id="endpoint" name="pushEndpoint">
-                <input type="text" id="p256dh" name="pushP256DH">
-                <input type="text" id="auth" name="pushAuth">
-                </form>
-            }
-
-            @RenderBody()
-        </main>
-    </div>
+    
+   
+  
 
     
 
