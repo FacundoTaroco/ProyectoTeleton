@@ -4,41 +4,29 @@
     ViewData["Title"] = "NotificacionesPaciente";
 }
 
-<h1>Notificaciones</h1>
+<h1 style="text-align:center;">Notificaciones</h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Titulo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Mensaje)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+
+
+
 @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
+
+    <div class="row notificacionContainer align-items-between justify-content-between">
+    <div class="col-10 col-md-8 col-lg-6 row">
+
+            <div class="col-12 tituloNotificacionPaciente">
                 @Html.DisplayFor(modelItem => item.Titulo)
-            </td>
-            <td>
+        </div>
+            <div class="col-12 cuerpoNotificacionPaciente">
                 @Html.DisplayFor(modelItem => item.Mensaje)
-            </td>
-            <td>
-   
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-         
-            </td>
-        </tr>
+        </div>
+
+    </div>
+        <div class="col-2 borrarNotificacionPaciente">
+            @Html.ActionLink("X", "Borrar","Notificacion", new {  id=item.Id  })
+        </div>
+
+
+    </div>
 }
-    </tbody>
-</table>
+

@@ -45,6 +45,22 @@ namespace AppTeleton.Controllers
             return View();
         }
 
+        public IActionResult Borrar(int id) {
+            try
+            {
+                _ABNotificacion.Delete(id);
+                return RedirectToAction("NotificacionesPaciente", "Paciente");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        
+        
+        
+        }
+
 
 
         [PacienteRecepcionistaLogueado]

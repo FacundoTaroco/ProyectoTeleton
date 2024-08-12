@@ -45,6 +45,7 @@ namespace AppTeleton.Controllers
             string usuarioPaciente = HttpContext.Session.GetString("USR");
             Paciente pacienteLogueado = _getPacientes.GetPacientePorUsuario(usuarioPaciente);
             IEnumerable<Notificacion> notificaciones = _getNotificaciones.GetPorUsuario(pacienteLogueado.Id);
+            notificaciones = notificaciones.OrderByDescending(n => n.fecha).ToList();
             return View(notificaciones);
         }
 

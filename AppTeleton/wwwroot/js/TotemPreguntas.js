@@ -3,6 +3,7 @@
 function toggleAnswer(id) {
     var answer = document.getElementById('answer-' + id);
     if (answer.classList.contains('show')) {
+        window.speechSynthesis.cancel();
         answer.classList.remove('show');
     } else {
         
