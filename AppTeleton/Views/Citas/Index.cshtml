@@ -98,9 +98,9 @@ else
 </div>
 }
 
-<table class="table">
+<table class="table tablaAgenda">
     <thead>
-        <tr>
+        <tr class="filaHeaderTablaAgenda">
 
             @if (ViewBag.TipoUsuario == "RECEPCIONISTA" || ViewBag.TipoUsuario == "ADMIN")
                 {
@@ -137,7 +137,7 @@ else
         @foreach (var item in Model.citasPorFecha)
         {
 
-            <tr>
+            <tr class="trFecha">
                 <td colspan="10" class="filaFecha">
 
                     Fecha: @item.Fecha
@@ -148,24 +148,24 @@ else
             </tr>
             @foreach (var cita in item.CitasDeFecha)
             {
-            <tr>
+            <tr class="filaBodyTablaAgenda">
                 @if (ViewBag.TipoUsuario == "RECEPCIONISTA" || ViewBag.TipoUsuario == "ADMIN")
                 {
                 <td>
-                            @Html.DisplayFor(modelItem => cita.Cedula)
+                     <p class="titulosTablaMobile">Cedula: </p>       @Html.DisplayFor(modelItem => cita.Cedula)
                 </td>
                 <td>
-                            @Html.DisplayFor(modelItem => cita.NombreCompleto)
+                            <p class="titulosTablaMobile">Nombre: </p>     @Html.DisplayFor(modelItem => cita.NombreCompleto)
                 </td>
                 }
                 <td>
-                        @Html.DisplayFor(modelItem => cita.Servicio)
+                        <p class="titulosTablaMobile">Servicio: </p>  @Html.DisplayFor(modelItem => cita.Servicio)
                 </td>
                 <td>
-                        @Html.DisplayFor(modelItem => cita.HoraInicio) hs
+                        <p class="titulosTablaMobile">Hora: </p> @Html.DisplayFor(modelItem => cita.HoraInicio) hs
                 </td>
                 <td>
-                        @Html.DisplayFor(modelItem => cita.Consultorio)
+                        <p class="titulosTablaMobile">Consultorio: </p>  @Html.DisplayFor(modelItem => cita.Consultorio)
                 </td>
                 @if (ViewBag.TipoUsuario == "RECEPCIONISTA" || ViewBag.TipoUsuario == "ADMIN")
                 {
@@ -174,13 +174,13 @@ else
                             @if (cita.Estado == "RCP")
                     {
 
-                        <p>Recepcionado</p>
+                                <p class="titulosTablaMobile">Estado: </p>  <p>Recepcionado</p>
 
                     }
                     else
                     {
 
-                        <p>NO recepcionado</p>
+                                <p class="titulosTablaMobile">Estado: </p> <p>NO recepcionado</p>
 
                     }
                 </td>

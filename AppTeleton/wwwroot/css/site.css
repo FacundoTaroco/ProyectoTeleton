@@ -696,6 +696,79 @@ padding:0!important;
     }
    
     /*FIN CHAT*/
+
+    /*AGENDA VIEW*/
+ 
+    .filaFecha {
+        text-align: center;
+        font-weight: 700;
+        font-size: 25px;
+        border: none !important;
+    }
+
+    .titulosTablaMobile {
+        display: block;
+    }
+
+    .tablaAgenda {
+
+        border:none !important;
+    }
+        .tablaAgenda tbody {
+           
+        }
+    .filaHeaderTablaAgenda {
+        display:none;
+        border: none !important;
+    }
+    .filaBodyTablaAgenda {
+        
+        display: flex;
+        flex-direction: column;
+        margin-bottom:20px;
+        
+    }
+
+        .filaBodyTablaAgenda td {
+            display: flex;
+            gap: 20px;
+            background-color: rgba(231,55,67,0.8);
+            font-size: 1.3em !important;
+            font-weight: 700;
+            border: 2px solid white;
+        }
+
+            .filaBodyTablaAgenda td:first-child {
+                border-top-left-radius: 10px !important;
+                border-top-right-radius: 10px !important;
+            }
+            .filaBodyTablaAgenda td:last-child {
+                border-bottom-left-radius: 10px !important;
+                border-bottom-right-radius: 10px !important;
+            }
+
+            .filaBodyTablaAgenda td a {
+                padding: 5px;
+                border: 2px solid black;
+                border-radius: 5px;
+                text-decoration: none;
+                width: 60%;
+                text-align: center;
+                color: black;
+                background-color: lightgray;
+            }
+
+
+
+ 
+    /*FIN AGENDA VIEW*/
+    /*NOTIFICACIONES USUARIO*/
+    .notificacionContainer {
+        padding: 10px;
+        margin-left: 1px;
+        margin-right: 1px;
+    }
+    /*FIN NOTIFICACIONES USUARIO*/
 }
 
 
@@ -800,11 +873,55 @@ padding:0!important;
 
 
     /*AGENDA VIEW*/
-    .filaFecha {
-        text-align:center;
-        font-weight:600;
-    
+    .trFecha {
+        background-color:lightgray;
     }
+
+    .filaFecha {
+        text-align: center;
+        font-weight: 600;
+        font-size:1.2em;
+    }
+    .titulosTablaMobile {
+        display:none;
+    }
+
+    .tablaAgenda {
+        
+    }
+
+
+    .filaHeaderTablaAgenda {
+        background-color: rgba(253,2,2,0.7);
+        text-align: center;
+        color:white;
+       
+    }
+    .filaHeaderTablaAgenda th {
+        font-weight:700;
+        font-size:1.3em;
+    }
+ 
+
+    .filaHeaderTablaAgenda th:first-child {
+       border-top-left-radius:10px;
+    }
+        .filaHeaderTablaAgenda th:last-child {
+            border-top-right-radius: 10px;
+        }
+
+    .filaBodyTablaAgenda {
+    text-align:center;
+    }
+
+        .filaBodyTablaAgenda td {
+     
+        }
+
+            .filaBodyTablaAgenda td a {
+              
+            }
+
 
     /*FIN AGENDA VIEW*/
 
