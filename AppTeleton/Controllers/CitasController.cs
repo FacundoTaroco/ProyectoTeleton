@@ -42,22 +42,28 @@ namespace AppTeleton.Controllers
                 {
                     Paciente pacienteLogueado = _getPacientes.GetPacientePorUsuario(usuario);
                     citasAMostrar = await _getCitas.ObtenerCitasPorCedula(pacienteLogueado.Cedula);
-                    citasAMostrar = citasAMostrar.OrderBy(c => c.Fecha).ThenBy(c => c.HoraInicio).Where(c => c.Fecha.Date >= hoyGMT.Date);
+                    citasAMostrar = citasAMostrar.OrderBy(c => c.Fecha).ThenBy(c => c.HoraInicio).Where(c => c.Fecha.Date >= hoyGMT.Date).ToList();
 
                     Paciente paciente = _getPacientes.GetPacientePorUsuario(HttpContext.Session.GetString("USR"));
                     Notificacion notificacionMasReciente = _getNotificacion.GetMasRecientePorUsuario(paciente.Id);
-                    model = new CitasViewModel(citasAMostrar, notificacionMasReciente);
+                    model = new CitasViewModel(notificacionMasReciente);
                     if (paciente.ParaEncuestar) {
                         ViewBag.Encuestar = "si";
                     }
+
+                    model.CargarModelo(citasAMostrar);
+
                     return View(model);
                 }
                 else {
 
                     IEnumerable<CitaMedicaDTO> citas = await _getCitas.ObtenerCitas();
                     citasAMostrar = citas.Where(c => c.Fecha.Day == hoyGMT.Day && c.Fecha.Month == hoyGMT.Month && c.Fecha.Year == hoyGMT.Year).ToList();
-                    model = new CitasViewModel(citasAMostrar);
+                    model = new CitasViewModel();
                 }
+
+                model.CargarModelo(citasAMostrar);
+
             return View(model);
             }
             catch (Exception e)
@@ -146,7 +152,10 @@ namespace AppTeleton.Controllers
                     {
                         citasFiltradas = citas.Where(c => c.Fecha.Day == hoyGMT.Day && c.Fecha.Month == hoyGMT.Month && c.Fecha.Year == hoyGMT.Year).ToList();
                     }
-                    CitasViewModel model = new CitasViewModel(citasFiltradas);
+                    CitasViewModel model = new CitasViewModel();
+
+                    model.CargarModelo(citasFiltradas);
+
 
                     return View("Index", model);
 
@@ -156,7 +165,10 @@ namespace AppTeleton.Controllers
 
                     IEnumerable<CitaMedicaDTO> citas = await _getCitas.ObtenerCitasPorCedula(cedula);
                     IEnumerable<CitaMedicaDTO> citasFiltradas = citas.OrderBy(c => c.Fecha).ThenBy(c => c.HoraInicio).Where(c => c.Fecha >= hoyGMT);
-                    CitasViewModel model = new CitasViewModel(citasFiltradas);
+                    CitasViewModel model = new CitasViewModel();
+
+
+
                     return View("Index", model);
                 }
            

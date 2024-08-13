@@ -553,6 +553,15 @@ padding:0!important;
 }
 
 /*FIN NOTIFICACIONES PACIENTE*/
+
+/*NOTIFICACIONES ENVIAR AVISOS*/
+
+.listadoUsuariosAvisos {
+    height: 65vh;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+/*FIN NOTIFICACIONES ENVIAR AVISOS*/
 /*DISPOSITIVOS MOVILES(sm xs)*/
 @media screen and (max-width: 767px) {
     /*NAVBAR*/
@@ -701,11 +710,46 @@ padding:0!important;
         display: none;
     }
 
-    
-    .ulNav a li{
-        text-align:center;
+    .barraNav {
+        background-color: rgb(231,55,67) !important;
     }
+
+    .ulNav {
+        list-style-type: none;
+        margin-left: 50px;
+        padding: 0;
+        display: flex; 
+        justify-content: center; 
+ 
+        gap: 40px; 
+        
+    }
+
+        .ulNav .nav-link {
+            color: white !important; 
+            text-decoration: none !important;
+            padding: 10px 15px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+            width: auto;
+            white-space: nowrap; 
+            font-size:20px;
+            font-weight:500;
+        }
+
+            .ulNav .nav-link li {
+                display: flex !important;
+                align-items: center;
+                justify-content: center;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
     /*FIN NAVBAR*/
+
+
+
     /*LOGIN*/
     #logoComputadora {
         display: block;
@@ -753,6 +797,16 @@ padding:0!important;
     }
 
     /*FIN CHAT*/
+
+
+    /*AGENDA VIEW*/
+    .filaFecha {
+        text-align:center;
+        font-weight:600;
+    
+    }
+
+    /*FIN AGENDA VIEW*/
 
 }
 

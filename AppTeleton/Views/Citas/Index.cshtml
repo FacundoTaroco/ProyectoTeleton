@@ -115,13 +115,7 @@ else
                 Servicio
             </th>
             <th>
-                Fecha
-            </th>
-            <th>
                 Hora
-            </th>
-            <th>
-                Tratamiento
             </th>
             <th>
                 Consultorio
@@ -140,38 +134,44 @@ else
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.citas)
+        @foreach (var item in Model.citasPorFecha)
         {
+
+            <tr>
+                <td colspan="10" class="filaFecha">
+
+                    Fecha: @item.Fecha
+
+                </td>
+               
+                
+            </tr>
+            @foreach (var cita in item.CitasDeFecha)
+            {
             <tr>
                 @if (ViewBag.TipoUsuario == "RECEPCIONISTA" || ViewBag.TipoUsuario == "ADMIN")
                 {
                 <td>
-                    @Html.DisplayFor(modelItem => item.Cedula)
+                            @Html.DisplayFor(modelItem => cita.Cedula)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.NombreCompleto)
+                            @Html.DisplayFor(modelItem => cita.NombreCompleto)
                 </td>
                 }
                 <td>
-                    @Html.DisplayFor(modelItem => item.Servicio)
+                        @Html.DisplayFor(modelItem => cita.Servicio)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Fecha)
+                        @Html.DisplayFor(modelItem => cita.HoraInicio) hs
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.HoraInicio)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Tratamiento)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Consultorio)
+                        @Html.DisplayFor(modelItem => cita.Consultorio)
                 </td>
                 @if (ViewBag.TipoUsuario == "RECEPCIONISTA" || ViewBag.TipoUsuario == "ADMIN")
                 {
-                    
-                <td id="tdEstado_@item.PkAgenda">
-                    @if (item.Estado == "RCP")
+
+                        <td id="tdEstado_@cita.PkAgenda">
+                            @if (cita.Estado == "RCP")
                     {
 
                         <p>Recepcionado</p>
@@ -188,12 +188,13 @@ else
                 
                 }
                 <td>
-                    @Html.ActionLink("Detalles", "Detalles", new { pkAgenda = item.PkAgenda })
+                        @Html.ActionLink("Detalles", "Detalles", new { pkAgenda = cita.PkAgenda })
 
                 </td>
                 
 
             </tr>
+            }
         }
     </tbody>
 </table>

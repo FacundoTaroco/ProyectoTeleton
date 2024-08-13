@@ -122,7 +122,7 @@ namespace AppTeleton.Controllers
             ParametrosNotificaciones parametros =  _getNotificacion.GetParametrosRecordatorios();
             ViewBag.RecordatoriosEncendidos = parametros.RecordatoriosEncendidos;
             ViewBag.RecordatorioAntelacion = parametros.CadaCuantoEnviarRecordatorio;
-            return View(_getPacientes.GetAll());
+                return View(_getPacientes.GetAll().OrderBy(p => p.Nombre).ToList()); 
             }
             catch (Exception)
             {
@@ -158,7 +158,7 @@ namespace AppTeleton.Controllers
         }
 
 
-        //EVENTUALMENTE HACER ESTO MAS DINAMICO(RECIBE UNA LISTA DE PACIENTES O LISTA DE IDS EN VEZ DE SER TODOS LOS PACIENTES PUEDE TRABAJAR CON GRUPOS DE PACIENTES)
+       
         [RecepcionistaAdminLogueado]
         [HttpPost]
         public async Task<IActionResult> SendTodosLosPacientes(string titulo, string mensaje)
@@ -194,16 +194,23 @@ namespace AppTeleton.Controllers
 
         [RecepcionistaAdminLogueado]
         [HttpPost]
-        public async Task<IActionResult> SendUnUsuario(int idUsuario, string titulo, string mensaje)
+        public async Task<IActionResult> SendPacientes(string titulo, string mensaje, List<int> seleccionados)
         {
             try
             {
-                if (idUsuario == 0) throw new Exception("No se recibio usuario");
-                if(String.IsNullOrEmpty(titulo)) throw new Exception("Ingrese un titulo para la notificacion");
-                if (String.IsNullOrEmpty(mensaje)) throw new Exception("Ingrese un mensaje para la notificacion");
+                if (seleccionados.Count()==0) throw new Exception("Seleccione por lo menos un paciente");
+                if(String.IsNullOrEmpty(titulo)) throw new Exception("Ingrese un titulo para la notificación");
+                if (String.IsNullOrEmpty(mensaje)) throw new Exception("Ingrese un mensaje para la notificación");
 
-                _enviarNotificacionService.Enviar(titulo, mensaje, "https://localhost:7051/Paciente/NotificacionesPaciente", idUsuario);
-                    ViewBag.Mensaje = "notificacion enviada con exito";
+
+                foreach (int idPaciente in seleccionados) { 
+                
+                 _enviarNotificacionService.Enviar(titulo, mensaje, "https://localhost:7051/Paciente/NotificacionesPaciente", idPaciente);
+                
+                }
+
+               
+                    ViewBag.Mensaje = "Notificación enviada con éxito";
                     ViewBag.TipoMensaje = "EXITO";
                 ParametrosNotificaciones parametros = _getNotificacion.GetParametrosRecordatorios();
                 ViewBag.RecordatoriosEncendidos = parametros.RecordatoriosEncendidos;

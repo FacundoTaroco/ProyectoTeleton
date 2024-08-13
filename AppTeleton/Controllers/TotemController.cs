@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.SignalR;
 using LogicaAplicacion.CasosUso.PreguntasFrecCU;
 using AppTeleton.Worker;
 using LogicaAplicacion.Servicios;
+using LogicaAccesoDatos.Migrations;
 
 
 namespace AppTeleton.Controllers
@@ -158,7 +159,10 @@ namespace AppTeleton.Controllers
         public async Task<IActionResult> Acceder(string cedula) {
             try
             {
-
+                //Limpiamos la cedula
+                cedula = cedula.Replace(" ", "")
+                              .Replace(".", "")
+                              .Replace("-", "");
 
                 ViewBag.CedulaUsuario = cedula;
                 Totem totem = GetTotemLogueado();

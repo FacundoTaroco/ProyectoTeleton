@@ -17,16 +17,6 @@
 
     }
 }
-<script>
-
-    function enviarAUnUsuario(idUsuario) {
-        let form = document.querySelector("#formularioNotificacionUnSoloPaciente")
-        document.querySelector("#idUsuarioAEnviar").value = idUsuario
-        document.querySelector("#tituloAEnviar").value = document.querySelector("#tituloNotificacion").value
-        document.querySelector("#mensajeAEnviar").value = document.querySelector("#mensajeNotificacion").value
-        form.submit();
-    }
-</script>
 
 <div class="alert alert-info" role="alert">
 
@@ -46,61 +36,64 @@
 
 </div>
 
-<h1>Enviar Avisos</h1>
+<h1 style="text-align:center;">Enviar Avisos</h1>
 
-<div>
-    <p>Cargue los datos de la notificacion/aviso a enviar</p>
-    <form id="formularioNotificacionUnSoloPaciente" asp-action="SendUnUsuario" asp-controller="Notificacion" method="post">
-        <input id="idUsuarioAEnviar" name="idUsuario" class="form-control" type="hidden">
-        <input id="tituloAEnviar"  name="titulo" class="form-control" type="hidden">
-        <input id="mensajeAEnviar" name="mensaje" class="form-control" type="hidden">
-    </form>
+    <form id="formularioNotificacion" asp-action="SendPacientes" asp-controller="Notificacion" method="post" class="row">
 
-    <form id="formularioNotificacion" asp-action="SendTodosLosPacientes" asp-controller="Notificacion" method="post">
+
+    <div class="col-12 col-md-5">
+        <h3 style="text-align:center;" class="mt-4">Notificación</h3>
         <label for="nombre">Titulo</label>
-        <input id="tituloNotificacion" name="titulo" class="form-control" type="text" placeholder="Ingrese titulo de la notificacion" required>
+        <input id="tituloNotificacion" name="titulo" class="form-control mb-3" type="text" placeholder="Ingrese titulo de la notificacion" required>
         <label for="nombre">Mensaje</label>
-        <input id="mensajeNotificacion" name="mensaje" class="form-control" type="text" placeholder="Ingrese mensaje de la notificacion" required>
-        <button class="btn btn-primary btn-block" type="submit">Enviar notificacion a todos los pacientes</button>
-    </form>
-</div>
-
-
+        <input id="mensajeNotificacion" name="mensaje" class="form-control mb-3" type="text" placeholder="Ingrese mensaje de la notificacion" required>
+        <button class="btn btn-primary btn-block" type="submit">Enviar</button>
+    
+        </div>
+    <scroll-container class="col-12 col-md-7 listadoUsuariosAvisos">
+        <h3 style="text-align:center;" class="mt-4">Seleccione Pacientes</h3>
 <table class="table">
-    <p>Enviar Notificacion a pacientes especificos</p>
-    <p>aca va la barra con filtros xd</p>
+            
+  
     <thead>
         <tr>
+            <th><input type="checkbox" id="selectAll" /> Todos</th>
             <th>
                 @Html.DisplayNameFor(model => model.Cedula)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Nombre)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NombreUsuario)
-            </th>
-  
-            <th></th>
+            
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
+
+             <td>
+            <input type="checkbox" name="seleccionados" value="@item.Id" class="user-checkbox" />
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Cedula)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Nombre)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NombreUsuario)
-            </td>
-
-            <td>
-                    <input class="btn btn-primary btn-block" type="button" onclick="enviarAUnUsuario(@item.Id)" value="Enviar">
-            </td>
+            
         </tr>
 }
     </tbody>
 </table>
+    </scroll-container>
+    </form>
+
+</div>
+
+
+<script>
+    document.getElementById('selectAll').addEventListener('change', function (e) {
+        const checkboxes = document.querySelectorAll('.user-checkbox');
+        checkboxes.forEach(checkbox => checkbox.checked = e.target.checked);
+    });
+</script>

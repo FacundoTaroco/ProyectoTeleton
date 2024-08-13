@@ -72,6 +72,9 @@ namespace AppTeleton.Controllers
                     throw new Exception("Ingrese todos los campos");
                 }
 
+                //Limpiamos el nombre
+                nombre = nombre.Replace(" ", "");
+
                 TipoUsuario tipoUsuario = _login.LoginCaso(nombre, contrasenia);
 
                 Usuario usuario = _getUsuarios.GetUsuarioNombre(nombre);

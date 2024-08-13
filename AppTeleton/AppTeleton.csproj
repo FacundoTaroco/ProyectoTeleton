@@ -27,4 +27,8 @@
     <ProjectReference Include="..\LogicaNegocio\LogicaNegocio.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Recepcionista\" />
+  </ItemGroup>
+
 </Project>
