@@ -28,13 +28,16 @@
 
 </style>
 
-<h1>AdministracionBot</h1>
+<h1>Administración del chatbot y tótem</h1>
 
 <div>
-    <h4>AdministracionBotViewModel</h4>
+
+    <div class="botonRedireccion">
+        @Html.ActionLink("Administrar preguntas frecuentes", "PreguntasFrecuentes", "PreguntasFrecuentes")</div>
     <hr />
     
-   
+   <h4>Mensajes que el asistente virtual no pudo responder correctamente</h4>
+   <h6>Al corregir los mensajes el asistente virtual mejora su comprensión y su forma de responder</h6>
 
 
         @foreach (var r in Model.respuestas)
@@ -46,18 +49,18 @@
             <label>Mensaje ingresado:</label>
                 <input type="hidden" name="idRespuesta" value="@r.Id" />
                  <input type="text" name="input" value="@r.Input" readonly class="form-control">
-                <label>Intencion Equivocada(o vacia)</label>
+                <label>Categoría Equivocada(o vacía)</label>
                 
-                @if (r.IntentAsignado != null)
+                @if (r.IntentAsignado != null && !String.IsNullOrEmpty(r.IntentAsignado))
                 {
                     <p>@r.IntentAsignado</p>
                 }
                 else
                 {
-                    <p>No se asigno intencion</p>
+                    <p>No se asigno ninguna categoría</p>
                 }
             
-            <label>Seleccione la intencion que le parezca correcta para el mensaje enviado</label>
+            <label>Seleccione la categoría que le parezca correcta para el mensaje enviado</label>
                         <select name="intentname" class="form-select">
                 @foreach (var i in Model.intents)
                 {

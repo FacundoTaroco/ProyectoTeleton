@@ -79,21 +79,26 @@ else
 
 @if (ViewBag.TipoUsuario == "RECEPCIONISTA" || ViewBag.TipoUsuario == "ADMIN"){
 
-<div id="filterBlock">
-    <form id="filtro" asp-action="IndexFiltro" asp-controller="Citas">
+    <div id="filterBlock" class="row align-items-end">
+    <form id="filtro" asp-action="IndexFiltro" asp-controller="Citas" class="formularioFiltroCitas col-12 col-md-10 row align-items-end">
+        <div class="divFiltroCitas col-3">
         <label for="nombreFiltro">Búsqueda por Nombre</label>
         <input id="nombreFiltro" name="nombre" type="text" placeholder="Ingrese el nombre...">
-
+            </div>
+            <div class="divFiltroCitas col-3">
         <label for="fechaFiltroInicio">Fecha de Inicio: </label>
-        <input id="fechaFiltroInicio" name="fechaInicio" placeholder="DD/MM/YYYY HH:MM">
-
+        <input id="fechaFiltroInicio" name="fechaInicio" placeholder="DD/MM/YYYY">
+            </div>
+            <div class="divFiltroCitas col-3">
         <label for="fechaFiltroInicio">Fecha de Fin: </label>
-        <input id="fechaFiltroFin" name="fechaFin" placeholder="DD/MM/YYYY HH:MM">
-
-        <button class="btn btn-primary btn-block" type="submit">Buscar</button>
+        <input id="fechaFiltroFin" name="fechaFin" placeholder="DD/MM/YYYY">
+            </div>
+            <div class="divFiltroCitas col-3">
+        <button class="btnFiltroCitas" type="submit">Buscar</button>
+            </div>
     </form>
-     <form asp-action="Index" asp-controller="Citas">
-            <button class="btn btn-primary btn-block" type="submit">Citas de hoy</button>
+        <form asp-action="Index" asp-controller="Citas" class="col-2">
+            <button class="btnFiltroCitas" type="submit">Citas de hoy</button>
      </form>
 </div>
 }

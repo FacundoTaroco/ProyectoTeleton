@@ -34,6 +34,9 @@ namespace AppTeleton.Controllers
 
             try
             {
+                if (encuesta.Comentarios == null) {
+                    encuesta.Comentarios = "Sin comentarios";
+                }
                 _agregarEncuesta.Agregar(encuesta);
                 Paciente paciente = _getPacientes.GetPacientePorUsuario(nombreUsuario);
                 paciente.ParaEncuestar = false;
@@ -62,23 +65,78 @@ namespace AppTeleton.Controllers
             try
             {
                 DatosEncuestasViewModel model = new DatosEncuestasViewModel();
-                model.ComentariosEncuestas = _getEncuestas.GetComentarios();
-                model.PromedioSatisfaccionGeneral = _getEncuestas.PromedioSatisfaccionGeneral();
-                model.PromedioSatisfaccionAplicacion = _getEncuestas.PromedioSatisfaccionAplicacion();
-                model.PromedioSatisfaccionRecepcion = _getEncuestas.PromedioSatisfaccionRecepcion();
-                model.PromedioSatisfaccionEstadoCentro = _getEncuestas.PromedioSatisfaccionEstadoCentro();
+                List<Encuesta> encuestas = _getEncuestas.GetAll().OrderByDescending(e => e.Fecha).ToList();
+                model.Encuestas = encuestas;
+                model.PromedioSatisfaccionGeneral = Math.Round(Encuesta.GetPromedioSatisfaccionGeneral(encuestas), 1); 
+                model.PromedioSatisfaccionAplicacion = Math.Round(Encuesta.GetPromedioSatisfaccionAplicacion(encuestas), 1);
+                model.PromedioSatisfaccionRecepcion = Math.Round(Encuesta.GetPromedioSatisfaccionRecepcion(encuestas), 1); 
+                model.PromedioSatisfaccionEstadoCentro = Math.Round(Encuesta.GetPromedioSatisfaccionEstadoDelCentro(encuestas), 1);
 
                 return View(model);
 
             }
             catch (Exception e)
             {
+                DatosEncuestasViewModel model = new DatosEncuestasViewModel();
 
                 ViewBag.Mensaje = e.Message;
                 ViewBag.TipoMensaje = "ERROR";
-                return View();
+                return View(model);
             }
       
+        }
+
+
+        [HttpPost]
+        [RecepcionistaAdminLogueado]
+        public IActionResult VisualizarDatosEncuestasFechaFiltro(DateTime fechaInicio, DateTime fechaFin)
+        {
+            try
+            {
+                if (fechaFin.Equals(DateTime.MinValue)) { 
+                    fechaFin = DateTime.MaxValue;
+                }
+
+                DatosEncuestasViewModel model = new DatosEncuestasViewModel();
+                List<Encuesta> encuestas = _getEncuestas.GetAll().Where(e=> DateOnly.FromDateTime(e.Fecha)>= DateOnly.FromDateTime(fechaInicio) && DateOnly.FromDateTime(e.Fecha) <= DateOnly.FromDateTime(fechaFin)).OrderByDescending(e => e.Fecha).ToList();
+                model.Encuestas = encuestas;
+                model.PromedioSatisfaccionGeneral = Math.Round(Encuesta.GetPromedioSatisfaccionGeneral(encuestas), 1);
+                model.PromedioSatisfaccionAplicacion = Math.Round(Encuesta.GetPromedioSatisfaccionAplicacion(encuestas), 1);
+                model.PromedioSatisfaccionRecepcion = Math.Round(Encuesta.GetPromedioSatisfaccionRecepcion(encuestas), 1);
+                model.PromedioSatisfaccionEstadoCentro = Math.Round(Encuesta.GetPromedioSatisfaccionEstadoDelCentro(encuestas), 1);
+
+                return View("VisualizarDatosEncuestas",model);
+
+            }
+            catch (Exception e)
+            {
+                DatosEncuestasViewModel model = new DatosEncuestasViewModel();
+                ViewBag.Mensaje = e.Message;
+                ViewBag.TipoMensaje = "ERROR";
+                return View("VisualizarDatosEncuestas",model);
+            }
+
+        }
+
+
+
+        [HttpGet]
+        [RecepcionistaAdminLogueado]
+        public IActionResult Detalles(int id) {
+            try
+            {
+                Encuesta encuesta = _getEncuestas.GetPorId(id);
+
+                return View("Details", encuesta);
+
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        
         }
     }
 }

@@ -21,6 +21,8 @@
 
 }
 
+<div class="botonRedireccion">@Html.ActionLink("Ver datos de encuestas", "VisualizarDatosEncuestas", "Encuesta")</div>
+
 <form method="get" action="@Url.Action("VerTipoUsuario", "Usuario")">
     <label for="opcion">Seleccione el tipo de usuario</label>
     <select name="opcion" onchange="this.form.submit()">
@@ -58,7 +60,15 @@
          {
          <option value="@TipoUsuario.Admin">Administradores</option>
          }
-            
+
+        @if (ViewBag.TipoUsuario == TipoUsuario.Totem)
+        {
+            <option value="@TipoUsuario.Totem" selected>Totem</option>
+        }
+        else
+        {
+            <option value="@TipoUsuario.Totem">Totem</option>
+        }
             
             
             
@@ -292,6 +302,59 @@
                         if (ViewBag.UsuarioLogueado == "ADMIN"){
                             @Html.ActionLink("Cambiar Contraseña", "Perfil", new { idUsuario = item.Id })
                         }
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if (ViewBag.TipoUsuario == TipoUsuario.Totem)
+{
+
+    <h1>Totem</h1>
+   
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Nombre
+                </th>
+                <th>
+                    Usuario
+                </th>
+                <th>
+                    Contraseña
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Totems)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NombreUsuario)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Contrasenia)
+                    </td>
+                    <td>
+                        @{
+                            if (ViewBag.UsuarioLogueado == "ADMIN")
+                            {
+                                @Html.ActionLink("Cambiar Contraseña", "Perfil", new { idUsuario = item.Id })
+                            }
                         }
                     </td>
                 </tr>

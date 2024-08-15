@@ -3,6 +3,7 @@ using LogicaNegocio.EntidadesWit;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -127,7 +128,7 @@ namespace LogicaAplicacion.Servicios
             double montevideoLon = -56.1645;
             double radioMontevideo = 15; 
 
-            double distanciaAMontevideo = Haversine(Double.Parse(coordenadas.lat), Double.Parse(coordenadas.lon), montevideoLat, montevideoLon);
+            double distanciaAMontevideo = Haversine(Double.Parse(coordenadas.lat, CultureInfo.InvariantCulture), Double.Parse(coordenadas.lon, CultureInfo.InvariantCulture), montevideoLat, montevideoLon);
             return distanciaAMontevideo <= radioMontevideo;
 
         }
@@ -137,15 +138,17 @@ namespace LogicaAplicacion.Servicios
         {
             double R = 6371; // Radio de la Tierra en kilómetros
 
-            double dLat = ToRadians(lat2 - lat1);
-            double dLon = ToRadians(lon2 - lon1);
+            double lat1Rad = ConvertirAGradosARadianes(lat1);
+            double lon1Rad = ConvertirAGradosARadianes(lon1);
+            double lat2Rad = ConvertirAGradosARadianes(lat2);
+            double lon2Rad = ConvertirAGradosARadianes(lon2);
 
-            lat1 = ToRadians(lat1);
-            lat2 = ToRadians(lat2);
+            double dLat = lat2Rad - lat1Rad;
+            double dLon = lon2Rad - lon1Rad;
 
-            double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
-                       Math.Cos(lat1) * Math.Cos(lat2) *
-                       Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+            double a = Math.Pow(Math.Sin(dLat / 2), 2) +
+                    Math.Cos(lat1Rad) * Math.Cos(lat2Rad) *
+                    Math.Pow(Math.Sin(dLon / 2), 2);
 
             double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
 
@@ -153,10 +156,10 @@ namespace LogicaAplicacion.Servicios
             return distance;
         }
 
-    public double ToRadians(double degrees)
-    {
-        return degrees * (Math.PI / 180);
+        public static double ConvertirAGradosARadianes(double grados)
+        {
+            return (Math.PI / 180) * grados;
+        }
     }
- }
 
 }

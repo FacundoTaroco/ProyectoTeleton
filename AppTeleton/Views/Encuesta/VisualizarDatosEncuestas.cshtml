@@ -4,36 +4,57 @@
     {
         if (ViewBag.TipoMensaje == "ERROR")
         {
-            <div class="alert alert-danger" role="alert">@ViewBag.Mensaje</div>
+                <div class="alert alert-danger" role="alert">@ViewBag.Mensaje</div>
         }
         else if (ViewBag.TipoMensaje == "EXITO")
         {
-            <div class="alert alert-success" role="alert">@ViewBag.Mensaje</div>
+                <div class="alert alert-success" role="alert">@ViewBag.Mensaje</div>
         }
 
     }
 }
+<h1 style="text-align:center">Datos de encuestas</h1>
+<div class="row">
 
+    <form asp-action="VisualizarDatosEncuestasFechaFiltro" asp-controller="Encuesta" method="post" class="col-8 filtroFechaEncuesta">
+        <div>
+            <label for="fechaInicio">Fecha de Inicio: </label>
+            <input id="fechaFiltroInicio" name="fechaInicio" placeholder="DD/MM/YYYY">
+        </div>
+        <div>
+            <label for="fechaFin">Fecha de Fin: </label>
+            <input id ="fechaFiltroFin" name="fechaFin" placeholder="DD/MM/YYYY">
+        </div>
+        <div>
+            <input type="submit" value="Buscar">
+        </div>
+    </form>
+    <form asp-action="VisualizarDatosEncuestas" asp-controller="Encuesta" method="get" class="col-4 botonResetFiltroFechaEncuesta">
+        <button type="submit">Ver todas las encuestas</button>
+    </form>
 
-<div>
+<div class="col-8">
     <canvas id="satisfaccionChart" width="400" height="200"></canvas>
 </div>
 
-
-<ul id="listadoComentarios">
-    @foreach (var c in Model.ComentariosEncuestas)
+    <scroll-container class="col-4 contenedorScrollComentarios">
+    <ul id="listadoComentarios">
+    @foreach (var e in Model.Encuestas)
     {
         
     <li>
-        <div>
-            <p>Puntuacion General: @c.SatisfaccionGeneral</p>
-            <p>Fecha: @c.Fecha.Date</p>
-            <p>Comentario: @c.Comentario</p>
+        <div class="contenedorComentario">
+                        <p><strong>Fecha:</strong> @DateOnly.FromDateTime(e.Fecha.Date)</p>
+                        <p><strong>Comentario:</strong> @e.Comentarios</p>
+                <a href="@Url.Action("Detalles",new { id =e.Id })">Ver puntuaciones</a>
         </div>
-    </li>}
-    
-</ul>
+    </li>
 
+}
+
+        </ul>
+    </scroll-container>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
@@ -45,10 +66,10 @@
             datasets: [{
                 label: 'Encuestas de satisfacción',
                 data: [
-    @Model.PromedioSatisfaccionGeneral,
-    @Model.PromedioSatisfaccionAplicacion,
-    @Model.PromedioSatisfaccionRecepcion,
-    @Model.PromedioSatisfaccionEstadoCentro
+    @Model.PromedioSatisfaccionGeneral.ToString(System.Globalization.CultureInfo.InvariantCulture),
+    @Model.PromedioSatisfaccionAplicacion.ToString(System.Globalization.CultureInfo.InvariantCulture),
+    @Model.PromedioSatisfaccionRecepcion.ToString(System.Globalization.CultureInfo.InvariantCulture),
+    @Model.PromedioSatisfaccionEstadoCentro.ToString(System.Globalization.CultureInfo.InvariantCulture)
                         ],
                 backgroundColor: [
                     'rgba(75, 192, 192, 0.2)',
@@ -70,9 +91,27 @@
                 y: {
                     beginAtZero: true,
                     min: 1, // Rango mínimo del eje Y
-                    max: 5  // Rango máximo del eje Y
+                    max: 5,  // Rango máximo del eje Y
+                    ticks: {
+                        precision: 1, // Define la precisión de los valores en los ticks a un decimal
+                    }
                 }
             }
         }
+    });
+</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+
+<script>
+    flatpickr("#fechaFiltroInicio", {
+        dateFormat: "d/m/Y H:i",
+        enableTime: false
+    });
+
+    flatpickr("#fechaFiltroFin", {
+        dateFormat: "d/m/Y H:i",
+        enableTime: false
     });
 </script>

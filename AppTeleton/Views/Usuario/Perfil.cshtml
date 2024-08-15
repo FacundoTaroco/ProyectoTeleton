@@ -16,51 +16,51 @@
     }
 }
 
-<h1>Perfil</h1>
+<h1 style="text-align:center">Perfil</h1>
 
 <div>
-    <h4>Usuario</h4>
     <hr />
-    <dl class="row">
+    <dl class="row perfilAtributos justify-content-start align-items-center">
         
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
+        <dt class = "col-5 col-md-3">
+            @Html.DisplayNameFor(model => model.Nombre):
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-6 col-md-8">
             @Html.DisplayFor(model => model.Nombre)
         </dd>
-        <dt class = "col-sm-2">
-            Nombre de usuario:
+        <dt class="col-5 col-md-3">
+            Usuario:
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-6 col-md-8">
             @Html.DisplayFor(model => model.NombreUsuario)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-5 col-md-3">
             Contraseña:
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-6 col-md-8">
             @Html.DisplayFor(model => model.Contrasenia)
         </dd>
         <button class="btn-primary" onclick="mostrarCambiarContraseña()">Cambiar Contraseña</button>
 
-        <form id="formCambiarContraseña" asp-action="CambiarContrasenia" method="post" style="display:none">
+       
+    </dl> 
+    <form id="formCambiarContraseña" asp-action="CambiarContrasenia" method="post" style="display:none" class="cambiarContraseniaForm">
 
-            <input type="hidden" readonly name="idUsuario" value="@ViewBag.IdUsuario" />
-                <label for="contrasenia">Ingrese contraseña</label>
-            <input type="text" name="contrasenia"/>
-                <label for="contraseniaRepetida">Repita la contraseña</label>
-            <input type="text" name="contraseniaRepeticion" />
-            <input type="submit" value="Cambiar">
+        <input type="hidden" readonly name="idUsuario" value="@ViewBag.IdUsuario" />
+        <label for="contrasenia">Ingrese contraseña</label>
+        <input type="text" name="contrasenia" />
+        <label for="contraseniaRepetida">Repita la contraseña</label>
+        <input type="text" name="contraseniaRepeticion" />
+        <input type="submit" value="Cambiar">
 
-        </form>
-    </dl>
+    </form>
 </div>
 
 <script>
 
     function mostrarCambiarContraseña() {
 
-        document.getElementById("formCambiarContraseña").style.display = "block"
+        document.getElementById("formCambiarContraseña").style.display = "flex"
 
     }
 

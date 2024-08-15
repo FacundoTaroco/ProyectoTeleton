@@ -199,7 +199,7 @@ namespace AppTeleton.Controllers
                             AccesosFallidosService.IniciarServicioDeReintento(_getCitas, _generarAvisoLlegada);
                         }
                         ViewBag.TipoMensaje = "ERROR";
-                        ViewBag.Mensaje = "No se pudieron cargar sus citas, consulte en recepcion";
+                        ViewBag.Mensaje = "No se pudieron cargar sus citas, consulte en recepcion";  
                         AccesoTotemViewModel model = new AccesoTotemViewModel(paciente);
                         return View("HomeUsuario", model);
                     }

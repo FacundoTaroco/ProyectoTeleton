@@ -1,4 +1,5 @@
 ﻿using LogicaNegocio.DTO;
+using LogicaNegocio.Entidades;
 
 namespace AppTeleton.Models
 {
@@ -9,6 +10,6 @@ namespace AppTeleton.Models
         public double PromedioSatisfaccionRecepcion { get; set; }
         public double PromedioSatisfaccionAplicacion { get; set; }
         public double PromedioSatisfaccionEstadoCentro { get; set; }
-        public IEnumerable<ComentarioEncuestaDTO> ComentariosEncuestas { get; set; }
+        public IEnumerable<Encuesta> Encuestas { get; set; }
     }
 }

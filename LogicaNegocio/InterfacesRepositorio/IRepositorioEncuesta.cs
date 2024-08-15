@@ -12,11 +12,9 @@ namespace LogicaNegocio.InterfacesRepositorio
     {
         public void Add(Encuesta encuesta);
         public IEnumerable<Encuesta> GetEncuestas();
-        public double GetPromedioSatisfaccionGeneral();
-        public double GetPromedioSatisfaccionRecepcion();
-        public double GetPromedioSatisfaccionEstadoCentro();
-        public double GetPromedioSatisfaccionAplicacion();
-        public IEnumerable<ComentarioEncuestaDTO> GetComentariosPuntuados();
+      
+
+        public Encuesta GetPorId(int id);
 
     }
 

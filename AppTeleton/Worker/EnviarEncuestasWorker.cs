@@ -24,7 +24,7 @@ namespace AppTeleton.Worker
             DateTime _fecha = DateTime.UtcNow;
             TimeZoneInfo zonaHoraria = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
             DateTime fechaHoy = TimeZoneInfo.ConvertTimeFromUtc(_fecha, zonaHoraria);
-            DateTime primerLlamado = new DateTime(fechaHoy.Year, fechaHoy.Month, fechaHoy.Day, 20, 01, 0);
+            DateTime primerLlamado = new DateTime(fechaHoy.Year, fechaHoy.Month, fechaHoy.Day, 22, 14, 0);
 
             if (fechaHoy > primerLlamado)
             {

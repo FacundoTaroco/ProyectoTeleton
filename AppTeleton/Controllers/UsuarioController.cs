@@ -179,6 +179,12 @@ namespace AppTeleton.Controllers
         {
             try
             {
+                ViewBag.IdUsuario = idUsuario;
+                if (String.IsNullOrEmpty(contrasenia) || String.IsNullOrEmpty(contraseniaRepeticion)) {
+                    throw new Exception("Ingrese ambos campos de contraseña");
+                }
+
+
                 if (!contrasenia.Equals(contraseniaRepeticion)) {
                     throw new Exception("Las contraseñas ingresadas no coinciden");
                 }
@@ -192,6 +198,7 @@ namespace AppTeleton.Controllers
             }
             catch (Exception e)
             {
+                ViewBag.IdUsuario = idUsuario;
                 Usuario usuario = _getUsuarios.GetUsuario(idUsuario);
                 ViewBag.Mensaje = e.Message;
                 ViewBag.TipoMensaje = "ERROR";
@@ -241,6 +248,10 @@ namespace AppTeleton.Controllers
             else if (opcion == TipoUsuario.Medico)
             {
                 ViewBag.TipoUsuario = TipoUsuario.Medico;
+            }
+            else if (opcion == TipoUsuario.Totem)
+            {
+                ViewBag.TipoUsuario = TipoUsuario.Totem;
             }
 
             return View("ListadoUsuarios", ObtenerModeloUsuarios());

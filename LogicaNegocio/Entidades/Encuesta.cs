@@ -36,5 +36,112 @@ namespace LogicaNegocio.Entidades
         {
            //HACEEER
         }
+
+        public static double GetPromedioSatisfaccionGeneral(List<Encuesta> encuestas) {
+
+            double agregado = 0;
+            int contador = 0;
+            if (encuestas.Count() > 0)
+            {
+                foreach (var encuesta in encuestas)
+                {
+
+                    if (encuesta.SatisfaccionGeneral != 0)
+                    {
+
+                        agregado += encuesta.SatisfaccionGeneral;
+                        contador++;
+
+                    }
+                }
+
+                return agregado / contador;
+            }
+            else
+            {
+
+                return 0;
+            }
+        }
+        public static double GetPromedioSatisfaccionRecepcion(List<Encuesta> encuestas)
+        {
+            double agregado = 0;
+            int contador = 0;
+            if (encuestas.Count() > 0)
+            {
+                foreach (var encuesta in encuestas)
+                {
+
+                    if (encuesta.SatisfaccionRecepcion != 0)
+                    {
+
+                        agregado += encuesta.SatisfaccionRecepcion;
+                        contador++;
+
+                    }
+                }
+
+                return agregado / contador;
+            }
+            else
+            {
+
+                return 0;
+            }
+
+        }
+        public static double GetPromedioSatisfaccionEstadoDelCentro(List<Encuesta> encuestas)
+        {
+            double agregado = 0;
+            int contador = 0;
+            if (encuestas.Count() > 0)
+            {
+                foreach (var encuesta in encuestas)
+                {
+
+                    if (encuesta.SatisfaccionEstadoDelCentro != 0)
+                    {
+
+                        agregado += encuesta.SatisfaccionEstadoDelCentro;
+                        contador++;
+
+                    }
+                }
+
+                return agregado / contador;
+            }
+            else
+            {
+                return 0;
+            }
+
+        }
+
+        public static double GetPromedioSatisfaccionAplicacion(List<Encuesta> encuestas)
+        {
+            double agregado = 0;
+            int contador = 0;
+            if (encuestas.Count() > 0)
+            {
+                foreach (var encuesta in encuestas)
+                {
+
+                    if (encuesta.SatisfaccionAplicacion != 0)
+                    {
+
+                        agregado += encuesta.SatisfaccionAplicacion;
+                        contador++;
+
+                    }
+                }
+
+                return agregado / contador;
+            }
+            else
+            {
+                return 0;
+            }
+
+        }
     }
 }

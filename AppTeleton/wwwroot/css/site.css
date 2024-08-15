@@ -41,6 +41,21 @@ html {
 .sinPadding {
 padding:0 !important;
 
+
+}
+.botonRedireccion {
+    margin-top:20px;
+    margin-bottom: 20px;
+}
+.botonRedireccion a {
+    background-color: orange;
+    padding: 10px;
+    text-decoration:none;
+    color:black;
+    border-radius:5px;
+    font-size:1.2em;
+    font-weight:600;
+    
 }
 /*FIN LAYOUT*/
 /*LOGIN*/
@@ -162,7 +177,7 @@ padding:0 !important;
     top: 10px;
     left: 10px;
     z-index: 1000;
-    width: 10em;
+    width: 8.4em;
 }
 .contenedorIndexTotem {
     display: flex;
@@ -231,14 +246,28 @@ padding:0 !important;
     bottom: 10px; 
     font-size: 30px;
 }
+
+.tecladoVirtual {
+    position: fixed;
+    bottom: 13%;
+    left: 30px; 
+    margin-bottom: 10px; 
+    background-color: #f8f9fa; 
+    padding: 10px; 
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.tecladoNumero {
+height:11vh;
+font-size:2.5em;
+font-weight:600;
+
+}
 /*FIN TOTEM INDEX*/
-
-
 /*TOTEM HOME USUARIO*/
-
 .contenedorContenidoHomeUsuario {
-padding:0!important;
-
+    padding: 0 !important;
 }
 
 
@@ -562,6 +591,136 @@ padding:0!important;
     scroll-behavior: smooth;
 }
 /*FIN NOTIFICACIONES ENVIAR AVISOS*/
+
+
+/*ENCUESTA CREATE*/
+
+.encuestaFormulario {
+    margin:0 auto;
+}
+
+.divPuntuacion {
+    display: flex;
+    flex-direction: row !important;
+    background-color: lightgray;
+    border: 2px solid black;
+    margin: 1px;
+    border-radius: 10px
+}
+
+    .divPuntuacion label {
+        margin-top: 20px;
+        font-size: 1.3em;
+        font-weight: 600;
+        text-align: center;
+    }
+
+.labelPuntuacion {
+    display: flex !important;
+    flex-direction: column;
+    text-align: center;
+}
+
+.divPuntuacion input[type="radio"] {
+    transform: scale(2);
+}
+
+.btnEncuestaCreate {
+    background-color: rgb(231,55,67) !important;
+    width:40%;
+    padding:10px;
+    font-size:1.3em;
+    font-weight:600;
+    border-radius:5px;
+    margin-top:10px;
+    
+}
+
+
+.labelComentario {
+    margin-top:20px;
+    font-size: 1.3em !important;
+    font-weight: 600 !important;
+    text-align: center !important;
+}
+/*FIN ENCUESTA CREATE*/
+
+/*ENCUESTA VISUALIZAR DATOS*/
+
+.contenedorScrollComentarios {
+    height: 70vh;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+#satisfaccionChart {
+   
+}
+
+.filtroFechaEncuesta {
+    display:flex;
+    justify-content:space-around;
+    margin-top:40px;
+    margin-bottom:40px;
+
+}
+.botonResetFiltroFechaEncuesta {
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+#listadoComentarios {
+    list-style-type:none;
+
+}
+.contenedorComentario {
+    padding:10px;
+    background-color: lightgray;
+    border-radius:10px;
+    margin-bottom:6px;
+    border:1px solid grey;
+
+}
+.contenedorComentario p {
+    margin: 3px;
+  
+}
+/*FIN ENCUESTA VISUALIZAR DATOS*/
+/*PANTALLA DE LLAMADOS*/
+.h1Llamados {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.tablaLlamados {
+    width: 100%;
+    border:1px solid black;
+    
+  
+}
+.tablaLlamados thead tr {
+    background-color:red;
+}
+    .tablaLlamados th {
+        font-size: 2.3em;
+        padding-left: 40px;
+        padding-right:40px
+    }
+
+#ListaLLamados {
+}
+    #ListaLLamados tr {
+        
+        height: 12vh;
+        font-size:2em;
+    }
+    #ListaLLamados td {
+
+        padding:40px
+    }
+
+
+/*FIN PANTALLA DE LLAMADOS*/
 /*DISPOSITIVOS MOVILES(sm xs)*/
 @media screen and (max-width: 767px) {
     /*NAVBAR*/
@@ -608,8 +767,8 @@ padding:0!important;
         
     }
     .navbar-nav a {
-        padding-top: 3vh;
-        padding-bottom: 2vh;
+        padding-top: 2vh;
+        padding-bottom: 1vh;
         border-bottom: 1px solid rgb(140, 15, 24)
     }
 
@@ -769,6 +928,75 @@ padding:0!important;
         margin-right: 1px;
     }
     /*FIN NOTIFICACIONES USUARIO*/
+
+
+
+    /*PERFIL*/
+    .cambiarContraseniaForm {
+        padding:10px;
+      
+       display:flex;
+      flex-direction:column;
+    }
+
+    .cambiarContraseniaForm label{
+       font-weight:600;
+       font-size:1.3em;
+    }
+        .cambiarContraseniaForm input[type="text"] {
+            margin-bottom: 15px;
+            height: 5vh;
+            font-weight: 400;
+            font-size: 1.3em;
+            padding:5px;
+        }
+        .cambiarContraseniaForm input[type="submit"] {
+           
+            padding: 10px;
+            background-color: rgb(253,2,2);
+            border: 2px solid black;
+            border-radius: 5px;
+            color:white;
+            font-weight:600;
+            font-size:1.5em;
+        }
+
+
+
+
+
+    .perfilAtributos {
+    padding:20px;
+    height:35vh;
+   
+    }
+        .perfilAtributos button {
+            width: 100%;
+            padding: 10px;
+            background-color:  rgba(253,2,2,0.7);
+            border: 2px solid black;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 1.5em;
+        }
+            .perfilAtributos button:hover {
+                background-color: rgb(231,55,67);
+                border: 2px solid black;
+            }
+            .perfilAtributos button:active {
+                background-color: rgb(231,55,67);
+                border: 2px solid black;
+            }
+        .perfilAtributos dt {
+           font-size:1.5em;
+        }
+        .perfilAtributos dd {
+            font-size: 1.3em;
+        }
+
+    /*FIN PERFIL*/
+
+   
 }
 
 
@@ -923,7 +1151,89 @@ padding:0!important;
             }
 
 
+
+    .divFiltroCitas {
+    
+        display:flex;
+        flex-direction:column;
+    
+    }
+
+    #filterBlock {
+        border:2px solid black;
+        padding:10px;
+        margin:4px;
+        border-radius:10px
+    }
     /*FIN AGENDA VIEW*/
+    /*PERFIL*/
+    .cambiarContraseniaForm {
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+    }
+
+        .cambiarContraseniaForm label {
+            font-weight: 600;
+            font-size: 1.3em;
+        }
+
+        .cambiarContraseniaForm input[type="text"] {
+            margin-bottom: 15px;
+            height: 5vh;
+            font-weight: 400;
+            font-size: 1.3em;
+            padding: 5px;
+        }
+
+        .cambiarContraseniaForm input[type="submit"] {
+            padding: 10px;
+            background-color: rgb(253,2,2);
+            border: 2px solid black;
+            border-radius: 5px;
+            color: white;
+            font-weight: 600;
+            font-size: 1.5em;
+        }
+
+
+
+
+
+    .perfilAtributos {
+        padding: 20px;
+        height: 35vh;
+    }
+
+        .perfilAtributos button {
+            width: 100%;
+            padding: 10px;
+            background-color: rgb(253,2,2);
+            border: 2px solid black;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 1.5em;
+        }
+
+            .perfilAtributos button:hover {
+                background-color: rgb(231,55,67);
+                border: 2px solid black;
+            }
+
+            .perfilAtributos button:active {
+                background-color: rgb(231,55,67);
+                border: 2px solid black;
+            }
+
+        .perfilAtributos dt {
+            font-size: 1.5em;
+        }
+
+        .perfilAtributos dd {
+            font-size: 1.3em;
+        }
+
+    /*FIN PERFIL*/
 
 }
 

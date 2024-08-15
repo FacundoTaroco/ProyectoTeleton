@@ -27,14 +27,29 @@
 <form asp-action="Acceder" asp-controller="Totem" method="post" id="formularioIndexTotem" class="row col-6 justify-content-center align-items-center">
 
         
-        <input name="cedula" class="form-control" type="text" placeholder="Ingrese la cedula aquí" required />
+        <input name="cedula" id="txtCedulaTotem" class="form-control" type="text" placeholder="Ingrese la cedula aquí" required />
  
 
     <input class="btn" type="submit" value="Acceder" />
-    </form>
+    </form> 
 
+    <div class="tecladoVirtual col-3 row" id="tecladoVirtual">
+        <button class="col-8 tecladoNumero" boton="Borrar">Borrar</button>
+        <button class="col-4 tecladoNumero" boton="0">0</button>
+        <button class="col-4 tecladoNumero" boton="1">1</button>
+        <button class="col-4 tecladoNumero" boton="2">2</button>
+        <button class="col-4 tecladoNumero" boton="3">3</button>
+        <button class="col-4 tecladoNumero" boton="4">4</button>
+        <button class="col-4 tecladoNumero" boton="5">5</button>
+        <button class="col-4 tecladoNumero" boton="6">6</button>
+        <button class="col-4 tecladoNumero" boton="7">7</button>
+        <button class="col-4 tecladoNumero" boton="8">8</button>
+        <button class="col-4 tecladoNumero" boton="9">9</button>
+    </div>
 
     
     <a href="@Url.Action("CerrarSesion", "Totem")" class="text-black btnCerrarSesionTotem"><i class="fas fa-sign-out-alt"></i></a>
 </div>
+
+<script src="~/js/TecladoVirtual.js"></script>
 

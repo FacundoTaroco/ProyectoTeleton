@@ -164,10 +164,10 @@ namespace AppTeleton.Controllers
                 else {
 
                     IEnumerable<CitaMedicaDTO> citas = await _getCitas.ObtenerCitasPorCedula(cedula);
-                    IEnumerable<CitaMedicaDTO> citasFiltradas = citas.OrderBy(c => c.Fecha).ThenBy(c => c.HoraInicio).Where(c => c.Fecha >= hoyGMT);
+                    IEnumerable<CitaMedicaDTO> citasFiltradas = citas.OrderBy(c => c.Fecha).ThenBy(c => c.HoraInicio).ToList();
                     CitasViewModel model = new CitasViewModel();
 
-
+                    model.CargarModelo(citasFiltradas);
 
                     return View("Index", model);
                 }

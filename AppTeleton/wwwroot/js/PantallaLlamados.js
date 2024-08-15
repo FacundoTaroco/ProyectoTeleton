@@ -17,6 +17,11 @@ conexion.on("NuevoLlamado", function (llamado) {
 
 
     ListaLLamados.push(llamado);
+
+    if (ListaLLamados.length > 6) {
+
+        ListaLLamados =  ListaLLamados.slice(1);
+    }
     
     generarLlamado();
 
@@ -39,9 +44,9 @@ function mostrarListado() {
   
     let listado = document.querySelector("#ListaLLamados")
     listado.innerHTML = "";
-    for (let i = 0; i < ListaLLamados.length; i++) {
+    for (let i = ListaLLamados.length-1; i >= 0; i--) {
 
-        listado.innerHTML += `<li>${ListaLLamados[i].nombrePaciente} | ${ListaLLamados[i].cedula} | ${ListaLLamados[i].consultorio}</li>`
+        listado.innerHTML += `<tr><td>${ListaLLamados[i].nombrePaciente} </td><td> ${ListaLLamados[i].cedula}  </td><td> ${ListaLLamados[i].consultorio}</td></tr>`
     }
 }
 

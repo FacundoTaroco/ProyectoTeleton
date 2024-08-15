@@ -18,38 +18,16 @@ namespace LogicaAplicacion.CasosUso.EncuestaCU
         }
 
 
+        public Encuesta GetPorId(int id) {
+            return _repo.GetPorId(id);
+        }
+
         public IEnumerable<Encuesta> GetAll() { 
         
         return _repo.GetEncuestas();
         }
 
-        public double PromedioSatisfaccionGeneral() { 
-        
-        
-        return _repo.GetPromedioSatisfaccionGeneral();
-        }
-        public double PromedioSatisfaccionRecepcion()
-        {
-
-
-            return _repo.GetPromedioSatisfaccionRecepcion();
-        }
-        public double PromedioSatisfaccionAplicacion()
-        {
-
-
-            return _repo.GetPromedioSatisfaccionAplicacion();
-        }
-        public double PromedioSatisfaccionEstadoCentro()
-        {
-
-
-            return _repo.GetPromedioSatisfaccionEstadoCentro();
-        }
-        public IEnumerable<ComentarioEncuestaDTO> GetComentarios()
-        {
-
-            return _repo.GetComentariosPuntuados();
-        }
+      
+       
     }
 }
