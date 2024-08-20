@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LogicaAccesoDatos.Migrations
 {
-    public partial class init : Migration
+    public partial class cargaInicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

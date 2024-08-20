@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LogicaAccesoDatos.Migrations
 {
     [DbContext(typeof(LibreriaContext))]
-    [Migration("20240808133554_init")]
-    partial class init
+    [Migration("20240818005235_cargaInicial")]
+    partial class cargaInicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

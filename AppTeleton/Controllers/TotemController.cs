@@ -17,7 +17,7 @@ using Microsoft.AspNetCore.SignalR;
 using LogicaAplicacion.CasosUso.PreguntasFrecCU;
 using AppTeleton.Worker;
 using LogicaAplicacion.Servicios;
-using LogicaAccesoDatos.Migrations;
+
 
 
 namespace AppTeleton.Controllers

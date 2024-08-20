@@ -2,8 +2,7 @@
   "dependencies": {
     "mssql1": {
       "type": "mssql",
-      "connectionId": "ConnectionStrings:TeletonSimuladorDatabase",
-      "dynamicId": null
+      "connectionId": "ConnectionStrings:TeletonDatabase"
     }
   }
 }
