@@ -1,6 +1,5 @@
 ﻿
 self.onnotificationclick = (event) => {
-    console.log("LLEGUEEE");
     event.stopImmediatePropagation();
     event.notification.close();
 

@@ -382,162 +382,244 @@ font-weight:600;
 /*FIN TOTEM PREGUNTAS*/
 
 /*MAPA TOTEM*/
-#map-container {
+
+
+
+
+#mapa {
     position: relative;
     width: 100%;
-    margin: auto;
-}
-.mapaTeleton {
-    
-    width:100%;
-    height:auto;
-
+    height: auto;
+    margin: 0 auto;
 }
 
-.consultorio {
-    position: absolute;
+svg {
+    display: block;
+    margin: 0 auto;
+    width: 200%;
+}
+
+#path1, #path2, #path3, #path4, #path5, #path6, #path7, #path8, #path8, #path9, #path10, #path11, #path12, #path13, #path14, #path15, #path16, #path17 {
+    stroke-width: 5px;
+    fill: transparent;
+    transition: fill 0.3s ease, stroke 0.3s ease;
+    transform: translate(0px, -0px) scale(0.5);
+}
+
+    #path1:hover {
+        fill: red;
+        fill-opacity: 0.3;
+        stroke: red;
+    }
+
+    #path1.active {
+        fill: red;
+        fill-opacity: 0.3;
+        stroke: red;
+    }
+ 
+
+    #path2:hover {
+        fill: red;
+        fill-opacity: 0.3;
+        stroke: red;
+    }
+
+    #path2.active {
+        fill: red;
+        fill-opacity: 0.3;
+        stroke: red;
+    }
+
+    #path3:hover {
+        fill: yellow;
+        fill-opacity: 0.3;
+        stroke: yellow;
+    }
+
+    #path3.active {
+        fill: yellow;
+        fill-opacity: 0.3;
+        stroke: yellow;
+    }
+
+    #path4:hover {
+        fill: #7f95a0;
+        fill-opacity: 0.3;
+        stroke: #7f95a0;
+    }
+
+    #path4.active {
+        fill: #7f95a0;
+        fill-opacity: 0.3;
+        stroke: #7f95a0;
+    }
+
+    #path5:hover {
+        fill: green;
+        fill-opacity: 0.3;
+        stroke: green;
+    }
+    #path5.active {
+        fill: green;
+        fill-opacity: 0.3;
+        stroke: green;
+    }
+
+    #path6:hover {
+        fill: skyblue;
+        fill-opacity: 0.3;
+        stroke: skyblue;
+    }
+    #path6.active {
+        fill: skyblue;
+        fill-opacity: 0.3;
+        stroke: skyblue;
+    }
+
+    #path7:hover {
+        fill: green;
+        fill-opacity: 0.3;
+        stroke: green;
+    }
+    #path7.active {
+        fill: green;
+        fill-opacity: 0.3;
+        stroke: green;
+    }
+
+    #path8:hover {
+        fill: skyblue;
+        fill-opacity: 0.3;
+        stroke: skyblue;
+    }
+    #path8.active {
+        fill: skyblue;
+        fill-opacity: 0.3;
+        stroke: skyblue;
+    }
+
+
+    #path9:hover {
+        fill: green;
+        fill-opacity: 0.3;
+        stroke: green;
+    }
+    #path9.active {
+        fill: green;
+        fill-opacity: 0.3;
+        stroke: green;
+    }
+
+
+    #path10:hover {
+        fill: skyblue;
+        fill-opacity: 0.3;
+        stroke: skyblue;
+    }
+    #path10.active {
+        fill: skyblue;
+        fill-opacity: 0.3;
+        stroke: skyblue;
+    }
+    #path11:hover {
+        fill: green;
+        fill-opacity: 0.3;
+        stroke: green;
+    }
+    #path11.active {
+        fill: green;
+        fill-opacity: 0.3;
+        stroke: green;
+    }
+
+    #path12:hover {
+        fill: purple;
+        fill-opacity: 0.3;
+        stroke: purple;
+    }
+    #path12.active {
+        fill: purple;
+        fill-opacity: 0.3;
+        stroke: purple;
+    }
+
+    #path13:hover {
+        fill: purple;
+        fill-opacity: 0.3;
+        stroke: purple;
+    }
+    #path13.active {
+        fill: purple;
+        fill-opacity: 0.3;
+        stroke: purple;
+    }
+    #path14:hover {
+        fill: purple;
+        fill-opacity: 0.3;
+        stroke: purple;
+    }
+    #path14.active {
+        fill: purple;
+        fill-opacity: 0.3;
+        stroke: purple;
+    }
+    #path15:hover {
+        fill: purple;
+        fill-opacity: 0.3;
+        stroke: purple;
+    }
+    #path15.active {
+        fill: purple;
+        fill-opacity: 0.3;
+        stroke: purple;
+    }
+    #path16:hover {
+        fill: #fdb427;
+        fill-opacity: 0.3;
+        stroke: #fdb427;
+    }
+    #path16.active {
+        fill: #fdb427;
+        fill-opacity: 0.3;
+        stroke: #fdb427;
+    }
+
+    #path17:hover {
+        fill: #fdb427;
+        fill-opacity: 0.3;
+        stroke: #fdb427;
+    }
+    #path17.active {
+        fill: #fdb427;
+        fill-opacity: 0.3;
+        stroke: #fdb427;
+    }
+
+.selected {
+    stroke: black;
+    stroke-width: 8px;
+    fill: yellow;
+    fill-opacity: 0.5;
+}
+
+.active {
+    stroke: red;
+    stroke-width: 3px;
+}
+
+path {
     cursor: pointer;
 }
 
-#consultorio1 {
-    background-color: orangered;
-    width: 30%;
-    aspect-ratio: 16 / 11;
-    top: 13.5%;
-    left: 1%;
-    mix-blend-mode: overlay; 
+text {
+    pointer-events: none;
 }
 
-#consultorio2 {
-    background-color: orangered;
-    width: 12%;
-    aspect-ratio: 16 / 42.5;
-    top: 42%;
-    left: 15%;
-    mix-blend-mode: overlay; 
-}
-#consultorio3 {
-    background-color: dodgerblue;
-    width: 18%;
-    aspect-ratio: 16 / 17;
-    top: 36%;
-    left: 50%;
-    transform: rotate(60deg);
-    border-radius: 50px;
-    mix-blend-mode: overlay;
-}
 
-#consultorio4uno {
-    background-color: red;
-    width: 18%;
-    aspect-ratio: 16 / 12;
-    top: 78%;
-    left: 18%;
-    mix-blend-mode: overlay;
-}
 
-#consultorio4dos {
-    background-color: red;
-    width: 9%;
-    aspect-ratio: 16 / 43;
-    top: 58.5%;
-    left: 39.5%;
-    transform: rotate(26deg);
-    mix-blend-mode: overlay;
-}
 
-#consultorio5uno {
-    background-color: red;
-    width: 8%;
-    aspect-ratio: 16 / 49;
-    top: 36.1%;
-    left: 82.7%;
-    transform: rotate(26deg);
-    mix-blend-mode: overlay;
-}
-#consultorio5dos {
-    background-color: red;
-    width: 9%;
-    aspect-ratio: 16 / 19;
-    top: 58.4%;
-    left: 68.5%;
-    transform: rotate(24deg);
-    mix-blend-mode: overlay;
-}
-#consultorio6uno {
-    background-color: springgreen;
-    width: 11%;
-    aspect-ratio: 16 / 17;
-    top: 23.2%;
-    left: 86%;
-    transform: rotate(25deg);
-    mix-blend-mode: overlay;
-}
-#consultorio6dos {
-    background-color: springgreen;
-    width: 5.1%;
-    aspect-ratio: 16 / 23;
-    top: 28.3%;
-    left: 71.5%;
-    transform: rotate(25deg);
-    mix-blend-mode: overlay;
-}
-#consultorio6tres {
-    background-color: springgreen;
-    width: 4.5%;
-    aspect-ratio: 16 / 31;
-    top: 24%;
-    left: 63%;
-    transform: rotate(24deg);
-    mix-blend-mode: overlay;
-}
-#consultorio6cuatro {
-    background-color: springgreen;
-    width: 4.4%;
-    aspect-ratio: 16 / 27;
-    top: 19.8%;
-    left: 55%;
-    transform: rotate(25deg);
-    mix-blend-mode: overlay;
-}
-#consultorio7uno {
-    background-color: blue;
-    width: 4.3%;
-    aspect-ratio: 16 / 32;
-    top: 22.1%;
-    left: 59.1%;
-    transform: rotate(25deg);
-    mix-blend-mode: overlay;
-}
-#consultorio7dos {
-    background-color: blue;
-    width: 4.3%;
-    aspect-ratio: 16 / 27;
-    top: 26.3%;
-    left: 67.5%;
-    transform: rotate(25deg);
-    mix-blend-mode: overlay;
-}
-#consultorio7tres {
-    background-color: blue;
-    width: 6.8%;
-    aspect-ratio: 16 / 22;
-    top: 31.1%;
-    left: 75.3%;
-    transform: rotate(25deg);
-    mix-blend-mode: overlay;
-}
 
-#info-box {
-    position: fixed;
-    bottom: 10px;
-    left: 50%;
-    padding: 10px;
-    background-color: white;
-    border: 1px solid #ddd;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    display: none;
-}
 
 
 

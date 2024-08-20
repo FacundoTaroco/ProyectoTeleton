@@ -108,15 +108,15 @@ namespace AppTeleton.Controllers
             try
             {
                 ViewBag.CedulaUsuario = cedula;
-                IEnumerable<PreguntaFrec> preguntasParaTotem = new List<PreguntaFrec>();
-                preguntasParaTotem = _getPreguntasFrec.GetPreguntasParaTotem();
-                return View();
+               
+              
+                return View("MapaTotem");
             }
             catch (Exception e)
             {
                 ViewBag.Mensaje = e.Message;
                 ViewBag.TipoMensaje = "ERROR";
-                return View();
+                return View("MapaTotem");
             }
         }
 

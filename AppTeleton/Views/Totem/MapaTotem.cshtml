@@ -1,0 +1,238 @@
+﻿@{
+    ViewBag.Title = "Mapa";
+}
+
+
+
+<div class="row contenedorHomeUsuario">
+
+
+<div class="col-3 col-md-2 text-white contenedorListadoHomeUsuario d-flex flex-column align-items-center justify-content-between">
+    <div class="mb-3">
+
+        <h3 class="h3HomeUsuario">Menú</h3>
+        <ul class="list-unstyled listadoNavHomeUsuario">
+            <li><a asp-action="HomeUsuario" asp-route-cedula="@ViewBag.CedulaUsuario" class="text-white"><i class="fas fa-calendar-alt"></i> Agenda</a></li>
+            <li><a asp-action="PreguntasParaTotem" asp-route-cedula="@ViewBag.CedulaUsuario" class="text-white"><i class="fas fa-question-circle"></i> Preguntas</a></li>
+            <li><a asp-action="Mapa" asp-route-cedula="@ViewBag.CedulaUsuario" class="text-white"><i class="fas fa-map-marker-alt"></i> Mapa</a></li>
+        </ul>
+    </div>
+    <div>
+        <ul class="list-unstyled listadoNavHomeUsuario ">
+            <li><a href="@Url.Action("CerrarAcceso", "Totem")" class="text-white"><i class="fas fa-sign-out-alt"></i>Salir</a></li>
+        </ul>
+    </div>
+</div>
+
+
+    <div class="col-9 col-md-10 contenedorContenidoHomeUsuario">
+
+<svg viewBox="0 0 1920 1337" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1920" height="1337" fill="url(#pattern0_0_1)" />
+
+            <path id="path1" class="pathGenerales" d="M660.75 1181.19H633V1110.92H817.5V1138.25H861.5L871.5 1120.75L909.25 1138.25L892.5 1173.75L934.5 1196.75L877.5 1313.25H660.75V1180.75Z" stroke="black" transform="translate(100, 200)" onclick="toggleInfo('detail-text1', 'title1', event)" />
+            <path id="path2" class="pathGenerales" d="M894.5 1174.69L1025.25 1234.71L1197.25 891.583L1080.5 835.813L1059.5 878.829L1044 870.826L967.75 1021.38L984.75 1031.14L950.5 1101.41L933.5 1093.91L894.5 1174.69Z" stroke="black" transform="translate(400, 200)" onclick="toggleInfo('detail-text2', 'title2', event)" />
+            <path id="path3" class="pathGenerales" d="M709 1114.67H611V972.864H630.5V931.348H611L607.25 740.777H630.5V704.764L565.5 659.997L571.25 652.494L598.5 673.002V617.231H771.75V729.773H725.75V748.53L729.25 750.781L725.75 758.784L706.75 750.781L709 854.319H771.75V1022.13H709V1114.67Z" stroke="black" transform="translate(400, 200)" onclick="toggleInfo('detail-text3', 'title3', event)" />
+            <path id="path4" class="pathGenerales" d="M1474 735.775C1441.2 655.345 1360.17 565.045 1323.75 529.948H1186V618.982H1130.25L1128.25 795.548H1186V831.311C1290.6 823.708 1421.58 764.453 1474 735.775Z" stroke="black" transform="translate(100, 200)" onclick="toggleInfo('detail-text4', 'title4', event)" />
+            <path id="path5" class="pathGenerales" d="M1246 289.608L1196.25 398.399L1243.75 420.407L1253.25 400.65L1272.5 409.653L1313 320.87L1246 289.608Z" stroke="black" transform="translate(400, 200)" onclick="toggleInfo('detail-text5', 'title5', event)" />
+            <path id="path6" class="pathGenerales" d="M1315.25 482.68L1229.5 442.666L1251.75 396.148L1270.25 405.402L1310.25 319.62L1376.5 350.381L1315.25 482.68Z" stroke="black" transform="translate(400, 200)" onclick="toggleInfo('detail-text6', 'title6', event)" />
+            <path id="path7" class="pathGenerales" d="M1312 481.43L1399.5 520.695L1418.75 477.178L1401 468.925L1441 380.142L1373.5 349.131L1312 481.43Z" stroke="black" transform="translate(400, 200)" onclick="toggleInfo('detail-text7', 'title7', event)" />
+            <path id="path8" class="pathGenerales" d="M1405.75 498.436L1453.25 519.694L1504 409.653L1437.5 379.142L1395.25 471.176L1413.75 479.179L1405.75 498.436Z" stroke="black" transform="translate(400, 200)" onclick="toggleInfo('detail-text8', 'title8', event)" />
+            <path id="path9" class="pathGenerales" d="M1448 516.943L1496 537.701L1503.5 521.945L1533.75 535.2L1575 442.666L1499.25 407.402L1448 516.943Z" stroke="black" transform="translate(400, 200)" onclick="toggleInfo('detail-text9', 'title9', event)" />
+            <path id="path10" class="pathGenerales" d="M1607.75 621.983L1509 576.216L1571.75 441.165L1672 487.682L1607.75 621.983Z" stroke="black" transform="translate(400, 200)" onclick="toggleInfo('detail-text10', 'title10', event)" />
+            <path id="path11" class="pathGenerales" d="M1643.5 536.451L1716.25 570.213L1739.25 524.446L1826 564.211L1907 395.148L1745.25 320.37L1643.5 536.451Z" stroke="black" transform="translate(400, 200)" onclick="toggleInfo('detail-text11', 'title11', event)" />
+            <path id="path12" class="pathGenerales" d="M1763.5 751.531L1651.5 701.512L1736.75 519.194L1848 570.463L1763.5 751.531Z" stroke="black" transform="translate(400, 200)" onclick="toggleInfo('detail-text12', 'title12', event)" />
+            <path id="path13" class="pathGenerales" d="M1724.25 766.787L1696.25 826.559L1611.5 786.794L1653 698.761L1741.5 738.526L1727.5 768.287L1724.25 766.787Z" stroke="black" transform="translate(400, 200)" onclick="toggleInfo('detail-text13', 'title13', event)" />
+            <path id="path14" class="pathGenerales" d="M1610 783.043L1567.25 871.076L1660.25 915.592L1675.25 884.581L1671 882.58L1698.25 824.558L1610 783.043Z" stroke="black" transform="translate(400, 200)" onclick="toggleInfo('detail-text14', 'title14', event)" />
+            <path id="path15" class="pathGenerales" d="M1538.25 1005.63L1527 1029.13L1476.25 1005.63L1474.5 1009.13L1452.75 999.124L1454.25 1009.13H1450.25C1427.45 883.881 1451.42 827.059 1466.25 814.305H1469L1470 817.306L1467.75 822.307L1596 881.83L1587 902.588L1591 904.338L1543 1007.38L1538.25 1005.63Z" stroke="black" transform="translate(400, 200)" onclick="toggleInfo('detail-text15', 'title15', event)" />
+            <path id="path16" class="pathGenerales" d="M440.5 535.2H597.5V456.421L764.25 428.91L762.5 310.616H837.25L835.25 202.326C663.65 193.722 581.25 197.407 561.5 200.325L565 327.122L540 333.625L531.5 288.358L520.5 290.609L531.5 340.127C452.5 361.335 384.417 398.983 360.25 415.155C370.05 440.165 417.833 505.606 440.5 535.2Z" stroke="black" transform="translate(400, 200)" onclick="toggleInfo('detail-text16', 'title16', event)" />
+            <path id="path17" class="pathGenerales" d="M837.25 307.865V416.906L763.5 429.411V307.865H837.25Z" stroke="black" transform="translate(400, 200)" onclick="toggleInfo('detail-text17', 'title17', event)" />
+
+    <defs>
+        <pattern id="pattern0_0_1" patternContentUnits="objectBoundingBox" width="1" height="1">
+            <use xlink:href="#mapa" transform="scale(0.000260417 0.000374111)" />
+        </pattern>
+        <image id="mapa" href="/images/MAPAFINALCONNOMBRES.jpg" x="0" y="0"></image>
+    </defs>
+
+    <text id="title1" x="710" y="580" fill="black" font-size="20" text-anchor="middle" display="none" dy="-0.5em">Fisioterapia</text>
+    <text id="detail-text1" x="600" y="580" fill="black" font-size="15" text-anchor="middle" display="none" width="300">
+        <tspan x="710" dy="1.2em">Espacio donde se realizan ejercicios y tratamientos</tspan>
+        <tspan x="710" dy="1.2em">físicos para mejorar la movilidad, fuerza y</tspan>
+        <tspan x="710" dy="1.2em">funcionalidad del cuerpo.</tspan>
+    </text>
+
+    <text id="title2" x="710" y="580" fill="black" font-size="20" text-anchor="middle" display="none" dy="-0.5em">Terapia Ocupacional</text>
+    <text id="detail-text2" x="600" y="580" fill="black" font-size="15" text-anchor="middle" display="none" width="300">
+        <tspan x="710" dy="1.2em">Sala dedicada a ayudar a los pacientes a mejorar</tspan>
+        <tspan x="710" dy="1.2em">sus habilidades para realizar actividades</tspan>
+        <tspan x="710" dy="1.2em">cotidianas y lograr mayor independencia.</tspan>
+    </text>
+
+    <text id="title3" x="710" y="580" fill="black" font-size="20" text-anchor="middle" display="none" dy="-0.5em">Enfermería y Consultorios</text>
+    <text id="detail-text3" x="600" y="580" fill="black" font-size="15" text-anchor="middle" display="none" width="300">
+        <tspan x="710" dy="1.2em">Área donde se brindan cuidados médicos básicos,</tspan>
+        <tspan x="710" dy="1.2em">control de signos vitales, y consultas médicas</tspan>
+        <tspan x="710" dy="1.2em">generales.</tspan>
+    </text>
+
+    <text id="title4" x="710" y="580" fill="black" font-size="20" text-anchor="middle" display="none" dy="-0.5em">Hidroterapia</text>
+    <text id="detail-text4" x="600" y="580" fill="black" font-size="15" text-anchor="middle" display="none" width="300">
+        <tspan x="710" dy="1.2em">Sala equipada con piscinas y herramientas</tspan>
+        <tspan x="710" dy="1.2em">acuáticas para realizar terapias que aprovechan</tspan>
+        <tspan x="710" dy="1.2em">los beneficios del agua.</tspan>
+    </text>
+
+    <text id="title5" x="710" y="580" fill="black" font-size="20" text-anchor="middle" display="none" dy="-0.5em">Consultorio 2</text>
+    <text id="detail-text5" x="600" y="580" fill="black" font-size="15" text-anchor="middle" display="none" width="300">
+        <tspan x="710" dy="1.2em">Espacio de consulta médica para la evaluación</tspan>
+        <tspan x="710" dy="1.2em">y seguimiento de pacientes.</tspan>
+    </text>
+
+    <text id="title6" x="710" y="580" fill="black" font-size="20" text-anchor="middle" display="none" dy="-0.5em">Fonoaudiologo 3</text>
+    <text id="detail-text6" x="600" y="580" fill="black" font-size="15" text-anchor="middle" display="none" width="300">
+        <tspan x="710" dy="1.2em">Sala destinada a la evaluación y tratamiento</tspan>
+        <tspan x="710" dy="1.2em">de trastornos del habla y la comunicación.</tspan>
+    </text>
+
+    <text id="title7" x="710" y="580" fill="black" font-size="20" text-anchor="middle" display="none" dy="-0.5em">Fonoaudiologo 4</text>
+    <text id="detail-text7" x="600" y="580" fill="black" font-size="15" text-anchor="middle" display="none" width="300">
+        <tspan x="710" dy="1.2em">Similar a Fonoaudiología 3, esta sala se utiliza</tspan>
+        <tspan x="710" dy="1.2em">para terapias de lenguaje y comunicación.</tspan>
+    </text>
+
+    <text id="title8" x="710" y="580" fill="black" font-size="20" text-anchor="middle" display="none" dy="-0.5em">Consultorio 5</text>
+    <text id="detail-text8" x="600" y="580" fill="black" font-size="15" text-anchor="middle" display="none" width="300">
+        <tspan x="710" dy="1.2em">Otro espacio para consultas médicas</tspan>
+        <tspan x="710" dy="1.2em">y revisiones de salud.</tspan>
+    </text>
+
+    <text id="title9" x="710" y="580" fill="black" font-size="20" text-anchor="middle" display="none" dy="-0.5em">Realidad Virtual</text>
+    <text id="detail-text9" x="600" y="580" fill="black" font-size="15" text-anchor="middle" display="none" width="300">
+        <tspan x="710" dy="1.2em">Área donde se emplea tecnología de realidad</tspan>
+        <tspan x="710" dy="1.2em">virtual para rehabilitación y terapia, permitiendo</tspan>
+        <tspan x="710" dy="1.2em">a los pacientes practicar en un entorno simulado.</tspan>
+    </text>
+
+    <text id="title10" x="710" y="580" fill="black" font-size="20" text-anchor="middle" display="none" dy="-0.5em">Tecnología</text>
+    <text id="detail-text10" x="600" y="580" fill="black" font-size="15" text-anchor="middle" display="none" width="300">
+        <tspan x="710" dy="1.2em">Espacio donde se utilizan dispositivos tecnológicos</tspan>
+        <tspan x="710" dy="1.2em">y asistivos para la rehabilitación de los pacientes.</tspan>
+    </text>
+
+    <text id="title11" x="710" y="580" fill="black" font-size="20" text-anchor="middle" display="none" dy="-0.5em">Depósito</text>
+    <text id="detail-text11" x="600" y="580" fill="black" font-size="15" text-anchor="middle" display="none" width="300">
+        <tspan x="710" dy="1.2em">Almacén donde se guardan suministros y equipos</tspan>
+        <tspan x="710" dy="1.2em">médicos utilizados en las diferentes terapias.</tspan>
+    </text>
+
+    <text id="title12" x="710" y="580" fill="black" font-size="20" text-anchor="middle" display="none" dy="-0.5em">Taller Ortesis</text>
+    <text id="detail-text12" x="600" y="580" fill="black" font-size="15" text-anchor="middle" display="none" width="300">
+        <tspan x="710" dy="1.2em">Taller donde se fabrican y ajustan órtesis y</tspan>
+        <tspan x="710" dy="1.2em">prótesis para ayudar a los pacientes con</tspan>
+        <tspan x="710" dy="1.2em">movilidad y soporte físico.</tspan>
+    </text>
+
+    <text id="title13" x="710" y="580" fill="black" font-size="20" text-anchor="middle" display="none" dy="-0.5em">Sala de Arte</text>
+    <text id="detail-text13" x="600" y="580" fill="black" font-size="15" text-anchor="middle" display="none" width="300">
+        <tspan x="710" dy="1.2em">Espacio creativo donde los pacientes participan</tspan>
+        <tspan x="710" dy="1.2em">en actividades artísticas como parte de su</tspan>
+        <tspan x="710" dy="1.2em">rehabilitación y desarrollo emocional.</tspan>
+    </text>
+
+    <text id="title14" x="710" y="580" fill="black" font-size="20" text-anchor="middle" display="none" dy="-0.5em">Sala de Padres</text>
+    <text id="detail-text14" x="600" y="580" fill="black" font-size="15" text-anchor="middle" display="none" width="300">
+        <tspan x="710" dy="1.2em">Área destinada a los familiares de los pacientes,</tspan>
+        <tspan x="710" dy="1.2em">donde pueden descansar, recibir apoyo, y</tspan>
+        <tspan x="710" dy="1.2em">compartir experiencias.</tspan>
+    </text>
+
+    <text id="title15" x="710" y="580" fill="black" font-size="20" text-anchor="middle" display="none" dy="-0.5em">Laboratorio de Marcha</text>
+    <text id="detail-text15" x="600" y="580" fill="black" font-size="15" text-anchor="middle" display="none" width="300">
+        <tspan x="710" dy="1.2em">Sala especializada donde se analiza y mejora</tspan>
+        <tspan x="710" dy="1.2em">la marcha de los pacientes mediante la evaluación</tspan>
+        <tspan x="710" dy="1.2em">de movimientos y uso de tecnologías de diagnóstico.</tspan>
+    </text>
+
+    <text id="title16" x="710" y="580" fill="black" font-size="20" text-anchor="middle" display="none" dy="-0.5em">Recepción</text>
+    <text id="detail-text16" x="600" y="580" fill="black" font-size="15" text-anchor="middle" display="none" width="300">
+        <tspan x="710" dy="1.2em">Punto de entrada donde se recibe a los pacientes</tspan>
+        <tspan x="710" dy="1.2em">y se les proporciona orientación e información.</tspan>
+    </text>
+
+    <text id="title17" x="710" y="580" fill="black" font-size="20" text-anchor="middle" display="none" dy="-0.5em">Terapia</text>
+    <text id="detail-text17" x="600" y="580" fill="black" font-size="15" text-anchor="middle" display="none" width="300">
+        <tspan x="710" dy="1.2em">Consultorio donde se brindan servicios de apoyo</tspan>
+        <tspan x="710" dy="1.2em">emocional y psicológico a los pacientes y sus</tspan>
+        <tspan x="710" dy="1.2em">familias, ayudando a enfrentar el proceso de</tspan>
+        <tspan x="710" dy="1.2em">rehabilitación.</tspan>
+    </text>
+
+</svg>
+
+    </div>
+
+</div>
+<script>
+    let activePath = null;
+
+    function toggleInfo(textId, titleId, event) {
+        const detailText = document.getElementById(textId);
+        const titleText = document.getElementById(titleId);
+        const currentPath = event.target;
+
+        if (activePath === currentPath) {
+            hideAllInfo();
+            activePath = null;
+        } else {
+            hideAllInfo();
+
+            detailText.style.display = 'block';
+            titleText.style.display = 'block';
+
+        }
+    }
+
+    function hideAllInfo() {
+        const texts = document.querySelectorAll('text[id^="detail-text"]');
+        texts.forEach(text => {
+            text.style.display = 'none';
+        });
+        const titles = document.querySelectorAll('text[id^="title"]');
+        titles.forEach(title => {
+            title.style.display = 'none';
+        });
+        const paths = document.querySelectorAll('path');
+        paths.forEach(path => {
+            path.classList.remove('active');
+        });
+    }
+
+    let paths = document.querySelectorAll(".pathGenerales");
+
+    for (let i = 0; i < paths.length; i++) { 
+    
+        paths[i].addEventListener("click", activarHover);
+
+    }
+
+
+    function activarHover() { 
+    
+        let idPath = this.getAttribute('id');
+
+        document.getElementById(idPath).classList.toggle("active");
+
+    
+    }
+
+
+
+    document.addEventListener('click', function (event) {
+        const svg = document.querySelector('svg');
+        if (!svg.contains(event.target)) {
+            hideAllInfo();
+            activePath = null;
+        }
+    });
+</script>
