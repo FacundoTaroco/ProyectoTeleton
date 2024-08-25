@@ -32,7 +32,7 @@
 
             <div class="form-group">
                 <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" />
+                <input asp-for="Nombre" class="form-control"  />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -46,14 +46,14 @@
                 <span asp-validation-for="Contrasenia" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-danger" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index" asp-route-tipoUsuario="MEDICO">Back to List</a>
+    <a asp-action="Index" asp-route-tipoUsuario="MEDICO">Volver</a>
 </div>
 
 @section Scripts {

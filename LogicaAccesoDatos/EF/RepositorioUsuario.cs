@@ -27,6 +27,7 @@ namespace LogicaAccesoDatos.EF
                 if (usu == null) {
                     throw new Exception("No se recibio usuario para cambiar la contraseña");
                 }
+                usu.Validar();
 
                 _context.Usuarios.Update(usu);
                 _context.SaveChanges();

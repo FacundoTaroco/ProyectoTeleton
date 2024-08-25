@@ -3,6 +3,7 @@ using AppTeleton.Models.Filtros;
 using LogicaAplicacion.CasosUso.CitaCU;
 using LogicaAplicacion.CasosUso.NotificacionCU;
 using LogicaAplicacion.CasosUso.PacienteCU;
+using LogicaAplicacion.Excepciones;
 using LogicaNegocio.DTO;
 using LogicaNegocio.Entidades;
 using Microsoft.AspNetCore.Mvc;
@@ -35,7 +36,7 @@ namespace AppTeleton.Controllers
                 DateTime _fechaHoy = DateTime.UtcNow;
                 TimeZoneInfo zonaHoraria = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
                 DateTime hoyGMT = TimeZoneInfo.ConvertTimeFromUtc(_fechaHoy, zonaHoraria);
-                
+
                 CitasViewModel model;
 
                 if (tipoUsuario == "PACIENTE")
@@ -47,7 +48,8 @@ namespace AppTeleton.Controllers
                     Paciente paciente = _getPacientes.GetPacientePorUsuario(HttpContext.Session.GetString("USR"));
                     Notificacion notificacionMasReciente = _getNotificacion.GetMasRecientePorUsuario(paciente.Id);
                     model = new CitasViewModel(notificacionMasReciente);
-                    if (paciente.ParaEncuestar) {
+                    if (paciente.ParaEncuestar)
+                    {
                         ViewBag.Encuestar = "si";
                     }
 
@@ -55,7 +57,8 @@ namespace AppTeleton.Controllers
 
                     return View(model);
                 }
-                else {
+                else
+                {
 
                     IEnumerable<CitaMedicaDTO> citas = await _getCitas.ObtenerCitas();
                     citasAMostrar = citas.Where(c => c.Fecha.Day == hoyGMT.Day && c.Fecha.Month == hoyGMT.Month && c.Fecha.Year == hoyGMT.Year).ToList();
@@ -64,7 +67,13 @@ namespace AppTeleton.Controllers
 
                 model.CargarModelo(citasAMostrar);
 
-            return View(model);
+                return View(model);
+            }
+            catch (TeletonServerException e) {
+
+                ViewBag.Mensaje = "El servidor central no se encuentra disponible para obtener las citas agendadas";
+                ViewBag.TipoMensaje = "ERROR";
+                return View(new CitasViewModel());
             }
             catch (Exception e)
             {

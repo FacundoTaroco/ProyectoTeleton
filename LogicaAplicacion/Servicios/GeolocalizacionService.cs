@@ -124,6 +124,13 @@ namespace LogicaAplicacion.Servicios
         //a 15km(aprox el radio de montevideo) entoncer retorna false(No son de montevideo las coordenadas)
         public bool EsDeMontevideo(CoordenadasDTO coordenadas) {
 
+            if (coordenadas == null) {
+
+                return false;
+            
+            
+            }
+
             double montevideoLat = -34.9011;
             double montevideoLon = -56.1645;
             double radioMontevideo = 15; 

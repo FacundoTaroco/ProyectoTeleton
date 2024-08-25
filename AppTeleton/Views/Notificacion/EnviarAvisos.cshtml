@@ -23,15 +23,15 @@
 
     @if (!ViewBag.RecordatoriosEncendidos)
     {
-        <p>  Los recordatorios automaticos a los pacientes NO estan encendidos </p>
+        <p>  Los recordatorios automáticos a los pacientes NO están encendidos </p>
     }
     else
     {
-        <p>  Los recordatorios automaticos a los pacientes estan encendidos y se envian con @ViewBag.RecordatorioAntelacion dias de antelación a la cita agendada</p>
+        <p>  Los recordatorios automáticos a los pacientes están encendidos y se envían con @ViewBag.RecordatorioAntelacion días de antelación a la cita agendada</p>
     }
    
      <form  asp-action="ConfigurarRecordatorios" asp-controller="Notificacion" method="get">
-        <input type="submit" value="Configurar Recordatorios" class="btn btn-primary">
+        <input type="submit" value="Configurar Recordatorios" class="btn btn-danger">
     </form>
 
 </div>
@@ -44,10 +44,10 @@
     <div class="col-12 col-md-5">
         <h3 style="text-align:center;" class="mt-4">Notificación</h3>
         <label for="nombre">Titulo</label>
-        <input id="tituloNotificacion" name="titulo" class="form-control mb-3" type="text" placeholder="Ingrese titulo de la notificacion" required>
+        <input id="tituloNotificacion" name="titulo" class="form-control mb-3" type="text" placeholder="Ingrese titulo de la notificación" required>
         <label for="nombre">Mensaje</label>
-        <input id="mensajeNotificacion" name="mensaje" class="form-control mb-3" type="text" placeholder="Ingrese mensaje de la notificacion" required>
-        <button class="btn btn-primary btn-block" type="submit">Enviar</button>
+        <input id="mensajeNotificacion" name="mensaje" class="form-control mb-3" type="text" placeholder="Ingrese mensaje de la notificación" required>
+        <button class="btn btn-danger btn-block" type="submit">Enviar</button>
     
         </div>
     <scroll-container class="col-12 col-md-7 listadoUsuariosAvisos">

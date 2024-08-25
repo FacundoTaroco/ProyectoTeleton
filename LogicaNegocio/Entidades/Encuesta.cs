@@ -63,6 +63,14 @@ namespace LogicaNegocio.Entidades
                 return 0;
             }
         }
+
+        public void agregarFecha() {
+
+            DateTime _fecha = DateTime.UtcNow;
+            TimeZoneInfo zonaHoraria = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
+            Fecha = TimeZoneInfo.ConvertTimeFromUtc(_fecha, zonaHoraria);
+
+        }
         public static double GetPromedioSatisfaccionRecepcion(List<Encuesta> encuestas)
         {
             double agregado = 0;

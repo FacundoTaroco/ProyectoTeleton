@@ -36,10 +36,11 @@
                 @foreach (var item in Model.PreguntasFrec)
                 {
                     <tr>
-                        <td><a href="@Url.Action("Detalle", new { id = item.Id })">@item.Pregunta</a></td>
+                        <td>@item.Pregunta</td>
                         <td>
-                            <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-warning btn-sm">Editar</a>
-                            <a href="@Url.Action("Delete", new { id = item.Id })" class="btn btn-danger btn-sm">Eliminar</a>
+
+                            <a href="@Url.Action("Detalle", new { id = item.Id })">Detalles</a>
+                            <a href="@Url.Action("Delete", new { id = item.Id })" >Eliminar</a>
                         </td>
                     </tr>
                 }

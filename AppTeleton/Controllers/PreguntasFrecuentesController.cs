@@ -153,35 +153,7 @@ namespace AppTeleton.Controllers
               
         }
 
-        [RecepcionistaAdminLogueado]
-        [HttpGet]
-        public IActionResult Edit(int id)
-        {
-            var preguntaFrec = _getPreguntasFrec.GetPreguntaFrecPorId(id);
-            if (preguntaFrec == null)
-            {
-                return NotFound();
-            }
-            return View(preguntaFrec);
-        }
-
-        [HttpPost]
-        public IActionResult Edit(PreguntaFrec preguntaFrec)
-        {
-            try
-            {
-                _abmPreguntasFrec.ModificarPreguntaFrec(preguntaFrec);
-                ViewBag.TipoMensaje = "EXITO";
-                ViewBag.Mensaje = "Pregunta frecuente editada con éxito";
-                return RedirectToAction("PreguntasFrecuentes");
-            }
-            catch (Exception e)
-            {
-                ViewBag.TipoMensaje = "ERROR";
-                ViewBag.Mensaje = e.Message;
-                return View(preguntaFrec);
-            }
-        }
+       
 
 
         [RecepcionistaAdminLogueado]

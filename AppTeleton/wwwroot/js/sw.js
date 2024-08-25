@@ -35,7 +35,7 @@ self.addEventListener('push', e => {
     var title = datos.titulo;
     var message = datos.mensaje;
     var link = datos.link;
-    var icon = "../images/TeletonIcono.png"; //ESTO DESPUES VER DE CAMBIARLO Y HACERLO ADAPTABLE
+    var icon = "../images/TeletonIcono.png"; 
 
 
     e.waitUntil(self.registration.showNotification(title, {

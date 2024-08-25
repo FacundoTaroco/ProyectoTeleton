@@ -19,9 +19,8 @@
 
 }
 
-<h1>AgregarRecepcionista</h1>
+<h1>Agregar Recepcionista</h1>
 
-<h4>Recepcionista</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -46,14 +45,14 @@
                 <span asp-validation-for="Contrasenia" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-danger" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="ListadoUsuarios" asp-controller="Usuario" asp-route-tipoUsuario="RECEPCIONISTA">Back to List</a>
+    <a asp-action="ListadoUsuarios" asp-controller="Usuario" asp-route-tipoUsuario="RECEPCIONISTA">Volver</a>
 </div>
 
 @section Scripts {

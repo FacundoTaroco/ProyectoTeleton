@@ -160,7 +160,12 @@ namespace AppTeleton.Controllers
                 if (idUsuario == 0) {
                     idUsuario = Int32.Parse(HttpContext.Session.GetString("Id"));
                 }
-                Usuario usuario = _getUsuarios.GetUsuario(idUsuario);
+                if (HttpContext.Session.GetString("TIPO").Equals("PACIENTE") && idUsuario != Int32.Parse(HttpContext.Session.GetString("Id"))) {
+
+                    throw new Exception("Se cerro su sesión");
+                }
+
+                    Usuario usuario = _getUsuarios.GetUsuario(idUsuario);
                 ViewBag.IdUsuario = idUsuario;
                 return View(usuario);
             }
@@ -168,7 +173,7 @@ namespace AppTeleton.Controllers
             {
                 ViewBag.TipoMensaje = "ERROR";
                 ViewBag.Mensaje = e.Message;
-                Usuario usuario = _getUsuarios.GetUsuario(idUsuario);
+                
                 return View("Login");
             }
         }

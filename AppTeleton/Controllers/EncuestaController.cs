@@ -37,6 +37,7 @@ namespace AppTeleton.Controllers
                 if (encuesta.Comentarios == null) {
                     encuesta.Comentarios = "Sin comentarios";
                 }
+                encuesta.agregarFecha();
                 _agregarEncuesta.Agregar(encuesta);
                 Paciente paciente = _getPacientes.GetPacientePorUsuario(nombreUsuario);
                 paciente.ParaEncuestar = false;
