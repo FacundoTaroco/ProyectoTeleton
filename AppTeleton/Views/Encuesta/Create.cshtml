@@ -1,0 +1,98 @@
+﻿@model LogicaNegocio.Entidades.Encuesta
+
+@{
+    ViewData["Title"] = "Create";
+    string usuario = Context.Session.GetString("USR");
+}
+@{
+    if (ViewBag.Mensaje != null)
+    {
+        if (ViewBag.TipoMensaje == "ERROR")
+        {
+            <div class="alert alert-danger" role="alert">@ViewBag.Mensaje</div>
+        }
+        else if (ViewBag.TipoMensaje == "EXITO")
+        {
+            <div class="alert alert-success" role="alert">@ViewBag.Mensaje</div>
+        }
+
+    }
+}
+<h2 style="text-align:center;" class="mt-2 mb-2 p-2">Realizar encuesta, agradecemos su opinión</h2>
+<p>La encuesta es del 1 al 5 siendo 1 muy insatisfecho y 5 muy satisfecho</p>
+
+<hr />
+<div class="row justify-content-center">
+    <div class="col-12 col-md-10">
+        <form asp-action="Create" method="post" class="encuestaFormulario">
+            <input type="hidden" value="@usuario" name="nombreUsuario">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="divPuntuacion row justify-content-center">
+            <label class="col-12 row">¿Cual es su satisfacción con el servicio de recepción?</label><br>
+            @for (int i = 1; i <= 5; i++)
+            {
+                    <label class="labelPuntuacion col-2">
+                    <input type="radio" asp-for="SatisfaccionRecepcion" value="@i" /> @i
+                </label>
+            }
+                <label class="labelPuntuacion col-2">
+                <input type="radio" asp-for="SatisfaccionRecepcion" value="0" /> No contesta
+            </label>
+            </div>
+
+            <div class="divPuntuacion row justify-content-center">
+                <label class="col-12 row">¿Cual es su satisfacción con el estado del establecimiento?</label><br>
+            @for (int i = 1; i <= 5; i++)
+            {
+                    <label class="labelPuntuacion col-2">
+                    <input type="radio" asp-for="SatisfaccionEstadoDelCentro" value="@i" /> @i
+                </label>
+            }
+                <label class="labelPuntuacion col-2">
+                <input type="radio" asp-for="SatisfaccionEstadoDelCentro" value="0" /> No contesta
+            </label>
+            </div>
+            <div class="divPuntuacion row justify-content-center">
+                <label class="col-12 row">¿Cual es su satisfacción con la aplicación de asistencia?</label><br>
+            @for (int i = 1; i <= 5; i++)
+            {
+                    <label class="labelPuntuacion col-2">
+                    <input type="radio" asp-for="SatisfaccionAplicacion" value="@i" /> @i
+                </label>
+            }
+                <label class="labelPuntuacion col-2">
+                <input type="radio" asp-for="SatisfaccionAplicacion" value="0" /> No contesta
+            </label>
+            </div>
+
+            <div class="divPuntuacion row justify-content-center">
+                <label class="col-12  row">¿Cual es su satisfacción general?</label><br>
+            @for (int i = 1; i <= 5; i++)
+            {
+                    <label class="labelPuntuacion col-2">
+                    <input type="radio" asp-for="SatisfaccionGeneral" value="@i" /> @i
+                </label>
+            }
+                <label class="labelPuntuacion col-2">
+                <input type="radio" asp-for="SatisfaccionGeneral" value="0" /> No contesta
+            </label>
+            </div>
+
+        
+                <div class="form-group divComentario">
+                    <label class="labelComentario">¿Quiere dejar algún comentario?</label>
+                <textarea asp-for="Comentarios" class="form-control"></textarea>
+                <span asp-validation-for="Comentarios" class="text-danger"></span>
+                 </div>
+          
+            <div class="form-group">
+                <input type="submit" value="Enviar Encuesta" class="btnEncuestaCreate" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" asp-controller="Citas">Volver</a>
+</div>
+

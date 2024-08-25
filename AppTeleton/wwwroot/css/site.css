@@ -1,18 +1,1409 @@
+
+/*
+    COLORES 
+    ROJO TELETON: rgb(231,55,67)
+    ROJO TELETON TRANSPARENTE: rgba(231,55,67,.5)
+    GRIS:#CED4DA
+*/
+
+/*LAYOUT Y GENERALES*/
+
+
+
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
+
+
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
+
 }
 
-body {
-  margin-bottom: 60px;
+
+
+.mensaje {
+    margin-top: 20px;
+    font-size: 1.8em
+}
+.hidden {
+    display:none;
+}
+
+.sinPadding {
+padding:0 !important;
+
+
+}
+.botonRedireccion {
+    margin-top:20px;
+    margin-bottom: 20px;
+}
+.botonRedireccion a {
+    background-color: orange;
+    padding: 10px;
+    text-decoration:none;
+    color:black;
+    border-radius:5px;
+    font-size:1.2em;
+    font-weight:600;
+    
+}
+/*FIN LAYOUT*/
+/*LOGIN*/
+.contenedorLogin {
+    margin: 0 auto;
+}
+
+.form-group {
+    position: relative;
+}
+
+.contenedorLogin label {
+    color: #999;
+    font-size: 20px;
+    position: absolute;
+    left: 5px;
+    top: 10px;
+    transition: 0.2s ease all;
+}
+.contenedorLogin input:focus ~ label,
+.contenedorLogin input:valid ~ label {
+    top: -20px;
+    font-size: 14px;
+    color: gray;
+}
+
+.contenedorLogin input[type="text"] {
+    background: transparent;
+    height: 50px;
+}
+
+.contenedorLogin input[type="password"] {
+    background: transparent;
+    height: 50px;
+}
+
+.contenedorLogin input[type="submit"] {
+    background-color: rgb(231,55,67);
+    color: white;
+    font-size: 25px;
+}
+
+.contenedorLogin input:focus {
+    outline: none;
+    border: 1px solid rgba(231,55,67,.5);
+}
+
+.contenedorLogin h4 {
+    text-align: center;
+}
+
+/*FIN LOGIN*/
+
+
+
+/*CHAT*/
+
+.chat-header-enviado {
+    display: flex;
+    justify-content: end;
+    width: 100%;
+}
+
+.chat-header-recibido {
+    display: flex;
+    justify-content: start;
+    width: 100%;
+}
+
+.chat-message {
+    background-color: #ff8080;
+    border-radius: 8px;
+    padding: 10px;
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    font-size: 16px
+}
+.fechaMensaje {
+
+    font-size:12px
+}
+#txtMensaje {
+    width: 80%;
+    overflow: hidden;
+    resize: none;
+}
+.imagenAudio {
+    width:50px;
+    height:50px;
+}
+
+.listadoChats {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+.liChats {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid white;
+    background-color: #CED4DA;
+}
+
+/*FIN CHAT*/
+
+/*TOTEM INDEX*/
+
+
+
+
+.logoTeletonIndexTotem {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+    width: 8.4em;
+}
+.contenedorIndexTotem {
+    display: flex;
+    flex-direction: column;
+    height: 98vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.imagenTeletonRecepcion {
+
+
+    width:80%;
+   
+  
+
+
+}
+
+.imagenCedulaGenerica {
+    width: 30%;
+    margin-bottom: 60px;
+}
+
+.h1Totem {
+
+    color:white;
+    font-size:250%;
+    text-align:center;
+    width:80%
+        
+   
+
+}
+
+.fondoTotem {
+
+
+    background-image: url("../images/fondoTotem.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+}
+
+
+
+#formularioIndexTotem input[type="text"]{
+    height:70px;
+    font-size:2.1em;
+    font-weight:700;
+   
+}
+
+#formularioIndexTotem input[type="submit"] {
+    height: 70px;
+    font-size: 2.1em;
+    font-weight: 700;
+    background-color: rgb(30,30,28);
+    margin-top:15px;
+    color:white;
+}
+
+.btnCerrarSesionTotem {
+    position: fixed;
+    right: 10px;
+    bottom: 10px; 
+    font-size: 30px;
+}
+
+.tecladoVirtual {
+    position: fixed;
+    bottom: 13%;
+    left: 30px; 
+    margin-bottom: 10px; 
+    background-color: #f8f9fa; 
+    padding: 10px; 
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.tecladoNumero {
+height:11vh;
+font-size:2.5em;
+font-weight:600;
+
+}
+/*FIN TOTEM INDEX*/
+
+/*CERRAR SESION TOTEM*/
+
+
+.tecladoVirtualCompleto {
+    background-color:red;
+}
+
+.tecladoEspecial {
+    font-size: 1.3em;
+    font-weight: 600;
+    height: 120px;
+}
+.tecladoNumeroComp {
+    font-size:1.8em;
+    font-weight:600;
+    height: 60px;
+}
+.tecladoLetra {
+    font-size: 1.8em;
+    font-weight: 600;
+    height: 60px;
+}
+
+.logout-container {
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 10px;
+    margin-top: 50px;
+}
+
+    .logout-container input[type="text"] {
+        width: 100%;
+        height: 5vh;
+        font-size:1.3em;
+        margin-bottom:30px
+    }
+
+    .logout-container input[type="password"] {
+        width: 100%;
+        height: 5vh;
+        font-size: 1.3em;
+
+    }
+    .logout-container button {
+        margin-top:30px;
+    }
+
+    .logout-container form {
+        display:flex;
+        flex-direction:column;
+    }
+.tecladoVirtualCompleto {
+    position: fixed;
+    bottom: 5%;
+    left: 30px;
+    right:30px;
+    margin-bottom: 10px;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+/*FIN CERRAR SESION TOTEM*/
+
+
+/*TOTEM HOME USUARIO*/
+.contenedorContenidoHomeUsuario {
+    padding: 0 !important;
+}
+
+
+.homeUsuarioTitulo {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 2.5em;
+    color: white;
+    text-shadow: -3px -3px 0 black, 3px -3px 0 black, -3px 3px 0 black, 3px 3px 0 black, 0px -3px 0 black, 0px 3px 0 black, -3px 0px 0 black, 3px 0px 0 black; /* Sombra para cada dirección, creando un borde de 3px */
+}
+
+.tablaCitasTotem {
+    border:5px solid black;
+    border-radius:2em;
+    
+}
+.titulosTr {
+    border-radius: 20px;
+  
+}
+
+.tablaCitasTotem th {
+    text-align:center;
+    background-color:lightcoral;
+}
+    .tablaCitasTotem td {
+        text-align: center;
+        background-color:white;
+        height:7vh;
+        font-weight:500;
+        font-size:1.3em
+            
+    }
+
+
+.contenedorListadoHomeUsuario {
+    position: sticky;
+    top: 0;
+    background-color: black;
+    height: 100vh
+}
+
+.listadoNavHomeUsuario {
+    
+
+
+}
+
+.listadoNavHomeUsuario li {
+    font-size:1.5em;
+    margin-top:50%;
+    text-align:center;
+   
+
+}
+    .listadoNavHomeUsuario a {
+        text-decoration:none;
+    
+
+    }
+
+.h3HomeUsuario {
+    margin-top:20px;
+    text-align:center;
+
+}
+/*FIN TOTEM HOME USUARIO*/
+
+
+/*TOTEM PREGUNTAS*/
+
+.faq-container {
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+.faq-item {
+    margin-bottom: 20px;
+}
+
+.faq-question {
+    background-color: #CED4DA;
+    color: black;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: 500;
+    font-size: 1.5em;
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+    padding: 0 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 5px;
+    font-weight: 500;
+    font-size:1.5em;
+    background-color:white;
+}
+
+    .faq-answer.show {
+        max-height: 500px;
+        opacity: 1;
+        padding: 10px;
+    }
+
+/*FIN TOTEM PREGUNTAS*/
+
+/*MAPA TOTEM*/
+
+
+
+
+#mapa {
+    position: relative;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+}
+
+svg {
+    display: block;
+    margin: 0 auto;
+    width: 200%;
+}
+
+#path1, #path2, #path3, #path4, #path5, #path6, #path7, #path8, #path8, #path9, #path10, #path11, #path12, #path13, #path14, #path15, #path16, #path17 {
+    stroke-width: 5px;
+    fill: transparent;
+    transition: fill 0.3s ease, stroke 0.3s ease;
+    transform: translate(0px, -0px) scale(0.5);
+}
+
+    #path1:hover {
+        fill: red;
+        fill-opacity: 0.3;
+        stroke: red;
+    }
+
+    #path1.active {
+        fill: red;
+        fill-opacity: 0.3;
+        stroke: red;
+    }
+ 
+
+    #path2:hover {
+        fill: red;
+        fill-opacity: 0.3;
+        stroke: red;
+    }
+
+    #path2.active {
+        fill: red;
+        fill-opacity: 0.3;
+        stroke: red;
+    }
+
+    #path3:hover {
+        fill: yellow;
+        fill-opacity: 0.3;
+        stroke: yellow;
+    }
+
+    #path3.active {
+        fill: yellow;
+        fill-opacity: 0.3;
+        stroke: yellow;
+    }
+
+    #path4:hover {
+        fill: #7f95a0;
+        fill-opacity: 0.3;
+        stroke: #7f95a0;
+    }
+
+    #path4.active {
+        fill: #7f95a0;
+        fill-opacity: 0.3;
+        stroke: #7f95a0;
+    }
+
+    #path5:hover {
+        fill: green;
+        fill-opacity: 0.3;
+        stroke: green;
+    }
+    #path5.active {
+        fill: green;
+        fill-opacity: 0.3;
+        stroke: green;
+    }
+
+    #path6:hover {
+        fill: skyblue;
+        fill-opacity: 0.3;
+        stroke: skyblue;
+    }
+    #path6.active {
+        fill: skyblue;
+        fill-opacity: 0.3;
+        stroke: skyblue;
+    }
+
+    #path7:hover {
+        fill: green;
+        fill-opacity: 0.3;
+        stroke: green;
+    }
+    #path7.active {
+        fill: green;
+        fill-opacity: 0.3;
+        stroke: green;
+    }
+
+    #path8:hover {
+        fill: skyblue;
+        fill-opacity: 0.3;
+        stroke: skyblue;
+    }
+    #path8.active {
+        fill: skyblue;
+        fill-opacity: 0.3;
+        stroke: skyblue;
+    }
+
+
+    #path9:hover {
+        fill: green;
+        fill-opacity: 0.3;
+        stroke: green;
+    }
+    #path9.active {
+        fill: green;
+        fill-opacity: 0.3;
+        stroke: green;
+    }
+
+
+    #path10:hover {
+        fill: skyblue;
+        fill-opacity: 0.3;
+        stroke: skyblue;
+    }
+    #path10.active {
+        fill: skyblue;
+        fill-opacity: 0.3;
+        stroke: skyblue;
+    }
+    #path11:hover {
+        fill: green;
+        fill-opacity: 0.3;
+        stroke: green;
+    }
+    #path11.active {
+        fill: green;
+        fill-opacity: 0.3;
+        stroke: green;
+    }
+
+    #path12:hover {
+        fill: purple;
+        fill-opacity: 0.3;
+        stroke: purple;
+    }
+    #path12.active {
+        fill: purple;
+        fill-opacity: 0.3;
+        stroke: purple;
+    }
+
+    #path13:hover {
+        fill: purple;
+        fill-opacity: 0.3;
+        stroke: purple;
+    }
+    #path13.active {
+        fill: purple;
+        fill-opacity: 0.3;
+        stroke: purple;
+    }
+    #path14:hover {
+        fill: purple;
+        fill-opacity: 0.3;
+        stroke: purple;
+    }
+    #path14.active {
+        fill: purple;
+        fill-opacity: 0.3;
+        stroke: purple;
+    }
+    #path15:hover {
+        fill: purple;
+        fill-opacity: 0.3;
+        stroke: purple;
+    }
+    #path15.active {
+        fill: purple;
+        fill-opacity: 0.3;
+        stroke: purple;
+    }
+    #path16:hover {
+        fill: #fdb427;
+        fill-opacity: 0.3;
+        stroke: #fdb427;
+    }
+    #path16.active {
+        fill: #fdb427;
+        fill-opacity: 0.3;
+        stroke: #fdb427;
+    }
+
+    #path17:hover {
+        fill: #fdb427;
+        fill-opacity: 0.3;
+        stroke: #fdb427;
+    }
+    #path17.active {
+        fill: #fdb427;
+        fill-opacity: 0.3;
+        stroke: #fdb427;
+    }
+
+.selected {
+    stroke: black;
+    stroke-width: 8px;
+    fill: yellow;
+    fill-opacity: 0.5;
+}
+
+.active {
+    stroke: red;
+    stroke-width: 3px;
+}
+
+path {
+    cursor: pointer;
+}
+
+text {
+    pointer-events: none;
+}
+
+
+
+
+
+
+
+
+/*FIN MAPA TOTEM*/
+
+
+/*NOTIFICACIONES PACIENTE*/
+
+
+.notificacionContainer {
+    background-color: #CED4DA;
+    border: 2px solid #979797;
+    aspect-ratio: 16 / 1.5;
+    border-radius: 10px;
+    margin-bottom: 20px
+}
+
+
+
+.tituloNotificacionPaciente {
+    font-weight:700;
+    font-size:1.5em
+}
+
+.cuerpoNotificacionPaciente {
+    font-weight: 400;
+    font-size: 1.1em
+}
+
+
+.borrarNotificacionPaciente {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    padding-right: 50px;
+}
+.borrarNotificacionPaciente a{
+    text-decoration:none;
+    color:black;
+    font-size:40px;
+
+}
+
+/*FIN NOTIFICACIONES PACIENTE*/
+
+/*NOTIFICACIONES ENVIAR AVISOS*/
+
+.listadoUsuariosAvisos {
+    height: 65vh;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+/*FIN NOTIFICACIONES ENVIAR AVISOS*/
+
+
+/*ENCUESTA CREATE*/
+
+.encuestaFormulario {
+    margin:0 auto;
+}
+
+.divPuntuacion {
+    display: flex;
+    flex-direction: row !important;
+    background-color: lightgray;
+    border: 2px solid black;
+    margin: 1px;
+    border-radius: 10px
+}
+
+    .divPuntuacion label {
+        margin-top: 20px;
+        font-size: 1.3em;
+        font-weight: 600;
+        text-align: center;
+    }
+
+.labelPuntuacion {
+    display: flex !important;
+    flex-direction: column;
+    text-align: center;
+}
+
+.divPuntuacion input[type="radio"] {
+    transform: scale(2);
+}
+
+.btnEncuestaCreate {
+    background-color: rgb(231,55,67) !important;
+    width:40%;
+    padding:10px;
+    font-size:1.3em;
+    font-weight:600;
+    border-radius:5px;
+    margin-top:10px;
+    
+}
+
+
+.labelComentario {
+    margin-top:20px;
+    font-size: 1.3em !important;
+    font-weight: 600 !important;
+    text-align: center !important;
+}
+/*FIN ENCUESTA CREATE*/
+
+/*ENCUESTA VISUALIZAR DATOS*/
+
+.contenedorScrollComentarios {
+    height: 70vh;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+#satisfaccionChart {
+   
+}
+
+.filtroFechaEncuesta {
+    display:flex;
+    justify-content:space-around;
+    margin-top:40px;
+    margin-bottom:40px;
+
+}
+.botonResetFiltroFechaEncuesta {
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+#listadoComentarios {
+    list-style-type:none;
+
+}
+.contenedorComentario {
+    padding:10px;
+    background-color: lightgray;
+    border-radius:10px;
+    margin-bottom:6px;
+    border:1px solid grey;
+
+}
+.contenedorComentario p {
+    margin: 3px;
+  
+}
+/*FIN ENCUESTA VISUALIZAR DATOS*/
+/*PANTALLA DE LLAMADOS*/
+.h1Llamados {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.tablaLlamados {
+    width: 100%;
+    border:1px solid black;
+    
+  
+}
+.tablaLlamados thead tr {
+    background-color:red;
+}
+    .tablaLlamados th {
+        font-size: 2.3em;
+        padding-left: 40px;
+        padding-right:40px
+    }
+
+#ListaLLamados {
+}
+    #ListaLLamados tr {
+        
+        height: 12vh;
+        font-size:2em;
+    }
+    #ListaLLamados td {
+
+        padding:40px
+    }
+
+
+/*FIN PANTALLA DE LLAMADOS*/
+/*DISPOSITIVOS MOVILES(sm xs)*/
+@media screen and (max-width: 767px) {
+    /*NAVBAR*/
+
+    .imagenNav {
+        width: 40px;
+    }
+    .navbar-collapse {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100vh;
+        background-color: rgb(231,55,67);  
+        transition: left 0.2s ease;
+        z-index: 1050;
+    }
+    .navbar-toggler {
+        z-index: 1051;
+        border:none;
+    }
+    .iconoNavbar {
+        border: none;
+        font-size: 3rem;
+    }
+
+    .show {
+        left: 0;
+    }
+
+    .navbar-nav {
+        flex-direction: column;
+        align-items: center;
+        margin-top:50px;
+      
+
+    }
+
+    .nav-item {
+        width: 100%;
+        text-align: center;
+ 
+      
+        
+    }
+    .navbar-nav a {
+        padding-top: 2vh;
+        padding-bottom: 1vh;
+        border-bottom: 1px solid rgb(140, 15, 24)
+    }
+
+
+    .navbar-nav a:hover {
+        background-color: gray;
+      
+    }
+
+
+
+    .nav-link {
+        color: white !important;
+        font-size: 1.8rem;
+        font-weight: bold;
+       
+    }
+    .imagenesNav {
+        display: block;
+        width: 70px;
+        
+
+    }
+    /*FIN NAVBAR*/
+
+
+    /*LOGIN*/
+    #logoComputadora {
+        display: none;
+    }
+
+    #logoMobile {
+        display: block;
+    }
+
+    .contenedorLogin {
+        margin-top: 10vh;
+    }
+
+        .contenedorLogin h4 {
+            font-size: 1.6em;
+            margin-bottom: 5vh !important;
+        }
+
+        .contenedorLogin img {
+            width: 80%;
+        }
+
+    .form-group {
+        margin-bottom: 4vh !important;
+    }
+
+    .contenedorLogin input {
+        border-radius: 18px !important;
+    }
+    /*FIN LOGIN*/
+
+    /*CHAT*/
+    .botoneraChatMobile {
+        display:block;
+    }
+
+    .contenedorListadoChats {
+        display: none;
+       
+    }
+    .contenedorChat {
+        display: block;
+      
+    }
+    .botonesChatParaMobile {
+        height:50px;
+
+    }
+    .chat-message {
+        background-color: #ff8080;
+        border-radius: 8px;
+        padding: 10px;
+        max-width: 100%;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
+        font-size:18px
+    }
+   
+    /*FIN CHAT*/
+
+    /*AGENDA VIEW*/
+ 
+    .filaFecha {
+        text-align: center;
+        font-weight: 700;
+        font-size: 25px;
+        border: none !important;
+    }
+
+    .titulosTablaMobile {
+        display: block;
+    }
+
+    .tablaAgenda {
+
+        border:none !important;
+    }
+        .tablaAgenda tbody {
+           
+        }
+    .filaHeaderTablaAgenda {
+        display:none;
+        border: none !important;
+    }
+    .filaBodyTablaAgenda {
+        
+        display: flex;
+        flex-direction: column;
+        margin-bottom:20px;
+        
+    }
+
+        .filaBodyTablaAgenda td {
+            display: flex;
+            gap: 20px;
+            background-color: rgba(231,55,67,0.8);
+            font-size: 1.3em !important;
+            font-weight: 700;
+            border: 2px solid white;
+        }
+
+            .filaBodyTablaAgenda td:first-child {
+                border-top-left-radius: 10px !important;
+                border-top-right-radius: 10px !important;
+            }
+            .filaBodyTablaAgenda td:last-child {
+                border-bottom-left-radius: 10px !important;
+                border-bottom-right-radius: 10px !important;
+            }
+
+            .filaBodyTablaAgenda td a {
+                padding: 5px;
+                border: 2px solid black;
+                border-radius: 5px;
+                text-decoration: none;
+                width: 60%;
+                text-align: center;
+                color: black;
+                background-color: lightgray;
+            }
+
+
+
+ 
+    /*FIN AGENDA VIEW*/
+    /*NOTIFICACIONES USUARIO*/
+    .notificacionContainer {
+        padding: 10px;
+        margin-left: 1px;
+        margin-right: 1px;
+    }
+    /*FIN NOTIFICACIONES USUARIO*/
+
+
+
+    /*PERFIL*/
+    .cambiarContraseniaForm {
+        padding:10px;
+      
+       display:flex;
+      flex-direction:column;
+    }
+
+    .cambiarContraseniaForm label{
+       font-weight:600;
+       font-size:1.3em;
+    }
+        .cambiarContraseniaForm input[type="text"] {
+            margin-bottom: 15px;
+            height: 5vh;
+            font-weight: 400;
+            font-size: 1.3em;
+            padding:5px;
+        }
+        .cambiarContraseniaForm input[type="submit"] {
+           
+            padding: 10px;
+            background-color: rgb(253,2,2);
+            border: 2px solid black;
+            border-radius: 5px;
+            color:white;
+            font-weight:600;
+            font-size:1.5em;
+        }
+
+
+
+
+
+    .perfilAtributos {
+    padding:20px;
+    height:35vh;
+   
+    }
+        .perfilAtributos button {
+            width: 100%;
+            padding: 10px;
+            background-color:  rgba(253,2,2,0.7);
+            border: 2px solid black;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 1.5em;
+        }
+            .perfilAtributos button:hover {
+                background-color: rgb(231,55,67);
+                border: 2px solid black;
+            }
+            .perfilAtributos button:active {
+                background-color: rgb(231,55,67);
+                border: 2px solid black;
+            }
+        .perfilAtributos dt {
+           font-size:1.5em;
+        }
+        .perfilAtributos dd {
+            font-size: 1.3em;
+        }
+
+    /*FIN PERFIL*/
+
+   
+}
+
+
+/* TABLETS EN ADELANTE (md lg xl xxl) */
+@media screen and (min-width: 768px) {
+    .imagenNav {
+        width:50px;
+    
+    }
+    /*NAVBAR*/
+    .imagenesNav {
+        display: none;
+    }
+
+    .barraNav {
+        background-color: rgb(231,55,67) !important;
+    }
+
+    .ulNav {
+        list-style-type: none;
+        margin-left: 50px;
+        padding: 0;
+        display: flex; 
+        justify-content: center; 
+ 
+        gap: 40px; 
+        
+    }
+
+        .ulNav .nav-link {
+            color: white !important; 
+            text-decoration: none !important;
+            padding: 10px 15px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+            width: auto;
+            white-space: nowrap; 
+            font-size:20px;
+            font-weight:500;
+        }
+
+            .ulNav .nav-link li {
+                display: flex !important;
+                align-items: center;
+                justify-content: center;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+    /*FIN NAVBAR*/
+
+
+
+    /*LOGIN*/
+    #logoComputadora {
+        display: block;
+    }
+
+    #logoMobile {
+        display: none;
+    }
+
+    .contenedorLogin {
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+        width: 50%;
+        height: 470px;
+        margin-top: 10vh;
+    }
+
+        .contenedorLogin img {
+            width: 80%;
+        }
+
+        .contenedorLogin form {
+            height: 250px;
+        }
+
+        .contenedorLogin h4 {
+            border-bottom: 1px solid #CED4DA;
+            padding-bottom: 12px;
+            font-size: 1.2em;
+        }
+    /*FIN LOGIN*/
+
+    /*CHAT*/
+   
+
+    .botoneraChatMobile {
+        display: none;
+    }
+    .contenedorListadoChats {
+        display: block !important;
+    }
+
+    .contenedorChat {
+        display: block !important;
+    }
+
+    /*FIN CHAT*/
+
+
+    /*AGENDA VIEW*/
+    .trFecha {
+        background-color:lightgray;
+    }
+
+    .filaFecha {
+        text-align: center;
+        font-weight: 600;
+        font-size:1.2em;
+    }
+    .titulosTablaMobile {
+        display:none;
+    }
+
+    .tablaAgenda {
+        
+    }
+
+
+    .filaHeaderTablaAgenda {
+        background-color: rgba(253,2,2,0.7);
+        text-align: center;
+        color:white;
+       
+    }
+    .filaHeaderTablaAgenda th {
+        font-weight:700;
+        font-size:1.3em;
+    }
+ 
+
+    .filaHeaderTablaAgenda th:first-child {
+       border-top-left-radius:10px;
+    }
+        .filaHeaderTablaAgenda th:last-child {
+            border-top-right-radius: 10px;
+        }
+
+    .filaBodyTablaAgenda {
+    text-align:center;
+    }
+
+        .filaBodyTablaAgenda td {
+     
+        }
+
+            .filaBodyTablaAgenda td a {
+              
+            }
+
+
+
+    .divFiltroCitas {
+    
+        display:flex;
+        flex-direction:column;
+    
+    }
+
+    #filterBlock {
+        border:2px solid black;
+        padding:10px;
+        margin:4px;
+        border-radius:10px
+    }
+    /*FIN AGENDA VIEW*/
+    /*PERFIL*/
+    .cambiarContraseniaForm {
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+    }
+
+        .cambiarContraseniaForm label {
+            font-weight: 600;
+            font-size: 1.3em;
+        }
+
+        .cambiarContraseniaForm input[type="text"] {
+            margin-bottom: 15px;
+            height: 5vh;
+            font-weight: 400;
+            font-size: 1.3em;
+            padding: 5px;
+        }
+
+        .cambiarContraseniaForm input[type="submit"] {
+            padding: 10px;
+            background-color: rgb(253,2,2);
+            border: 2px solid black;
+            border-radius: 5px;
+            color: white;
+            font-weight: 600;
+            font-size: 1.5em;
+        }
+
+
+
+
+
+    .perfilAtributos {
+        padding: 20px;
+        height: 35vh;
+    }
+
+        .perfilAtributos button {
+            width: 100%;
+            padding: 10px;
+            background-color: rgb(253,2,2);
+            border: 2px solid black;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 1.5em;
+        }
+
+            .perfilAtributos button:hover {
+                background-color: rgb(231,55,67);
+                border: 2px solid black;
+            }
+
+            .perfilAtributos button:active {
+                background-color: rgb(231,55,67);
+                border: 2px solid black;
+            }
+
+        .perfilAtributos dt {
+            font-size: 1.5em;
+        }
+
+        .perfilAtributos dd {
+            font-size: 1.3em;
+        }
+
+    /*FIN PERFIL*/
+
+}
+
+
+
+/*SOLO TABLETS(md)*/
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    /*LOGIN*/
+    .contenedorLogin h4 {
+        border-bottom: 1px solid #CED4DA;
+        padding-bottom: 12px;
+        font-size: 0.9em;
+    }
+    /*FIN LOGIN*/
+}
+
+
+
+/* lg xl xxl */
+@media screen and (min-width: 992px) {
 }

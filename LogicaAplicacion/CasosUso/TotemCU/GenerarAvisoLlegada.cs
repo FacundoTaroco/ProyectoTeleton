@@ -11,16 +11,16 @@ namespace LogicaAplicacion.CasosUso.TotemCU
     public class GenerarAvisoLlegada
     {
 
-        GenerarAvisoMedicoService _servicioAvisoMedico;
-        public GenerarAvisoLlegada(GenerarAvisoMedicoService servicioAviso) {
+        RecepcionarPacienteService _servicioAvisoMedico;
+        public GenerarAvisoLlegada(RecepcionarPacienteService servicioAviso) {
 
             _servicioAvisoMedico = servicioAviso;
         }
 
-        public async void GenerarAvisoLLamada(AvisoMedicoDTO avisoDto) {
+        public async void GenerarAvisoLLamada(int pkAgenda) {
             try
             {
-               _servicioAvisoMedico.GenerarAviso(avisoDto);
+               _servicioAvisoMedico.RecepcionarPaciente(pkAgenda);
             }
             catch (Exception)
             {

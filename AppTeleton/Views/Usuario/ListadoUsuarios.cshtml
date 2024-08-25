@@ -1,0 +1,364 @@
+﻿@using LogicaNegocio.Enums
+@model AppTeleton.Models.UsuariosViewModel;
+
+
+@{
+    ViewData["Title"] = "ListadoUsuarios";
+}
+@{
+    if (ViewBag.Mensaje != null)
+    {
+        if (ViewBag.TipoMensaje == "ERROR")
+        {
+            <div class="alert alert-danger" role="alert">@ViewBag.Mensaje</div>
+        }
+        else if (ViewBag.TipoMensaje == "EXITO")
+        {
+            <div class="alert alert-success" role="alert">@ViewBag.Mensaje</div>
+        }
+
+    }
+
+}
+
+<div class="botonRedireccion">@Html.ActionLink("Ver datos de encuestas", "VisualizarDatosEncuestas", "Encuesta")</div>
+
+<form method="get" action="@Url.Action("VerTipoUsuario", "Usuario")">
+    <label for="opcion">Seleccione el tipo de usuario</label>
+    <select name="opcion" onchange="this.form.submit()">
+
+        @if (ViewBag.TipoUsuario == TipoUsuario.Paciente)
+        {
+            <option value="@TipoUsuario.Paciente" selected>Pacientes</option>
+        }
+        else
+        {
+            <option value="@TipoUsuario.Paciente">Pacientes</option>
+        }
+        @if (ViewBag.TipoUsuario == TipoUsuario.Recepcionista)
+        {
+            <option value="@TipoUsuario.Recepcionista" selected>Recepcionistas</option>
+        }
+        else
+        {
+            <option value="@TipoUsuario.Recepcionista">Recepcionistas</option>
+        }
+        @if (ViewBag.TipoUsuario == TipoUsuario.Medico)
+        {
+            <option value="@TipoUsuario.Medico" selected>Medicos</option>
+        }
+        else
+        {
+            <option value="@TipoUsuario.Medico">Medicos</option>
+        }
+
+        @if (ViewBag.TipoUsuario == TipoUsuario.Admin)
+         {
+        <option value="@TipoUsuario.Admin" selected>Administradores</option>
+        }
+         else
+         {
+         <option value="@TipoUsuario.Admin">Administradores</option>
+         }
+
+        @if (ViewBag.TipoUsuario == TipoUsuario.Totem)
+        {
+            <option value="@TipoUsuario.Totem" selected>Totem</option>
+        }
+        else
+        {
+            <option value="@TipoUsuario.Totem">Totem</option>
+        }
+            
+            
+            
+        
+    </select>
+</form>
+
+
+@if (ViewBag.TipoUsuario == TipoUsuario.Paciente)
+{
+    <h1>Pacientes</h1>
+
+    <form asp-action="ActualizarPacientes" method="post">
+
+        <div class="form-group">
+            <input type="submit" value="Actualizar Pacientes" class="btn btn-primary" />
+        </div>
+
+    </form>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Nombre
+                </th>
+                <th>
+                    Usuario
+                </th>
+                <th>
+                    Contraseña
+                </th>
+                <th>
+                    Cedula
+                </th>
+
+                <th>
+
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Pacientes)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NombreUsuario)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Contrasenia)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cedula)
+                    </td>
+
+                    <td>
+                       
+                            
+                         @Html.ActionLink("Cambiar Contraseña", "Perfil", new { idUsuario =item.Id })
+
+                        @Html.ActionLink("Ver Citas", "IndexFiltro", "Citas", new { cedula = item.Cedula })
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if (ViewBag.TipoUsuario == TipoUsuario.Recepcionista)
+{
+    <h1>Recepcionistas</h1>
+    if (ViewBag.UsuarioLogueado == "ADMIN")
+    {
+        <form asp-action="AgregarRecepcionista" asp-controller="Administrador" method="get">
+            <div class="form-group">
+                <input type="submit" value="Crear Recepcionista" class="btn btn-primary" />
+            </div>
+        </form>
+    }
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Nombre
+                </th>
+                <th>
+                    Usuario
+                </th>
+                <th>
+                    Contraseña
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Recepcionistas)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NombreUsuario)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Contrasenia)
+                    </td>
+                    @if (ViewBag.UsuarioLogueado == "ADMIN")
+                    {
+                        <td>
+                            @Html.ActionLink("Cambiar Contraseña", "Perfil", new { idUsuario = item.Id })
+                    </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if (ViewBag.TipoUsuario == TipoUsuario.Medico)
+{
+    <h1>Medico</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Nombre
+                </th>
+                <th>
+                    Usuario
+                </th>
+                <th>
+                    Contraseña
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Medicos)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NombreUsuario)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Contrasenia)
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+            
+@if (ViewBag.TipoUsuario == TipoUsuario.Admin)
+{
+
+    <h1>Administradores</h1>
+    if (ViewBag.UsuarioLogueado == "ADMIN")
+    {
+        <form asp-action="AgregarAdmin" asp-controller="Administrador" method="get">
+            <div class="form-group">
+                <input type="submit" value="Crear Administrador" class="btn btn-primary" />
+            </div>
+        </form>
+    }
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Nombre
+                </th>
+                <th>
+                    Usuario
+                </th>
+                <th>
+                    Contraseña
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Administrador)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NombreUsuario)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Contrasenia)
+                    </td>
+                    <td>
+                        @{
+                        if (ViewBag.UsuarioLogueado == "ADMIN"){
+                            @Html.ActionLink("Cambiar Contraseña", "Perfil", new { idUsuario = item.Id })
+                        }
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if (ViewBag.TipoUsuario == TipoUsuario.Totem)
+{
+
+    <h1>Totem</h1>
+   
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Nombre
+                </th>
+                <th>
+                    Usuario
+                </th>
+                <th>
+                    Contraseña
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Totems)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NombreUsuario)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Contrasenia)
+                    </td>
+                    <td>
+                        @{
+                            if (ViewBag.UsuarioLogueado == "ADMIN")
+                            {
+                                @Html.ActionLink("Cambiar Contraseña", "Perfil", new { idUsuario = item.Id })
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

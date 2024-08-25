@@ -69,5 +69,9 @@ namespace LogicaAplicacion.CasosUso.PacienteCU
             }
 
         }
+
+        public bool ExistePaciente(string usuario) {
+            return _repo.ExistePaciente(usuario);
+        }
     }
 }

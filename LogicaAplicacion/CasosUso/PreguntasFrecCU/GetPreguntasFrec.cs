@@ -19,6 +19,33 @@ namespace LogicaAplicacion.CasosUso.PreguntasFrecCU
         }
 
 
+        public CategoriaPregunta GetCategoriaPorNombre(string nombre) {
+
+            try
+            {
+                return _repo.GetCategoriaPorNombre(nombre);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        
+        }
+        public IEnumerable<CategoriaPregunta> GetCategorias()
+        {
+            try
+            {
+                return _repo.GetAllCategorias();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
         public IEnumerable<PreguntaFrec> GetAll()
         {
             try
@@ -30,6 +57,20 @@ namespace LogicaAplicacion.CasosUso.PreguntasFrecCU
 
                 throw;
             }
+
+        }
+
+        public IEnumerable<PreguntaFrec> GetPreguntasParaTotem() {
+            try
+            {
+                return _repo.GetPreguntasTotem();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
 
         }
 

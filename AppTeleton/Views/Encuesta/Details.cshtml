@@ -1,0 +1,54 @@
+﻿@model LogicaNegocio.Entidades.Encuesta
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+
+<div>
+    <h4>Detalles de encuesta</h4>
+    <hr />
+    <dl class="row">
+     
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Fecha)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Fecha)
+        </dd>
+        <dt class = "col-sm-2">
+            Satisfacción general:
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SatisfaccionGeneral)/5
+        </dd>
+        <dt class = "col-sm-2">
+            Satisfacción del servicio de recepción:
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SatisfaccionRecepcion)/5
+        </dd>
+        <dt class = "col-sm-2">
+            Satisfacción del estado del centro:
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SatisfaccionEstadoDelCentro)/5
+        </dd>
+        <dt class = "col-sm-2">
+            Satisfacción de la aplicación de asistencia
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SatisfaccionAplicacion)/5
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Comentarios)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Comentarios)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="VisualizarDatosEncuestas">Volver</a>
+</div>

@@ -1,0 +1,231 @@
+﻿
+@model IEnumerable<LogicaNegocio.Entidades.Chat>
+
+@using System.Text.Json
+@using System.Text.Json.Serialization
+@*
+   
+*@
+@{
+    string tipoUsuario = Context.Session.GetString("TIPO");
+    var chatJson = "";
+
+
+
+    var options = new JsonSerializerOptions
+                {
+                    ReferenceHandler = ReferenceHandler.Preserve
+                };
+    var chat = ViewBag.ChatCargar;
+
+    chatJson = System.Text.Json.JsonSerializer.Serialize(chat, options);
+
+
+
+    <button id="cargarChats" style="display:none"></button>
+}
+
+
+
+<div class="container-fluid container-md py-md-5 p-0">
+
+    <div class="row botoneraChatMobile">
+        @if (ViewBag.TipoUsuario == "PACIENTE")
+        {
+            <input type="button" id="btnAbrirListadoChats" value="Chats anteriores" class="botonesChatParaMobile">
+        }
+        else
+        {
+            <input type="button" id="btnAbrirListadoChats" value="Chats de pacientes" class="botonesChatParaMobile">
+        }
+        <input type="button" value="Volver al chat principal" id="btnAbrirChat" style="display:none;" class="botonesChatParaMobile">
+    </div>
+
+    <div class="row d-flex justify-content-center">
+        <div class="col-12 col-md-3 contenedorListadoChats p-0" id="contenedorListadoChats">
+            <form id="cargarChatCerrado" asp-action="CargarChatCerrado" asp-controller="Chat" method="get">
+                <input type="hidden" id="inputCargarChatCerrado" name="idChat" value="" />
+            </form>
+
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center p-3 flex-column"
+                     style="border-top: 4px solid #ff8080;">
+                   
+            @if (ViewBag.TipoUsuario == "PACIENTE")
+            {
+                        <h5>Chats Cerrados</h5>
+
+                        
+            <form asp-action="Chat" asp-controller="Chat" method="get">
+              <input type="submit" value="Abrir chat" />
+                </form>
+            }
+            else
+            {
+                        <h5>Pacientes</h5>
+                <button onclick="ActualizarPagina()">Actualizar Chats</button>
+            }    
+            
+        
+            </div>
+            </div>
+            <form id="formularioRecargarPagina" asp-action="Chat" asp-controller="Chat" style="display:none;" method="get"></form>
+
+            <ul class="listadoChats">
+                <scroll-container style=" display:block; height: 68vh; overflow-y: scroll;  scroll-behavior: smooth;">
+                @{
+
+                    if (ViewBag.TipoUsuario == "PACIENTE")
+                    {
+                        foreach (var c in Model)
+                         {
+
+                             if (c.Abierto == false) { 
+
+
+                                 if (c.AsistenciaAutomatica)
+                                 {
+                                    <li class="liChats" chat-id="@c.Id">Asistente Virtual - @c.FechaApertura</li>
+                                 }
+
+                                else
+                                 {
+                                        <li class="liChats" chat-id="@c.Id">@c._Recepcionista.Nombre - @c.FechaApertura</li>
+                                 }
+
+                            }
+                        }
+
+                    }
+                    else if (ViewBag.TipoUsuario == "RECEPCIONISTA")
+                    {
+                     
+                      
+                        foreach (var c in Model)
+                        {
+                            if (c.Abierto == true)
+                            {
+                                <li class="liChats" chat-id="@c.Id">@c._Paciente.Nombre</li>
+                            }
+                        }
+
+                    }
+                    }
+                </scroll-container>
+            </ul> 
+
+
+        </div>
+
+
+        <div class="col-12 col-md-9 p-0 contenedorChat" id="contenedorChat">
+           
+            
+
+                <div class="card">
+                    <div class="card-header d-flex justify-content-around align-items-center p-3"
+                     style="border-top: 4px solid #ff8080;">
+                        <button id="btnAudio">
+                            <img src="~/images/audioApagado.png" alt="Audio apagado" id="imgAudioApagado" class="imagenAudio" />
+                            <img src="~/images/audioEncendido.png" alt="Audio encendido" id="imgAudioEncendido" class="imagenAudio" style="display:none" />
+                        </button>
+                    <h4 id="tituloUsuario">@ViewBag.UsuarioRecibe</h4>
+                       <div></div>
+                    </div>
+
+                <scroll-container class="card-body" id="chatbox" style=" display:block; height: 60vh; overflow-y: scroll;  scroll-behavior: smooth;">
+
+
+
+
+                    
+
+
+                </scroll-container>
+                    <div class="card-footer text-muted d-flex justify-content-start align-items-center p-3">
+                        <div class="input-group mb-0">
+                            <input type="hidden" name="name" id="txtUsuarioManda" value="@ViewBag.Usuario" />
+
+                    
+                            <input type="hidden" name="name" id="txtUsuarioRecibe" value="@ViewBag.UsuarioRecibe" /> 
+                      
+
+                     
+                            <textarea  type="text" id="txtMensaje" class="form-control" placeholder="Escriba su consulta de forma breve"
+                                  aria-describedby="btnEnviar"></textarea>
+                        <button data-mdb-button-init data-mdb-ripple-init class="btn" type="button" id="btnEnviar" style="padding-top: .55rem;background-color: #ff8080;">
+                                Enviar
+                            </button>
+                       
+
+                        <div id="botoneraFeedback">
+                            <p>¿Le sirvio la respuesta?<p/>
+
+                            <form id="actualizarAlCerrarChat" asp-action="Chat" asp-controller="Chat" style="display:none;" method="get"></form>
+                            <button onclick="feedBackNegativo()" data-mdb-button-init data-mdb-ripple-init class="btn" type="button" id="btnFeedbackNo" style="padding-top: .55rem;background-color: #ff8080;">
+                                No, seguir chateando
+                            </button>
+
+                            <button onclick="feedBackPositivo()" data-mdb-button-init data-mdb-ripple-init class="btn mt-1" type="button" id="btnFeedbackSi" style="padding-top: .55rem;background-color: #ff8080;">
+                                Si, Cerrar chat
+                            </button>
+                        </div>
+                        <div id="botoneraAsistencia">
+                            <p>¿Quiere ayuda personalizada?<p/>
+
+                            <button onclick="SolicitarRecepcionista()" data-mdb-button-init data-mdb-ripple-init class="btn" type="button" id="btnSolicitarRecepcionista" style="padding-top: .55rem;background-color: #ff8080;">
+                                Solicitar ayuda a una recepcionista
+                            </button>
+
+                            <button onclick="LlamarTeleton()" data-mdb-button-init data-mdb-ripple-init class="btn mt-1" type="button" id="btnLLamarTeleton" style="padding-top: .55rem;background-color: #ff8080;">
+                               LLamar al centro
+                            </button>
+
+
+                            <button onclick="mostrarBarraTexto()" data-mdb-button-init data-mdb-ripple-init class="btn mt-1" type="button" style="padding-top: .55rem;background-color: #ff8080;">
+                                Seguir Chateando
+                            </button>
+
+                        </div>
+
+
+                        
+
+                        </div>
+                  
+                    </div>
+                @if (ViewBag.TipoUsuario == "RECEPCIONISTA")
+                {
+
+                    <button onclick="CerrarChat()" data-mdb-button-init data-mdb-ripple-init class="btn mt-1" type="button" style="padding-top: .55rem;background-color: grey;">
+                        Cerrar Chat
+                    </button>
+                }
+                    </div>
+                </div>
+        </div>
+ </div>
+
+
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/Chat.js"></script>
+<script src="~/js/clientHub.js"></script>
+
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+
+        cargarListadoChatsCerrados();
+
+
+        var chatRaw = @Html.Raw(chatJson);
+        var tipoUsuario = "@tipoUsuario"
+        document.getElementById("cargarChats").onclick = function () {
+                cargarChat(chatRaw, tipoUsuario);
+        };
+        document.querySelector("#cargarChats").click()
+    });
+</script>

@@ -13,6 +13,9 @@ namespace LogicaNegocio.InterfacesRepositorio
         public Notificacion Get(int id);
         public void Delete(int idNotificacion);
         public IEnumerable<Notificacion> GetPorUsuario(int idUsuario);
+        public ParametrosNotificaciones GetParametrosRecordatorios();
+        public void ActualizarParametrosRecordatorios(ParametrosNotificaciones nuevosParametros);
 
+        public Notificacion GetNotificacionMasRecienteDeUsuario(int idUsuario);
     }
 }

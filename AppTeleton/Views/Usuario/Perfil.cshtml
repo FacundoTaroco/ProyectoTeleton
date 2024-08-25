@@ -1,0 +1,68 @@
+﻿@model LogicaNegocio.Entidades.Usuario
+
+@{
+    ViewData["Title"] = "Perfil";
+    if (ViewBag.Mensaje != null)
+    {
+        if (ViewBag.TipoMensaje == "ERROR")
+        {
+            <div class="alert alert-danger" role="alert">@ViewBag.Mensaje</div>
+        }
+        else if (ViewBag.TipoMensaje == "EXITO")
+        {
+            <div class="alert alert-success" role="alert">@ViewBag.Mensaje</div>
+        }
+
+    }
+}
+
+<h1 style="text-align:center">Perfil</h1>
+
+<div>
+    <hr />
+    <dl class="row perfilAtributos justify-content-start align-items-center">
+        
+        <dt class = "col-5 col-md-3">
+            @Html.DisplayNameFor(model => model.Nombre):
+        </dt>
+        <dd class="col-6 col-md-8">
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+        <dt class="col-5 col-md-3">
+            Usuario:
+        </dt>
+        <dd class="col-6 col-md-8">
+            @Html.DisplayFor(model => model.NombreUsuario)
+        </dd>
+        <dt class="col-5 col-md-3">
+            Contraseña:
+        </dt>
+        <dd class="col-6 col-md-8">
+            @Html.DisplayFor(model => model.Contrasenia)
+        </dd>
+        <button class="btn-primary" onclick="mostrarCambiarContraseña()">Cambiar Contraseña</button>
+
+       
+    </dl> 
+    <form id="formCambiarContraseña" asp-action="CambiarContrasenia" method="post" style="display:none" class="cambiarContraseniaForm">
+
+        <input type="hidden" readonly name="idUsuario" value="@ViewBag.IdUsuario" />
+        <label for="contrasenia">Ingrese contraseña</label>
+        <input type="text" name="contrasenia" />
+        <label for="contraseniaRepetida">Repita la contraseña</label>
+        <input type="text" name="contraseniaRepeticion" />
+        <input type="submit" value="Cambiar">
+
+    </form>
+</div>
+
+<script>
+
+    function mostrarCambiarContraseña() {
+
+        document.getElementById("formCambiarContraseña").style.display = "flex"
+
+    }
+
+
+</script>

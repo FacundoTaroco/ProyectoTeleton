@@ -1,0 +1,43 @@
+﻿@model IEnumerable<LogicaNegocio.Entidades.LLamado>
+@{ViewData["Title"] = "MostrarLLamado";}
+
+
+<audio id="audioLLamada" src="~/images/SonidoLLamado.mp3"></audio>
+ 
+<h1 class="h1Llamados">Llamados a consultorios</h1>
+
+
+
+
+
+<table class="tablaLlamados">
+    <thead>
+        <tr>
+            <th>NOMBRE</th>
+
+            <th>CEDULA</th>
+
+            <th>CONSULTORIO</th>
+        </tr>
+
+    </thead>
+    <tbody id="ListaLLamados">
+
+    </tbody>
+
+
+</table>
+
+
+
+
+
+
+
+
+
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/PantallaLlamados.js"></script>
+
+
+

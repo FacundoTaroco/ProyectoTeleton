@@ -13,13 +13,15 @@ namespace LogicaNegocio.Entidades
 
         public string Cedula { get; set; }
 
-
+        public bool ParaEncuestar { get; set; } = false;
 
         public Paciente() { }
         public Paciente(string nombreUsr, string contrasenia, string nombre, string cedula) : base(nombreUsr, contrasenia, nombre) { 
            
             Cedula = cedula;
-            
+            ParaEncuestar = false;
+
+
         }
 
     }

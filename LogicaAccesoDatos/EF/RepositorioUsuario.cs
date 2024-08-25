@@ -20,6 +20,53 @@ namespace LogicaAccesoDatos.EF
             _context = context;
         }
 
+        public void CambiarContrasenia(Usuario usu) {
+
+            try
+            {
+                if (usu == null) {
+                    throw new Exception("No se recibio usuario para cambiar la contraseña");
+                }
+                usu.Validar();
+
+                _context.Usuarios.Update(usu);
+                _context.SaveChanges();
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        
+        }
+
+        public Usuario GetUsuarioPorNombre(string nombreUsu)
+        {
+            try
+            {
+                if (String.IsNullOrEmpty(nombreUsu)) { throw new NullOrEmptyException(); }
+                Usuario usuario = _context.Usuarios.FirstOrDefault(u => u.NombreUsuario == nombreUsu);
+                if (usuario == null) { throw new NotFoundException(); }
+                return usuario;
+            }
+            catch (NullOrEmptyException)
+            {
+
+                throw;
+            }
+            catch (NotFoundException)
+            {
+
+                throw;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public Usuario GetUsuario(int idUsuario)
         {
             try

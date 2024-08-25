@@ -29,5 +29,19 @@ namespace LogicaAplicacion.CasosUso.UsuarioCU
             }
         
         }
+
+        public Usuario GetUsuarioNombre(string nombreUsr)
+        {
+            try
+            {
+                return _repo.GetUsuarioPorNombre(nombreUsr);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
     }
 }

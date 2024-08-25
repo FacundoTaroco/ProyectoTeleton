@@ -1,9 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Cerrar Sesión";
-    Layout = null; // Si tenemos un layout general, tenemos que cambiar esto por el nombre del layout
 }
 @{
-    ViewData["Title"] = "Login";
     if (ViewBag.Mensaje != null)
     {
         if (ViewBag.TipoMensaje == "ERROR")
@@ -18,17 +16,82 @@
     }
 }
 
-<body>
-    <div class="logout-container">
-        <h3>Cerrar Sesión</h3>
+
+<div class="row justify-content-center">
+    <div class="logout-container col-6 row justify-content-center">
+        <h3 style="text-align:center;">Cerrar Sesión</h3>
         <form asp-action="CerrarSesion" method="post">
-            <label for="NombreUsuario">Nombre de Usuario</label>
+            <div class="form-group">
+            <label for="NombreUsuario">Nombre de Usuario</label><br>
             <input type="text" id="NombreUsuario" name="NombreUsuario" required />
-
-            <label for="Contrasenia">Contraseña</label>
+            </div>
+            <div class="form-group">
+                <label for="Contrasenia">Contraseña</label><br>
             <input type="password" id="Contrasenia" name="Contrasenia" required />
-
-            <button type="submit">Cerrar Sesión</button>
+            </div>
+            <button type="submit" class="btn btn-danger">Cerrar Sesión</button>
         </form>
+
+    <a href="@Url.Action("Index", "Totem")">Volver</a>
+        </div>
+</div>
+
+    <div class="tecladoVirtualCompleto row" id="tecladoVirtual" style="display:none">
+        <div class="col-2">
+            <button class="col-12 tecladoEspecial" id="btnBorrar">Borrar</button>
+        <button class="col-12 tecladoEspecial" id="btnMayusminus">Minuscula/<br>Mayuscula</button>
+        </div>
+
+
+        <div class="col-10 row">
+
+        <button class="col-1 tecladoNumeroComp" boton="0">0</button>
+            <button class="col-1 tecladoNumeroComp" boton="1">1</button>
+            <button class="col-1 tecladoNumeroComp" boton="2">2</button>
+            <button class="col-1 tecladoNumeroComp" boton="3">3</button>
+            <button class="col-1 tecladoNumeroComp" boton="4">4</button>
+            <button class="col-1 tecladoNumeroComp" boton="5">5</button>
+            <button class="col-1 tecladoNumeroComp" boton="6">6</button>
+            <button class="col-1 tecladoNumeroComp" boton="7">7</button>
+            <button class="col-1 tecladoNumeroComp" boton="8">8</button>
+            <button class="col-1 tecladoNumeroComp" boton="9">9</button>
+            <div class="col-2"></div>
+            <button class="col-1 tecladoLetra" boton="q">q</button>
+            <button class="col-1 tecladoLetra" boton="w">w</button>
+            <button class="col-1 tecladoLetra" boton="e">e</button>
+            <button class="col-1 tecladoLetra" boton="r">r</button>
+            <button class="col-1 tecladoLetra" boton="t">t</button>
+            <button class="col-1 tecladoLetra" boton="y">y</button>
+            <button class="col-1 tecladoLetra" boton="u">u</button>
+            <button class="col-1 tecladoLetra" boton="i">i</button>
+            <button class="col-1 tecladoLetra" boton="o">o</button>
+            <button class="col-1 tecladoLetra" boton="p">p</button>
+        <div class="col-2"></div>
+            <button class="col-1 tecladoLetra" boton="a">a</button>
+            <button class="col-1 tecladoLetra" boton="s">s</button>
+            <button class="col-1 tecladoLetra" boton="d">d</button>
+            <button class="col-1 tecladoLetra" boton="f">f</button>
+            <button class="col-1 tecladoLetra" boton="g">g</button>
+            <button class="col-1 tecladoLetra" boton="h">h</button>
+            <button class="col-1 tecladoLetra" boton="j">j</button>
+            <button class="col-1 tecladoLetra" boton="k">k</button>
+            <button class="col-1 tecladoLetra" boton="l">l</button>
+            <button class="col-1 tecladoLetra" boton="ñ">ñ</button>
+        <div class="col-2"></div>
+            <button class="col-1 tecladoLetra" boton="z">z</button>
+            <button class="col-1 tecladoLetra" boton="x">x</button>
+            <button class="col-1 tecladoLetra" boton="c">c</button>
+            <button class="col-1 tecladoLetra" boton="v">v</button>
+            <button class="col-1 tecladoLetra" boton="b">b</button>
+            <button class="col-1 tecladoLetra" boton="n">n</button>
+            <button class="col-1 tecladoLetra" boton="m">m</button>
+
+        </div>
     </div>
-</body>
+
+       
+ 
+
+
+<script src="~/js/TecladoVirtualCompleto.js"></script>
+             

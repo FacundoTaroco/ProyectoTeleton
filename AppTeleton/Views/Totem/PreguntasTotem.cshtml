@@ -1,0 +1,68 @@
+﻿@model IEnumerable<LogicaNegocio.Entidades.PreguntaFrec>
+
+@{
+    ViewData["Title"] = "PreguntasTotem";
+}
+
+
+
+
+
+
+<div class="container-fluid sinPadding contenedorHomeUsuario">
+        @if (ViewBag.Mensaje != null)
+        {
+            if (ViewBag.TipoMensaje == "ERROR")
+            {
+                <div class="alert alert-danger" role="alert">@ViewBag.Mensaje</div>
+            }
+            else if (ViewBag.TipoMensaje == "EXITO")
+            {
+                <div class="alert alert-success" role="alert">@ViewBag.Mensaje</div>
+            }
+        }
+        <div class="row contenedorHomeUsuario">
+
+            <div class="col-3 col-md-2 text-white contenedorListadoHomeUsuario d-flex flex-column align-items-center justify-content-between">
+                <div class="mb-3">
+
+                    <h3 class="h3HomeUsuario">Menú</h3>
+                    <ul class="list-unstyled listadoNavHomeUsuario">
+                        <li><a asp-action="HomeUsuario" asp-route-cedula="@ViewBag.CedulaUsuario" class="text-white"><i class="fas fa-calendar-alt"></i> Agenda</a></li>
+                        <li><a asp-action="PreguntasParaTotem" asp-route-cedula="@ViewBag.CedulaUsuario" class="text-white"><i class="fas fa-question-circle"></i> Preguntas</a></li>
+                    <li><a asp-action="Mapa" asp-route-cedula="@ViewBag.CedulaUsuario" class="text-white"><i class="fas fa-map-marker-alt"></i> Mapa</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <ul class="list-unstyled listadoNavHomeUsuario ">
+                        <li><a href="@Url.Action("CerrarAcceso", "Totem")" class="text-white"><i class="fas fa-sign-out-alt"></i>Salir</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-9 col-md-10 contenedorContenidoHomeUsuario">
+                <div id="time" class="alert alert-danger" role="alert"></div>
+
+            <h3 class="homeUsuarioTitulo">Preguntas Frecuentes</h3>
+
+            <div class="faq-container">
+                @foreach (var pregunta in Model)
+                {
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleAnswer(@pregunta.Id)">
+                            @pregunta.Pregunta
+                        </div>
+                        <div class="faq-answer" id="answer-@pregunta.Id">
+                            Respuesta:
+                            @pregunta.CategoriaPregunta.Respuesta
+                        </div>
+                    </div>
+                }
+               
+            </div>
+        </div>
+    </div>
+
+ 
+    <script src="~/js/timerAcceso.js"></script>
+    <script src="~/js/TotemPreguntas.js"></script>
+    <form asp-action="Index" id="formCerrarSesionAutomaticamente"></form>

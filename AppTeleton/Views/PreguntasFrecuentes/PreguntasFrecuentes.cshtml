@@ -2,45 +2,26 @@
 
 @{
     ViewData["Title"] = "Preguntas Frecuentes";
-    var preguntasFrecuentes = Model.PreguntasFrec ?? new List<LogicaNegocio.Entidades.PreguntaFrec>();
-    var isAdminOrRecepcionista = ViewBag.IsAdminOrRecepcionista;
+}
+@{
+
+    if (ViewBag.Mensaje != null)
+    {
+        if (ViewBag.TipoMensaje == "ERROR")
+        {
+            <div class="alert alert-danger" role="alert">@ViewBag.Mensaje</div>
+        }
+        else if (ViewBag.TipoMensaje == "EXITO")
+        {
+            <div class="alert alert-success" role="alert">@ViewBag.Mensaje</div>
+        }
+
+    }
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Preguntas Frecuentes</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 200px;
-            height: 100%;
-            background-color: #DC143C;
-            z-index: 1;
-        }
 
-        .main-content {
-            margin-left: 200px;
-            padding: 20px;
-        }
-
-        .footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background-color: #f8f9fa;
-            text-align: center;
-            padding: 0.5rem;
-        }
-    </style>
-</head>
 <body>
-    <nav class="sidebar">
-        <h2>Opciones</h2>
-    </nav>
+  
     <main role="main" class="main-content">
         <h1>Preguntas Frecuentes</h1>
         <p><a href="@Url.Action("Create")" class="btn btn-primary">Agregar</a></p>
@@ -55,18 +36,15 @@
                 @foreach (var item in Model.PreguntasFrec)
                 {
                     <tr>
-                        <td><a href="@Url.Action("Detalle", new { id = item.Id })">@item.Pregunta</a></td>
+                        <td>@item.Pregunta</td>
                         <td>
-                            <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-warning btn-sm">Editar</a>
-                            <a href="@Url.Action("Delete", new { id = item.Id })" class="btn btn-danger btn-sm">Eliminar</a>
+
+                            <a href="@Url.Action("Detalle", new { id = item.Id })">Detalles</a>
+                            <a href="@Url.Action("Delete", new { id = item.Id })" >Eliminar</a>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
     </main>
-    <footer class="footer">
-        <span class="text-muted">© 2024 - AppTeleton - <a href="#">Privacy</a></span>
-    </footer>
 </body>
-</html>

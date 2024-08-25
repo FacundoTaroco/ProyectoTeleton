@@ -2,6 +2,7 @@
 using LogicaNegocio.Entidades;
 using LogicaNegocio.Excepciones;
 using LogicaNegocio.InterfacesRepositorio;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,68 @@ namespace LogicaAccesoDatos.EF
         public RepositorioPreguntaFrec(LibreriaContext context)
         {
             _context = context;
+        }
+        public IEnumerable<PreguntaFrec> GetPreguntasTotem() {
+            try
+            {
+                IEnumerable<PreguntaFrec> preguntasParaTotem = new List<PreguntaFrec>();
+                preguntasParaTotem = _context.PreguntasFrec.Where(p => p.MostrarEnTotem).Include(p => p.CategoriaPregunta).ToList();
+                return preguntasParaTotem;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public CategoriaPregunta GetCategoriaPorNombre(string nombre) {
+            try
+            {
+                CategoriaPregunta categoria = _context.CategoriasPregunta.FirstOrDefault(c => c.Categoria == nombre);
+                return categoria;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        
+        }
+
+        public IEnumerable<CategoriaPregunta> GetAllCategorias() {
+            try
+            {
+                List<CategoriaPregunta> categorias = new List<CategoriaPregunta>();
+                categorias = _context.CategoriasPregunta.ToList();
+                return categorias;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public void AddCategoria(CategoriaPregunta categoria) {
+            try
+            {
+                if (categoria == null) { throw new NullOrEmptyException("No se recibio la pregunta"); }
+                categoria.Id = 0;
+                _context.CategoriasPregunta.Add(categoria);
+                _context.SaveChanges();
+
+            }
+            catch (NullOrEmptyException)
+            {
+                throw;
+            }
+            catch (UniqueException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw new ServerErrorException("Error del servidor, algo fallo al agregar la pregunta frecuente");
+            }
         }
 
         public void Add(PreguntaFrec obj)
@@ -83,7 +146,7 @@ namespace LogicaAccesoDatos.EF
                 {
                     throw new NotFoundException("No se encontró pregunta frecuente a editar");
                 }
-                _context.Entry(existingPregunta).CurrentValues.SetValues(obj);
+                _context.PreguntasFrec.Update(existingPregunta);
                 _context.SaveChanges();
             }
             catch (NotFoundException)
@@ -130,7 +193,7 @@ namespace LogicaAccesoDatos.EF
             try
             {
                 IEnumerable<PreguntaFrec> PreguntasFrec = new List<PreguntaFrec>();
-                PreguntasFrec = _context.PreguntasFrec.ToList();
+                PreguntasFrec = _context.PreguntasFrec.Include(p => p.CategoriaPregunta).ToList();
                 return PreguntasFrec;
             }
             catch (Exception)
@@ -147,7 +210,7 @@ namespace LogicaAccesoDatos.EF
                 {
                     throw new NullOrEmptyException("No se recibio id");
                 }
-                var preguntaFrec = _context.PreguntasFrec.FirstOrDefault(recep => recep.Id == id);
+                var preguntaFrec = _context.PreguntasFrec.Include(p => p.CategoriaPregunta).FirstOrDefault(recep => recep.Id == id);
                 if (preguntaFrec == null)
                 {
                     throw new NotFoundException("No se encontro ninguna pregunta frecunte con el id ingresado");

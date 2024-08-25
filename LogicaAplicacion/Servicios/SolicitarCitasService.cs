@@ -25,13 +25,15 @@ namespace LogicaAplicacion.Servicios
         }
         public async Task<IEnumerable<CitaMedicaDTO>> ObtenerCitas() {
 
+
+                var connectionString = _config["ConnectionStrings:SimuladorServidorCentral"];
+                var commandText = "SELECT * FROM GetAgendas()";
+                SqlConnection con = new(connectionString);
             try
             {
-                var connectionString = _config["ConnectionStrings:TeletonSimuladorDatabase"];
-                var commandText = "SELECT * FROM GetAgendas()";
-                // Establece la conexión
+                
                 List<CitaMedicaDTO> citasMedicas = new List<CitaMedicaDTO>();
-                using (SqlConnection con = new(connectionString))
+                using (con)
                 {
                     using (SqlCommand cmd = new SqlCommand(commandText, con))
                     {
@@ -46,7 +48,9 @@ namespace LogicaAplicacion.Servicios
                             DateTime fecha = reader.GetDateTime(4);
                             int horaInicio = reader.GetInt32(5);
                             string tratamiento = reader.GetString(6);
-                            CitaMedicaDTO cita = new CitaMedicaDTO(pkAgenda,cedula,nombre,servicio,fecha,horaInicio,tratamiento);
+                            string consultorio = reader.GetString(7);
+                            string estado = reader.GetString(8);
+                            CitaMedicaDTO cita = new CitaMedicaDTO(pkAgenda,cedula,nombre,servicio,fecha,horaInicio,tratamiento,consultorio,estado);
                             citasMedicas.Add(cita);
                         }
                         con.Close();
@@ -56,46 +60,10 @@ namespace LogicaAplicacion.Servicios
             }
             catch (Exception)
             {
-
+                con.Close();
                 throw new TeletonServerException("Error de conexion con el servidor central");
             }
-            /* try
-             {
-                 var options = new RestClientOptions(linkAPI)
-                 {
-                     MaxTimeout = -1,
-                 };
-                 var client = new RestClient(options);
-                 var request = new RestRequest("api/Cita", Method.Get);
-                 /*request.AddHeader("Authorization", $"Bearer {token}");
-                 RestResponse response = await client.ExecuteGetAsync(request);
-                 JsonSerializerOptions optionsJson = new JsonSerializerOptions
-                 {
-                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                     WriteIndented = true
-                 };
-
-                 if (response.Content == null)
-                 {
-                     throw new Exception("Error de comunicacion con la api");
-                 }
-                 HttpStatusCode res = response.StatusCode;
-                 if (res == HttpStatusCode.OK)
-                 {
-                     var Citas = JsonSerializer.Deserialize<List<CitaMedicaDTO>>(response.Content, optionsJson);
-                     return Citas;
-                 }
-                 else
-                 {
-                     Error error = JsonSerializer.Deserialize<Error>(response.Content, optionsJson);
-                     throw new Exception("Error " + error.Code + " " + error.Details);
-                 }
-             }
-             catch (Exception)
-             {
-
-                 throw;
-             }*/
+           
         }
         public async Task<IEnumerable<CitaMedicaDTO>> ObtenerCitasPorCedula(string cedula)
         {
@@ -123,7 +91,9 @@ namespace LogicaAplicacion.Servicios
                             DateTime fecha = reader.GetDateTime(4);
                             int horaInicio = reader.GetInt32(5);
                             string tratamiento = reader.GetString(6);
-                            CitaMedicaDTO cita = new CitaMedicaDTO(pkAgenda, ci, nombre, servicio, fecha, horaInicio, tratamiento);
+                            string consultorio = reader.GetString(7);
+                            string estado = reader.GetString(8);
+                            CitaMedicaDTO cita = new CitaMedicaDTO(pkAgenda, ci, nombre, servicio, fecha, horaInicio, tratamiento, consultorio,estado);
                             citasMedicas.Add(cita);
                         }
                         reader.Close();
@@ -139,46 +109,7 @@ namespace LogicaAplicacion.Servicios
                 con.Close();
                 throw new TeletonServerException("Error de conexion con el servidor central, " + e.Message);
             }
-            /*try
-            {
-                var options = new RestClientOptions(linkAPI)
-                {
-                    MaxTimeout = -1,
-                };
-                var client = new RestClient(options);
-                var request = new RestRequest("api/Cita/GetPorCedula/"+cedula, Method.Get);
-                /*request.AddHeader("Authorization", $"Bearer {token}");
-                RestResponse response = await client.ExecuteGetAsync(request);
-                JsonSerializerOptions optionsJson = new JsonSerializerOptions
-                {
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                    WriteIndented = true
-                };
-
-                if (response.Content == null)
-                {
-                    throw new ApiErrorException("Error de comunicacion con la api");
-                }
-                HttpStatusCode res = response.StatusCode;
-                if (res == HttpStatusCode.OK)
-                {
-                    var Citas = JsonSerializer.Deserialize<List<CitaMedicaDTO>>(response.Content, optionsJson);
-                    return Citas;
-                }
-                else
-                {
-                    Error error = JsonSerializer.Deserialize<Error>(response.Content, optionsJson);
-                    throw new ApiErrorException("Error " + error.Code + " " + error.Details);
-                }
-            }
-            catch (ApiErrorException) {
-                throw; 
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }*/
+           
 
         }
 

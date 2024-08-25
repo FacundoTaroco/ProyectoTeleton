@@ -55,5 +55,6 @@ namespace LogicaAplicacion.CasosUso.PacienteCU
         }
 
 
+
     }
 }

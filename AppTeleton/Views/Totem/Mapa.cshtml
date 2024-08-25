@@ -1,0 +1,226 @@
+﻿
+@{
+}
+<style>
+
+
+
+
+    #map-container {
+        position: relative;
+        width: 100%;
+        margin: auto;
+    }
+
+    .mapaTeleton {
+        width: 100%;
+        height: auto;
+    }
+
+    .consultorio {
+        position: absolute;
+        cursor: pointer;
+    }
+
+    #consultorio1 {
+        background-color: orangered;
+        width: 30%;
+        aspect-ratio: 16 / 11;
+        top: 13.5%;
+        left: 1%;
+        mix-blend-mode: overlay;
+    }
+
+    #consultorio2 {
+        background-color: orangered;
+        width: 12%;
+        aspect-ratio: 16 / 42.5;
+        top: 42%;
+        left: 15%;
+        mix-blend-mode: overlay;
+    }
+
+    #consultorio3 {
+        background-color: dodgerblue;
+        width: 18%;
+        aspect-ratio: 16 / 17;
+        top: 36%;
+        left: 50%;
+        transform: rotate(60deg);
+        border-radius: 50px;
+        mix-blend-mode: overlay;
+    }
+
+    #consultorio4uno {
+        background-color: red;
+        width: 18%;
+        aspect-ratio: 16 / 12;
+        top: 78%;
+        left: 18%;
+        mix-blend-mode: overlay;
+    }
+
+    #consultorio4dos {
+        background-color: red;
+        width: 9%;
+        aspect-ratio: 16 / 43;
+        top: 58.5%;
+        left: 39.5%;
+        transform: rotate(26deg);
+        mix-blend-mode: overlay;
+    }
+
+    #consultorio5uno {
+        background-color: red;
+        width: 8%;
+        aspect-ratio: 16 / 49;
+        top: 36.1%;
+        left: 82.7%;
+        transform: rotate(26deg);
+        mix-blend-mode: overlay;
+    }
+
+    #consultorio5dos {
+        background-color: red;
+        width: 9%;
+        aspect-ratio: 16 / 19;
+        top: 58.4%;
+        left: 68.5%;
+        transform: rotate(24deg);
+        mix-blend-mode: overlay;
+    }
+
+    #consultorio6uno {
+        background-color: springgreen;
+        width: 11%;
+        aspect-ratio: 16 / 17;
+        top: 23.2%;
+        left: 86%;
+        transform: rotate(25deg);
+        mix-blend-mode: overlay;
+    }
+
+    #consultorio6dos {
+        background-color: springgreen;
+        width: 5.1%;
+        aspect-ratio: 16 / 23;
+        top: 28.3%;
+        left: 71.5%;
+        transform: rotate(25deg);
+        mix-blend-mode: overlay;
+    }
+
+    #consultorio6tres {
+        background-color: springgreen;
+        width: 4.5%;
+        aspect-ratio: 16 / 31;
+        top: 24%;
+        left: 63%;
+        transform: rotate(24deg);
+        mix-blend-mode: overlay;
+    }
+
+    #consultorio6cuatro {
+        background-color: springgreen;
+        width: 4.4%;
+        aspect-ratio: 16 / 27;
+        top: 19.8%;
+        left: 55%;
+        transform: rotate(25deg);
+        mix-blend-mode: overlay;
+    }
+
+    #consultorio7uno {
+        background-color: blue;
+        width: 4.3%;
+        aspect-ratio: 16 / 32;
+        top: 22.1%;
+        left: 59.1%;
+        transform: rotate(25deg);
+        mix-blend-mode: overlay;
+    }
+
+    #consultorio7dos {
+        background-color: blue;
+        width: 4.3%;
+        aspect-ratio: 16 / 27;
+        top: 26.3%;
+        left: 67.5%;
+        transform: rotate(25deg);
+        mix-blend-mode: overlay;
+    }
+
+    #consultorio7tres {
+        background-color: blue;
+        width: 6.8%;
+        aspect-ratio: 16 / 22;
+        top: 31.1%;
+        left: 75.3%;
+        transform: rotate(25deg);
+        mix-blend-mode: overlay;
+    }
+
+    #info-box {
+        position: fixed;
+        bottom: 10px;
+        left: 50%;
+        padding: 10px;
+        background-color: white;
+        border: 1px solid #ddd;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        display: none;
+    }
+</style>
+
+ <div class="row contenedorHomeUsuario">
+
+    <div class="col-3 col-md-2 text-white contenedorListadoHomeUsuario d-flex flex-column align-items-center justify-content-between">
+        <div class="mb-3">
+
+            <h3 class="h3HomeUsuario">Menú</h3>
+            <ul class="list-unstyled listadoNavHomeUsuario">
+                <li><a asp-action="HomeUsuario" asp-route-cedula="@ViewBag.CedulaUsuario" class="text-white"><i class="fas fa-calendar-alt"></i> Agenda</a></li>
+                <li><a asp-action="PreguntasParaTotem" asp-route-cedula="@ViewBag.CedulaUsuario" class="text-white"><i class="fas fa-question-circle"></i> Preguntas</a></li>
+                <li><a asp-action="Mapa" asp-route-cedula="@ViewBag.CedulaUsuario" class="text-white"><i class="fas fa-map-marker-alt"></i> Mapa</a></li>
+            </ul>
+        </div>
+        <div>
+            <ul class="list-unstyled listadoNavHomeUsuario ">
+                <li><a href="@Url.Action("CerrarAcceso", "Totem")" class="text-white"><i class="fas fa-sign-out-alt"></i>Salir</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-9 col-md-10 contenedorContenidoHomeUsuario">
+        <div id="time" class="alert alert-danger" role="alert"></div>
+        <div id="map-container">
+
+
+            <img src="~/images/MapaTeleton.jpg" class="mapaTeleton" alt="Mapa de Teleton" id="mapaTeleton">
+
+            <div class="consultorio consultorio1" id="consultorio1" data-info="Información del Consultorio 1" data-clase-cons="consultorio1"></div>
+            <div class="consultorio consultorio2" id="consultorio2" data-info="Información del Consultorio 2" data-clase-cons="consultorio2"></div>
+            <div class="consultorio consultorio3" id="consultorio3" data-info="Información del Consultorio 3" data-clase-cons="consultorio3"></div>
+            <div class="consultorio consultorio4" id="consultorio4uno" data-info="Información del Consultorio 4" data-clase-cons="consultorio4"></div>
+            <div class="consultorio consultorio4" id="consultorio4dos" data-info="Información del Consultorio 4" data-clase-cons="consultorio4"></div>
+            <div class="consultorio consultorio5" id="consultorio5uno" data-info="Información del Consultorio 5" data-clase-cons="consultorio5"></div>
+            <div class="consultorio consultorio5" id="consultorio5dos" data-info="Información del Consultorio 5" data-clase-cons="consultorio5"></div>
+            <div class="consultorio consultorio6" id="consultorio6uno" data-info="Información del Consultorio 6" data-clase-cons="consultorio6"></div>
+            <div class="consultorio consultorio6" id="consultorio6dos" data-info="Información del Consultorio 6" data-clase-cons="consultorio6"></div>
+            <div class="consultorio consultorio6" id="consultorio6tres" data-info="Información del Consultorio 6" data-clase-cons="consultorio6"></div>
+            <div class="consultorio consultorio6" id="consultorio6cuatro" data-info="Información del Consultorio 6" data-clase-cons="consultorio6"></div>
+            <div class="consultorio consultorio7" id="consultorio7uno" data-info="Información del Consultorio 7" data-clase-cons="consultorio7"></div>
+            <div class="consultorio consultorio7" id="consultorio7dos" data-info="Información del Consultorio 7" data-clase-cons="consultorio7"></div>
+            <div class="consultorio consultorio7" id="consultorio7tres" data-info="Información del Consultorio 7" data-clase-cons="consultorio7"></div>
+        </div>
+        <div id="info-box"></div>
+
+    </div>
+</div>
+
+
+
+
+<script src="~/js/timerAcceso.js"></script>
+<script src="~/js/Mapa.js"></script>
+
+<form asp-action="Index" id="formCerrarSesionAutomaticamente"></form>

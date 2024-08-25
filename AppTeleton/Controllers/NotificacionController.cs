@@ -20,11 +20,12 @@ namespace AppTeleton.Controllers
         private GuardarDispositivoNotificacion _guardarDispositivoNotificacion;
         private GetDispositivos _getDispositivos;
         private ABNotificacion _ABNotificacion;
+        private GetNotificacion _getNotificacion;
         private BorrarDispositivoNotificacion _borrarDispositivo;
         private EnviarNotificacionService _enviarNotificacionService;
    
         private IConfiguration _config;
-        public NotificacionController(EnviarNotificacionService enviarNotificacion, BorrarDispositivoNotificacion borrarDispositivo,ABNotificacion aBNotificacion,IConfiguration configuration,GetRecepcionistas getRecepcionistas, GetPacientes getPacientes, GuardarDispositivoNotificacion guardarDisp, GetDispositivos getDispositivos) { 
+        public NotificacionController(GetNotificacion getNotificacion, EnviarNotificacionService enviarNotificacion, BorrarDispositivoNotificacion borrarDispositivo,ABNotificacion aBNotificacion,IConfiguration configuration,GetRecepcionistas getRecepcionistas, GetPacientes getPacientes, GuardarDispositivoNotificacion guardarDisp, GetDispositivos getDispositivos) { 
             
             _getRecepcionistas = getRecepcionistas;
             _getPacientes = getPacientes;
@@ -34,10 +35,30 @@ namespace AppTeleton.Controllers
             _ABNotificacion= aBNotificacion;
             _borrarDispositivo = borrarDispositivo;
             _enviarNotificacionService = enviarNotificacion;
+            _getNotificacion = getNotificacion;
         }
+
+
+
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult Borrar(int id) {
+            try
+            {
+                _ABNotificacion.Delete(id);
+                return RedirectToAction("NotificacionesPaciente", "Paciente");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        
+        
+        
         }
 
 
@@ -74,35 +95,70 @@ namespace AppTeleton.Controllers
                 dispositivo.IdUsuario = usuarioLogueado.Id;
                 _guardarDispositivoNotificacion.GuardarDispositivo(dispositivo);
 
-                if (tipoUsuario == "PACIENTE") {
+                
 
-                    return RedirectToAction("Index", "Paciente");
-                }
-                    return RedirectToAction("Index", "Recepcionista");
+                    return RedirectToAction("Index", "Citas");
+                
             }
             catch (Exception)
             {
                 ViewBag.TipoMensaje = "ERROR";
                 ViewBag.Mensaje = "Algo salio mal al activar las notificaciones";
                 string tipoUsuario = HttpContext.Session.GetString("TIPO");
-                if (tipoUsuario == "PACIENTE")
-                {
-                    return RedirectToAction("Index", "Paciente");
-                }
-                return RedirectToAction("Index", "Recepcionista");
+                
+                    return RedirectToAction("Index", "Citas");
+                
+               
             }
 
 
         }
         [HttpGet]
-
+        [RecepcionistaAdminLogueado]
         public IActionResult EnviarAvisos() {
 
-            return View( _getPacientes.GetAll());
+            try
+            {
+            ParametrosNotificaciones parametros =  _getNotificacion.GetParametrosRecordatorios();
+            ViewBag.RecordatoriosEncendidos = parametros.RecordatoriosEncendidos;
+            ViewBag.RecordatorioAntelacion = parametros.CadaCuantoEnviarRecordatorio;
+                return View(_getPacientes.GetAll().OrderBy(p => p.Nombre).ToList()); 
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+          
 
         }
+        [RecepcionistaAdminLogueado]
+        [HttpGet]
+        public IActionResult ConfigurarRecordatorios() {
+            ParametrosNotificaciones parametros = _getNotificacion.GetParametrosRecordatorios();
+            return View(parametros);
+        }
+        [RecepcionistaAdminLogueado]
+        [HttpPost]
+        public IActionResult ConfigurarRecordatorios(ParametrosNotificaciones nuevosParametros)
+        {
+            try
+            {
+                _ABNotificacion.ActualizarParametros(nuevosParametros);
+                return RedirectToAction("EnviarAvisos");
+            }
+            catch (Exception e)
+            {
+                ParametrosNotificaciones parametros = _getNotificacion.GetParametrosRecordatorios();
+                ViewBag.TipoMensaje = "ERROR";
+                ViewBag.Mensaje = e.Message;
+                return View(parametros);
+            }
+            
+        }
 
-        //EVENTUALMENTE HACER ESTO MAS DINAMICO(RECIBE UNA LISTA DE PACIENTES O LISTA DE IDS EN VEZ DE SER TODOS LOS PACIENTES PUEDE TRABAJAR CON GRUPOS DE PACIENTES)
+
+       
         [RecepcionistaAdminLogueado]
         [HttpPost]
         public async Task<IActionResult> SendTodosLosPacientes(string titulo, string mensaje)
@@ -113,10 +169,13 @@ namespace AppTeleton.Controllers
                 if (String.IsNullOrEmpty(titulo)) throw new Exception("Ingrese un titulo para la notificacion");
                 if (String.IsNullOrEmpty(mensaje)) throw new Exception("Ingrese un mensaje para la notificacion");
 
-                _enviarNotificacionService.EnviarATodos(titulo, mensaje);
-                    ViewBag.Mensaje = "notificacion enviada con exito a todos los pacientes con dispositivos registrados";
+                _enviarNotificacionService.EnviarATodos(titulo, mensaje, "https://localhost:7051/Paciente/NotificacionesPaciente");
+                    ViewBag.Mensaje = "notificacion enviada con exito";
                     ViewBag.TipoMensaje = "EXITO";
-                    return View("EnviarAvisos", _getPacientes.GetAll());
+                ParametrosNotificaciones parametros = _getNotificacion.GetParametrosRecordatorios();
+                ViewBag.RecordatoriosEncendidos = parametros.RecordatoriosEncendidos;
+                ViewBag.RecordatorioAntelacion = parametros.CadaCuantoEnviarRecordatorio;
+                return View("EnviarAvisos", _getPacientes.GetAll());
             }
 
             catch (Exception e)
@@ -124,6 +183,9 @@ namespace AppTeleton.Controllers
 
                 ViewBag.Mensaje = e.Message;
                 ViewBag.TipoMensaje = "ERROR";
+                ParametrosNotificaciones parametros = _getNotificacion.GetParametrosRecordatorios();
+                ViewBag.RecordatoriosEncendidos = parametros.RecordatoriosEncendidos;
+                ViewBag.RecordatorioAntelacion = parametros.CadaCuantoEnviarRecordatorio;
                 return View("EnviarAvisos", _getPacientes.GetAll());
             }
         }
@@ -132,34 +194,43 @@ namespace AppTeleton.Controllers
 
         [RecepcionistaAdminLogueado]
         [HttpPost]
-        public async Task<IActionResult> SendUnUsuario(int idUsuario, string titulo, string mensaje)
+        public async Task<IActionResult> SendPacientes(string titulo, string mensaje, List<int> seleccionados)
         {
             try
             {
-                if (idUsuario == 0) throw new Exception("No se recibio usuario");
-                if(String.IsNullOrEmpty(titulo)) throw new Exception("Ingrese un titulo para la notificacion");
-                if (String.IsNullOrEmpty(mensaje)) throw new Exception("Ingrese un mensaje para la notificacion");
+                if (seleccionados.Count()==0) throw new Exception("Seleccione por lo menos un paciente");
+                if(String.IsNullOrEmpty(titulo)) throw new Exception("Ingrese un titulo para la notificación");
+                if (String.IsNullOrEmpty(mensaje)) throw new Exception("Ingrese un mensaje para la notificación");
 
-                _enviarNotificacionService.Enviar(titulo, mensaje,idUsuario);
-                    ViewBag.Mensaje = "notificacion enviada con exito";
+
+                foreach (int idPaciente in seleccionados) { 
+                
+                 _enviarNotificacionService.Enviar(titulo, mensaje, "https://localhost:7051/Paciente/NotificacionesPaciente", idPaciente);
+                
+                }
+
+               
+                    ViewBag.Mensaje = "Notificación enviada con éxito";
                     ViewBag.TipoMensaje = "EXITO";
-                    return View("EnviarAvisos",_getPacientes.GetAll());
+                ParametrosNotificaciones parametros = _getNotificacion.GetParametrosRecordatorios();
+                ViewBag.RecordatoriosEncendidos = parametros.RecordatoriosEncendidos;
+                ViewBag.RecordatorioAntelacion = parametros.CadaCuantoEnviarRecordatorio;
+                return View("EnviarAvisos",_getPacientes.GetAll());
             }
 
             catch (Exception e)
             {
                 ViewBag.Mensaje = e.Message;
                 ViewBag.TipoMensaje = "ERROR";
+                ParametrosNotificaciones parametros = _getNotificacion.GetParametrosRecordatorios();
+                ViewBag.RecordatoriosEncendidos = parametros.RecordatoriosEncendidos;
+                ViewBag.RecordatorioAntelacion = parametros.CadaCuantoEnviarRecordatorio;
                 return View("EnviarAvisos",_getPacientes.GetAll());
             }
         }
 
 
-        public static string Base64Encode(string plainText)
-        {
-            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
-            return System.Convert.ToBase64String(plainTextBytes);
-        }
+   
 
     }
 }

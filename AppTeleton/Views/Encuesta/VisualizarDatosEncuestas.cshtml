@@ -1,0 +1,117 @@
+﻿@model DatosEncuestasViewModel;
+@{
+    if (ViewBag.Mensaje != null)
+    {
+        if (ViewBag.TipoMensaje == "ERROR")
+        {
+                <div class="alert alert-danger" role="alert">@ViewBag.Mensaje</div>
+        }
+        else if (ViewBag.TipoMensaje == "EXITO")
+        {
+                <div class="alert alert-success" role="alert">@ViewBag.Mensaje</div>
+        }
+
+    }
+}
+<h1 style="text-align:center">Datos de encuestas</h1>
+<div class="row">
+
+    <form asp-action="VisualizarDatosEncuestasFechaFiltro" asp-controller="Encuesta" method="post" class="col-8 filtroFechaEncuesta">
+        <div>
+            <label for="fechaInicio">Fecha de Inicio: </label>
+            <input id="fechaFiltroInicio" name="fechaInicio" placeholder="DD/MM/YYYY">
+        </div>
+        <div>
+            <label for="fechaFin">Fecha de Fin: </label>
+            <input id ="fechaFiltroFin" name="fechaFin" placeholder="DD/MM/YYYY">
+        </div>
+        <div>
+            <input type="submit" value="Buscar">
+        </div>
+    </form>
+    <form asp-action="VisualizarDatosEncuestas" asp-controller="Encuesta" method="get" class="col-4 botonResetFiltroFechaEncuesta">
+        <button type="submit">Ver todas las encuestas</button>
+    </form>
+
+<div class="col-8">
+    <canvas id="satisfaccionChart" width="400" height="200"></canvas>
+</div>
+
+    <scroll-container class="col-4 contenedorScrollComentarios">
+    <ul id="listadoComentarios">
+    @foreach (var e in Model.Encuestas)
+    {
+        
+    <li>
+        <div class="contenedorComentario">
+                        <p><strong>Fecha:</strong> @DateOnly.FromDateTime(e.Fecha.Date)</p>
+                        <p><strong>Comentario:</strong> @e.Comentarios</p>
+                <a href="@Url.Action("Detalles",new { id =e.Id })">Ver puntuaciones</a>
+        </div>
+    </li>
+
+}
+
+        </ul>
+    </scroll-container>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    var ctx = document.getElementById('satisfaccionChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'bar', 
+        data: {
+            labels: ['General', 'Aplicación', 'Recepción', 'Estado del Centro'], // Etiquetas
+            datasets: [{
+                label: 'Encuestas de satisfacción',
+                data: [
+    @Model.PromedioSatisfaccionGeneral.ToString(System.Globalization.CultureInfo.InvariantCulture),
+    @Model.PromedioSatisfaccionAplicacion.ToString(System.Globalization.CultureInfo.InvariantCulture),
+    @Model.PromedioSatisfaccionRecepcion.ToString(System.Globalization.CultureInfo.InvariantCulture),
+    @Model.PromedioSatisfaccionEstadoCentro.ToString(System.Globalization.CultureInfo.InvariantCulture)
+                        ],
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(255, 99, 132, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(255, 99, 132, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    min: 1, // Rango mínimo del eje Y
+                    max: 5,  // Rango máximo del eje Y
+                    ticks: {
+                        precision: 1, // Define la precisión de los valores en los ticks a un decimal
+                    }
+                }
+            }
+        }
+    });
+</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+
+<script>
+    flatpickr("#fechaFiltroInicio", {
+        dateFormat: "d/m/Y H:i",
+        enableTime: false
+    });
+
+    flatpickr("#fechaFiltroFin", {
+        dateFormat: "d/m/Y H:i",
+        enableTime: false
+    });
+</script>

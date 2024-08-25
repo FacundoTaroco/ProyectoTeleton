@@ -1,38 +1,55 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿
 @{
-}
-
-@{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Index";
     if (ViewBag.Mensaje != null)
     {
         if (ViewBag.TipoMensaje == "ERROR")
         {
-            <div class="alert alert-danger" role="alert">@ViewBag.Mensaje</div>
+            <div class="alert alert-danger" role="alert" style="position: fixed; top: 0; left: 50%; transform: translateX(-50%);">@ViewBag.Mensaje</div>
         }
         else if (ViewBag.TipoMensaje == "EXITO")
         {
-            <div class="alert alert-success" role="alert">@ViewBag.Mensaje</div>
+            <div class="alert alert-success" role="alert" style="position: fixed; top: 0; left: 50%; transform: translateX(-50%);">@ViewBag.Mensaje</div>
         }
 
     }
 }
 
 
+<img src="~/images/LogoTeleton.png" class="logoTeletonIndexTotem">
+<div class="contenedorIndexTotem container">
 
+<img src="~/images/logoTeletonRecepcion.png" class="imagenTeletonRecepcion row">
+    <h1 class="h1Totem row">Bienvenido, Ingrese la cedula del paciente para acceder</h1>
 
-<form asp-action="Acceder" asp-controller="Totem" method="post">
-    
-    <div class="form-group col-lg-6">
-        <label for="cedula" name="cedula">Ingrese Numero de cedula sin puntos ni guiones</label>
-        <input name="cedula" class="form-control" type="text" required />
+<img src="~/images/cedulaGenerica.png" class="imagenCedulaGenerica row">
+
+<form asp-action="Acceder" asp-controller="Totem" method="post" id="formularioIndexTotem" class="row col-6 justify-content-center align-items-center">
+
+        
+        <input name="cedula" id="txtCedulaTotem" class="form-control" type="text" placeholder="Ingrese la cedula aquí" required />
+ 
+
+    <input class="btn" type="submit" value="Acceder" />
+    </form> 
+
+    <div class="tecladoVirtual col-3 row" id="tecladoVirtual">
+        <button class="col-8 tecladoNumero" boton="Borrar">Borrar</button>
+        <button class="col-4 tecladoNumero" boton="0">0</button>
+        <button class="col-4 tecladoNumero" boton="1">1</button>
+        <button class="col-4 tecladoNumero" boton="2">2</button>
+        <button class="col-4 tecladoNumero" boton="3">3</button>
+        <button class="col-4 tecladoNumero" boton="4">4</button>
+        <button class="col-4 tecladoNumero" boton="5">5</button>
+        <button class="col-4 tecladoNumero" boton="6">6</button>
+        <button class="col-4 tecladoNumero" boton="7">7</button>
+        <button class="col-4 tecladoNumero" boton="8">8</button>
+        <button class="col-4 tecladoNumero" boton="9">9</button>
     </div>
 
-    <input class="btn btn-primary" type="submit" value="Ingresar" />
+    
+    <a href="@Url.Action("CerrarSesion", "Totem")" class="text-black btnCerrarSesionTotem"><i class="fas fa-sign-out-alt"></i></a>
+</div>
 
+<script src="~/js/TecladoVirtualNumerico.js"></script>
 
-
-    <li><a href="@Url.Action("CerrarSesion", "Totem")" class="text-black"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
-</form>

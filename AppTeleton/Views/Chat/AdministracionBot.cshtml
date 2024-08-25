@@ -1,0 +1,91 @@
+﻿@model AppTeleton.Models.AdministracionBotViewModel
+
+@{
+    ViewData["Title"] = "AdministracionBot";
+}
+
+<style>
+    .card-item {
+        background-color: #f8f9fa; 
+        border: 1px solid #e2e3e5;
+        border-radius: 0.25rem;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+        .card-item label {
+            font-weight: bold;
+        }
+
+        .card-item p {
+            margin-bottom: 0.5rem;
+        }
+
+        .card-item select, .card-item input[type="submit"] {
+            margin-top: 0.5rem;
+        }
+
+</style>
+
+<h1>Administración del chatbot y tótem</h1>
+
+<div>
+
+    <div class="botonRedireccion">
+        @Html.ActionLink("Administrar preguntas frecuentes", "PreguntasFrecuentes", "PreguntasFrecuentes")</div>
+    <hr />
+    
+   <h4>Mensajes que el asistente virtual no pudo responder correctamente</h4>
+   <h6>Al corregir los mensajes el asistente virtual mejora su comprensión y su forma de responder</h6>
+
+
+        @foreach (var r in Model.respuestas)
+        {
+        <div class="container mt-5">
+            <div class="card-item">
+        <form asp-action="AgregarUtterance" method="post">
+                    <div class="mb-3">
+            <label>Mensaje ingresado:</label>
+                <input type="hidden" name="idRespuesta" value="@r.Id" />
+                 <input type="text" name="input" value="@r.Input" readonly class="form-control">
+                <label>Categoría Equivocada(o vacía)</label>
+                
+                @if (r.IntentAsignado != null && !String.IsNullOrEmpty(r.IntentAsignado))
+                {
+                    <p>@r.IntentAsignado</p>
+                }
+                else
+                {
+                    <p>No se asigno ninguna categoría</p>
+                }
+            
+            <label>Seleccione la categoría que le parezca correcta para el mensaje enviado</label>
+                        <select name="intentname" class="form-select">
+                @foreach (var i in Model.intents)
+                {
+                    <option value="@i.name">@i.name</option>
+                }
+            </select>
+
+                        <input type="submit" value="Corregir" class="btn btn-primary" />
+            </div>
+        </form>
+        <form asp-action="EliminarMensajeEquivocado" method="post">
+            <input type="hidden" name="idMensaje" value="@r.Id" />
+            <input type="submit" value="Eliminar" class="btn btn-danger" />
+        </form>
+            </div>
+        </div>
+    }
+
+
+       
+
+
+
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

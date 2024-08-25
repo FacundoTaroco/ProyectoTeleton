@@ -10,7 +10,7 @@ namespace LogicaNegocio.DTO
     {
         public string Titulo { get; set; }
         public string Mensaje { get; set; }
-
+        public string Link { get; set; }
 
         public NotificacionDTO()
         {
@@ -22,7 +22,13 @@ namespace LogicaNegocio.DTO
         {
             Titulo = titulo;
             Mensaje = mensaje;
+        }
 
+        public NotificacionDTO(string titulo, string mensaje, string link)
+        {
+            Titulo = titulo;
+            Mensaje = mensaje;
+            Link = link;
         }
     }
 }

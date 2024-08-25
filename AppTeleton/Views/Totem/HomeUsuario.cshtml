@@ -3,99 +3,10 @@
 
 @{
     ViewData["Title"] = "HomeUsuario";
-    Layout = null; // Si tienes un layout general, cambia esto por el nombre del layout a
+  
 
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title>@ViewData["Title"] - My ASP.NET Application</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-    <style>
-        .full-height {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .sidebar {
-            background-color: #e83844;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 20px;
-        }
-
-            .sidebar ul {
-                list-style-type: none;
-                padding: 0;
-            }
-
-                .sidebar ul li {
-                    margin: 10px 0;
-                }
-
-                    .sidebar ul li a {
-                        color: white;
-                        text-decoration: none;
-                        padding: 10px;
-                        display: flex;
-                        align-items: center;
-                        border: 2px solid transparent;
-                        transition: all 0.3s ease;
-                    }
-
-                        .sidebar ul li a:hover {
-                            background-color: #ff6666;
-                            border-color: #ff6666;
-                            color: white;
-                            text-decoration: none;
-                        }
-
-                        .sidebar ul li a i {
-                            margin-right: 10px;
-                        }
-
-        .content {
-            padding: 20px;
-        }
-
-            .content h3 {
-                text-align: center;
-            }
-
-        /* Estilos para el botón Actualizar Citas */
-        .btn-actualizar {
-            background-color: #e83844; /* Rojo */
-            color: white;
-            border: 2px solid #e83844; /* Rojo */
-            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-        }
-
-            .btn-actualizar:hover {
-                background-color: white; /* Fondo blanco */
-                color: #e83844; /* Texto rojo */
-                border-color: #e83844; /* Borde rojo */
-            }
-
-        .btn-inner {
-            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-        }
-
-        #formCerrarSesionAutomaticamente{
-            display:none;
-        }
-
-    </style>
-
-
-</head>
-<body>
-    <div class="container-fluid">
         @if (ViewBag.Mensaje != null)
         {
             if (ViewBag.TipoMensaje == "ERROR")
@@ -108,86 +19,86 @@
             }
         }
 
-        <div class="row">
-            <div class="col-md-2 text-white full-height sidebar">
-                <div>
-                    <h3>Menú</h3>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-white"><i class="fas fa-calendar-alt"></i> Tratamientos para hoy</a></li>
-                        <li><a href="#" class="text-white"><i class="fas fa-question-circle"></i> Preguntas frecuentes</a></li>
-                        <li><a href="#" class="text-white"><i class="fas fa-map-marker-alt"></i> Mapa del centro</a></li>
+    
+          
+        <div class="row contenedorHomeUsuario">
+
+            <div class="col-3 col-md-2 text-white contenedorListadoHomeUsuario d-flex flex-column align-items-center justify-content-between">
+                <div class="mb-3">
+                  
+                    <h3 class="h3HomeUsuario">Menú</h3>
+                    <ul class="list-unstyled listadoNavHomeUsuario">
+                        <li><a asp-action="HomeUsuario" asp-route-cedula="@ViewBag.CedulaUsuario" class="text-white"><i class="fas fa-calendar-alt"></i> Agenda</a></li>
+                <li><a asp-action="PreguntasParaTotem" asp-route-cedula="@ViewBag.CedulaUsuario"  class="text-white"><i class="fas fa-question-circle"></i> Preguntas</a></li>
+                <li><a asp-action="Mapa" asp-route-cedula="@ViewBag.CedulaUsuario" class="text-white"><i class="fas fa-map-marker-alt"></i> Mapa</a></li>
                     </ul>
                 </div>
                 <div>
-                    <ul class="list-unstyled">
-                        <li>Se cerrara la sesion en <span id="time"></span> segundos</li>
+            <ul class="list-unstyled listadoNavHomeUsuario ">
                         <li><a href="@Url.Action("CerrarAcceso", "Totem")" class="text-white"><i class="fas fa-sign-out-alt"></i>Salir</a></li>
                     </ul>
                 </div>
             </div>
-            <div class="col-md-10 content">
-                <h3>Tratamientos para hoy</h3>
-                <form asp-action="ActualizarCitas" method="post">
-                    <input type="submit" value="Actualizar Citas" class="btn btn-actualizar" />
-                </form>
-                @if (Model.Citas != null){
-                <table class="table table-bordered mt-3">
+            <div class="col-9 col-md-10 contenedorContenidoHomeUsuario">
+                <div id="time" class="alert alert-danger" role="alert"></div>
+                <h3 class="homeUsuarioTitulo">Tratamientos para hoy</h3>
+      
+                @if (Model.Citas != null && Model.Citas.Count()>0){
+                <table class="table mt-3 tablaCitasTotem">
                     <thead>
-                        <tr>
-                            <th>
-                                Nombre
-                            </th>
+                        <tr class="titulosTr">
+                        <th>
+                            Hora
+                        </th>
                             <th>
                                 Servicio
                             </th>
-                            <th>
-                               Tratamiento
-                            </th>
-                            <th>
-                               Fecha
-                            </th>
-                            <th>
-                               Hora
-                            </th>   
-                        </tr>
+                      
+                            
+                        <th>
+                            Consultorio
+                        </th>
+                      
+                    </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model.Citas)
                         {
                             <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.NombreCompleto)
-                                </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.HoraInicio) hs
+                            </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Servicio)
                                 </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Tratamiento)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Fecha)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.HoraInicio)
-                                </td>
+                               
+                               
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Consultorio)
+                            </td>
+
+
+                           
                             </tr>
                         }
                     </tbody>
-                </table>
+                    </table>
                 }
-            </div>
+                else
+                {
+                    
+                <h4>No tiene citas agendadas para el dia actual, consulte en recepción en caso de que esto sea un error</h4>
+                }
         </div>
-    </div>
+         </div>
+    
+   
 
     
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="~/js/timerAcceso.js"></script>
 
     <form asp-action="Index" id="formCerrarSesionAutomaticamente"></form>
-</body>
-</html>
+
 
 

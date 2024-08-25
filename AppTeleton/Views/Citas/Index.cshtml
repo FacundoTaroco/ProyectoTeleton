@@ -1,0 +1,239 @@
+﻿@model AppTeleton.Models.CitasViewModel;
+@{
+    ViewData["Title"] = "Index";
+    string tipoUsuario = Context.Session.GetString("TIPO");
+    string usuario = Context.Session.GetString("USR");
+}
+@{
+    if (ViewBag.Mensaje != null)
+    {
+        if (ViewBag.TipoMensaje == "ERROR")
+        {
+            <div class="alert alert-danger" role="alert">@ViewBag.Mensaje</div>
+        }
+        else if (ViewBag.TipoMensaje == "EXITO")
+        {
+            <div class="alert alert-success" role="alert">@ViewBag.Mensaje</div>
+        }
+
+    }
+}
+
+
+
+
+@{
+    if (tipoUsuario == "PACIENTE")
+    {
+
+        if (ViewBag.Encuestar != null)
+        {
+            if (ViewBag.Encuestar == "si")
+            {
+                <div class="alert alert-success" role="alert">
+                <p>¿Desea realizar una encuesta sobre el servicio ofrecido el dia de hoy?</p>
+                    <form asp-controller="Encuesta" asp-action="Create" method="get">
+                        <input type="hidden" value="@usuario" name="nombreUsuario">
+                        <input type="submit" value="Si, realizar encuesta">
+                    </form>
+                    <form asp-controller="Encuesta" asp-action="NoCrear" method="post">
+                        <input type="hidden" value="@usuario" name="nombreUsuario">
+                        <input type="submit" value="No gracias">
+                    </form>
+                </div>
+            }
+        }
+
+    <form id="formularioAbrirNotificaciones" asp-controller="Paciente" asp-action="NotificacionesPaciente" style="display:none;" method="get">
+    </form>
+
+
+     
+
+
+if (Model.Notificacion != null)
+{
+            <div id="divNotificacionMasReciente" class="row notificacionContainer align-items-between justify-content-between">
+                <div class="col-12 row">
+
+                    <div class="col-12 tituloNotificacionPaciente">
+                        @Model.Notificacion.Titulo
+                    </div>
+                    <div class="col-12 cuerpoNotificacionPaciente">
+                        @Model.Notificacion.Mensaje
+                    </div>
+
+                </div>
+               
+            </div>
+}
+else
+{
+
+    <div id="divNotificacionMasReciente" style="display:none;">
+    </div>
+}
+    }
+}
+<h1 style="text-align:center;">Agenda</h1>
+
+@if (ViewBag.TipoUsuario == "RECEPCIONISTA" || ViewBag.TipoUsuario == "ADMIN"){
+
+    <div id="filterBlock" class="row align-items-end">
+    <form id="filtro" asp-action="IndexFiltro" asp-controller="Citas" class="formularioFiltroCitas col-12 col-md-10 row align-items-end">
+        <div class="divFiltroCitas col-3">
+        <label for="nombreFiltro">Búsqueda por Nombre</label>
+        <input id="nombreFiltro" name="nombre" type="text" placeholder="Ingrese el nombre...">
+            </div>
+            <div class="divFiltroCitas col-3">
+        <label for="fechaFiltroInicio">Fecha de Inicio: </label>
+        <input id="fechaFiltroInicio" name="fechaInicio" placeholder="DD/MM/YYYY">
+            </div>
+            <div class="divFiltroCitas col-3">
+        <label for="fechaFiltroInicio">Fecha de Fin: </label>
+        <input id="fechaFiltroFin" name="fechaFin" placeholder="DD/MM/YYYY">
+            </div>
+            <div class="divFiltroCitas col-3">
+        <button class="btnFiltroCitas" type="submit">Buscar</button>
+            </div>
+    </form>
+        <form asp-action="Index" asp-controller="Citas" class="col-2">
+            <button class="btnFiltroCitas" type="submit">Citas de hoy</button>
+     </form>
+</div>
+}
+
+<table class="table tablaAgenda">
+    <thead>
+        <tr class="filaHeaderTablaAgenda">
+
+            @if (ViewBag.TipoUsuario == "RECEPCIONISTA" || ViewBag.TipoUsuario == "ADMIN")
+                {
+            <th>
+                Cedula
+            </th>
+            <th>
+                Nombre
+            </th>
+                }
+            <th>
+                Servicio
+            </th>
+            <th>
+                Hora
+            </th>
+            <th>
+                Consultorio
+            </th>
+             @if (ViewBag.TipoUsuario == "RECEPCIONISTA" || ViewBag.TipoUsuario == "ADMIN")
+            {
+                <th>
+                    Estado
+            </th>
+            }
+            <th>
+
+
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.citasPorFecha)
+        {
+
+            <tr class="trFecha">
+                <td colspan="10" class="filaFecha">
+
+                    Fecha: @item.Fecha
+
+                </td>
+               
+                
+            </tr>
+            @foreach (var cita in item.CitasDeFecha)
+            {
+            <tr class="filaBodyTablaAgenda">
+                @if (ViewBag.TipoUsuario == "RECEPCIONISTA" || ViewBag.TipoUsuario == "ADMIN")
+                {
+                <td>
+                     <p class="titulosTablaMobile">Cedula: </p>       @Html.DisplayFor(modelItem => cita.Cedula)
+                </td>
+                <td>
+                            <p class="titulosTablaMobile">Nombre: </p>     @Html.DisplayFor(modelItem => cita.NombreCompleto)
+                </td>
+                }
+                <td>
+                        <p class="titulosTablaMobile">Servicio: </p>  @Html.DisplayFor(modelItem => cita.Servicio)
+                </td>
+                <td>
+                        <p class="titulosTablaMobile">Hora: </p> @Html.DisplayFor(modelItem => cita.HoraInicio) hs
+                </td>
+                <td>
+                        <p class="titulosTablaMobile">Consultorio: </p>  @Html.DisplayFor(modelItem => cita.Consultorio)
+                </td>
+                @if (ViewBag.TipoUsuario == "RECEPCIONISTA" || ViewBag.TipoUsuario == "ADMIN")
+                {
+
+                        <td id="tdEstado_@cita.PkAgenda">
+                            @if (cita.Estado == "RCP")
+                    {
+
+                                <p class="titulosTablaMobile">Estado: </p>  <p>Recepcionado</p>
+
+                    }
+                    else
+                    {
+
+                                <p class="titulosTablaMobile">Estado: </p> <p>NO recepcionado</p>
+
+                    }
+                </td>
+                
+                
+                }
+                <td>
+                        @Html.ActionLink("Detalles", "Detalles", new { pkAgenda = cita.PkAgenda })
+
+                </td>
+                
+
+            </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/ActualizarListadoCitas.js"></script>
+
+<script>
+    flatpickr("#fechaFiltroInicio", {
+        dateFormat: "d/m/Y H:i",
+        enableTime: false
+    });
+
+    flatpickr("#fechaFiltroFin", {
+        dateFormat: "d/m/Y H:i",
+        enableTime: false
+    });
+</script>
+
+@if (tipoUsuario == "PACIENTE")
+{
+    
+
+    <script>
+
+        
+
+        document.querySelector("#divNotificacionMasReciente").addEventListener("click", function (e) {
+
+            let form = document.querySelector("#formularioAbrirNotificaciones")
+            form.submit();
+        })
+    </script>
+
+}

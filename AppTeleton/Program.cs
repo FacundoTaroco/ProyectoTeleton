@@ -16,13 +16,20 @@ using LogicaAplicacion.CasosUso.CitaCU;
 using LogicaAplicacion.CasosUso.DispositivoUsuarioCU;
 using LogicaAplicacion.CasosUso.NotificacionCU;
 using LogicaAplicacion.CasosUso.PreguntasFrecCU;
-
+using AppTeleton.Hubs;
+using LogicaAplicacion.CasosUso.ChatCU;
+using System.Text.Json.Serialization;
+using LogicaAplicacion.CasosUso.EncuestaCU;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddJsonOptions(
+    option =>
+    option.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles
+    ); ;
+builder.Services.AddSignalR();
 
 builder.Services.AddDbContext<LibreriaContext>();
 
@@ -45,9 +52,15 @@ builder.Services.AddScoped<IRepositorioAccesoTotem, RepositorioAccesoTotem>();
 builder.Services.AddScoped<IRepositorioDispositivoNotificaciones, RepositorioDispositivoNotificaciones>();
 builder.Services.AddScoped<IRepositorioNotificacion, RepositorioNotificacion>();
 builder.Services.AddScoped<IRepositorioPreguntaFrec, RepositorioPreguntaFrec>();
+
+builder.Services.AddScoped<IRepositorioChat, RepositorioChat>();
+builder.Services.AddScoped<IRepositorioRespuestasEquivocadas, RepositorioRespuestaEquivocada>();
+
+builder.Services.AddScoped<IRepositorioEncuesta, RepositorioEncuesta>();
 //Scope de casos de uso
 
 builder.Services.AddScoped<GetUsuarios, GetUsuarios>();
+builder.Services.AddScoped<CambiarContrasenia, CambiarContrasenia>();
 
 builder.Services.AddScoped<ABMPacientes, ABMPacientes>();
 builder.Services.AddScoped<GetPacientes, GetPacientes>();
@@ -82,18 +95,32 @@ builder.Services.AddScoped<NotificacionesAutomaticas, NotificacionesAutomaticas>
 builder.Services.AddScoped<ABMPreguntasFrec, ABMPreguntasFrec>();
 builder.Services.AddScoped<GetPreguntasFrec, GetPreguntasFrec>();
 
+builder.Services.AddScoped<ABMChat, ABMChat>();
+builder.Services.AddScoped<GetChats, GetChats>();
+
+builder.Services.AddScoped<ABRespuestasEquivocadas, ABRespuestasEquivocadas>();
+builder.Services.AddScoped<GetRespuestasEquivocadas, GetRespuestasEquivocadas>();
+
+builder.Services.AddScoped<AgregarEncuesta, AgregarEncuesta>();
+builder.Services.AddScoped<GetEncuestas, GetEncuestas>();
+builder.Services.AddScoped<EnviarEncuestas, EnviarEncuestas>();
+
 //scopes de servicios
 builder.Services.AddScoped<EnviarNotificacionService, EnviarNotificacionService>();
 builder.Services.AddScoped<SolicitarPacientesService, SolicitarPacientesService>();
 builder.Services.AddScoped<SolicitarCitasService, SolicitarCitasService>();
-builder.Services.AddScoped<GenerarAvisoMedicoService, GenerarAvisoMedicoService>();
+builder.Services.AddScoped<RecepcionarPacienteService, RecepcionarPacienteService>();
+builder.Services.AddScoped<ChatBotService, ChatBotService>();
+builder.Services.AddScoped<GeolocalizacionService, GeolocalizacionService>();
 //Usuario
 builder.Services.AddScoped<ILogin, Login>();
 
 
 //Worker
 builder.Services.AddHostedService<CargarPacientesWorker>();
-//builder.Services.AddHostedService<NotificacionesAutomaticasWorker>();
+builder.Services.AddHostedService<NotificacionesAutomaticasWorker>();
+builder.Services.AddHostedService<EnviarEncuestasWorker>();
+
 
 var app = builder.Build();
 
@@ -115,5 +142,12 @@ app.UseSession();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Usuario}/{action=Login}/{id?}");
+
+
+app.MapHub<ActualizarListadoHub>("/ActualizarListadoHub");
+app.MapHub<HubConectado>("/ConnectedHub");
+app.MapHub<PantallaLLamadosHub>("/PantallaLLamados");
+app.MapHub<ListadoParaMedicosHub>("/ActualizarListadoParaMedicosHub");
+
 
 app.Run();

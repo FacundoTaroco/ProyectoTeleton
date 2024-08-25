@@ -80,7 +80,7 @@ namespace LogicaAccesoDatos.EF
             {
                 if (idUsuario == 0) { throw new NullOrEmptyException("no se recibio id de usuario"); }
                 IEnumerable<Notificacion> notificaciones = new List<Notificacion>();
-                notificaciones = _context.Notificaciones.Where(n => n.IdUsuario == idUsuario);
+                notificaciones = _context.Notificaciones.Where(n => n.IdUsuario == idUsuario).ToList();
                 return notificaciones;
             }
             catch (Exception)
@@ -88,6 +88,68 @@ namespace LogicaAccesoDatos.EF
 
                 throw;
             }
+        }
+
+        public Notificacion GetNotificacionMasRecienteDeUsuario(int idUsuario) {
+            try
+            {
+                if (idUsuario == 0) { throw new NullOrEmptyException("no se recibio id de usuario"); }
+                IEnumerable<Notificacion> notificaciones = new List<Notificacion>();
+                notificaciones = _context.Notificaciones.Where(n => n.IdUsuario == idUsuario).OrderByDescending(n => n.fecha).ToList();
+                if (notificaciones.Count() > 0)
+                {
+
+                    Notificacion notificacion = notificaciones.First();
+                    return notificacion;
+                }
+                
+                return null;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
+        
+        }
+
+        public ParametrosNotificaciones GetParametrosRecordatorios() {
+
+            try
+            {
+                ParametrosNotificaciones parametros = _context.ParametrosRecordatorios.FirstOrDefault(p => p.Id == 1);
+                if (parametros == null) {
+                    throw new NotFoundException("Algo salio mal con los recordatorios");
+                }
+                return parametros;
+            }
+            catch (NotFoundException)
+            {
+
+                throw;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public void ActualizarParametrosRecordatorios(ParametrosNotificaciones nuevosParametros) {
+            try
+            {
+                nuevosParametros.Validar();
+                _context.Update(nuevosParametros);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+                
+        
         }
     }
 }

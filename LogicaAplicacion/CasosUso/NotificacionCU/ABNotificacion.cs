@@ -40,5 +40,9 @@ namespace LogicaAplicacion.CasosUso.NotificacionCU
             }
         }
 
+        public void ActualizarParametros(ParametrosNotificaciones param) { 
+            _repo.ActualizarParametrosRecordatorios(param);
+        }
+
     }
 }

@@ -3,6 +3,26 @@
 
 // Write your JavaScript code.
 
+
+document.querySelector('#navbar-toggler').addEventListener("click", navBarMobile)
+
+function navBarMobile(){
+    var iconoNavCerrado = document.querySelector('#iconoNavCerrado');
+    var iconoNavAbierto = document.querySelector('#iconoNavAbierto');
+
+
+    if (iconoNavCerrado.classList.contains('hidden')) {
+        iconoNavCerrado.classList.remove('hidden')
+        iconoNavAbierto.classList.add('hidden')
+    } else {
+
+        iconoNavCerrado.classList.add('hidden')
+        iconoNavAbierto.classList.remove('hidden')
+
+    }
+}
+
+
 const urlBase64ToUint8Array = base64String => {
     const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
     const base64 = (base64String + padding)
@@ -29,6 +49,8 @@ async function suscribirse(){
     await requestNotificationPermission()
     let reg = await registerSW()
 
+    await delay(500);
+
     if (reg.installing) {
         console.log('Service worker installing');
     } else if (reg.waiting) {
@@ -43,6 +65,7 @@ async function suscribirse(){
                     subscribeUser(reg);
                 }
             })
+    
 }
 async function subscribeUser(swReg) {
     const applicationServerKey = urlBase64ToUint8Array("BKbHbSWuzzAuiXHQ9iS1yVSI0uly-gzp-EKLr-qQOaYFsMlMfP4_TybiwMxNc7oeln31U9MXdIQlMCQ68-51sT0");
@@ -53,10 +76,12 @@ async function subscribeUser(swReg) {
         .then(function (subscription) {
             console.log('Usuario suscrito:', subscription);
             guardarNotificacionServidor(subscription);
+            verSiEsconderMensajeNotificacion();
         })
         .catch(function (error) {
             console.error('Error al suscribir al usuario', error);
         });
+       
 }
 
 
@@ -74,6 +99,7 @@ const checkPermission = () => {
 const registerSW = async () => {
     const registration = await navigator.serviceWorker.register('../js/sw.js');
     return registration;
+    
 }
 const requestNotificationPermission = async () => {
     const permission = await Notification.requestPermission();
@@ -101,6 +127,29 @@ const requestNotificationPermission = async () => {
 
 
 }
-const hideNotificationBlock =() =>{
+const hideNotificationBlock = () =>{
     document.getElementById("notificationBlock").style.display = "none";
+}
+
+async function verSiEsconderMensajeNotificacion() {
+
+    if ('serviceWorker' in navigator && 'PushManager' in window) {
+
+        let regs = await navigator.serviceWorker.getRegistrations();
+
+        if (regs.length != 0) {
+            let reg = regs[0]
+            reg.pushManager.getSubscription().then(function (subscription) {
+                if (subscription) {
+                    hideNotificationBlock();
+                }
+            })
+
+        }
+
+    }
+}
+
+function delay(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
 }
