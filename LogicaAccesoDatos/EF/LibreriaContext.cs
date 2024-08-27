@@ -48,6 +48,7 @@ namespace LogicaAccesoDatos.EF
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //precarga del totem
             var totemInstance = Totem.Instance;
             modelBuilder.Entity<Totem>().HasData(new Totem
             {
@@ -56,6 +57,7 @@ namespace LogicaAccesoDatos.EF
                 NombreUsuario = totemInstance.NombreUsuario,
                 Contrasenia = totemInstance.Contrasenia
             });
+            //precarga del medico
             var medicoInstance = Medico.Instance;
             modelBuilder.Entity<Medico>().HasData(new Medico
             {
@@ -64,6 +66,7 @@ namespace LogicaAccesoDatos.EF
                 NombreUsuario = medicoInstance.NombreUsuario,
                 Contrasenia = medicoInstance.Contrasenia
             });
+            //precarga del Administrador
             modelBuilder.Entity<Administrador>().HasData(new Administrador
             {
                 Id = 3,
@@ -72,6 +75,23 @@ namespace LogicaAccesoDatos.EF
                 Contrasenia = "Admin123"
             });
 
+            //precarga del Recepcionistas
+            modelBuilder.Entity<Recepcionista>().HasData(new Recepcionista
+            {
+                Id = 4,
+                Nombre = "Maria",
+                NombreUsuario = "Maria",
+                Contrasenia = "Maria123"
+            });
+            modelBuilder.Entity<Recepcionista>().HasData(new Recepcionista
+            {
+                Id = 5,
+                Nombre = "Laura",
+                NombreUsuario = "Laura",
+                Contrasenia = "Laura123"
+            });
+
+            //precarga de parametros notificacion
             var parametrosInstance = ParametrosNotificaciones.GetInstancia();
             modelBuilder.Entity<ParametrosNotificaciones>().HasData(new ParametrosNotificaciones
             {
@@ -80,6 +100,7 @@ namespace LogicaAccesoDatos.EF
                 CadaCuantoEnviarRecordatorio = parametrosInstance.CadaCuantoEnviarRecordatorio
             });
 
+            //precarga de categorias de preguntas
             modelBuilder.Entity<CategoriaPregunta>().HasData(
             new CategoriaPregunta
             {
@@ -107,7 +128,7 @@ namespace LogicaAccesoDatos.EF
                 Id = 4,
                 Respuesta = "El centro de la fundación Teletón ubicado en Montevideo, se encuentra en Carlos Brussa 2854, en el Barrio Prado. Y el centro Teletón de la ciudad de Fray Bentos, se encuentra en la dirección Zorrilla de San Martín 1484.",
                 Categoria = "ubicacion",
-                Descripcion = "Preguntas que solicitan la direccion de la Teletón"
+                Descripcion = "Preguntas que solicitan la dirección de la Teletón"
             },
             new CategoriaPregunta
             {
@@ -121,22 +142,16 @@ namespace LogicaAccesoDatos.EF
                 Id = 6,
                 Respuesta = "Los materiales que deben llevar el niño/adolescente varían según su tratamiento del día, para mas información escriba el nombre de su tratamiento y le enviaremos mas información.",
                 Categoria = "materiales_generales",
-                Descripcion = "Preguntas relacionadas a con que materiales basicos deben contar a la hora de presentarse a cualquier cita medica"
+                Descripcion = "Preguntas relacionadas a con que materiales básicos deben contar a la hora de presentarse a cualquier cita medica"
             },
             new CategoriaPregunta
             {
                 Id = 7,
                 Respuesta = "Las alcancías se comienzan a entregar aproximadamente un mes antes del comienzo del Programa Teletón. Todos los usuarios tienen derecho a llevar 1 alcancía, presentando la cédula en el área de voluntariado. ubicada en el Centro Teletón. Si necesitas más de 1 alcancía, en el área de voluntariado le podrán dar más información para gestionarla.",
                 Categoria = "alcancias",
-                Descripcion = "Preguntas relacionadas a las alcancias"
+                Descripcion = "Preguntas relacionadas a las alcancías"
             },
-            new CategoriaPregunta
-            {
-                Id = 8,
-                Respuesta = "Enseguida le enviamos su historia clinica",
-                Categoria = "historia_clinica",
-                Descripcion = "Preguntas relacionadas a la historia clinica de los pacientes"
-            },
+            
             new CategoriaPregunta
             {
                 Id = 9,
@@ -163,11 +178,63 @@ namespace LogicaAccesoDatos.EF
                 Id = 12,
                 Respuesta = "Enseguida le enviaremos la información de la solicitud del tratamiento",
                 Categoria = "tratamiento_info",
-                Descripcion = "Preguntas que solicitan informacion de los diferentes tratamientosii"
+                Descripcion = "Preguntas que solicitan informacion de los diferentes tratamientos"
             }
             );
+            modelBuilder.Entity<PreguntaFrec>().HasData(
+            new PreguntaFrec
+            {
+                Id = 1,
+                Pregunta = "¿Quienes deben acompañar al niño el día de la evaluación?",
+                CategoriaPreguntaId = 2,
+                MostrarEnTotem = true
 
-            modelBuilder.ApplyConfiguration(new UsuarioConfiguration());//aca valido que no se repitan nombres de usuario
+            },
+            new PreguntaFrec
+            {
+                Id = 2,
+                Pregunta = "¿Que es la evaluación de ingreso?",
+                CategoriaPreguntaId = 1,
+                MostrarEnTotem = true
+            },
+            new PreguntaFrec
+            {
+                Id = 3,
+                Pregunta = "¿Es posible comer en el centro?",
+                CategoriaPreguntaId = 3,
+                MostrarEnTotem = true
+            },
+            new PreguntaFrec
+            {
+                Id = 4,
+                Pregunta = "¿Dónde se ubica el centro Teletón?",
+                CategoriaPreguntaId = 4,
+                MostrarEnTotem = true
+            },
+            new PreguntaFrec
+            {
+                Id = 5,
+                Pregunta = "¿Cómo hago para donar?",
+                CategoriaPreguntaId = 5,
+                MostrarEnTotem = true
+            },
+            new PreguntaFrec
+            {
+                Id = 6,
+                Pregunta = "¿Qué cosas necesita llevar el responsable del niño a la cita?",
+                CategoriaPreguntaId = 6,
+                MostrarEnTotem = true
+            },
+             new PreguntaFrec
+             {
+                 Id = 7,
+                 Pregunta = "¿Cuál es el protocolo para las alcancías?",
+                 CategoriaPreguntaId = 7,
+                 MostrarEnTotem = true
+             }
+            ); ;
+
+           modelBuilder.ApplyConfiguration(new UsuarioConfiguration());//aca valido que no se repitan nombres de usuario
             base.OnModelCreating(modelBuilder);
            
 

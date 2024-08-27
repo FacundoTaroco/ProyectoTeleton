@@ -1,4 +1,4 @@
-﻿
+﻿//Maneja la logica del client-side del alta de preguntas frecuentes
 
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelector("#txtRespuesta").disabled = true;

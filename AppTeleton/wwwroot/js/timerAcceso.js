@@ -1,4 +1,6 @@
-﻿const idleTimeout =60; // Tiempo de inactividad en segundos (1 minuto)
+﻿//Archivo que gestiona la tarea de cerrar acceso automaticamente del totem cuando un paciente lleva mas de 60 segundos inactivo
+
+const idleTimeout = 60; // Tiempo de inactividad en segundos (1 minuto)
 let timer; // Variable para el temporizador
 let timeLeft = idleTimeout; // Variable para el tiempo restante inicializada con idleTimeout
 

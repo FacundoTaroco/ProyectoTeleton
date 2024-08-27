@@ -1,11 +1,11 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿//Archivo utilizado junto al service worker (sw.js) para la gestion de notificaciones y permisos y algunas funcionalidades generales de la aplicacion
 
-// Write your JavaScript code.
+
 
 
 document.querySelector('#navbar-toggler').addEventListener("click", navBarMobile)
 
+//Funcion del navbar responisve
 function navBarMobile(){
     var iconoNavCerrado = document.querySelector('#iconoNavCerrado');
     var iconoNavAbierto = document.querySelector('#iconoNavAbierto');
@@ -23,6 +23,8 @@ function navBarMobile(){
 }
 
 
+
+//funcion para convertir datos
 const urlBase64ToUint8Array = base64String => {
     const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
     const base64 = (base64String + padding)
@@ -39,15 +41,17 @@ const urlBase64ToUint8Array = base64String => {
 
     return outputArray;
 }
+
 function base64Encode(arrayBuffer) {
     return btoa(String.fromCharCode.apply(null, new Uint8Array(arrayBuffer)))
 }
 
 
+//Funcion para suscribirse al servicio de notificaciones de la aplicacion
 async function suscribirse(){
-    checkPermission()
-    await requestNotificationPermission()
-    let reg = await registerSW()
+    checkPermission() //verifica que la aplicacion cuente con los permisos necesarios
+    await requestNotificationPermission() //Solicita permiso de notificaciones
+    let reg = await registerSW() //Registra el service worker
 
     await delay(500);
 
@@ -62,11 +66,13 @@ async function suscribirse(){
         reg.pushManager.getSubscription()
             .then(function (subscription) {
                 if (subscription == null) {
-                    subscribeUser(reg);
+                    subscribeUser(reg); //suscribe al usuario
                 }
             })
     
 }
+
+//funcion para suscribir a los usuarios al servicio de notificaciones
 async function subscribeUser(swReg) {
     const applicationServerKey = urlBase64ToUint8Array("BKbHbSWuzzAuiXHQ9iS1yVSI0uly-gzp-EKLr-qQOaYFsMlMfP4_TybiwMxNc7oeln31U9MXdIQlMCQ68-51sT0");
     swReg.pushManager.subscribe({
@@ -113,7 +119,7 @@ const requestNotificationPermission = async () => {
 
 
 
-
+//Envia el dispositivo con sus credenciales al back-end para ser guardado
     const guardarNotificacionServidor = (suscripcion) => {
 
         let p256dh = base64Encode(suscripcion.getKey('p256dh'));
@@ -127,10 +133,13 @@ const requestNotificationPermission = async () => {
 
 
 }
-const hideNotificationBlock = () =>{
+
+//esconde el formulario solicitando permiso de notificaciones
+function hideNotificationBlock (){
     document.getElementById("notificationBlock").style.display = "none";
 }
 
+//Verifica si el usuario ya se suscribio al servicio de notificaciones para saber si mostrar los formularios
 async function verSiEsconderMensajeNotificacion() {
 
     if ('serviceWorker' in navigator && 'PushManager' in window) {
@@ -153,3 +162,16 @@ async function verSiEsconderMensajeNotificacion() {
 function delay(time) {
     return new Promise(resolve => setTimeout(resolve, time));
 }
+
+//mostrar contraseña login
+document.querySelector("#checkboxMostrarContra").addEventListener("change", function () {
+    let campoContra = document.querySelector("#contrasenia");
+
+    if (this.checked) {
+        campoContra.setAttribute('type', 'text');
+
+    } else {
+        campoContra.setAttribute('type', 'password');
+    }
+
+});

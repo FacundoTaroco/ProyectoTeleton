@@ -1,4 +1,6 @@
-﻿"use strict";
+﻿//Maneja la logica para actualizar el listado de pacientes de medicos en tiempo real cada vez que un nuevo paciente accede al totem de recepcion.
+
+"use strict";
 
 
 

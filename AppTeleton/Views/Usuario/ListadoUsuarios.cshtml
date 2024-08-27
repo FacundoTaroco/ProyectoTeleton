@@ -84,11 +84,12 @@
     <form asp-action="ActualizarPacientes" method="post">
 
         <div class="form-group">
-            <input type="submit" value="Actualizar Pacientes" class="btn btn-primary" />
+            <input type="submit" value="Actualizar Pacientes" class="btn btn-danger" />
         </div>
 
     </form>
-    <table class="table">
+   
+    <table class="table tablaUsuarios">
         <thead>
             <tr>
                 <th>
@@ -113,6 +114,7 @@
             </tr>
         </thead>
         <tbody>
+          
             @foreach (var item in Model.Pacientes)
             {
                 <tr>
@@ -134,16 +136,18 @@
 
                     <td>
                        
-                            
-                         @Html.ActionLink("Cambiar Contraseña", "Perfil", new { idUsuario =item.Id })
+                         @Html.ActionLink("Cambiar Contraseña", "Perfil", new { idUsuario =item.Id }) <br>
 
                         @Html.ActionLink("Ver Citas", "IndexFiltro", "Citas", new { cedula = item.Cedula })
 
                     </td>
                 </tr>
             }
-        </tbody>
-    </table>
+           
+            </tbody>
+       
+        </table>
+  
 }
 
 @if (ViewBag.TipoUsuario == TipoUsuario.Recepcionista)
@@ -153,12 +157,12 @@
     {
         <form asp-action="AgregarRecepcionista" asp-controller="Administrador" method="get">
             <div class="form-group">
-                <input type="submit" value="Crear Recepcionista" class="btn btn-primary" />
+                <input type="submit" value="Crear Recepcionista" class="btn btn-danger" />
             </div>
         </form>
     }
 
-    <table class="table">
+    <table class="table tablaUsuarios">
         <thead>
             <tr>
                 <th>
@@ -208,7 +212,7 @@
 {
     <h1>Medico</h1>
 
-    <table class="table">
+    <table class="table tablaUsuarios">
         <thead>
             <tr>
                 <th>
@@ -259,11 +263,11 @@
     {
         <form asp-action="AgregarAdmin" asp-controller="Administrador" method="get">
             <div class="form-group">
-                <input type="submit" value="Crear Administrador" class="btn btn-primary" />
+                <input type="submit" value="Crear Administrador" class="btn btn-danger" />
             </div>
         </form>
     }
-    <table class="table">
+    <table class="table tablaUsuarios">
         <thead>
             <tr>
                 <th>
@@ -314,8 +318,8 @@
 {
 
     <h1>Totem</h1>
-   
-    <table class="table">
+
+    <table class="table tablaUsuarios">
         <thead>
             <tr>
                 <th>
