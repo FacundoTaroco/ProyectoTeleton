@@ -1,5 +1,5 @@
 ﻿
-
+//Teclado virtual que se muestra en la vista de Cerrar sesion totem
 
 let mayusculas = false;
 

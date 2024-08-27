@@ -10,6 +10,8 @@ document.querySelector("#txtCedulaTotem").addEventListener("focus", mostrarTecla
 
 
 
+//Teclado virtual que se muestra en la vista de Index Totem
+
 let botones = document.querySelectorAll(".tecladoNumero");
 
 

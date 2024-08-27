@@ -1,4 +1,7 @@
-﻿"use strict";
+﻿//Maneja la logica para actualizar el listado de citas de administradores y recepcionistas en tiempo real cada vez que un nuevo paciente accede al totem de recepcion.
+
+
+"use strict";
 
 
 
@@ -14,6 +17,7 @@ conexion.start().then(function () {
 })
 conexion.on("ActualizarListado", function (listadoActualizado) {
 
+    //Recibe la inidcacion de que un usuario accedio al totem y debe actualizarse el listado
 
     for (let i = 0; i < listadoActualizado.length; i++) {
         let cita = listadoActualizado[i];

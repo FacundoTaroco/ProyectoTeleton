@@ -4,11 +4,11 @@
     {
         if (ViewBag.TipoMensaje == "ERROR")
         {
-            <div class="alert alert-danger mensaje" role="alert">@ViewBag.Mensaje</div>
+                                    <div class="alert alert-danger mensaje" role="alert">@ViewBag.Mensaje</div>
         }
         else if (ViewBag.TipoMensaje == "EXITO")
         {
-            <div class="alert alert-success mensaje" role="alert">@ViewBag.Mensaje</div>
+                                    <div class="alert alert-success mensaje" role="alert">@ViewBag.Mensaje</div>
         }
 
     }
@@ -32,6 +32,10 @@
                     <input id="contrasenia" name="contrasenia" class="form-control" type="password"  required>
                     <label for="contrasenia">Contraseña</label>
                </div>
+
+              <div class="d-flex flex-row justify-content-start gap-2 mostrarContrasenia">
+                <input type="checkbox" id="checkboxMostrarContra" />Mostrar Contraseña
+            </div>
           
             <input class="btn mt-1" type="submit" value="Entrar">
             
@@ -40,4 +44,5 @@
         </div>
         </div>
 
-    
+
+       

@@ -1,4 +1,6 @@
-﻿"use strict";
+﻿//Archivo que gestiona las funcionalidades en tiempo real y comunicacion de los chats con el back-end
+
+"use strict";
 
 
 
@@ -10,7 +12,9 @@ var ultimoMensajeEnviado = "";
 mostrarBarraTexto();
 
 
+//cuando el backend detecta que se le envio un mensaje al usuario
 conexion.on("MensajeRecibido", function (user, userDestino, mensaje, isFinal, paraPaciente) {
+
 
     document.querySelector("#tituloUsuario").innerHTML = user;
 
@@ -29,6 +33,7 @@ conexion.on("MensajeRecibido", function (user, userDestino, mensaje, isFinal, pa
 })
 
 
+//Funcion para cerrar un chat 
 function CerrarChat() {
 
     let userRecibe = document.querySelector("#txtUsuarioRecibe").value;
@@ -40,6 +45,8 @@ function CerrarChat() {
     })
 
 }
+
+//Funcion para cerrar un chat 
 conexion.on("CerrarChatEnVivo", function () {
 
     document.getElementById("txtMensaje").value = "Este chat se cerro";
@@ -47,6 +54,7 @@ conexion.on("CerrarChatEnVivo", function () {
     document.getElementById("btnEnviar").style.display = "none";
 })
 
+//Se recibe del back-end que se debe activar el formulario de asistencia personalizada
 conexion.on("MostrarBotoneraAsistencia", function () {
     mostrarBotonesAsistenciaPersonalizada();
 })
@@ -58,10 +66,8 @@ conexion.start().then(function () {
 })
 
 
+//Enviar un mensaje
 document.getElementById("btnEnviar").addEventListener("click", function (e) {
-
-
-
 
     let userManda = document.querySelector("#txtUsuarioManda").value;
     let userRecibe = document.querySelector("#txtUsuarioRecibe").value;
@@ -90,6 +96,8 @@ document.getElementById("btnEnviar").addEventListener("click", function (e) {
                        
 })
 
+
+//Funcion para realizar el entrenamiento asistido del modelo de IA, activa funcionalidades del back-end
 function feedBackNegativo() {
     let userManda = document.querySelector("#txtUsuarioManda").value;
  
@@ -106,6 +114,7 @@ function feedBackNegativo() {
 
 }
 
+//Funcion para realizar el entrenamiento asistido del modelo de IA, activa funcionalidades del back-end
 function feedBackPositivo() {
 
     let userManda = document.querySelector("#txtUsuarioManda").value;
@@ -120,6 +129,8 @@ function feedBackPositivo() {
     })
 }
 
+
+//Funcion para activar la asistencia personalizada, activa funcionalidades del back-end
 function SolicitarRecepcionista() {
   
     let userManda = document.querySelector("#txtUsuarioManda").value;

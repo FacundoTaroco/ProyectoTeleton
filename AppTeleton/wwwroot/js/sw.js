@@ -1,4 +1,7 @@
-﻿
+﻿//Service worker
+
+
+//Funcion para cuando se clickea una notificacion push
 self.onnotificationclick = (event) => {
     event.stopImmediatePropagation();
     event.notification.close();
@@ -19,6 +22,8 @@ self.onnotificationclick = (event) => {
     );
 };
 
+
+//Funcion que detecta cuando se tiene que enviar una notificacion push
 self.addEventListener('push', e => {
 
     if (!(self.Notification && self.Notification.permission === 'granted')) {

@@ -1,4 +1,6 @@
-﻿"use strict";
+﻿//Gestion de los llamados en tiempo real
+
+"use strict";
 var conexion = new signalR.HubConnectionBuilder().withUrl("/PantallaLLamados").build();
 
 let ListaLLamados = [];
@@ -12,6 +14,8 @@ conexion.start().then(function () {
 })
 
 
+
+//Se recibe desde el back-end el nuevo llamado realizado
 conexion.on("NuevoLlamado", function (llamado) {
 
 
@@ -28,7 +32,7 @@ conexion.on("NuevoLlamado", function (llamado) {
 })
 
 
-
+//Genera el llamado
 async function generarLlamado() {
 
    
@@ -39,6 +43,7 @@ async function generarLlamado() {
 
 
 
+//Muestra el listado actualizado de llamados
 function mostrarListado() {
 
   
@@ -56,6 +61,8 @@ function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+
+//Activa el sonido de los llamados
 function reproducirAudio() {
     var audio = document.querySelector("#audioLLamada");
     audio.play();

@@ -1,6 +1,10 @@
-﻿
+﻿//Archivo que gestiona muchas de las funcionalidades del chat 
+
+
 var pacienteChat = "";
 var mensajesConAudio = false;
+
+//Recargar la vista haciendo un http request
 function ActualizarPagina() {
     
     let form = document.getElementById("formularioRecargarPagina");
@@ -10,6 +14,8 @@ function ActualizarPagina() {
 
 document.querySelector("#btnAbrirListadoChats").addEventListener("click", AbrirListadoChatsMobile);
 
+
+//Abrir el listado de chats cuando el dispositivo que esta usando la app es mobile
 function AbrirListadoChatsMobile() {
     let contenedorListadoChats = document.querySelector("#contenedorListadoChats")
     let contenedorChat = document.querySelector("#contenedorChat")
@@ -25,6 +31,8 @@ function AbrirListadoChatsMobile() {
 
 document.querySelector("#btnAbrirChat").addEventListener("click", AbrirChatActivoMobile);
 
+
+//Abrir el chat cuando el dispositivo que esta usando la app es mobile
 function AbrirChatActivoMobile() {
     let contenedorChat = document.querySelector("#contenedorChat")
     let contenedorListadoChats = document.querySelector("#contenedorListadoChats")
@@ -38,6 +46,8 @@ function AbrirChatActivoMobile() {
 
 
 document.querySelector("#btnAudio").addEventListener("click", ActivarAudio);
+
+//Activa la sintesis de los mensajes recibidos(Texto a audio) 
 function ActivarAudio() {
 
     if (mensajesConAudio == true) {
@@ -51,6 +61,8 @@ function ActivarAudio() {
     }
 }
 
+
+//Funcion que permite cargar un chat que se recibe desde el back-end
 function cargarChat(chat, tipoUsuario) {
 
     if (chat.Abierto == false) {
@@ -95,10 +107,12 @@ function cargarChat(chat, tipoUsuario) {
 
 }
 
+
+//Inserta un mensaje recibido
 function insertarMensajeRecibido(fechaRecibida, user, mensaje) {
     let fecha = new Date(fechaRecibida);
     let dia = fecha.getDate();
-    let mes = fecha.toLocaleString('es-ES', { month: 'long' }); // Nombre del mes en español
+    let mes = fecha.toLocaleString('es-ES', { month: 'long' }); 
     let hora = fecha.getHours();
     let minutos = fecha.getMinutes().toString().padStart(2, '0');
     let fechaString = `${dia} de ${mes}, ${hora}:${minutos}`
@@ -127,7 +141,7 @@ function insertarMensajeRecibido(fechaRecibida, user, mensaje) {
 
 
 
-
+//Sintesis del mensaje(Texto a audio)
 function reproducirMensaje(mensaje) {
     window.speechSynthesis.cancel();
     const audio = new SpeechSynthesisUtterance(mensaje);
@@ -141,7 +155,7 @@ function reproducirMensaje(mensaje) {
 
 
 
-
+//Inserta un mensaje enviado
 function insertarMensajeMandado(fechaRecibida, userManda, mensaje) {
     let fecha = new Date(fechaRecibida);
     let dia = fecha.getDate();
@@ -171,7 +185,7 @@ function insertarMensajeMandado(fechaRecibida, userManda, mensaje) {
 }
 
 
-
+//Oculta el campo de texto del chat y Muestra el formulario de "¿Le sirvio la respuesta?"
 function mostrarBotonesFeedback() {
 
 
@@ -183,6 +197,7 @@ function mostrarBotonesFeedback() {
     document.getElementById("btnEnviar").style.display = "none";
 }
 
+//Oculta cualquier formulario y muestra el campo de texto del chat
 function mostrarBarraTexto() {
 
     document.getElementById("botoneraFeedback").style.display = "none";
@@ -192,6 +207,7 @@ function mostrarBarraTexto() {
     document.getElementById("btnEnviar").style.display = "block";
 }
 
+//Oculta el campo de texto del chat y Muestra el formulario de "¿Quiere solicitar ayuda personalizada?"
 function mostrarBotonesAsistenciaPersonalizada() {
     document.getElementById("botoneraAsistencia").style.display = "block";
 
@@ -201,6 +217,7 @@ function mostrarBotonesAsistenciaPersonalizada() {
 }
 
 
+//Carga el listado de chats cerrados
 function cargarListadoChatsCerrados() {
 
     let chatsLi = document.querySelectorAll(".liChats");

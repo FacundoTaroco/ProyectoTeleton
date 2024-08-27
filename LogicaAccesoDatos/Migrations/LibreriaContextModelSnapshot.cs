@@ -100,7 +100,7 @@ namespace LogicaAccesoDatos.Migrations
                         {
                             Id = 4,
                             Categoria = "ubicacion",
-                            Descripcion = "Preguntas que solicitan la direccion de la Teletón",
+                            Descripcion = "Preguntas que solicitan la dirección de la Teletón",
                             Respuesta = "El centro de la fundación Teletón ubicado en Montevideo, se encuentra en Carlos Brussa 2854, en el Barrio Prado. Y el centro Teletón de la ciudad de Fray Bentos, se encuentra en la dirección Zorrilla de San Martín 1484."
                         },
                         new
@@ -114,22 +114,15 @@ namespace LogicaAccesoDatos.Migrations
                         {
                             Id = 6,
                             Categoria = "materiales_generales",
-                            Descripcion = "Preguntas relacionadas a con que materiales basicos deben contar a la hora de presentarse a cualquier cita medica",
+                            Descripcion = "Preguntas relacionadas a con que materiales básicos deben contar a la hora de presentarse a cualquier cita medica",
                             Respuesta = "Los materiales que deben llevar el niño/adolescente varían según su tratamiento del día, para mas información escriba el nombre de su tratamiento y le enviaremos mas información."
                         },
                         new
                         {
                             Id = 7,
                             Categoria = "alcancias",
-                            Descripcion = "Preguntas relacionadas a las alcancias",
+                            Descripcion = "Preguntas relacionadas a las alcancías",
                             Respuesta = "Las alcancías se comienzan a entregar aproximadamente un mes antes del comienzo del Programa Teletón. Todos los usuarios tienen derecho a llevar 1 alcancía, presentando la cédula en el área de voluntariado. ubicada en el Centro Teletón. Si necesitas más de 1 alcancía, en el área de voluntariado le podrán dar más información para gestionarla."
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Categoria = "historia_clinica",
-                            Descripcion = "Preguntas relacionadas a la historia clinica de los pacientes",
-                            Respuesta = "Enseguida le enviamos su historia clinica"
                         },
                         new
                         {
@@ -156,7 +149,7 @@ namespace LogicaAccesoDatos.Migrations
                         {
                             Id = 12,
                             Categoria = "tratamiento_info",
-                            Descripcion = "Preguntas que solicitan informacion de los diferentes tratamientosii",
+                            Descripcion = "Preguntas que solicitan informacion de los diferentes tratamientos",
                             Respuesta = "Enseguida le enviaremos la información de la solicitud del tratamiento"
                         });
                 });
@@ -378,6 +371,57 @@ namespace LogicaAccesoDatos.Migrations
                     b.HasIndex("CategoriaPreguntaId");
 
                     b.ToTable("PreguntasFrec");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoriaPreguntaId = 2,
+                            MostrarEnTotem = true,
+                            Pregunta = "¿Quienes deben acompañar al niño el día de la evaluación?"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoriaPreguntaId = 1,
+                            MostrarEnTotem = true,
+                            Pregunta = "¿Que es la evaluación de ingreso?"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoriaPreguntaId = 3,
+                            MostrarEnTotem = true,
+                            Pregunta = "¿Es posible comer en el centro?"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoriaPreguntaId = 4,
+                            MostrarEnTotem = true,
+                            Pregunta = "¿Dónde se ubica el centro Teletón?"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoriaPreguntaId = 5,
+                            MostrarEnTotem = true,
+                            Pregunta = "¿Cómo hago para donar?"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CategoriaPreguntaId = 6,
+                            MostrarEnTotem = true,
+                            Pregunta = "¿Qué cosas necesita llevar el responsable del niño a la cita?"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CategoriaPreguntaId = 7,
+                            MostrarEnTotem = true,
+                            Pregunta = "¿Cuál es el protocolo para las alcancías?"
+                        });
                 });
 
             modelBuilder.Entity("LogicaNegocio.Entidades.RespuestaEquivocada", b =>
@@ -486,6 +530,22 @@ namespace LogicaAccesoDatos.Migrations
                     b.HasBaseType("LogicaNegocio.Entidades.Usuario");
 
                     b.HasDiscriminator().HasValue("Recepcionista");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 4,
+                            Contrasenia = "Maria123",
+                            Nombre = "Maria",
+                            NombreUsuario = "Maria"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Contrasenia = "Laura123",
+                            Nombre = "Laura",
+                            NombreUsuario = "Laura"
+                        });
                 });
 
             modelBuilder.Entity("LogicaNegocio.Entidades.Totem", b =>

@@ -1,6 +1,13 @@
 ﻿
+//Front-end de la vista de preguntas en el Totem
 
 function toggleAnswer(id) {
+
+    let preguntas = document.querySelectorAll(".faq-answer")
+    for (let i = 0; i < preguntas.length; i++) {
+        preguntas[i].classList.remove('show');
+    } 
+
     var answer = document.getElementById('answer-' + id);
     if (answer.classList.contains('show')) {
         window.speechSynthesis.cancel();
