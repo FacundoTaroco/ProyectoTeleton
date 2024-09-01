@@ -4,9 +4,11 @@ using LogicaAplicacion.CasosUso.EncuestaCU;
 using LogicaAplicacion.CasosUso.PacienteCU;
 using LogicaNegocio.Entidades;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 
 namespace AppTeleton.Controllers
 {
+    //controller que gestiona las acciones de las encuestas
     public class EncuestaController : Controller
     {
         private AgregarEncuesta _agregarEncuesta;
@@ -29,12 +31,13 @@ namespace AppTeleton.Controllers
         public IActionResult Create() {
             return View();
         }
+        //Crear una encuesta
         [HttpPost]
         public IActionResult Create(Encuesta encuesta, string nombreUsuario) {
 
             try
             {
-                if (encuesta.Comentarios == null) {
+                if (String.IsNullOrEmpty(encuesta.Comentarios)) {
                     encuesta.Comentarios = "Sin comentarios";
                 }
                 encuesta.agregarFecha();
@@ -60,6 +63,7 @@ namespace AppTeleton.Controllers
             return RedirectToAction("Index", "Citas");
         }
 
+        //Visualizar los datos de encuestas
         [HttpGet]
         [RecepcionistaAdminLogueado]
         public IActionResult VisualizarDatosEncuestas() {
@@ -90,10 +94,13 @@ namespace AppTeleton.Controllers
 
         [HttpPost]
         [RecepcionistaAdminLogueado]
+        //Filtro para visualizar los datos de encuestas entre dos fechas
         public IActionResult VisualizarDatosEncuestasFechaFiltro(DateTime fechaInicio, DateTime fechaFin)
         {
             try
             {
+                
+
                 if (fechaFin.Equals(DateTime.MinValue)) { 
                     fechaFin = DateTime.MaxValue;
                 }
@@ -123,6 +130,7 @@ namespace AppTeleton.Controllers
 
         [HttpGet]
         [RecepcionistaAdminLogueado]
+        //detalles de una encuesta
         public IActionResult Detalles(int id) {
             try
             {

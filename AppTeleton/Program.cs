@@ -20,6 +20,8 @@ using AppTeleton.Hubs;
 using LogicaAplicacion.CasosUso.ChatCU;
 using System.Text.Json.Serialization;
 using LogicaAplicacion.CasosUso.EncuestaCU;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -121,8 +123,19 @@ builder.Services.AddHostedService<CargarPacientesWorker>();
 builder.Services.AddHostedService<NotificacionesAutomaticasWorker>();
 builder.Services.AddHostedService<EnviarEncuestasWorker>();
 
+var defaultCulture = new CultureInfo("es-AR"); 
+defaultCulture.DateTimeFormat.ShortDatePattern = "dd/MM/yyyy";
+
+var localizationOptions = new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture(defaultCulture),
+    SupportedCultures = new List<CultureInfo> { defaultCulture },
+    SupportedUICultures = new List<CultureInfo> { defaultCulture }
+};
 
 var app = builder.Build();
+
+app.UseRequestLocalization(localizationOptions);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

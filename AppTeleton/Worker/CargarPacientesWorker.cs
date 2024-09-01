@@ -8,6 +8,7 @@ namespace AppTeleton.Worker
 
         private readonly ILogger<CargarPacientesWorker> _logger;
         private readonly IServiceProvider _serviceProvider;
+         private Timer _timer;
         public CargarPacientesWorker(ILogger<CargarPacientesWorker> logger, IServiceProvider serviceProvider)
         {
             _logger = logger;
@@ -16,31 +17,45 @@ namespace AppTeleton.Worker
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            //todos los dias a las 11pm se tiene que verificar si se ingresaron pacientes nuevos al servidor central y cargarlos en la aplicacion
+            DateTime _fecha = DateTime.UtcNow;
+            TimeZoneInfo zonaHoraria = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
+            DateTime fechaHoy = TimeZoneInfo.ConvertTimeFromUtc(_fecha, zonaHoraria);
+            DateTime primerLlamado = new DateTime(fechaHoy.Year, fechaHoy.Month, fechaHoy.Day, 23, 00, 0);
 
-            while (!stoppingToken.IsCancellationRequested)
+            if (fechaHoy > primerLlamado)
             {
-
-                using (IServiceScope scope = _serviceProvider.CreateScope()) {
-                    ActualizarPacientes _actualizarPacientes = scope.ServiceProvider.GetRequiredService<ActualizarPacientes>();
-
-                    try
-                    {
-                        await _actualizarPacientes.Actualizar();
-                        Console.WriteLine("Pacientes Actualizados con exito");
-                    }
-                    catch (Exception)
-                    {
-
-                        Console.WriteLine("Fallo de comunicacion con la api");
-                    }
-                    
-                    //delay en milisegundos entre que se ejecuta una tarea y otra
-                    await Task.Delay(/*86400000*/400000, stoppingToken);
-                }
-
-
-                
+                primerLlamado = primerLlamado.AddDays(1);
             }
+
+            var delayInicial = primerLlamado - fechaHoy;
+            _timer = new Timer(CargarPacientes, null, delayInicial, TimeSpan.FromHours(24));
+
+        }
+
+        private async void CargarPacientes(object state) {
+
+            using (IServiceScope scope = _serviceProvider.CreateScope())
+            {
+                ActualizarPacientes _actualizarPacientes = scope.ServiceProvider.GetRequiredService<ActualizarPacientes>();
+
+                try
+                {
+                    await _actualizarPacientes.Actualizar();
+                    Console.WriteLine("Pacientes Actualizados con exito");
+                }
+                catch (Exception)
+                {
+
+                    Console.WriteLine("Fallo de comunicacion con la api");
+                }
+            }
+        }
+
+        public override void Dispose()
+        {
+            _timer?.Dispose();
+            base.Dispose();
         }
     }
 }

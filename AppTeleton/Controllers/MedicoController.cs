@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace AppTeleton.Controllers
 {
-   
+   //Controller que gestiona las acciones de los usuarios de tipo medico
     public class MedicoController : Controller
     {
         private GetCitas _getCitas;
@@ -21,6 +21,7 @@ namespace AppTeleton.Controllers
             _pantallaLlamados = pantallaLLamados;
        
         }
+        //Accion principal
         [MedicoLogueado]
         public async Task<IActionResult> Index()
         {
@@ -42,6 +43,7 @@ namespace AppTeleton.Controllers
         }
 
 
+        //realizar llamados a consultorios
         [HttpPost]
         public async Task<IActionResult> RealizarLLamado(string nombre, string cedula, string consultorio) {
             try

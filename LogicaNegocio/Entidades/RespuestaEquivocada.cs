@@ -14,7 +14,6 @@ namespace LogicaNegocio.Entidades
 
 
 
-        // esto mas adelpublic Dictionary<string, object> EntidadesAsignadas { get; set; }
 
     }
 }

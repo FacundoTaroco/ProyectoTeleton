@@ -16,11 +16,12 @@ using System.Web;
 
 namespace LogicaAplicacion.Servicios
 {
+    //Servicio que gestiona toda la comunicacion y funcionalidades relacionadas a Wit AI
     public class ChatBotService
     {
         private string linkAPI = "https://api.wit.ai";
         private string Token = "535ZGAHWV62GJSIM55I3FYZYG7Z67U4S";
-        private string Version = "20240722";
+        private string Version = "20240830";
 
         private GetPreguntasFrec _getPreguntasFrec;
         private GeolocalizacionService _geolocalizacionService;
@@ -33,7 +34,7 @@ namespace LogicaAplicacion.Servicios
         }
 
 
-
+        //Genera la respuesta del chatbot
         public string Responder(string mensaje)
         {
 
@@ -73,7 +74,7 @@ namespace LogicaAplicacion.Servicios
                 }
                 if (intent.Equals("cita")) {
                   
-                    return $"<a href='https://localhost:7051/Citas/Index'>Presione aqui para ver las citas que tiene agendadas<a>";
+                    return $"<a href='https://appteletonrecepcion.azurewebsites.net/Citas/Index'>Presione aquí para ver las citas que tiene agendadas<a>";
                 
                 }
 
@@ -164,7 +165,7 @@ namespace LogicaAplicacion.Servicios
             };
             if (response.Content == null)
             {
-                throw new Exception("Error de comunicacion con la api");//ESTO EXPLOTA SI LLEGA
+                throw new Exception("Error de comunicacion con la api");
             }
             HttpStatusCode res = response.StatusCode;
             if (res == HttpStatusCode.OK)
@@ -186,7 +187,7 @@ namespace LogicaAplicacion.Servicios
         {
             var options = new RestClientOptions(linkAPI);
             var client = new RestClient(options);
-            var request = new RestRequest("/event?v=20240719&session_id=prodgwe&context_map=%7B%7D", Method.Post);
+            var request = new RestRequest("/event?v=20240830&session_id=prodtlq&tag=version_produccion&context_map=%7B%7D", Method.Post);
             //request.AddHeader("Content-Type", "application/json");
             request.AddHeader("Authorization", $"Bearer {Token}");
 
@@ -205,7 +206,7 @@ namespace LogicaAplicacion.Servicios
 
             if (response.Content == null)
             {
-                throw new Exception("Error de comunicación con la API");//ESTO EXPLOTA SI LLEGA
+                throw new Exception("Error de comunicación con la API");
             }
 
             HttpStatusCode res = response.StatusCode;
@@ -217,7 +218,7 @@ namespace LogicaAplicacion.Servicios
             else
             {
                 Error error = JsonSerializer.Deserialize<Error>(response.Content, optionsJson);
-                throw new Exception("Error " + error.Code + " " + error.Details);//ESTO EXPLOTA SI LLEGA
+                throw new Exception("Error " + error.Code + " " + error.Details);
             }
         }
        
@@ -240,7 +241,7 @@ namespace LogicaAplicacion.Servicios
 
             if (response.Content == null)
             {
-                throw new Exception("Error de comunicacion con la api");//ESTO EXPLOTA SI LLEGA
+                throw new Exception("Error de comunicacion con la api");
             }
             HttpStatusCode res = response.StatusCode;
             if (res == HttpStatusCode.OK)
@@ -276,7 +277,7 @@ namespace LogicaAplicacion.Servicios
 
             if (response.Content == null)
             {
-                throw new Exception("Error de comunicacion con la api"); //ESTO EXPLOTA SI LLEGA
+                throw new Exception("Error de comunicacion con la api"); 
             }
             HttpStatusCode res = response.StatusCode;
             if (res == HttpStatusCode.OK)
@@ -287,7 +288,7 @@ namespace LogicaAplicacion.Servicios
             else
             {
                 Error error = JsonSerializer.Deserialize<Error>(response.Content, optionsJson);
-                throw new Exception("Error " + error.Code + " " + error.Details);//ESTO EXPLOTA SI LLEGA
+                throw new Exception("Error " + error.Code + " " + error.Details);
             }
         }
 
@@ -322,12 +323,12 @@ namespace LogicaAplicacion.Servicios
             HttpStatusCode res = response.StatusCode;
             if (res == HttpStatusCode.OK || res == HttpStatusCode.Created)
             {
-              //ACA LLEGA LA RESPUESTA BOOL DE SI SE ENTRENO VER QUE HACER DESPUES CON ESO
+             
             }
             else
             {
                 Error error = JsonSerializer.Deserialize<Error>(response.Content, optionsJson);
-                throw new Exception("Error " + error.Code + " " + error.Details);//ESTO EXPLOTA SI LLEGA
+                throw new Exception("Error " + error.Code + " " + error.Details);
             }
         }
 

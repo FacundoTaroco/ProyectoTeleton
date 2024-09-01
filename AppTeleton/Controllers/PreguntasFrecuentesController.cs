@@ -15,7 +15,7 @@ namespace AppTeleton.Controllers
         private readonly GetPreguntasFrec _getPreguntasFrec;
         private readonly ChatBotService _chatBotService;
 
-
+        //Controller que gestiona las diferentes acciones de las preguntas frecuentes de la aplicacion
         public PreguntasFrecuentesController(ChatBotService chatBotService, GetPreguntasFrec getPreguntasFrec, ABMPreguntasFrec abmPreguntasFrec)
         {
             _getPreguntasFrec = getPreguntasFrec;
@@ -24,6 +24,7 @@ namespace AppTeleton.Controllers
         }
 
 
+        //Listado de preguntas frecuentes para administradores y recepcionistas
         [RecepcionistaAdminLogueado]
         public IActionResult PreguntasFrecuentes()
         {
@@ -32,6 +33,7 @@ namespace AppTeleton.Controllers
             return View(modelo);
         }
 
+        //borrar pregunta frecuente por id
         public IActionResult Delete(int id)
         {
             try
@@ -45,6 +47,7 @@ namespace AppTeleton.Controllers
             }
         }
 
+        //Carga la vista para crear una nueva pregunta frecuente
         [RecepcionistaAdminLogueado]
         [HttpGet]
         public IActionResult Create()
@@ -62,6 +65,7 @@ namespace AppTeleton.Controllers
          
         }
 
+        //Crea una nueva pregunta frecuente y/o una categoria 
         [RecepcionistaAdminLogueado]
         [HttpPost]
         public IActionResult Create(string pregunta,string isChecked, string categoriaSeleccionada, string categoriaNueva ,  string respuesta, string categoriaNuevaDescripcion, bool paraTotem)
@@ -69,7 +73,7 @@ namespace AppTeleton.Controllers
             try
             {
 
-                IEnumerable<CategoriaPregunta> Categorias = _getPreguntasFrec.GetCategorias();
+                IEnumerable<CategoriaPregunta> Categorias = _getPreguntasFrec.GetCategorias(); //Se obtienen todas las categorias de preguntas
 
                 if (isChecked == "on") //En caso de que quiera crear una nueva categoria
                 {
@@ -84,7 +88,7 @@ namespace AppTeleton.Controllers
                         throw new Exception("Ya existe una categoria con ese nombre, porfavor ingrese otro");
                     }
 
-                    //primero tenemos que crear la nueva categoria, guardarla y enviarla como intent a wit
+                    //primero tenemos que crear la nueva categoria, guardarla y enviarla como intent a wit ai
                     CategoriaPregunta nuevaCategoria = new CategoriaPregunta(categoriaNueva, respuesta, categoriaNuevaDescripcion);
                     _abmPreguntasFrec.AltaCategoria(nuevaCategoria);
 
@@ -98,7 +102,7 @@ namespace AppTeleton.Controllers
                     PreguntaFrec preguntaNueva = new PreguntaFrec(pregunta, categoria, paraTotem);
                     _abmPreguntasFrec.AltaPreguntaFrec(preguntaNueva);
 
-                    //enviamos la pregunta como utterance a wit para que se entrene
+                    //enviamos la pregunta como utterance(frase de entrenamiento) a wit ai para que se entrene
 
                     Utterance utterance = new Utterance();
                     utterance.text = pregunta;
@@ -125,7 +129,7 @@ namespace AppTeleton.Controllers
                     PreguntaFrec preguntaNueva = new PreguntaFrec(pregunta, categoria,paraTotem);
                     _abmPreguntasFrec.AltaPreguntaFrec(preguntaNueva);
 
-                    //enviamos la pregunta como utterance a wit para que se entrene
+                    //enviamos la pregunta como utterance a wit ai para que se entrene
                     
                     Utterance utterance = new Utterance();
                     utterance.text = pregunta;
@@ -155,7 +159,7 @@ namespace AppTeleton.Controllers
 
        
 
-
+        //Detalles de una pregunta frecuente
         [RecepcionistaAdminLogueado]
         public IActionResult Detalle(int id)
         {

@@ -7,9 +7,11 @@ using LogicaAplicacion.Excepciones;
 using LogicaNegocio.DTO;
 using LogicaNegocio.Entidades;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 
 namespace AppTeleton.Controllers
 {
+    //Controller para gestionar las diferentes acciones relacionadas a las citas medicas
     public class CitasController : Controller
     {
 
@@ -23,7 +25,8 @@ namespace AppTeleton.Controllers
             _getNotificacion = getNotificacion;
         }
 
-        [RecepcionistaAdminPacienteLogueado]
+        //carga la vista principal con diferencias segun el rol de usuario que solicita la accion
+        [RecepcionistaAdminPacienteLogueado] //filtro de usuarios
         public async Task<IActionResult> Index()
         {
             try
@@ -84,6 +87,7 @@ namespace AppTeleton.Controllers
             }
         }
 
+        //carga los detalles de una cita
         [HttpGet]
         public async Task<IActionResult> Detalles(int pkAgenda) {
 
@@ -108,6 +112,7 @@ namespace AppTeleton.Controllers
 
         }
 
+        //filtro de citas por nombre, fecha de inicio y fecha de fin
 
         [RecepcionistaAdminLogueado]
         public async Task<IActionResult> IndexFiltro(string nombre,string cedula, DateTime fechaInicio, DateTime fechaFin)
@@ -121,6 +126,8 @@ namespace AppTeleton.Controllers
             DateTime _fechaHoy = DateTime.UtcNow;
             TimeZoneInfo zonaHoraria = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
             DateTime hoyGMT = TimeZoneInfo.ConvertTimeFromUtc(_fechaHoy, zonaHoraria);
+
+              
 
                 if (String.IsNullOrEmpty(cedula))
                 {

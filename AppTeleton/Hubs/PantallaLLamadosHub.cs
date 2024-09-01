@@ -6,6 +6,7 @@ namespace AppTeleton.Hubs
 {
     public class PantallaLLamadosHub:Hub
     {
+        //Actualiza en tiempo real la pantalla de llamados medicos
         public async Task Send(LLamado llamado)
         {
 

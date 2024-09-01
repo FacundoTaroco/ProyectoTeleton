@@ -58,7 +58,7 @@ namespace LogicaNegocio.Entidades
         }
         public void Validar()
         {
-            //Implementar
+            
         }
     }
 }

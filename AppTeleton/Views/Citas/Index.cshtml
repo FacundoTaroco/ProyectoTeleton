@@ -139,6 +139,8 @@ else
         </tr>
     </thead>
     <tbody>
+       
+      
         @foreach (var item in Model.citasPorFecha)
         {
 
@@ -201,8 +203,14 @@ else
             </tr>
             }
         }
+       
     </tbody>
 </table>
+@if (Model.citasPorFecha.Count() == 0)
+
+{
+    <h3>No se encontraron citas agendadas</h3>
+}
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -211,12 +219,12 @@ else
 
 <script>
     flatpickr("#fechaFiltroInicio", {
-        dateFormat: "d/m/Y H:i",
+        dateFormat: "d/m/Y",
         enableTime: false
     });
 
     flatpickr("#fechaFiltroFin", {
-        dateFormat: "d/m/Y H:i",
+        dateFormat: "d/m/Y",
         enableTime: false
     });
 </script>

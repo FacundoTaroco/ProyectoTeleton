@@ -14,6 +14,7 @@ using LogicaNegocio.DTO;
 
 namespace AppTeleton.Controllers
 {
+    //controller que maneja las acciones relacionadas al chat
 
     public class ChatController : Controller
     {
@@ -34,8 +35,9 @@ namespace AppTeleton.Controllers
             _getRecepcionistas = getRecepcionistas; 
             _abmChat = abmChat;
         }
-        [PacienteRecepcionistaLogueado]
+        [PacienteRecepcionistaLogueado] //Filtro para evitar que usuarios que no sean de los roles permitidos accedan a la vista
         [HttpGet]
+        //carga vista prinicpal del chat tanto para pacientes como para administradores
         public IActionResult Chat()
         {
             try
@@ -46,36 +48,41 @@ namespace AppTeleton.Controllers
             ViewBag.TipoUsuario = tipo;
             int idUsuario = 0;
             IEnumerable<Chat> chatsListado = new List<Chat>();
-                if (tipo == "PACIENTE")
+                if (tipo == "PACIENTE") //carga la vista para pacientes
                 {
-                    Paciente paciente = _getPacientes.GetPacientePorUsuario(usuario);
+                    Paciente paciente = _getPacientes.GetPacientePorUsuario(usuario); //obtiene el paciente
                     idUsuario = paciente.Id;
-                    if (_getChats.PacienteTieneChatAbierto(idUsuario))
+                    if (_getChats.PacienteTieneChatAbierto(idUsuario)) //verifica si el paciente tiene un chat abierto
                     {
-                        Chat chatAbierto =  _getChats.GetChatAbiertoDePaciente(idUsuario);
+                        Chat chatAbierto =  _getChats.GetChatAbiertoDePaciente(idUsuario); //obtiene el chat abierto del paciente
                         if (chatAbierto._Recepcionista == null)
                         {
+                            //si el chat no se da con ninguna recepcionista entonces se selecciona al chatbot
                             ViewBag.UsuarioRecibe = "CHATBOT";
                         }
                         else {
+                            //Si el chat es con una recepcionista entonces se carga el nombre de esta
                             ViewBag.UsuarioRecibe = chatAbierto._Recepcionista.NombreUsuario;
                         }
+                        //Se pasa el chat para cargarlo directamente en el codigo javascript
                         ViewBag.ChatCargar = chatAbierto;
                     }
                     else
                     {
+                        //si no tiene ningun chat abierto el paciente entonces se le crea uno con el chatbot seleccionado por defecto
                         ViewBag.UsuarioRecibe = "CHATBOT";
                         ViewBag.ChatCargar = new Chat(paciente);
                     }
-
+                    //todos los chats cerrados del paciente
                     chatsListado = _getChats.GetChatsDePaciente(idUsuario);
                 }
-                else if (tipo == "RECEPCIONISTA") {
-                    Recepcionista recepcionista = _getRecepcionistas.GetRecepcionistaPorUsuario(usuario);
+                else if (tipo == "RECEPCIONISTA") {//una recepcionista entra a la vista del chat
+
+                    Recepcionista recepcionista = _getRecepcionistas.GetRecepcionistaPorUsuario(usuario); // se obtiene la recepcionista
                     idUsuario = recepcionista.Id;
-                    IEnumerable<Chat> chatsRecepcionista = _getChats.GetChatsDeRecepcionista(idUsuario);
-                    IEnumerable<Chat> chatsSinAsistencia = _getChats.GetChatsQueSolicitaronAsistenciaNoAtendidos();
-                    chatsListado = chatsRecepcionista.Concat(chatsSinAsistencia);
+                    IEnumerable<Chat> chatsRecepcionista = _getChats.GetChatsDeRecepcionista(idUsuario); //todos los chats de la recepcionista
+                    IEnumerable<Chat> chatsSinAsistencia = _getChats.GetChatsQueSolicitaronAsistenciaNoAtendidos(); //todos los chats que solicitaron asistencia pero no fueron tomados por ninguna recepcionista
+                    chatsListado = chatsRecepcionista.Concat(chatsSinAsistencia); //se juntan ambas listas de chats
 
                     ViewBag.ChatCargar = new Chat();
                 }
@@ -96,6 +103,7 @@ namespace AppTeleton.Controllers
 
         [PacienteRecepcionistaLogueado]
         [HttpGet]
+        //Carga un chat cerrado o un chat que haya solicitado asistencia segun el tipo de usuario que solicite la accion
         public IActionResult CargarChatCerrado(int idChat) {
 
             string usuario = HttpContext.Session.GetString("USR");
@@ -104,11 +112,11 @@ namespace AppTeleton.Controllers
             ViewBag.TipoUsuario = HttpContext.Session.GetString("TIPO");
             IEnumerable<Chat> chatsListado = new List<Chat>();
 
-            if (HttpContext.Session.GetString("TIPO") == "PACIENTE")
+            if (HttpContext.Session.GetString("TIPO") == "PACIENTE") //un paciente carga un chat cerrado
             {
                 Paciente paciente = _getPacientes.GetPacientePorUsuario(usuario);
                 idUsuario = paciente.Id;
-                Chat chatACargar = _getChats.GetChatPorId(idChat);
+                Chat chatACargar = _getChats.GetChatPorId(idChat); //se obtiene el chat por id
                 if (chatACargar._Recepcionista == null)
                 {
                     ViewBag.UsuarioRecibe = "CHATBOT";
@@ -117,21 +125,21 @@ namespace AppTeleton.Controllers
                 {
                     ViewBag.UsuarioRecibe = chatACargar._Recepcionista.NombreUsuario;
                 }
-                ViewBag.ChatCargar = chatACargar;
+                ViewBag.ChatCargar = chatACargar; //se manda el chat para ser cargado desde el codigo Javascript
                 chatsListado = _getChats.GetChatsDePaciente(idUsuario);
 
             }
-            else if (HttpContext.Session.GetString("TIPO") == "RECEPCIONISTA") {
+            else if (HttpContext.Session.GetString("TIPO") == "RECEPCIONISTA") {//una recepcionista carga un chat que solicito asistencia
 
                 Recepcionista recepcionista = _getRecepcionistas.GetRecepcionistaPorUsuario(usuario);
                 idUsuario = recepcionista.Id;
                 IEnumerable<Chat> chatsRecepcionista = _getChats.GetChatsDeRecepcionista(idUsuario);
                 IEnumerable<Chat> chatsSinAsistencia = _getChats.GetChatsQueSolicitaronAsistenciaNoAtendidos();
 
-                Chat chatActivo = _getChats.GetChatPorId(idChat);
-                if (chatActivo._Recepcionista == null) {
+                Chat chatActivo = _getChats.GetChatPorId(idChat); //se obtiene el chat por id
+                if (chatActivo._Recepcionista == null) { 
 
-                    chatActivo._Recepcionista = recepcionista;
+                    chatActivo._Recepcionista = recepcionista;//Si no fue tomado por ninguna recepcionista entonces se le asigna a la recepcionista que lo solicito
                     _abmChat.Actualizar(chatActivo);
                     
                 }
@@ -148,6 +156,7 @@ namespace AppTeleton.Controllers
 
         [RecepcionistaAdminLogueado]
         [HttpGet]
+        //vista de administracion del chatbot para entrenamiento asistido negativo
         public async Task<IActionResult> AdministracionBot()
         {
 
@@ -173,6 +182,7 @@ namespace AppTeleton.Controllers
 
         [RecepcionistaAdminLogueado]
         [HttpPost]
+        //manda una frase de entrenamiento al chatbot cuando se agrega una pregunta frecuente
         public async Task<IActionResult> AgregarUtterance(string input, string intentname, int idRespuesta) {
 
             try
@@ -202,6 +212,7 @@ namespace AppTeleton.Controllers
         }
         [RecepcionistaAdminLogueado]
         [HttpPost]
+        //elimina un mensaje equivocado en la vista de administrar chatbot
         public IActionResult EliminarMensajeEquivocado(int idMensaje) {
             try
             {

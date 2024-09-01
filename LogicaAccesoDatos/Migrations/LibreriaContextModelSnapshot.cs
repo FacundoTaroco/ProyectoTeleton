@@ -252,6 +252,208 @@ namespace LogicaAccesoDatos.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Encuestas");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Comentarios = "Excelente atención, pero la aplicación podría ser más intuitiva.",
+                            Fecha = new DateTime(2024, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SatisfaccionAplicacion = 4,
+                            SatisfaccionEstadoDelCentro = 5,
+                            SatisfaccionGeneral = 5,
+                            SatisfaccionRecepcion = 4
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Comentarios = "Buen servicio, pero la recepción fue un poco lenta.",
+                            Fecha = new DateTime(2024, 8, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SatisfaccionAplicacion = 5,
+                            SatisfaccionEstadoDelCentro = 4,
+                            SatisfaccionGeneral = 3,
+                            SatisfaccionRecepcion = 3
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Comentarios = "Todo bien, la atención fue muy rápida.",
+                            Fecha = new DateTime(2024, 8, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SatisfaccionAplicacion = 4,
+                            SatisfaccionEstadoDelCentro = 4,
+                            SatisfaccionGeneral = 4,
+                            SatisfaccionRecepcion = 5
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Comentarios = "Podría mejorar la señalización dentro del centro.",
+                            Fecha = new DateTime(2024, 8, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SatisfaccionAplicacion = 4,
+                            SatisfaccionEstadoDelCentro = 3,
+                            SatisfaccionGeneral = 2,
+                            SatisfaccionRecepcion = 2
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Comentarios = "Sin comentarios",
+                            Fecha = new DateTime(2024, 8, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SatisfaccionAplicacion = 5,
+                            SatisfaccionEstadoDelCentro = 5,
+                            SatisfaccionGeneral = 5,
+                            SatisfaccionRecepcion = 5
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Comentarios = "Muy satisfecho con la aplicación y el servicio.",
+                            Fecha = new DateTime(2024, 8, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SatisfaccionAplicacion = 5,
+                            SatisfaccionEstadoDelCentro = 4,
+                            SatisfaccionGeneral = 4,
+                            SatisfaccionRecepcion = 4
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Comentarios = "Sin comentarios",
+                            Fecha = new DateTime(2024, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SatisfaccionAplicacion = 4,
+                            SatisfaccionEstadoDelCentro = 3,
+                            SatisfaccionGeneral = 3,
+                            SatisfaccionRecepcion = 3
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Comentarios = "El personal fue muy amable y atento.",
+                            Fecha = new DateTime(2024, 8, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SatisfaccionAplicacion = 5,
+                            SatisfaccionEstadoDelCentro = 5,
+                            SatisfaccionGeneral = 4,
+                            SatisfaccionRecepcion = 4
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Comentarios = "Sin comentarios",
+                            Fecha = new DateTime(2024, 8, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SatisfaccionAplicacion = 4,
+                            SatisfaccionEstadoDelCentro = 5,
+                            SatisfaccionGeneral = 5,
+                            SatisfaccionRecepcion = 5
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Comentarios = "Sin comentarios",
+                            Fecha = new DateTime(2024, 8, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SatisfaccionAplicacion = 5,
+                            SatisfaccionEstadoDelCentro = 4,
+                            SatisfaccionGeneral = 4,
+                            SatisfaccionRecepcion = 3
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Comentarios = "Todo estuvo perfecto, ¡gracias!",
+                            Fecha = new DateTime(2024, 8, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SatisfaccionAplicacion = 5,
+                            SatisfaccionEstadoDelCentro = 5,
+                            SatisfaccionGeneral = 5,
+                            SatisfaccionRecepcion = 5
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Comentarios = "La aplicación funcionó bien, pero el estado del centro podría mejorar.",
+                            Fecha = new DateTime(2024, 8, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SatisfaccionAplicacion = 4,
+                            SatisfaccionEstadoDelCentro = 3,
+                            SatisfaccionGeneral = 3,
+                            SatisfaccionRecepcion = 4
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Comentarios = "Sin comentarios",
+                            Fecha = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SatisfaccionAplicacion = 4,
+                            SatisfaccionEstadoDelCentro = 4,
+                            SatisfaccionGeneral = 4,
+                            SatisfaccionRecepcion = 4
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Comentarios = "Una experiencia excelente en todos los aspectos.",
+                            Fecha = new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SatisfaccionAplicacion = 5,
+                            SatisfaccionEstadoDelCentro = 5,
+                            SatisfaccionGeneral = 5,
+                            SatisfaccionRecepcion = 5
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Comentarios = "Mejoraría la señalización del centro.",
+                            Fecha = new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SatisfaccionAplicacion = 5,
+                            SatisfaccionEstadoDelCentro = 4,
+                            SatisfaccionGeneral = 4,
+                            SatisfaccionRecepcion = 4
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Comentarios = "La aplicación fue útil, pero el tiempo de espera en recepción fue largo.",
+                            Fecha = new DateTime(2024, 8, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SatisfaccionAplicacion = 4,
+                            SatisfaccionEstadoDelCentro = 4,
+                            SatisfaccionGeneral = 3,
+                            SatisfaccionRecepcion = 3
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Comentarios = "Una experiencia muy positiva, ¡gracias al equipo!",
+                            Fecha = new DateTime(2024, 8, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SatisfaccionAplicacion = 5,
+                            SatisfaccionEstadoDelCentro = 5,
+                            SatisfaccionGeneral = 5,
+                            SatisfaccionRecepcion = 5
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Comentarios = "La atención fue buena, aunque el centro estaba un poco desordenado.",
+                            Fecha = new DateTime(2024, 8, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SatisfaccionAplicacion = 4,
+                            SatisfaccionEstadoDelCentro = 3,
+                            SatisfaccionGeneral = 4,
+                            SatisfaccionRecepcion = 4
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Comentarios = "La aplicación funcionó perfectamente, pero la atención podría mejorar.",
+                            Fecha = new DateTime(2024, 8, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SatisfaccionAplicacion = 5,
+                            SatisfaccionEstadoDelCentro = 4,
+                            SatisfaccionGeneral = 3,
+                            SatisfaccionRecepcion = 4
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Comentarios = "Todo fue excelente, la atención fue rápida y eficiente.",
+                            Fecha = new DateTime(2024, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SatisfaccionAplicacion = 5,
+                            SatisfaccionEstadoDelCentro = 5,
+                            SatisfaccionGeneral = 5,
+                            SatisfaccionRecepcion = 5
+                        });
                 });
 
             modelBuilder.Entity("LogicaNegocio.Entidades.Mensaje", b =>

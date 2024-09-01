@@ -36,7 +36,7 @@ namespace LogicaNegocio.Entidades
 
         public void Validar()
         {
-           //IMPLEMENTAR VALIDAR NOTIFICACIONES
+       
         }
     }
 }
