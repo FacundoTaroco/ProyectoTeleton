@@ -36,8 +36,8 @@ namespace LogicaNegocio.Entidades
         public void Validar()
         {
             if (CadaCuantoEnviarRecordatorio < 1) {
-                //EXCEPTION PERSONALIZADA
-                throw new Exception("Los recordatorios pueden enviarse como minimo con un dia de antelacion, ingrese un numero mayor a 0");
+           
+                throw new Exception("Los recordatorios pueden enviarse como mínimo con un dia de antelación, ingrese un numero mayor a 0");
             }
         }
     }

@@ -26,8 +26,9 @@ html {
     position: relative;
     min-height: 100%;
     background-image: url("../images/fondoApp.jpg");
-    background-size: revert;
+    background-size: cover;
     background-repeat: no-repeat;
+    background-attachment: fixed;
     background-color: #D2D2D2;
 }
 
@@ -65,10 +66,19 @@ padding:0 !important;
     
 }
 /*FIN LAYOUT*/
+
+/*PREGUNTAS FREC*/
+
+.tablaPreguntasFrec {
+    border:2px solid black;
+    background-color: lightgray;
+    font-weight:600
+}
+/*FIN PREGUNTAS FREC*/
 /*LOGIN*/
 .contenedorLogin {
     margin: 0 auto;
-    background-color:white;
+    background-color: white;
 }
 
 .form-group {
@@ -222,11 +232,10 @@ padding:0 !important;
 }
 
 .fondoTotem {
-
-
     background-image: url("../images/fondoTotem.png");
     background-size: cover;
     background-repeat: no-repeat;
+    background-attachment:fixed;
     height: 100vh;
 }
 
@@ -355,7 +364,7 @@ font-weight:600;
     text-align: center;
     font-size: 2.5em;
     color: white;
-    text-shadow: -3px -3px 0 black, 3px -3px 0 black, -3px 3px 0 black, 3px 3px 0 black, 0px -3px 0 black, 0px 3px 0 black, -3px 0px 0 black, 3px 0px 0 black; /* Sombra para cada dirección, creando un borde de 3px */
+    text-shadow: -3px -3px 0 black, 3px -3px 0 black, -3px 3px 0 black, 3px 3px 0 black, 0px -3px 0 black, 0px 3px 0 black, -3px 0px 0 black, 3px 0px 0 black; 
 }
 
 .tablaCitasTotem {
@@ -1128,10 +1137,11 @@ text {
             .filaBodyTablaAgenda td {
                 display: flex;
                 gap: 20px;
-                background-color: rgba(231,55,67,0.8);
+                background-color: white;
                 font-size: 1.3em !important;
                 font-weight: 700;
-                border: 2px solid white;
+                border: 2px solid #e73743;
+                box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.5);
             }
 
                 .filaBodyTablaAgenda td:first-child {

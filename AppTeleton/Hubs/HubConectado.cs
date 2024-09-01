@@ -9,7 +9,7 @@ using LogicaNegocio.EntidadesWit;
 using Microsoft.AspNetCore.SignalR;
 
 namespace AppTeleton.Hubs
-{
+{//ESTA CLASE MANEJA TODA LA LOGICA EN TIEMPO REAL DEL CHAT 
     public class HubConectado:Hub
     {
         private ChatBotService _chatBot;
@@ -30,6 +30,7 @@ namespace AppTeleton.Hubs
         _enviarNotificacion = enviarNotificacion;
         }
 
+        //Un usuario se conecta a la vista de chat
         public override Task OnConnectedAsync()
         {
 
@@ -39,7 +40,7 @@ namespace AppTeleton.Hubs
             
             return base.OnConnectedAsync(); 
         }
-
+        //Un usuario se desconecta a la vista de chat
         public override Task OnDisconnectedAsync(Exception? exception)
         {
             string usr = Context.GetHttpContext().Session.GetString("USR");
@@ -47,11 +48,12 @@ namespace AppTeleton.Hubs
             return base.OnDisconnectedAsync(exception); 
         }
 
+        //Funcion que manda mensajes en tiempo real
         public async Task SendMessage(string userManda, string userRecibe, string message) {
 
             string idConexion = "";
         
-            ActualizarChats(userManda, userRecibe, message);
+            ActualizarChats(userManda, userRecibe, message); //Actualiza el chat en la base de datos
 
             if (_getPacientes.ExistePaciente(userManda))
             {
@@ -68,30 +70,23 @@ namespace AppTeleton.Hubs
                         idConexion = UsuariosConectados.GetIdConexionDeUsuario(userManda);
                     if (!String.IsNullOrEmpty(idConexion))
                     { 
-                    /*MensajeBotDTO mensaje = new MensajeBotDTO("message", message);
-                        Evento evento = _chatBot.PostEvent(mensaje);
+                  
 
+                        string respuestaFinal = _chatBot.Responder(message); //Obtenemos la respuesta del chatbot a partir del mensaje enviado
 
-                        string respuesta = evento.response.text;*/
-
-                        string respuestaFinal = _chatBot.Responder(message);
-
-                        /* MensajeRespuesta mensajeGetMessage = _chatBot.GetMessage(message);
-                         //Aca por ahora con esto detectamos que el bot no reconocio la pregunta, faltaria hacerlo de forma generica(sin esperar un determinado texto)
-                         //y ademas detectar cuando se equivoco segun el feedback de la persona(para mas adelante)*/
-
-                        if (respuestaFinal == "Reescriba la pregunta, por favor.")
+                     
+                        if (respuestaFinal == "Reescriba la pregunta, por favor.") //El chatbot no supo responder
                         {
 
-                            RespuestaEquivocada respuestaEquivocada = new RespuestaEquivocada();
+                            RespuestaEquivocada respuestaEquivocada = new RespuestaEquivocada(); //Generamos una respuesta Equivocada
                             respuestaEquivocada.IntentAsignado = "";
                             respuestaEquivocada.Input = message;
-                            _ABrespuestasEquivocadas.Agregar(respuestaEquivocada);
-                            AumentarIndiceReintento(userManda);
+                            _ABrespuestasEquivocadas.Agregar(respuestaEquivocada); //agregamos la respuesta equivocada
+                            AumentarIndiceReintento(userManda); //Aumentamos el indice de reintento, es decir la cantidad de veces que se equivoco el chat
 
                         }
-                        ActualizarChats(userRecibe, userManda, respuestaFinal);
-                        await Clients.Client(idConexion).SendAsync("MensajeRecibido", "CHATBOT", userRecibe, respuestaFinal, true, true);
+                        ActualizarChats(userRecibe, userManda, respuestaFinal); //Actualizamos el chat en la base de datos
+                        await Clients.Client(idConexion).SendAsync("MensajeRecibido", "CHATBOT", userRecibe, respuestaFinal, true, true); //Generamos la respuesta en tiempo real
                     
                     }
 
@@ -137,13 +132,8 @@ namespace AppTeleton.Hubs
             
 
         }
-        //se asume que es el chat con el bot mas adelante cuando se implemente recepcionista ver
-        //si el mensaje fue bien respondido entonces se carga la utterance para aumentar el porcentaje de confianza
-        //y ademas se cierra el chat ya que fue resuelta la consulta
-
-
-        //VER QUE HACER CON LAS ENTITIES
-
+      
+        //Cerrar un chat de paciente
         public async Task CerrarChat(string userPaciente) {
 
             Paciente paciente = _getPacientes.GetPacientePorUsuario(userPaciente);
@@ -161,6 +151,7 @@ namespace AppTeleton.Hubs
             }
         }
 
+        //Funcion para entrenar positivamente al chatbot si este respondio bien la consulta
         public async Task FeedBackPositivo(string mensaje, string user) {
 
             Paciente paciente = _getPacientes.GetPacientePorUsuario(user);
@@ -170,32 +161,38 @@ namespace AppTeleton.Hubs
             Chat chatPaciente = _getChats.GetChatAbiertoDePaciente(paciente.Id);
             chatPaciente.Abierto = false;
             _abChat.Actualizar(chatPaciente);
-
+            //Volvemos a obtener la respuesta
             MensajeRespuesta mensajeGetMessage = _chatBot.GetMessage(mensaje);
 
+            //Cargamos la informacion de entrenamiento
             Utterance utterance = new Utterance();
             utterance.text = mensaje;
-            utterance.intent = mensajeGetMessage.Intents.First().name; //VALIDAR QUE NO SEA NULO
+            if (mensajeGetMessage.Intents.Count() > 0 && mensajeGetMessage.Intents.First() != null) { 
+               utterance.intent = mensajeGetMessage.Intents.First().name; 
+            }
             utterance.traits = new List<UtteranceTrait>();
             utterance.entities = new List<UtteranceEntity>();
-
             List<Utterance> utterances = new List<Utterance> { utterance };
 
+            //Enviamos la frase de entrenamiento a wit ai
             _chatBot.PostUtterance(utterances);
         }
 
         //en caso de que el feedback sea negativo(no le sirvio la resuesta) se manda a la pestaña de administracion para ser revisada
         public async Task FeedBackNegativo(string mensaje, string userManda) {
 
-            AumentarIndiceReintento(userManda);
+            AumentarIndiceReintento(userManda); //Aumentamos la cantidad de veces que el chatbot se equivoco
             MensajeRespuesta mensajeGetMessage = _chatBot.GetMessage(mensaje);
             RespuestaEquivocada respuestaEquivocada = new RespuestaEquivocada();
-            respuestaEquivocada.IntentAsignado = mensajeGetMessage.Intents.First().name; //VALIDAR NO NULO
+            if (mensajeGetMessage.Intents.Count() > 0 && mensajeGetMessage.Intents.First() != null)
+            {  respuestaEquivocada.IntentAsignado = mensajeGetMessage.Intents.First().name;
+            }
             respuestaEquivocada.Input = mensaje;
             _ABrespuestasEquivocadas.Agregar(respuestaEquivocada);
 
         }
 
+        //Se ejecuta cuando un usuario solicita asistencia personalizada
         public async Task SolicitarAsistenciaPersonalizada(string userManda)
         {
 
@@ -203,21 +200,22 @@ namespace AppTeleton.Hubs
             if (_getPacientes.ExistePaciente(userManda))
             {
                 Paciente paciente = _getPacientes.GetPacientePorUsuario(userManda);
-                _enviarNotificacion.EnviarATodosRecepcion("Solicitud de asistencia", paciente.Nombre + " esta solicitando asistencia personalizada por chat", "https://localhost:7051/Chat/Chat");
+                //Enviamos la notificacion de asistencia a las recepcionistas
+                _enviarNotificacion.EnviarATodosRecepcion("Solicitud de asistencia", paciente.Nombre + " esta solicitando asistencia personalizada por chat", "https://appteletonrecepcion.azurewebsites.net/Chat/Chat");
                 if (_getChats.PacienteTieneChatAbierto(paciente.Id))
                 {
                     //SI el paciente tiene un chat abierto lo actualiza
                     Chat chat = _getChats.GetChatAbiertoDePaciente(paciente.Id);
-                    Mensaje mensaje = new Mensaje("Una recepcionista lo atendera por esta u otra via lo antes posible, recuerde que el horario de atencion personalizada es de 8am hasta las 5pm", "CHATBOT");
+                    Mensaje mensaje = new Mensaje("Una recepcionista lo atenderá por esta u otra via lo antes posible, recuerde que el horario de atención personalizada es de 8am hasta las 5pm", "CHATBOT");
                     chat.AgregarMensajeBotRecepcion(mensaje);
-                    chat.AsistenciaAutomatica = false;
+                    chat.AsistenciaAutomatica = false; //desactiva el chatbot
                     _abChat.Actualizar(chat);
                 }
 
             }
         }
 
-
+        //Aumentamos la cantidad de veces que el chatbot se equivoco
         public void AumentarIndiceReintento(string userManda) {
 
             if (_getPacientes.ExistePaciente(userManda))
@@ -245,6 +243,7 @@ namespace AppTeleton.Hubs
         
         }
 
+        //Mostramos el formulario de asistencia personalizada
         private async void MostrarBotoneraAsistencia(string userManda)
         {
 
@@ -255,7 +254,7 @@ namespace AppTeleton.Hubs
             }
 
         }
-
+        //Actualizamos los chats en la base de datos
         public void ActualizarChats(string userManda, string userRecibe, string message) {
 
             if (_getPacientes.ExistePaciente(userManda))

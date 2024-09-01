@@ -18,12 +18,12 @@ namespace LogicaAplicacion.Servicios
     //esta clase es la encargada de solicitar el listado de pacientes del servidor de teleton para luego enviarselo a ActualizarPacientes
     public class SolicitarPacientesService
     {
-       /* public string linkAPI { get; set; }*/
+       
        private readonly IConfiguration _config;
         public SolicitarPacientesService(IConfiguration config) {
 
 
-            /*linkAPI = "https://localhost:7201/";*/
+     
 
             _config=config;
 

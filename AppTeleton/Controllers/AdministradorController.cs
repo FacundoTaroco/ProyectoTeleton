@@ -14,6 +14,7 @@ namespace AppTeleton.Controllers
     [AdminLogueado]
     public class AdministradorController : Controller
     {
+        //Controller que maneja las acciones especificas del rol de usuario Administrador
 
         public GetAdministradores _getAdministradores;
         public GetRecepcionistas _getRecepcionistas;
@@ -45,6 +46,7 @@ namespace AppTeleton.Controllers
         return View();
         }
 
+        //Agregar un nuevo administrador
         [HttpPost]
         public IActionResult AgregarAdmin(Administrador admin) {
 
@@ -70,7 +72,7 @@ namespace AppTeleton.Controllers
         {
             return View();
         }
-
+        //Agregar un nuevo Recepcionista
         [HttpPost]
         public IActionResult AgregarRecepcionista(Recepcionista recepcionista)
         {

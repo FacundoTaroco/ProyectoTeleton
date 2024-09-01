@@ -13,6 +13,7 @@ using static System.Net.WebRequestMethods;
 
 namespace LogicaAplicacion.Servicios
 {
+    //Servicio para obtener coordenadas a partir de direcciones
     public class GeolocalizacionService
     {
 
@@ -84,7 +85,7 @@ namespace LogicaAplicacion.Servicios
 
         public CoordenadasDTO ObtenerCoordenadas(string direccion)
         {
-            direccion = direccion + ",Uruguay";
+            direccion = direccion + ", Montevideo Uruguay";
 
             var options = new RestClientOptions(linkAPI);
             var client = new RestClient(options);
@@ -100,7 +101,7 @@ namespace LogicaAplicacion.Servicios
             RestResponse response = client.ExecutePost(request);
             if (response.Content == null)
             {
-                throw new Exception("Error de comunicación con la API");//ESTO EXPLOTA SI LLEGA
+                throw new Exception("Error de comunicación con la API");
             }
 
             HttpStatusCode res = response.StatusCode;

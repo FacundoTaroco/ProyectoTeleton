@@ -17,6 +17,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace LogicaAplicacion.Servicios
 {
+    //Servicio que gestiona el envio de notificaciones push a los pacientes
     public class EnviarNotificacionService
     {
         private GetUsuarios _getUsuario;
@@ -37,44 +38,48 @@ namespace LogicaAplicacion.Servicios
             _borrarDispositivo = borrarDispositivo;
             _getUsuario = getUsuarios;
         }
+
+        //Envia una notificaion a un usuario
         public void Enviar(string titulo, string mensaje, string link, int idUsuario) {
             try
             {
                 
-                Usuario usr = _getUsuario.GetUsuario(idUsuario);
-                IEnumerable<DispositivoNotificacion> dispositivos = _getDispositivos.getDispositivosPacientePorId(idUsuario);
+                Usuario usr = _getUsuario.GetUsuario(idUsuario); //obtenemos el usuario
+                IEnumerable<DispositivoNotificacion> dispositivos = _getDispositivos.getDispositivosPacientePorId(idUsuario); //Obtenemos los dispositivos registrados del usuario
                 Notificacion notificacionAGuardar = new Notificacion();
                 notificacionAGuardar.Titulo = titulo;
                 notificacionAGuardar.Mensaje = mensaje;
                 notificacionAGuardar.Usuario = usr;
                 notificacionAGuardar.IdUsuario = usr.Id;
-                _ABNotificacion.Add(notificacionAGuardar);
+                //aunque el paciente NO tenga dispositivos registrados(es decir no le van a llegar las notificaciones push) SI guardamos las notificaciones a su perfil para
+                //que las pueda ver en su hub de notificaciones cuando inicie sesion
+                _ABNotificacion.Add(notificacionAGuardar); //Creamos y guardamos en la base de datos la notificaion
 
                 if (dispositivos.Count() > 0)
                 {
 
-                    NotificacionDTO payload = new NotificacionDTO(titulo, mensaje);
+                    NotificacionDTO payload = new NotificacionDTO(titulo, mensaje); //Creamos la notificacion push
                     if (!String.IsNullOrEmpty(link))
                     {
                         payload.Link = link;
                     }
 
                     string vapidPublicKey = _config["ClavesNotificaciones:PublicKey"];
-                    string vapidPrivateKey = _config["ClavesNotificaciones:PrivateKey"];
+                    string vapidPrivateKey = _config["ClavesNotificaciones:PrivateKey"]; //Obtenemos las claves del servicio de notificaciones
                     foreach (DispositivoNotificacion dispositivo in dispositivos)
                     {
                         try
                         {
-                            PushSubscription pushSubscription = new PushSubscription(dispositivo.Endpoint, dispositivo.P256dh, dispositivo.Auth);
-                            VapidDetails vapidDetails = new VapidDetails("mailto:lucasahre05@gmail.com", vapidPublicKey, vapidPrivateKey);
-                            WebPushClient webPushClient = new WebPushClient();
-                            webPushClient.SetVapidDetails(vapidDetails);
+                            PushSubscription pushSubscription = new PushSubscription(dispositivo.Endpoint, dispositivo.P256dh, dispositivo.Auth); //Creamos una suscripcion push
+                            VapidDetails vapidDetails = new VapidDetails("mailto:centroteleton@qa.teleton.org.uy", vapidPublicKey, vapidPrivateKey); //Creamos las claves 
+                            WebPushClient webPushClient = new WebPushClient(); //Creamos el cliente web push
+                            webPushClient.SetVapidDetails(vapidDetails); //Seteamos las claves
                             string payloadToken = JsonConvert.SerializeObject(payload, new JsonSerializerSettings()
                             {
                                 DateTimeZoneHandling = DateTimeZoneHandling.Utc,
                                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
                             });
-                            webPushClient.SendNotification(pushSubscription, payloadToken);
+                            webPushClient.SendNotification(pushSubscription, payloadToken); //se manda la notificacion web push
                         }
                         catch (WebPushException)
                         {
@@ -92,6 +97,7 @@ namespace LogicaAplicacion.Servicios
 
         }
 
+        //Envia una notificacion a todos los usuarios recepcionistas con dispositivos registrados, la logica es similar a la funcion anterior
         public void EnviarATodosRecepcion(string titulo, string mensaje, string link) {
 
             try

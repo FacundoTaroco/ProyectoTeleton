@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,7 +27,9 @@ namespace LogicaNegocio.DTO
             Cedula = cedula;
             NombreCompleto = nombreCompleto;
             Servicio = servicio;
-            Fecha = fecha;
+            TimeZoneInfo zonaHoraria = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
+            fecha = TimeZoneInfo.ConvertTimeFromUtc(fecha, zonaHoraria);
+            Fecha = DateTime.ParseExact(fecha.ToString("dd/MM/yyyy"), "dd/MM/yyyy", CultureInfo.InvariantCulture);
             HoraInicio = horaInicio;
             Tratamiento = tratamiento;
             Consultorio = consultorio;

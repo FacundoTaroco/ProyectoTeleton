@@ -5,7 +5,7 @@ namespace LogicaNegocio.Entidades
     public class UsuariosConectados
     {
 
-        public static List<ConexionChat> usuariosConectados = new List<ConexionChat>();
+        public static List<ConexionChat> usuariosConectados = new List<ConexionChat>(); //Listado de los usuarios conectados a los chats de SignalR
 
         public static string GetIdConexionDeUsuario(string nombreUsuario) {
             foreach (ConexionChat c in usuariosConectados) {

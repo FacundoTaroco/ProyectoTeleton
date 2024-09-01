@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -14,14 +15,15 @@ using System.Threading.Tasks;
 
 namespace LogicaAplicacion.Servicios
 {
+    //Servicio para obtener las citas de uno o varios pacientes desde la base de datos central de teleton
     public class SolicitarCitasService
     {
-        /*public string linkAPI { get; set; }*/
+ 
         private readonly IConfiguration _config;
         public SolicitarCitasService(IConfiguration config)
         {
             _config = config;
-            /*linkAPI = "https://localhost:7201/";*/
+           
         }
         public async Task<IEnumerable<CitaMedicaDTO>> ObtenerCitas() {
 
@@ -45,7 +47,7 @@ namespace LogicaAplicacion.Servicios
                             string cedula = reader.GetString(1);
                             string nombre = reader.GetString(2);
                             string servicio = reader.GetString(3);
-                            DateTime fecha = reader.GetDateTime(4);
+                            DateTime fecha = reader.GetDateTime(4).AddDays(1);                         
                             int horaInicio = reader.GetInt32(5);
                             string tratamiento = reader.GetString(6);
                             string consultorio = reader.GetString(7);
@@ -88,7 +90,7 @@ namespace LogicaAplicacion.Servicios
                             string ci = reader.GetString(1);
                             string nombre = reader.GetString(2);
                             string servicio = reader.GetString(3);
-                            DateTime fecha = reader.GetDateTime(4);
+                            DateTime fecha = reader.GetDateTime(4).AddDays(1); 
                             int horaInicio = reader.GetInt32(5);
                             string tratamiento = reader.GetString(6);
                             string consultorio = reader.GetString(7);

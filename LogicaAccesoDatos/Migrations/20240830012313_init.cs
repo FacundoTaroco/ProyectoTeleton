@@ -249,6 +249,33 @@ namespace LogicaAccesoDatos.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Encuestas",
+                columns: new[] { "Id", "Comentarios", "Fecha", "SatisfaccionAplicacion", "SatisfaccionEstadoDelCentro", "SatisfaccionGeneral", "SatisfaccionRecepcion" },
+                values: new object[,]
+                {
+                    { 1, "Excelente atención, pero la aplicación podría ser más intuitiva.", new DateTime(2024, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 4, 5, 5, 4 },
+                    { 2, "Buen servicio, pero la recepción fue un poco lenta.", new DateTime(2024, 8, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 5, 4, 3, 3 },
+                    { 3, "Todo bien, la atención fue muy rápida.", new DateTime(2024, 8, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 4, 4, 4, 5 },
+                    { 4, "Podría mejorar la señalización dentro del centro.", new DateTime(2024, 8, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 4, 3, 2, 2 },
+                    { 5, "Sin comentarios", new DateTime(2024, 8, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 5, 5, 5, 5 },
+                    { 6, "Muy satisfecho con la aplicación y el servicio.", new DateTime(2024, 8, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), 5, 4, 4, 4 },
+                    { 7, "Sin comentarios", new DateTime(2024, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), 4, 3, 3, 3 },
+                    { 8, "El personal fue muy amable y atento.", new DateTime(2024, 8, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 5, 5, 4, 4 },
+                    { 9, "Sin comentarios", new DateTime(2024, 8, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 4, 5, 5, 5 },
+                    { 10, "Sin comentarios", new DateTime(2024, 8, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 5, 4, 4, 3 },
+                    { 11, "Todo estuvo perfecto, ¡gracias!", new DateTime(2024, 8, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 5, 5, 5, 5 },
+                    { 12, "La aplicación funcionó bien, pero el estado del centro podría mejorar.", new DateTime(2024, 8, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), 4, 3, 3, 4 },
+                    { 13, "Sin comentarios", new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 4, 4, 4, 4 },
+                    { 14, "Una experiencia excelente en todos los aspectos.", new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 5, 5, 5, 5 },
+                    { 15, "Mejoraría la señalización del centro.", new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 5, 4, 4, 4 },
+                    { 16, "La aplicación fue útil, pero el tiempo de espera en recepción fue largo.", new DateTime(2024, 8, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), 4, 4, 3, 3 },
+                    { 17, "Una experiencia muy positiva, ¡gracias al equipo!", new DateTime(2024, 8, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 5, 5, 5, 5 },
+                    { 18, "La atención fue buena, aunque el centro estaba un poco desordenado.", new DateTime(2024, 8, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 4, 3, 4, 4 },
+                    { 19, "La aplicación funcionó perfectamente, pero la atención podría mejorar.", new DateTime(2024, 8, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 5, 4, 3, 4 },
+                    { 20, "Todo fue excelente, la atención fue rápida y eficiente.", new DateTime(2024, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), 5, 5, 5, 5 }
+                });
+
+            migrationBuilder.InsertData(
                 table: "ParametrosRecordatorios",
                 columns: new[] { "Id", "CadaCuantoEnviarRecordatorio", "RecordatoriosEncendidos" },
                 values: new object[] { 1, 2, true });

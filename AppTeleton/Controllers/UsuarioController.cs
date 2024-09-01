@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace AppTeleton.Controllers
 {
+    //Controller que gestiona las diferentes acciones de usuarios
     public class UsuarioController : Controller
     {
 
@@ -50,7 +51,7 @@ namespace AppTeleton.Controllers
             _actualizarPacientes = actualizarPacientes;
         }
 
-
+        //Carga el login
         public IActionResult Login()
         {
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("USR")))
@@ -62,6 +63,7 @@ namespace AppTeleton.Controllers
 
             return View();
         }
+        //ejecuta  el login
         [HttpPost]
         public IActionResult Login(string nombre, string contrasenia)
         {
@@ -114,7 +116,7 @@ namespace AppTeleton.Controllers
                     return RedirectToAction("Index", "Medico");
                 }
                 else {
-                    throw new Exception("No se recibio el tipo de usuario");
+                    throw new Exception("No se recibió el tipo de usuario");
                 }
             }
             catch (UsuarioException e)
@@ -149,10 +151,11 @@ namespace AppTeleton.Controllers
 
             HttpContext.Session.Clear();
             ViewBag.TipoMensaje = "ERROR";
-            ViewBag.Mensaje = "Se cerró la sesion";
+            ViewBag.Mensaje = "Se cerró la sesión";
             return View("Login");
         }
 
+        //carga la vista de perfil
         [UsuarioLogueado]
         public IActionResult Perfil(int idUsuario) {
             try
@@ -178,6 +181,7 @@ namespace AppTeleton.Controllers
             }
         }
 
+        //Cambia la contraseña de un usuario
         [UsuarioLogueado]
         [HttpPost]
         public IActionResult CambiarContrasenia(int idUsuario,string contrasenia, string contraseniaRepeticion)
@@ -211,6 +215,7 @@ namespace AppTeleton.Controllers
 
             }
         }
+        //Carga el listado de usuarios por tipo
 
         [RecepcionistaAdminLogueado]
         [HttpGet]
@@ -264,6 +269,8 @@ namespace AppTeleton.Controllers
         }
         [RecepcionistaAdminLogueado]
         [HttpPost]
+
+        //Actualiza los pacientes fijandose si se agregaron nuevos pacientes al servidor central de Teleton
         public async Task<IActionResult> ActualizarPacientes()
         {
             try

@@ -43,9 +43,9 @@ namespace LogicaAplicacion.CasosUso.NotificacionCU
                         int diasQueFaltan = (citaMasReciente.Fecha - DateTime.Now).Days;
                         if (citaMasReciente != null && diasQueFaltan <= _getNotificacion.GetParametrosRecordatorios().CadaCuantoEnviarRecordatorio) { 
                         
-                        string tituloNotificacion = "RECORDATORIO: Su proxima cita en Teletón";
+                        string tituloNotificacion = "RECORDATORIO: Su próxima cita en Teletón";
                         string mensajeNotificacion = "El " + citaMasReciente.Fecha.ToShortDateString() + " a las " + citaMasReciente.HoraInicio + " hs Tiene agendado para " + citaMasReciente.Servicio;
-                        _enviarNotificaciones.Enviar(tituloNotificacion, mensajeNotificacion, "https://localhost:7051/Paciente/NotificacionesPaciente", p.Id); //CAMBIAR LOCALHOST DESPUES POR EL LINK DE AZURE
+                        _enviarNotificaciones.Enviar(tituloNotificacion, mensajeNotificacion, "https://appteletonrecepcion.azurewebsites.net/Paciente/NotificacionesPaciente", p.Id);
 
                         }                        
                 }

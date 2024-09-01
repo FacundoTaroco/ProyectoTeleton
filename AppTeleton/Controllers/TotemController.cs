@@ -23,6 +23,7 @@ using LogicaAplicacion.Servicios;
 namespace AppTeleton.Controllers
 {
     [TotemLogueado]
+    //Controller que gestiona las diferentes acciones relacionadas al totem de recepcion
     public class TotemController : Controller
     {
 
@@ -51,26 +52,28 @@ namespace AppTeleton.Controllers
             _getPreguntasFrec = getPreguntas;
         }
 
+        //vista index
         public IActionResult Index()
         {
             return View();
         }
 
-
+        //Vista de Cerrar sesion
         public IActionResult CerrarSesion()
         {
             return View();
         }
+        //Vista principal del totem
         public async Task<IActionResult> HomeUsuario(string cedula)
         {
             try
             {
                 ViewBag.CedulaUsuario = cedula;
-                Paciente paciente = _getPacientes.GetPacientePorCedula(cedula);
+                Paciente paciente = _getPacientes.GetPacientePorCedula(cedula); //Se obtiene al usuario que accedio al totem
                 DateTime _fecha = DateTime.UtcNow;
                 TimeZoneInfo zonaHoraria = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
                 DateTime fechaHoy = TimeZoneInfo.ConvertTimeFromUtc(_fecha, zonaHoraria);
-                IEnumerable<CitaMedicaDTO> citas = await _getCitas.ObtenerCitasPorCedula(cedula);
+                IEnumerable<CitaMedicaDTO> citas = await _getCitas.ObtenerCitasPorCedula(cedula); //se obtienen las citas del usuario
                 IEnumerable<CitaMedicaDTO> citasDeHoy = citas.Where(c => c.Cedula == cedula && (c.Fecha.Day == fechaHoy.Day && c.Fecha.Month == fechaHoy.Month && c.Fecha.Year == fechaHoy.Year)).OrderBy(c => c.HoraInicio).ToList();
                 AccesoTotemViewModel accesoTotemViewModel = new AccesoTotemViewModel(citasDeHoy, paciente);
                 return View(accesoTotemViewModel);
@@ -85,7 +88,7 @@ namespace AppTeleton.Controllers
         
         }
 
-
+        //Vista de preguntas para el totem de recepcion
         public IActionResult PreguntasParaTotem(string cedula)
         {
             try
@@ -103,6 +106,7 @@ namespace AppTeleton.Controllers
             }
         }
 
+        //Carga la vista del mapa del totem
         public IActionResult Mapa(string cedula)
         {
             try
@@ -120,6 +124,7 @@ namespace AppTeleton.Controllers
             }
         }
 
+        //cerrar sesion del totem, funciona como un login ya que se deben ingresar las credenciales nuevamente
         [HttpPost]
         public IActionResult CerrarSesion(string NombreUsuario, string Contrasenia)
         {
@@ -155,7 +160,7 @@ namespace AppTeleton.Controllers
             
             }
                 
-        
+        //Accion que gestiona el acceso al totem
         public async Task<IActionResult> Acceder(string cedula) {
             try
             {
@@ -165,9 +170,9 @@ namespace AppTeleton.Controllers
                               .Replace("-", "");
 
                 ViewBag.CedulaUsuario = cedula;
-                Totem totem = GetTotemLogueado();
-                Paciente paciente = _getPacientes.GetPacientePorCedula(cedula);
-                AccesoTotem nuevoAcceso = new AccesoTotem(cedula, totem);
+                Totem totem = GetTotemLogueado(); //Se obtiene el totem
+                Paciente paciente = _getPacientes.GetPacientePorCedula(cedula);//Se obtiene al paciente
+                AccesoTotem nuevoAcceso = new AccesoTotem(cedula, totem); //generamos un nuevo acceso
          
                 IEnumerable<CitaMedicaDTO> citas = new List<CitaMedicaDTO>();
                 IEnumerable<CitaMedicaDTO> citasDeHoy = new List<CitaMedicaDTO>();
@@ -175,39 +180,40 @@ namespace AppTeleton.Controllers
 
                 DateTime _fecha = DateTime.UtcNow;
                 TimeZoneInfo zonaHoraria = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
-                DateTime fechaHoy = TimeZoneInfo.ConvertTimeFromUtc(_fecha, zonaHoraria);
+                DateTime fechaHoy = TimeZoneInfo.ConvertTimeFromUtc(_fecha, zonaHoraria); //formatear la fecha al UTC correcto
 
 
-                if (!_acceso.PacienteYaAccedioEnFecha(totem.Id, fechaHoy, cedula))
+                if (!_acceso.PacienteYaAccedioEnFecha(totem.Id, fechaHoy, cedula)) //Verifica si el paciente ya accedio al totem en el dia
                 {
-                    _acceso.AgregarAcceso(nuevoAcceso);
+                    _acceso.AgregarAcceso(nuevoAcceso); //Si no accedio, guarda el acceso
                     try
                     {
-                        citas = await _getCitas.ObtenerCitasPorCedula(cedula);
+                        citas = await _getCitas.ObtenerCitasPorCedula(cedula); //Se obtienen las citas del paciente para el dia actual
                         citasDeHoy = citas.Where(c => c.Cedula == cedula && (c.Fecha.Day == nuevoAcceso.FechaHora.Day && c.Fecha.Month == nuevoAcceso.FechaHora.Month && c.Fecha.Year == nuevoAcceso.FechaHora.Year)).OrderBy(c => c.HoraInicio).ToList();
                         foreach (var cita in citasDeHoy)
                         {
+                            //Llama al servicio para modificar el estado de las citas directamente en el servidor central de teleton ya que el paciente se encuentra en el centro
                             _generarAvisoLlegada.GenerarAvisoLLamada(cita.PkAgenda);
                             cita.Estado = "RCP";
                         }
                     }
                     catch (TeletonServerException)
-                    {
-                        AccesosFallidos.accesosFallidos.Add(nuevoAcceso);
+                    { //SI EL servidor central NO se encuentra disponible 
+                        AccesosFallidos.accesosFallidos.Add(nuevoAcceso); //Guardamos el acceso como un acceso fallido
                         if (!AccesosFallidos.servicioDeReintentoActivado) {
-                            AccesosFallidos.servicioDeReintentoActivado = true;
-                            AccesosFallidosService.IniciarServicioDeReintento(_getCitas, _generarAvisoLlegada);
+                            AccesosFallidos.servicioDeReintentoActivado = true; 
+                            AccesosFallidosService.IniciarServicioDeReintento(_getCitas, _generarAvisoLlegada);//Activamos el servicio de reintento de comunicacion con el servidor central para evitar que se pierdan los accesos
                         }
                         ViewBag.TipoMensaje = "ERROR";
-                        ViewBag.Mensaje = "No se pudieron cargar sus citas, consulte en recepcion";  
+                        ViewBag.Mensaje = "No se pudieron cargar sus citas, consulte en recepción";  
                         AccesoTotemViewModel model = new AccesoTotemViewModel(paciente);
                         return View("HomeUsuario", model);
                     }
 
-                    _actualizarListadosHub.Clients.All.SendAsync("ActualizarListado", citasDeHoy);
-                    ActualizarListadoMedicos();
+                    _actualizarListadosHub.Clients.All.SendAsync("ActualizarListado", citasDeHoy); //Se actualiza el listado de recepcionistas en tiempo real
+                    ActualizarListadoMedicos();//Se actualiza el listado de medicos en tiempo real
                 }
-                else {
+                else { //Si el paciente ya habia accedido se le cargan sus citas sin realizar toda la logica anterior ya que ya fue realizada previamente en el dia
                     citas = await _getCitas.ObtenerCitasPorCedula(cedula);
                     citasDeHoy = citas.Where(c => c.Cedula == cedula && (c.Fecha.Day == nuevoAcceso.FechaHora.Day && c.Fecha.Month == nuevoAcceso.FechaHora.Month && c.Fecha.Year == nuevoAcceso.FechaHora.Year)).OrderBy(c => c.HoraInicio).ToList();
 
@@ -230,6 +236,8 @@ namespace AppTeleton.Controllers
 
 
         public async void ActualizarListadoMedicos() {
+
+            //actualiza los listados de los medicos en tiempo real
 
             DateTime _fecha = DateTime.UtcNow;
             TimeZoneInfo zonaHoraria = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");

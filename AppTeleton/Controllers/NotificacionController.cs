@@ -13,6 +13,7 @@ using LogicaAplicacion.Servicios;
 
 namespace AppTeleton.Controllers
 {
+    //Controller para la gestion de notificaciones
     public class NotificacionController : Controller
     {
         private GetRecepcionistas _getRecepcionistas;
@@ -45,6 +46,7 @@ namespace AppTeleton.Controllers
             return View();
         }
 
+        //borra una notificacion
         public IActionResult Borrar(int id) {
             try
             {
@@ -62,6 +64,7 @@ namespace AppTeleton.Controllers
         }
 
 
+        //guarda un dispositivo para mandarle notificaciones push con sus credenciales
 
         [PacienteRecepcionistaLogueado]
         [HttpPost]
@@ -115,6 +118,7 @@ namespace AppTeleton.Controllers
         }
         [HttpGet]
         [RecepcionistaAdminLogueado]
+        //Carga la vista para enviar avisos generales
         public IActionResult EnviarAvisos() {
 
             try
@@ -134,12 +138,14 @@ namespace AppTeleton.Controllers
         }
         [RecepcionistaAdminLogueado]
         [HttpGet]
+        //carga la vista para configurar los recordatorios
         public IActionResult ConfigurarRecordatorios() {
             ParametrosNotificaciones parametros = _getNotificacion.GetParametrosRecordatorios();
             return View(parametros);
         }
         [RecepcionistaAdminLogueado]
         [HttpPost]
+        //Actualiza la configuracion de recordatorios
         public IActionResult ConfigurarRecordatorios(ParametrosNotificaciones nuevosParametros)
         {
             try
@@ -161,6 +167,7 @@ namespace AppTeleton.Controllers
        
         [RecepcionistaAdminLogueado]
         [HttpPost]
+        //Manda un aviso como notificacion push a todos los pacientes
         public async Task<IActionResult> SendTodosLosPacientes(string titulo, string mensaje)
         {
 
@@ -194,6 +201,7 @@ namespace AppTeleton.Controllers
 
         [RecepcionistaAdminLogueado]
         [HttpPost]
+        //manda un aviso como notificacion push a una lista de pacientes
         public async Task<IActionResult> SendPacientes(string titulo, string mensaje, List<int> seleccionados)
         {
             try
@@ -205,6 +213,7 @@ namespace AppTeleton.Controllers
 
                 foreach (int idPaciente in seleccionados) { 
                 
+                    //llama al servicio de envio de notificaciones para cada paciente del listado
                  _enviarNotificacionService.Enviar(titulo, mensaje, "https://localhost:7051/Paciente/NotificacionesPaciente", idPaciente);
                 
                 }

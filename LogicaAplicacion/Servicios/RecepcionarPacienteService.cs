@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace LogicaAplicacion.Servicios
 {
+    //servicio que modifica el estado de las citas de un paciente en la base de datos central de Teleton
     public class RecepcionarPacienteService
     {
         private readonly IConfiguration _config;

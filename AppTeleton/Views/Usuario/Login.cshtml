@@ -44,5 +44,20 @@
         </div>
         </div>
 
+        <script>
+
+    document.querySelector("#checkboxMostrarContra").addEventListener("change", function () {
+        let campoContra = document.querySelector("#contrasenia");
+
+        if (this.checked) {
+            campoContra.setAttribute('type', 'text');
+
+        } else {
+            campoContra.setAttribute('type', 'password');
+        }
+
+    });
+        </script>
+
 
        

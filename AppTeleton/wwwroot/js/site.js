@@ -163,15 +163,5 @@ function delay(time) {
     return new Promise(resolve => setTimeout(resolve, time));
 }
 
-//mostrar contraseña login
-document.querySelector("#checkboxMostrarContra").addEventListener("change", function () {
-    let campoContra = document.querySelector("#contrasenia");
 
-    if (this.checked) {
-        campoContra.setAttribute('type', 'text');
 
-    } else {
-        campoContra.setAttribute('type', 'password');
-    }
-
-});

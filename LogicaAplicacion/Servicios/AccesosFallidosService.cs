@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace LogicaAplicacion.Servicios
 {
+    //Servicio que reintenta la comunicacion con el servidor central en caso de que este se encontrara caido a la hora de que un paciente acceda al totem
     public class AccesosFallidosService
     {
         private static Timer _timer;
@@ -25,7 +26,7 @@ namespace LogicaAplicacion.Servicios
             {
                 //.FromMinutes(20);
                 _timer = new Timer(state => ColaDeAccesosFallidos(state, _getCitas, _generarAvisoLlegada),
-                           null, TimeSpan.Zero, TimeSpan.FromSeconds(15));
+                           null, TimeSpan.Zero, TimeSpan.FromMinutes(20));
             }
         }
 
